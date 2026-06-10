@@ -1,0 +1,8 @@
+<svg width="184" height="44" viewBox="0 0 184 44" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">EZ NRG</title>
+  <desc id="desc">Placeholder EZ NRG logo mark with text</desc>
+  <rect width="44" height="44" rx="8" fill="#0B1828"/>
+  <path d="M25.8 5.5L11.5 24.4H22.2L18.1 38.5L32.5 19.2H21.6L25.8 5.5Z" fill="#14B8A6"/>
+  <path d="M27.7 6.4L22.6 18.1H34.1L19.4 38.4L23.8 25.1H10L27.7 6.4Z" stroke="#F4B942" stroke-width="1.6" stroke-linejoin="round"/>
+  <text x="58" y="29" fill="#F5F7FA" font-family="Manrope, Inter, Arial, sans-serif" font-size="20" font-weight="800" letter-spacing="3.2">EZ NRG</text>
+</svg>

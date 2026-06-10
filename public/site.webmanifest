@@ -1,0 +1,9 @@
+{
+  "name": "EZ NRG",
+  "short_name": "EZ NRG",
+  "description": "Customer-first energy strategy for the decentralized energy future.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07111F",
+  "theme_color": "#07111F"
+}
