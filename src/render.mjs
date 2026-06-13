@@ -21,9 +21,9 @@ const pageMeta = {
       "Learn about EZ NRG, an early-stage energy strategy company focused on customer-aligned decentralized energy.",
   },
   "/learn": {
-    title: "Learn | EZ NRG",
+    title: "Energy Market Primer | EZ NRG",
     description:
-      "Learn from EZ NRG about customer-first energy strategy and decentralized energy.",
+      "Learn how deregulation, supplier contracts, and FERC 2222 shape customer-first energy strategy.",
   },
   "/contact": {
     title: "Contact EZ NRG",
@@ -55,6 +55,12 @@ function icon(name) {
       '<svg aria-hidden="true" viewBox="0 0 20 20"><path d="m10 1.8 1.9 5.7 5.8 1.9-5.8 1.9L10 17l-1.9-5.7-5.8-1.9 5.8-1.9L10 1.8Z" fill="currentColor"/></svg>',
     key:
       '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.4 9.6a4.8 4.8 0 1 1-2.2-2.2L21 16.2V20h-3.8v-2.7h-2.7v-2.6h-2.4l-2.6-2.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    upload:
+      '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 15V3m0 0 4.2 4.2M12 3 7.8 7.2M5 15.8V19a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3.2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    file:
+      '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Zm0 0v5h5M8.5 13h7M8.5 16.5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    check:
+      '<svg aria-hidden="true" viewBox="0 0 20 20"><path d="m4.2 10.3 3.4 3.4 8.2-8.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   };
 
   return icons[name] ?? "";
@@ -228,6 +234,83 @@ function form(fields, submitLabel, successMessage, formName) {
   </form>`;
 }
 
+function learnSummaryCards() {
+  return learn.summary
+    .map(
+      (item) => `<article class="learn-summary-card reveal">
+        <span>${escapeHtml(item.label)}</span>
+        <h3>${escapeHtml(item.value)}</h3>
+        <p>${escapeHtml(item.body)}</p>
+      </article>`,
+    )
+    .join("");
+}
+
+function learnPrimer() {
+  const tabs = learn.modules
+    .map(
+      (item, index) => `<button class="primer-tab${
+        index === 0 ? " is-active" : ""
+      }" type="button" role="tab" id="primer-tab-${attr(item.id)}" aria-selected="${
+        index === 0 ? "true" : "false"
+      }" aria-controls="primer-panel-${attr(item.id)}" data-primer-tab="${attr(
+        item.id,
+      )}">
+        <span>${String(index + 1).padStart(2, "0")}</span>
+        ${escapeHtml(item.label)}
+      </button>`,
+    )
+    .join("");
+
+  const panels = learn.modules
+    .map(
+      (item, index) => `<article class="primer-panel${
+        index === 0 ? " is-active" : ""
+      }" role="tabpanel" id="primer-panel-${attr(item.id)}" aria-labelledby="primer-tab-${attr(
+        item.id,
+      )}" data-primer-panel="${attr(item.id)}"${index === 0 ? "" : " hidden"}>
+        <p class="eyebrow">${escapeHtml(item.kicker)}</p>
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.body)}</p>
+        <ul>
+          ${item.bullets.map((bullet) => `<li>${icon("check")}<span>${escapeHtml(bullet)}</span></li>`).join("")}
+        </ul>
+      </article>`,
+    )
+    .join("");
+
+  return `<div class="primer-shell reveal" data-primer>
+    <div class="primer-tabs" role="tablist" aria-label="Energy market primer">
+      ${tabs}
+    </div>
+    <div class="primer-panels">
+      ${panels}
+    </div>
+  </div>`;
+}
+
+function watchlistCards() {
+  return learn.watchlist
+    .map(
+      (item) => `<article class="watch-card reveal">
+        <span class="card-icon">${icon("key")}</span>
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.body)}</p>
+      </article>`,
+    )
+    .join("");
+}
+
+function sourceLinks() {
+  return learn.sources
+    .map(
+      (source) => `<a href="${attr(source.href)}" target="_blank" rel="noreferrer">${escapeHtml(
+        source.label,
+      )}</a>`,
+    )
+    .join("");
+}
+
 export function renderHome() {
   return layout(
     "/",
@@ -336,11 +419,82 @@ export function renderAbout() {
 export function renderLearn() {
   return layout(
     "/learn",
-    `<section class="page-hero section">
-      <div class="container narrow reveal">
+    `<section class="page-hero learn-hero section">
+      <div class="container learn-hero-grid">
+        <div class="reveal">
         <p class="eyebrow">Learn</p>
         <h1>${escapeHtml(learn.title)}</h1>
         <p>${escapeHtml(learn.body)}</p>
+        </div>
+        <div class="learn-market-map reveal" aria-label="Energy market evolution">
+          <div>
+            <span>1</span>
+            <strong>Regulated utility</strong>
+            <p>One default energy path</p>
+          </div>
+          <div>
+            <span>2</span>
+            <strong>Retail choice</strong>
+            <p>Supplier contract risk</p>
+          </div>
+          <div>
+            <span>3</span>
+            <strong>Customer platform</strong>
+            <p>Load, assets, and markets</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section learn-summary-section">
+      <div class="container learn-summary-grid">
+        ${learnSummaryCards()}
+      </div>
+    </section>
+    <section class="section primer-section" id="primer">
+      <div class="container split-intro">
+        <div class="reveal">
+          <p class="eyebrow">Interactive primer</p>
+          <h2>From deregulation to customer-side markets.</h2>
+        </div>
+        <p class="section-body reveal">Use these sections as a fast education layer before comparing a supplier offer. The point is not that deregulation is good or bad in the abstract. The point is that customers need context before signing terms that determine who captures value.</p>
+      </div>
+      <div class="container">
+        ${learnPrimer()}
+      </div>
+    </section>
+    <section class="section contract-watch-section">
+      <div class="container split-intro">
+        <div class="reveal">
+          <p class="eyebrow">Contract watchlist</p>
+          <h2>What the future agent will explain.</h2>
+        </div>
+        <p class="section-body reveal">Supplier contracts are where market design becomes customer reality. The future backend agent will look for the clauses that usually decide whether a contract is flexible, expensive, or aligned.</p>
+      </div>
+      <div class="container watch-grid">
+        ${watchlistCards()}
+      </div>
+    </section>
+    <section class="section upload-section" id="contract-upload">
+      <div class="container upload-grid">
+        <div class="upload-copy reveal">
+          <p class="eyebrow">${escapeHtml(learn.upload.eyebrow)}</p>
+          <h2>${escapeHtml(learn.upload.title)}</h2>
+          <p>${escapeHtml(learn.upload.body)}</p>
+          <div class="source-links" aria-label="Source links">
+            <span>Source baseline</span>
+            ${sourceLinks()}
+          </div>
+        </div>
+        <div class="upload-panel reveal" data-contract-upload>
+          <span class="upload-icon">${icon("file")}</span>
+          <h3>Supplier agreement PDF</h3>
+          <p>${escapeHtml(learn.upload.note)}</p>
+          <label class="button button-primary contract-upload-button" for="supplier-contract-pdf">
+            ${escapeHtml(learn.upload.button)} ${icon("upload")}
+          </label>
+          <input class="contract-file-input" id="supplier-contract-pdf" type="file" accept="application/pdf" data-contract-input>
+          <p class="upload-status" data-contract-status role="status" aria-live="polite">No file selected.</p>
+        </div>
       </div>
     </section>`,
   );
