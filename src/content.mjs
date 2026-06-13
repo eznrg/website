@@ -98,9 +98,138 @@ export const about = {
 };
 
 export const learn = {
-  title: "Learn",
+  title: "Understand the energy market before you sign.",
   body:
-    "This page is a placeholder for future EZ NRG learning resources, updates, and energy strategy explainers.",
+    "A practical primer on deregulation, supplier choice, FERC 2222, and why customer contracts now matter more than ever.",
+  summary: [
+    {
+      label: "Old model",
+      value: "Utility monopoly",
+      body:
+        "One company handled generation, wires, delivery, and billing under a regulated compact.",
+    },
+    {
+      label: "Retail choice",
+      value: "Supplier market",
+      body:
+        "In some states, customers can choose who supplies the energy commodity while the utility still delivers it.",
+    },
+    {
+      label: "Next market",
+      value: "Customer assets",
+      body:
+        "Flexible load, batteries, EVs, solar, and controls can become part of the energy strategy.",
+    },
+  ],
+  modules: [
+    {
+      id: "why",
+      label: "Why deregulation",
+      kicker: "The original idea",
+      title: "Deregulation separated energy supply from the wires.",
+      body:
+        "Electricity was historically delivered through vertically integrated utilities. Restructuring opened parts of the market so generators and suppliers could compete, while transmission and distribution wires remained regulated infrastructure.",
+      bullets: [
+        "The promise was more competition, more product choice, and sharper price signals.",
+        "Wholesale competition developed around regional markets, open access transmission, and market-based rates.",
+        "Retail choice added supplier contracts for customers in states that adopted choice programs.",
+      ],
+    },
+    {
+      id: "worked",
+      label: "What worked",
+      kicker: "The useful part",
+      title: "Choice created room for better procurement and better energy products.",
+      body:
+        "For customers who can compare offers and manage risk, competitive supply can create value. It also helped normalize products tied to renewables, demand response, fixed pricing, index pricing, and operational flexibility.",
+      bullets: [
+        "Large customers gained more ways to hedge, budget, and negotiate around usage shape.",
+        "Markets created clearer signals for when energy is scarce, cheap, congested, or flexible.",
+        "Suppliers and aggregators can design products around customer goals instead of one default utility tariff.",
+      ],
+    },
+    {
+      id: "failed",
+      label: "Where it failed",
+      kicker: "The customer problem",
+      title: "Choice without interpretation can become another layer of risk.",
+      body:
+        "The hard part is not picking a supplier logo. It is understanding the contract. Many customers face teaser rates, auto-renewals, pass-through charges, vague green claims, demand clauses, bandwidth limits, and termination language that can quietly change the economics.",
+      bullets: [
+        "The cheapest headline rate can be worse once usage bands, swing tolerances, adders, and fees are included.",
+        "Customers often lack a simple explanation of who owns which risk: supplier, utility, market, or customer.",
+        "Deregulation gave customers options, but not always the tools to judge whether the option is aligned.",
+      ],
+    },
+    {
+      id: "ferc",
+      label: "FERC 2222",
+      kicker: "The next shift",
+      title: "FERC 2222 pushes markets toward customer-side resources.",
+      body:
+        "Order 2222 lets distributed energy resource aggregators compete in organized wholesale markets. In plain English, assets located on or behind customer sites can be grouped together and offered into markets that historically centered on large generators.",
+      bullets: [
+        "Relevant resources can include storage, distributed generation, demand response, efficiency, thermal storage, EVs, and charging equipment.",
+        "The opportunity is not automatic. Value depends on tariffs, meter data, controls, operational limits, market rules, and contract terms.",
+        "For customers, the question shifts from 'what rate did I sign?' to 'how should my site participate?'",
+      ],
+    },
+    {
+      id: "eznrg",
+      label: "Where EZ NRG fits",
+      kicker: "The strategy layer",
+      title: "We help translate market complexity into customer advantage.",
+      body:
+        "EZ NRG is building around the customer decision layer: contract terms, facility behavior, supplier economics, utility rules, and future participation opportunities. The goal is to make energy strategy understandable before money is committed.",
+      bullets: [
+        "Explain the contract before it becomes a surprise on the bill.",
+        "Identify tradeoffs between fixed price, index exposure, flexibility, and operational constraints.",
+        "Align procurement, load strategy, and future distributed resource participation around what is best for the customer.",
+      ],
+    },
+  ],
+  watchlist: [
+    {
+      title: "Price structure",
+      body:
+        "Fixed, index, block, capacity, transmission, ancillary, balancing, and pass-through language can shift the real price.",
+    },
+    {
+      title: "Usage flexibility",
+      body:
+        "Bandwidth, swing, minimum usage, peak-demand, and material-change terms decide how much your operations can vary.",
+    },
+    {
+      title: "Exit rights",
+      body:
+        "Auto-renewal, notice windows, early termination formulas, and assignment clauses matter before conditions change.",
+    },
+    {
+      title: "Future participation",
+      body:
+        "Solar, batteries, demand response, EV charging, and curtailment programs can conflict with supplier or utility terms.",
+    },
+  ],
+  upload: {
+    eyebrow: "Contract agent preview",
+    title: "Upload a supplier contract PDF",
+    body:
+      "The future backend agent will review supplier contracts and explain hidden terms, tradeoffs, risks, and customer-friendly negotiation points. For now, this upload control is a front-end preview only.",
+    button: "Upload supplier contract PDF",
+    note:
+      "PDFs are not sent anywhere yet. The backend analysis agent will be connected later.",
+  },
+  sources: [
+    {
+      label: "FERC Power Sales and Markets",
+      href: "https://www.ferc.gov/power-sales-and-markets",
+    },
+    {
+      label: "FERC Order 2222 release",
+      href:
+        "https://www.ferc.gov/news-events/news/ferc-opens-wholesale-markets-distributed-resources-landmark-action-breaks-down",
+    },
+  ],
 };
 
 export const contact = {
