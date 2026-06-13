@@ -262,9 +262,9 @@ textarea {
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.04fr) minmax(340px, 0.72fr);
+  grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.62fr);
   align-items: center;
-  gap: 56px;
+  gap: 52px;
 }
 
 .eyebrow {
@@ -295,6 +295,12 @@ h1 {
   margin-bottom: 24px;
   font-size: clamp(3rem, 5.2vw, 5.2rem);
   font-weight: 800;
+}
+
+.hero-copy h1 {
+  color: #d7b56a;
+  font-family: Arial, sans-serif;
+  font-size: clamp(2.8rem, 3.6vw, 3.8rem);
 }
 
 h2 {

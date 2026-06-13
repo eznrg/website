@@ -4,6 +4,7 @@ import {
   contactFields,
   earlyBirdFields,
   home,
+  learn,
   nav,
   site,
 } from "./content.mjs";
@@ -12,12 +13,17 @@ const pageMeta = {
   "/": {
     title: "EZ NRG | Customer-first energy strategy",
     description:
-      "EZ NRG is reimagining how customers participate in the future of energy.",
+      "EZ NRG is reimagining how you participate in the future of energy.",
   },
   "/about": {
     title: "About EZ NRG",
     description:
       "Learn about EZ NRG, an early-stage energy strategy company focused on customer-aligned decentralized energy.",
+  },
+  "/learn": {
+    title: "Learn | EZ NRG",
+    description:
+      "Learn from EZ NRG about customer-first energy strategy and decentralized energy.",
   },
   "/contact": {
     title: "Contact EZ NRG",
@@ -322,6 +328,19 @@ export function renderAbout() {
             .join("")}
         </div>
         <p class="coming-soon reveal">${escapeHtml(about.note)}</p>
+      </div>
+    </section>`,
+  );
+}
+
+export function renderLearn() {
+  return layout(
+    "/learn",
+    `<section class="page-hero section">
+      <div class="container narrow reveal">
+        <p class="eyebrow">Learn</p>
+        <h1>${escapeHtml(learn.title)}</h1>
+        <p>${escapeHtml(learn.body)}</p>
       </div>
     </section>`,
   );

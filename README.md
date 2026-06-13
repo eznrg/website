@@ -11,6 +11,7 @@ npm run dev
 Then open `http://localhost:4173`.
 
 `npm run dev` serves the static site and the `/api/contact` function locally.
+Local preview does not require a password unless you set `SITE_PASSWORD` in `.env`.
 
 ## Vercel
 
@@ -33,6 +34,7 @@ AUTH_SECRET=
 ```
 
 `SITE_PASSWORD` is required. If it is missing, the site fails closed instead of exposing the website.
+This fail-closed behavior applies to Vercel. Local preview is intentionally unlocked when `SITE_PASSWORD` is not set.
 
 ## Email Forms
 

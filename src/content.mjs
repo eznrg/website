@@ -9,15 +9,16 @@ export const site = {
 export const nav = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
+  { label: "Learn", href: "/learn" },
   { label: "Contact", href: "/contact" },
 ];
 
 export const home = {
   hero: {
     eyebrow: "Customer-first energy strategy",
-    title: "Energy strategy, built around our customers. For our customers.",
+    title: "The Energy Solution Built Around Our Clients",
     body:
-      "EZ NRG is reimagining how customers participate in the future of energy, making decentralized energy systems practical, aligned, and more valuable from day one.",
+      "EZ NRG is reimagining how you participate in the future of energy, aligning everything based on what's best for you on day one.",
     primaryCta: "Join the Early-Bird List",
     secondaryCta: "Learn More",
   },
@@ -94,6 +95,12 @@ export const about = {
     { name: "Deepak Sai Pendyala", role: "Co-founder" },
   ],
   note: "More about our work, team, and early access program is coming soon.",
+};
+
+export const learn = {
+  title: "Learn",
+  body:
+    "This page is a placeholder for future EZ NRG learning resources, updates, and energy strategy explainers.",
 };
 
 export const contact = {
