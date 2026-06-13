@@ -169,11 +169,13 @@ async function handleLogin(request, url) {
 
 async function handleAuth(request, url) {
   if (!getSitePassword()) {
-    if (url.pathname.startsWith("/api/")) {
-      return json({ error: "SITE_PASSWORD is not configured." }, 503);
-    }
-
-    return renderPasswordPage({ setupMissing: true, status: 503 });
+    // Local preview intentionally skips password protection when SITE_PASSWORD is not set.
+    // if (url.pathname.startsWith("/api/")) {
+    //   return json({ error: "SITE_PASSWORD is not configured." }, 503);
+    // }
+    //
+    // return renderPasswordPage({ setupMissing: true, status: 503 });
+    return null;
   }
 
   if (url.pathname === "/auth/login") {
