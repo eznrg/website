@@ -61,6 +61,10 @@ function icon(name) {
       '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Zm0 0v5h5M8.5 13h7M8.5 16.5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     check:
       '<svg aria-hidden="true" viewBox="0 0 20 20"><path d="m4.2 10.3 3.4 3.4 8.2-8.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    telegram:
+      '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m20.2 4.6-3 15.2c-.2 1-1.1 1.3-1.9.8l-4.5-3.4-2.2 2.1c-.2.2-.4.4-.9.4l.3-4.8L16.8 7c.4-.3-.1-.5-.5-.2L5.4 13.7.8 12.2c-1-.3-1-.9.2-1.4L19 3.8c.8-.3 1.5.2 1.2.8Z" fill="currentColor"/></svg>',
+    whatsapp:
+      '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19.1 6 15.5a7.4 7.4 0 1 1 2.9 2.8L5 19.1Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.2 8.8c.2-.5.4-.5.8-.5h.5c.2 0 .4.1.5.4l.7 1.7c.1.3 0 .5-.2.7l-.4.5c-.1.1-.2.3-.1.5.4.8 1.2 1.6 2.1 2.1.2.1.4.1.5-.1l.6-.7c.2-.2.4-.2.7-.1l1.6.8c.3.1.4.3.4.6 0 .6-.4 1.5-1 1.7-.7.3-2 .1-3.6-.8-2.2-1.2-3.6-3.1-4.1-4.6-.4-1-.3-1.8.1-2.2Z" fill="currentColor"/></svg>',
   };
 
   return icons[name] ?? "";
@@ -305,12 +309,30 @@ function watchlistCards() {
     .join("");
 }
 
-function sourceLinks() {
-  return learn.sources
+function channelCards() {
+  return learn.channels.items
     .map(
-      (source) => `<a href="${attr(source.href)}" target="_blank" rel="noreferrer">${escapeHtml(
-        source.label,
-      )}</a>`,
+      (item) => {
+        const iconName = item.name.toLowerCase();
+        const action = item.href
+          ? `<a class="button button-primary channel-action" href="${attr(
+              item.href,
+            )}" target="_blank" rel="noreferrer">${escapeHtml(item.label)} ${icon(
+              "arrow",
+            )}</a>`
+          : `<span class="button button-secondary channel-action is-disabled" aria-disabled="true">${escapeHtml(
+              item.label,
+            )} link coming soon</span>`;
+
+        return `<article class="channel-card reveal">
+          <span class="channel-icon">${icon(iconName)}</span>
+          <div>
+            <h3>${escapeHtml(item.name)}</h3>
+            <p>${escapeHtml(item.body)}</p>
+          </div>
+          ${action}
+        </article>`;
+      },
     )
     .join("");
 }
@@ -385,7 +407,7 @@ export function renderHome() {
 export function renderAbout() {
   return layout(
     "/about",
-    `<section class="page-hero section">
+    `<section class="page-hero about-hero section">
       <div class="container narrow reveal">
         <p class="eyebrow">Company</p>
         <h1>${escapeHtml(about.title)}</h1>
@@ -396,7 +418,7 @@ export function renderAbout() {
       <div class="container">
         <div class="section-heading reveal">
           <p class="eyebrow">Co-founders</p>
-          <h2>Building with customers in the front seat.</h2>
+          <h2>Building with customers.</h2>
         </div>
         <div class="founder-grid">
           ${about.founders
@@ -423,7 +445,19 @@ export function renderAbout() {
 export function renderLearn() {
   return layout(
     "/learn",
-    `<section class="page-hero learn-hero section">
+    `<section class="section channel-section">
+      <div class="container channel-grid">
+        <div class="channel-copy reveal">
+          <p class="eyebrow">${escapeHtml(learn.channels.eyebrow)}</p>
+          <h2>${escapeHtml(learn.channels.title)}</h2>
+          <p>${escapeHtml(learn.channels.body)}</p>
+        </div>
+        <div class="channel-card-grid">
+          ${channelCards()}
+        </div>
+      </div>
+    </section>
+    <section class="page-hero learn-hero section">
       <div class="container learn-hero-grid">
         <div class="reveal">
         <p class="eyebrow">Learn</p>
@@ -484,10 +518,6 @@ export function renderLearn() {
           <p class="eyebrow">${escapeHtml(learn.upload.eyebrow)}</p>
           <h2>${escapeHtml(learn.upload.title)}</h2>
           <p>${escapeHtml(learn.upload.body)}</p>
-          <div class="source-links" aria-label="Source links">
-            <span>Source baseline</span>
-            ${sourceLinks()}
-          </div>
         </div>
         <div class="upload-panel reveal" data-contract-upload>
           <span class="upload-icon">${icon("file")}</span>
