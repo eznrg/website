@@ -87,8 +87,8 @@ export const home = {
 export const about = {
   title: "About EZ NRG",
   intro: [
-    "EZ NRG is an early-stage energy strategy company focused on making the future of decentralized energy practical, trusted, and customer-aligned.",
-    "We believe the energy transition will scale when customers have a clear reason to participate, a simple way to benefit, and a trusted partner helping them navigate complexity.",
+    "EZ NRG is an early-stage energy company focused on making the future of energy decentralized.",
+    "We believe the energy transition will scale only when customers have a clear reason to participate, a simple way to benefit, and a trusted partner helping them navigate complexity. Our DeFi platform will act as a verification tool to automate, scale, and build trust through a stakeholder-led model.",
   ],
   founders: [
     { name: "Rishi Patel", role: "Co-founder" },
@@ -212,24 +212,34 @@ export const learn = {
   ],
   upload: {
     eyebrow: "Contract agent preview",
-    title: "Upload a supplier contract PDF",
+    title: "Upload a third-party supplier contract file",
     body:
-      "The future backend agent will review supplier contracts and explain hidden terms, tradeoffs, risks, and customer-friendly negotiation points. For now, this upload control is a front-end preview only.",
+      "The future backend agent will review supplier contracts and explain hidden terms, tradeoffs, risks, and customer-friendly negotiation points.",
     button: "Upload supplier contract PDF",
-    note:
-      "PDFs are not sent anywhere yet. The backend analysis agent will be connected later.",
+    note: "PDFs are not sent anywhere.",
   },
-  sources: [
-    {
-      label: "FERC Power Sales and Markets",
-      href: "https://www.ferc.gov/power-sales-and-markets",
-    },
-    {
-      label: "FERC Order 2222 release",
-      href:
-        "https://www.ferc.gov/news-events/news/ferc-opens-wholesale-markets-distributed-resources-landmark-action-breaks-down",
-    },
-  ],
+  channels: {
+    eyebrow: "Stay in the loop",
+    title: "Get market updates and launch notes.",
+    body:
+      "Join the EZ NRG Telegram and WhatsApp channels for practical market updates, product progress, and launch-date announcements.",
+    items: [
+      {
+        label: "Join Telegram",
+        name: "Telegram",
+        href: "",
+        body:
+          "Fast market notes, launch updates, and customer education drops.",
+      },
+      {
+        label: "Join WhatsApp",
+        name: "WhatsApp",
+        href: "",
+        body:
+          "Mobile-friendly reminders for product milestones and important energy-market changes.",
+      },
+    ],
+  },
 };
 
 export const contact = {
