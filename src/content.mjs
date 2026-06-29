@@ -16,64 +16,63 @@ export const nav = [
 export const home = {
   hero: {
     eyebrow: "Customer-first energy strategy",
-    title: "The Energy Solution Built Around Our Clients",
+    title: "The Energy Platform Stack Built For Stakeholders",
     body:
-      "EZ NRG is reimagining how you participate in the future of energy, aligning everything based on what's best for you on day one.",
-    primaryCta: "Join the Early-Bird List",
+      "EZ NRG is making it seamless for you to participate in the future of energy, aligning everything based on what's best for you on day one, via an incrementally innovative path",
+    primaryCta: "$0 For First 100 users",
     secondaryCta: "Learn More",
   },
   dashboard: {
     title: "Strategy layer",
     status: "Future Ready",
     labels: [
-      "Customer Value",
-      "Energy Strategy",
-      "Participation",
-      "Alignment",
-      "Future Ready",
+      "Hardware Install",
+      "Procurement",
+      "Intelligence",
+      "BTMG Assets",
+      "Future Optimized",
     ],
   },
   shift: {
     title: "The future of energy is decentralized.",
     body:
-      "But decentralization only works when it is designed around the customer experience. Energy is complicated. Markets, infrastructure, technology, and operations often move separately. EZ NRG is building the strategy layer that helps customers make sense of that complexity and participate with confidence.",
+      "Decentralization only works when customers have real choice and practical optionality. Energy offerings are buried in complexity. EZ NRG is building the coordination and settlement layer that turns complexity into confidence and trust.",
     cards: [
       {
-        title: "Clear reason to participate",
-        body:
-          "Customers should understand why participation matters and how it creates value.",
+        title: "Pathways to Participate",
+        body: "",
       },
       {
-        title: "Simple way to benefit",
+        title: "Shared Benefits",
         body:
-          "Energy strategy should feel practical, guided, and aligned with the customer's real needs.",
+          "Energy strategy is not one size fits all. It must be practical, guided, and aligned amongst stakeholders.",
       },
       {
-        title: "Stakeholder-aligned value",
+        title: "Aligned Incentives",
         body:
-          "Customers should not just consume energy. They should share in the value they help create.",
+          "Do not just consume energy. Share in the total value created based on your true contribution.",
       },
     ],
   },
   beliefs: {
     title: "Customers should be stakeholders, not spectators.",
     body:
-      "We are not building around the idea of being customer-obsessed as a slogan. We are building around a stronger principle: customers and clients should become stakeholders in the value EZ NRG helps create.",
+      "\"customer-obsessed\" isn't a slogan and something on our website to virtue signal. We are building the future platform for communities, neighbors, and market participants to share value through an intelligence layer that works quietly to innovate.",
     principles: [
       {
         title: "Customer-first strategy",
         body:
-          "Energy systems should be shaped around customer goals, not forced onto customers after the fact.",
+          "Energy systems should be shaped around customer load shape, future goals, not forced after the fact.",
       },
       {
         title: "Trust before complexity",
         body:
-          "Customers need a partner who can translate a complex industry into clear choices.",
+          "we're the partner you can trust to translate complexity into confidence both today and evolving RTO/ISO market programs.",
       },
       {
         title: "Value from day one",
         body:
-          "Participation should feel useful immediately, not only after years of infrastructure change.",
+          "Participation should be useful immediately through an educate-first approach.",
       },
     ],
   },
@@ -85,9 +84,9 @@ export const home = {
 };
 
 export const about = {
-  title: "About EZ NRG",
+  title: "EZ NRG",
   intro: [
-    "EZ NRG is an early-stage energy company focused on making the future of energy decentralized.",
+    "EZ NRG is a stakeholder-enablement partner making the future of energy decentralized.",
     "We believe the energy transition will scale only when customers have a clear reason to participate, a simple way to benefit, and a trusted partner helping them navigate complexity. Our DeFi platform will act as a verification tool to automate, scale, and build trust through a stakeholder-led model.",
   ],
   founders: [

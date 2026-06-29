@@ -2,7 +2,6 @@ import {
   about,
   contact,
   contactFields,
-  earlyBirdFields,
   home,
   learn,
   nav,
@@ -199,11 +198,17 @@ function cardGrid(items, className = "") {
   return `<div class="card-grid ${className}">
     ${items
       .map(
-        (item) => `<article class="info-card reveal">
+        (item) => {
+          const body = item.body
+            ? `<p>${escapeHtml(item.body)}</p>`
+            : "";
+
+          return `<article class="info-card reveal">
           <span class="card-icon">${icon("spark")}</span>
           <h3>${escapeHtml(item.title)}</h3>
-          <p>${escapeHtml(item.body)}</p>
-        </article>`,
+          ${body}
+        </article>`;
+        },
       )
       .join("")}
   </div>`;
@@ -393,12 +398,9 @@ export function renderHome() {
           <h2>${escapeHtml(home.finalCta.title)}</h2>
           <p>${escapeHtml(home.finalCta.body)}</p>
         </div>
-        ${form(
-          earlyBirdFields,
-          "Join the Early-Bird List",
-          "Thanks. You are on the early-bird list. We will reach out soon.",
-          "early-bird",
-        )}
+        <div class="channel-card-grid cta-channel-grid">
+          ${channelCards()}
+        </div>
       </div>
     </section>`,
   );
