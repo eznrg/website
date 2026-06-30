@@ -70,9 +70,26 @@ async function readBody(request) {
   return {};
 }
 
-function buildEmail({ company, email, formType, message, name, role }) {
-  const isEarlyBird = formType === "early-bird";
-  const label = isEarlyBird ? "Early-bird list" : "Contact form";
+function formLabel(formType) {
+  if (formType === "early-bird") return "Early-bird list";
+  if (formType === "enrollment") return "Enrollment intake";
+  return "Contact form";
+}
+
+function buildEmail({
+  company,
+  email,
+  facility,
+  formType,
+  goalsTiming,
+  loadContext,
+  message,
+  name,
+  phone,
+  role,
+  utility,
+}) {
+  const label = formLabel(formType);
   const subject = `EZ NRG ${label}: ${name}`;
   const rows = [
     ["Form", label],
@@ -80,6 +97,11 @@ function buildEmail({ company, email, formType, message, name, role }) {
     ["Email", email],
     ["Company", company],
     ["Role or title", role],
+    ["Phone", phone],
+    ["Facility or service address", facility],
+    ["Utility / market", utility],
+    ["Current load, demand, or bill context", loadContext],
+    ["Goals / timing", goalsTiming],
     ["Message / interest", message],
   ].filter(([, value]) => value);
 
@@ -140,9 +162,27 @@ export default {
     const email = sanitize(payload.email, 320).toLowerCase();
     const company = sanitize(payload.company, 180);
     const role = sanitize(payload.role, 180);
+    const phone = sanitize(payload.phone, 80);
+    const facility = sanitize(payload.facility, 300);
+    const utility = sanitize(payload.utility, 180);
+    const loadContext = sanitize(payload.loadContext, 2000);
+    const goalsTiming = sanitize(payload.goalsTiming, 2000);
     const message = sanitize(payload.message, 2000);
+    const isEnrollment = formType === "enrollment";
 
-    if (!name || !email || !company || !message || !isEmail(email)) {
+    const missingRequired = isEnrollment
+      ? !name ||
+        !email ||
+        !company ||
+        !role ||
+        !phone ||
+        !facility ||
+        !utility ||
+        !loadContext ||
+        !goalsTiming
+      : !name || !email || !company || !message;
+
+    if (missingRequired || !isEmail(email)) {
       return json(
         { error: "Please complete the form with a valid email address." },
         { status: 400 },
@@ -152,10 +192,15 @@ export default {
     const { html, subject, text } = buildEmail({
       company,
       email,
+      facility,
       formType,
+      goalsTiming,
+      loadContext,
       message,
       name,
+      phone,
       role,
+      utility,
     });
 
     const from = process.env.RESEND_FROM_EMAIL || `EZ NRG <${FOUNDERS_EMAIL}>`;

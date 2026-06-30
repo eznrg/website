@@ -1,5 +1,96 @@
 const menu = document.querySelector("[data-menu]");
 const menuToggle = document.querySelector("[data-menu-toggle]");
+const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+const precisePointerQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+document.documentElement.classList.add("is-enhanced");
+
+const header = document.querySelector(".site-header");
+
+if (header) {
+  const updateHeaderState = () => {
+    header.classList.toggle("is-scrolled", window.scrollY > 12);
+  };
+
+  updateHeaderState();
+  window.addEventListener("scroll", updateHeaderState, { passive: true });
+}
+
+const revealElements = Array.from(document.querySelectorAll(".reveal"));
+
+if (revealElements.length) {
+  revealElements.forEach((element) => {
+    const siblings = Array.from(element.parentElement?.children || []);
+    const localIndex = siblings.indexOf(element);
+    const delay = Math.max(0, Math.min(localIndex, 3)) * 70;
+    element.style.setProperty("--reveal-delay", `${delay}ms`);
+  });
+
+  const revealAll = () => {
+    revealElements.forEach((element) => element.classList.add("is-visible"));
+  };
+
+  if (reducedMotionQuery.matches || !("IntersectionObserver" in window)) {
+    revealAll();
+  } else {
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        rootMargin: "0px 0px -12% 0px",
+        threshold: 0.12,
+      },
+    );
+
+    revealElements.forEach((element) => revealObserver.observe(element));
+  }
+}
+
+if (!reducedMotionQuery.matches && precisePointerQuery.matches) {
+  const heroVisual = document.querySelector(".hero-visual");
+  const strategyPanel = heroVisual?.querySelector(".strategy-panel");
+
+  if (heroVisual && strategyPanel) {
+    heroVisual.addEventListener("pointermove", (event) => {
+      const rect = heroVisual.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+      strategyPanel.style.setProperty("--tilt-x", `${(-y * 7).toFixed(2)}deg`);
+      strategyPanel.style.setProperty("--tilt-y", `${(x * 9).toFixed(2)}deg`);
+      strategyPanel.style.setProperty("--glow-x", `${((x + 0.5) * 100).toFixed(1)}%`);
+      strategyPanel.style.setProperty("--glow-y", `${((y + 0.5) * 100).toFixed(1)}%`);
+      heroVisual.classList.add("is-interacting");
+    });
+
+    heroVisual.addEventListener("pointerleave", () => {
+      strategyPanel.style.setProperty("--tilt-x", "0deg");
+      strategyPanel.style.setProperty("--tilt-y", "0deg");
+      heroVisual.classList.remove("is-interacting");
+    });
+  }
+
+  document
+    .querySelectorAll(
+      ".info-card, .learn-summary-card, .watch-card, .channel-card, .storage-card, .storage-visual-card, .founder-card, .upload-panel, .enrollment-card, .enrollment-payment-panel, .enrollment-aside",
+    )
+    .forEach((card) => {
+      card.addEventListener("pointermove", (event) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+        card.style.setProperty("--glow-x", `${x.toFixed(1)}%`);
+        card.style.setProperty("--glow-y", `${y.toFixed(1)}%`);
+      });
+    });
+}
 
 if (menu && menuToggle) {
   menuToggle.addEventListener("click", () => {
@@ -51,6 +142,11 @@ document.querySelectorAll("[data-form]").forEach((form) => {
 
       if (!response.ok) {
         throw new Error(result.error || "Form submission failed.");
+      }
+
+      if (form.dataset.successRedirect) {
+        window.location.assign(form.dataset.successRedirect);
+        return;
       }
 
       form.reset();
@@ -139,6 +235,7 @@ document.querySelectorAll("[data-contract-upload]").forEach((upload) => {
     if (!file) {
       status.textContent = "No file selected.";
       status.classList.remove("is-ready", "is-error");
+      upload.classList.remove("is-ready", "is-error");
       return;
     }
 
@@ -150,6 +247,8 @@ document.querySelectorAll("[data-contract-upload]").forEach((upload) => {
       status.textContent = "Please choose a PDF supplier contract.";
       status.classList.add("is-error");
       status.classList.remove("is-ready");
+      upload.classList.add("is-error");
+      upload.classList.remove("is-ready");
       return;
     }
 
@@ -157,5 +256,7 @@ document.querySelectorAll("[data-contract-upload]").forEach((upload) => {
     status.textContent = `Selected: ${file.name} (${sizeMb.toFixed(1)} MB). Analysis agent coming soon.`;
     status.classList.add("is-ready");
     status.classList.remove("is-error");
+    upload.classList.add("is-ready");
+    upload.classList.remove("is-error");
   });
 });

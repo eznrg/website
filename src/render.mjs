@@ -2,6 +2,8 @@ import {
   about,
   contact,
   contactFields,
+  enrollment,
+  enrollmentFields,
   home,
   learn,
   nav,
@@ -28,6 +30,26 @@ const pageMeta = {
     title: "Contact EZ NRG",
     description:
       "Start a conversation with EZ NRG about customer-first energy strategy.",
+  },
+  "/get-started": {
+    title: "Get Started | EZ NRG",
+    description:
+      "Start the EZ NRG enrollment flow with a refundable deposit and load-shaping intake.",
+  },
+  "/get-started/deposit": {
+    title: "Refundable Deposit | EZ NRG",
+    description:
+      "Learn how the refundable $500 deposit starts load shaping and proposal development.",
+  },
+  "/get-started/intake": {
+    title: "Enrollment Intake | EZ NRG",
+    description:
+      "Share your facility and energy context so EZ NRG can prepare load-shaping proposals.",
+  },
+  "/get-started/next-steps": {
+    title: "Enrollment Next Steps | EZ NRG",
+    description:
+      "See what happens after submitting enrollment intake to EZ NRG.",
   },
 };
 
@@ -93,7 +115,7 @@ function header(path) {
     </button>
     <nav class="nav" id="primary-navigation" aria-label="Primary navigation" data-nav>
       ${links}
-      <a class="button button-small" href="/#early-bird">Join Early-Bird List ${icon(
+      <a class="button button-small" href="/get-started">Enroll Now ${icon(
         "arrow",
       )}</a>
     </nav>
@@ -138,6 +160,7 @@ function layout(path, content) {
   <meta name="theme-color" content="#07111F">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="icon" href="/logo.svg" type="image/svg+xml">
+  <script>document.documentElement.classList.add("is-enhanced");</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -214,26 +237,33 @@ function cardGrid(items, className = "") {
   </div>`;
 }
 
-function form(fields, submitLabel, successMessage, formName) {
+function form(fields, submitLabel, successMessage, formName, options = {}) {
+  const successRedirect = options.successRedirect
+    ? ` data-success-redirect="${attr(options.successRedirect)}"`
+    : "";
+
   return `<form class="form-panel reveal" method="post" action="/api/contact" data-form="${attr(
     formName,
-  )}">
+  )}"${successRedirect}>
     <input type="hidden" name="formType" value="${attr(formName)}">
     ${fields
       .map((field) => {
         const id = `${formName}-${field.name}`;
+        const required = field.required === false ? "" : " required";
+        const autocomplete = field.autocomplete || "off";
+
         if (field.type === "textarea") {
           return `<label for="${attr(id)}">${escapeHtml(field.label)}
             <textarea id="${attr(id)}" name="${attr(
               field.name,
-            )}" autocomplete="${attr(field.autocomplete)}" required></textarea>
+            )}" autocomplete="${attr(autocomplete)}"${required}></textarea>
           </label>`;
         }
 
         return `<label for="${attr(id)}">${escapeHtml(field.label)}
           <input id="${attr(id)}" name="${attr(field.name)}" type="${attr(
             field.type,
-          )}" autocomplete="${attr(field.autocomplete)}" required>
+          )}" autocomplete="${attr(autocomplete)}"${required}>
         </label>`;
       })
       .join("")}
@@ -342,6 +372,105 @@ function channelCards() {
     .join("");
 }
 
+function storageSection() {
+  const proof = home.storage.proof
+    .map((item) => `<li>${icon("check")}<span>${escapeHtml(item)}</span></li>`)
+    .join("");
+
+  const cards = home.storage.cards
+    .map(
+      (item) => `<article class="storage-card reveal">
+        <span class="card-icon">${icon("spark")}</span>
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.body)}</p>
+      </article>`,
+    )
+    .join("");
+
+  return `<section class="section storage-section" id="storage-batteries">
+    <div class="container storage-grid">
+      <div class="storage-copy reveal">
+        <p class="eyebrow">${escapeHtml(home.storage.eyebrow)}</p>
+        <h2>${escapeHtml(home.storage.title)}</h2>
+        <p>${escapeHtml(home.storage.body)}</p>
+        <ul class="storage-proof">
+          ${proof}
+        </ul>
+        <a class="button button-primary storage-offer" href="#early-bird">${escapeHtml(
+          home.storage.offer,
+        )} ${icon("arrow")}</a>
+      </div>
+      <div class="storage-visual-card reveal" aria-label="110 kW ESS customer value stack">
+        <div class="storage-visual-topline">
+          <span>110 kW ESS</span>
+          <strong>Ready</strong>
+        </div>
+        <div class="battery-stack" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="storage-meter-list">
+          <div>
+            <span>Demand Charge Reduction</span>
+            <i style="--fill: 82%"></i>
+          </div>
+          <div>
+            <span>Capacity</span>
+            <i style="--fill: 68%"></i>
+          </div>
+          <div>
+            <span>VPPs</span>
+            <i style="--fill: 74%"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container storage-card-grid">
+      ${cards}
+    </div>
+  </section>`;
+}
+
+function enrollmentCards(items) {
+  return `<div class="enrollment-card-grid">
+    ${items
+      .map(
+        (item) => `<article class="enrollment-card reveal">
+          <span class="card-icon">${icon("spark")}</span>
+          <h3>${escapeHtml(item.title)}</h3>
+          <p>${escapeHtml(item.body)}</p>
+        </article>`,
+      )
+      .join("")}
+  </div>`;
+}
+
+function enrollmentHighlights(items) {
+  return `<ul class="storage-proof enrollment-proof">
+    ${items.map((item) => `<li>${icon("check")}<span>${escapeHtml(item)}</span></li>`).join("")}
+  </ul>`;
+}
+
+function enrollmentNav(activePath) {
+  const steps = [
+    { href: "/get-started", label: "Overview" },
+    { href: "/get-started/deposit", label: "Deposit" },
+    { href: "/get-started/intake", label: "Intake" },
+    { href: "/get-started/next-steps", label: "Next steps" },
+  ];
+
+  return `<nav class="enrollment-nav" aria-label="Enrollment steps">
+    ${steps
+      .map(
+        (step) => `<a href="${attr(step.href)}" class="${
+          step.href === activePath ? "is-active" : ""
+        }">${escapeHtml(step.label)}</a>`,
+      )
+      .join("")}
+  </nav>`;
+}
+
 export function renderHome() {
   return layout(
     "/",
@@ -352,7 +481,7 @@ export function renderHome() {
           <h1>${escapeHtml(home.hero.title)}</h1>
           <p class="hero-body">${escapeHtml(home.hero.body)}</p>
           <div class="hero-actions">
-            ${buttonLink("#early-bird", home.hero.primaryCta)}
+            ${buttonLink(home.hero.primaryHref, home.hero.primaryCta)}
             ${buttonLink("#shift", home.hero.secondaryCta, "secondary")}
           </div>
         </div>
@@ -377,20 +506,8 @@ export function renderHome() {
         </div>
         <p class="section-body reveal">${escapeHtml(home.beliefs.body)}</p>
       </div>
-      <div class="container principle-list">
-        ${home.beliefs.principles
-          .map(
-            (item) => `<article class="principle reveal">
-              <span>${icon("key")}</span>
-              <div>
-                <h3>${escapeHtml(item.title)}</h3>
-                <p>${escapeHtml(item.body)}</p>
-              </div>
-            </article>`,
-          )
-          .join("")}
-      </div>
     </section>
+    ${storageSection()}
     <section class="section cta-section" id="early-bird">
       <div class="container cta-grid">
         <div class="cta-copy reveal">
@@ -401,6 +518,128 @@ export function renderHome() {
         <div class="channel-card-grid cta-channel-grid">
           ${channelCards()}
         </div>
+      </div>
+    </section>`,
+  );
+}
+
+export function renderGetStarted() {
+  return layout(
+    "/get-started",
+    `<section class="page-hero enrollment-hero section">
+      <div class="container split-intro">
+        <div class="reveal">
+          <p class="eyebrow">${escapeHtml(enrollment.overview.eyebrow)}</p>
+          <h1>${escapeHtml(enrollment.overview.title)}</h1>
+        </div>
+        <div class="section-body reveal">
+          <p>${escapeHtml(enrollment.overview.body)}</p>
+          <div class="hero-actions">
+            ${buttonLink("/get-started/deposit", enrollment.overview.primaryCta)}
+            ${buttonLink("/get-started/intake", enrollment.overview.secondaryCta, "secondary")}
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section enrollment-section">
+      <div class="container">
+        ${enrollmentNav("/get-started")}
+        ${enrollmentCards(enrollment.overview.steps)}
+      </div>
+    </section>`,
+  );
+}
+
+export function renderGetStartedDeposit() {
+  return layout(
+    "/get-started/deposit",
+    `<section class="page-hero enrollment-hero section">
+      <div class="container split-intro">
+        <div class="reveal">
+          <p class="eyebrow">${escapeHtml(enrollment.deposit.eyebrow)}</p>
+          <h1>${escapeHtml(enrollment.deposit.title)}</h1>
+        </div>
+        <div class="section-body reveal">
+          <p>${escapeHtml(enrollment.deposit.body)}</p>
+          ${enrollmentHighlights(enrollment.deposit.highlights)}
+        </div>
+      </div>
+    </section>
+    <section class="section enrollment-section">
+      <div class="container enrollment-panel-grid">
+        <div>
+          ${enrollmentNav("/get-started/deposit")}
+          <div class="enrollment-payment-panel reveal">
+            <p class="eyebrow">Payment status</p>
+            <h2>${escapeHtml(enrollment.deposit.placeholder)}</h2>
+            <p>No payment is collected on this website yet. This page is a skeleton for the future deposit step.</p>
+            <span class="button button-secondary is-disabled" aria-disabled="true">Deposit payment not live</span>
+          </div>
+        </div>
+        <aside class="enrollment-aside reveal">
+          <h3>Continue the skeleton flow</h3>
+          <p>Use intake to share the site information EZ NRG will shape proposals around once the deposit workflow is live.</p>
+          ${buttonLink("/get-started/intake", enrollment.deposit.primaryCta)}
+          ${buttonLink("/get-started", enrollment.deposit.secondaryCta, "secondary")}
+        </aside>
+      </div>
+    </section>`,
+  );
+}
+
+export function renderGetStartedIntake() {
+  return layout(
+    "/get-started/intake",
+    `<section class="page-hero enrollment-hero section">
+      <div class="container split-intro">
+        <div class="reveal">
+          <p class="eyebrow">${escapeHtml(enrollment.intake.eyebrow)}</p>
+          <h1>${escapeHtml(enrollment.intake.title)}</h1>
+        </div>
+        <p class="section-body reveal">${escapeHtml(enrollment.intake.body)}</p>
+      </div>
+    </section>
+    <section class="section enrollment-section">
+      <div class="container enrollment-panel-grid">
+        <div>
+          ${enrollmentNav("/get-started/intake")}
+          ${form(
+            enrollmentFields,
+            enrollment.intake.submitLabel,
+            enrollment.intake.successMessage,
+            "enrollment",
+            { successRedirect: "/get-started/next-steps" },
+          )}
+        </div>
+        <aside class="enrollment-aside reveal">
+          <h3>Refundable deposit reminder</h3>
+          <p>The $500 deposit starts load shaping and proposal development. If you do not move forward for any reason, it is returned in full.</p>
+          ${buttonLink("/get-started/deposit", "Review Deposit", "secondary")}
+        </aside>
+      </div>
+    </section>`,
+  );
+}
+
+export function renderGetStartedNextSteps() {
+  return layout(
+    "/get-started/next-steps",
+    `<section class="page-hero enrollment-hero section">
+      <div class="container split-intro">
+        <div class="reveal">
+          <p class="eyebrow">${escapeHtml(enrollment.nextSteps.eyebrow)}</p>
+          <h1>${escapeHtml(enrollment.nextSteps.title)}</h1>
+        </div>
+        <div class="section-body reveal">
+          <p>${escapeHtml(enrollment.nextSteps.body)}</p>
+          ${buttonLink("/", enrollment.nextSteps.primaryCta)}
+        </div>
+      </div>
+    </section>
+    <section class="section enrollment-section">
+      <div class="container">
+        ${enrollmentNav("/get-started/next-steps")}
+        ${enrollmentCards(enrollment.nextSteps.steps)}
       </div>
     </section>`,
   );
@@ -456,32 +695,6 @@ export function renderLearn() {
         </div>
         <div class="channel-card-grid">
           ${channelCards()}
-        </div>
-      </div>
-    </section>
-    <section class="page-hero learn-hero section">
-      <div class="container learn-hero-grid">
-        <div class="reveal">
-        <p class="eyebrow">Learn</p>
-        <h1>${escapeHtml(learn.title)}</h1>
-        <p>${escapeHtml(learn.body)}</p>
-        </div>
-        <div class="learn-market-map reveal" aria-label="Energy market evolution">
-          <div>
-            <span>1</span>
-            <strong>Regulated utility</strong>
-            <p>One default energy path</p>
-          </div>
-          <div>
-            <span>2</span>
-            <strong>Retail choice</strong>
-            <p>Supplier contract risk</p>
-          </div>
-          <div>
-            <span>3</span>
-            <strong>Customer platform</strong>
-            <p>Load, assets, and markets</p>
-          </div>
         </div>
       </div>
     </section>

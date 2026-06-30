@@ -4,6 +4,10 @@ import { fileURLToPath } from "node:url";
 import {
   renderAbout,
   renderContact,
+  renderGetStarted,
+  renderGetStartedDeposit,
+  renderGetStartedIntake,
+  renderGetStartedNextSteps,
   renderHome,
   renderLearn,
 } from "../src/render.mjs";
@@ -16,6 +20,13 @@ const pages = [
   { path: "about/index.html", html: renderAbout() },
   { path: "learn/index.html", html: renderLearn() },
   { path: "contact/index.html", html: renderContact() },
+  { path: "get-started/index.html", html: renderGetStarted() },
+  { path: "get-started/deposit/index.html", html: renderGetStartedDeposit() },
+  { path: "get-started/intake/index.html", html: renderGetStartedIntake() },
+  {
+    path: "get-started/next-steps/index.html",
+    html: renderGetStartedNextSteps(),
+  },
 ];
 
 await rm(dist, { recursive: true, force: true });

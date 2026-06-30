@@ -16,10 +16,11 @@ export const nav = [
 export const home = {
   hero: {
     eyebrow: "Customer-first energy strategy",
-    title: "The Energy Platform Stack Built For Stakeholders",
+    title: "The Energy Platform Built Around You",
     body:
-      "EZ NRG is making it seamless for you to participate in the future of energy, aligning everything based on what's best for you on day one, via an incrementally innovative path",
-    primaryCta: "$0 For First 100 users",
+      "EZ NRG is making it seamless for you to participate in the future of energy, aligning everything based on what's best for you on day one.",
+    primaryCta: "Enroll Now",
+    primaryHref: "/get-started",
     secondaryCta: "Learn More",
   },
   dashboard: {
@@ -34,52 +35,140 @@ export const home = {
     ],
   },
   shift: {
-    title: "The future of energy is decentralized.",
+    title: "Energy Decentralization",
     body:
-      "Decentralization only works when customers have real choice and practical optionality. Energy offerings are buried in complexity. EZ NRG is building the coordination and settlement layer that turns complexity into confidence and trust.",
+      'But we believe that decentralization will only work at scale if customers have real optionality. Energy offerings are buried in complexity and many programs operate as "bait and switch" or through aggressive sales tactics or third-party sellers. EZ NRG is building the optimization, coordination and settlement layer that turns complexity into confidence.',
     cards: [
       {
         title: "Pathways to Participate",
-        body: "",
+        body:
+          "map your load to a custom contract position, and future asset options into a practical participation plan without forcing a big-bang commitment.",
       },
       {
         title: "Shared Benefits",
         body:
-          "Energy strategy is not one size fits all. It must be practical, guided, and aligned amongst stakeholders.",
+          "Coordinate customers, asset owners, and market partners so savings, flexibility value, and program revenue are shared clearly.",
       },
       {
         title: "Aligned Incentives",
         body:
-          "Do not just consume energy. Share in the total value created based on your true contribution.",
+          "Turn flexible load, storage batteries, and future VPP participation into a strategy where customer outcomes drive every decision.",
       },
     ],
   },
   beliefs: {
-    title: "Customers should be stakeholders, not spectators.",
+    title: "Working Backwards From The Customer Experience",
     body:
-      "\"customer-obsessed\" isn't a slogan and something on our website to virtue signal. We are building the future platform for communities, neighbors, and market participants to share value through an intelligence layer that works quietly to innovate.",
-    principles: [
+      "we put our money where our mouth is. Just read our contract - that's all you need to do. The only double-sided and fair energy contract in the industry. Enroll now to try it for completely free!",
+  },
+  storage: {
+    eyebrow: "Storage Batteries",
+    title: "Flexibility is The Product. We're the Engine. You're the Driver",
+    body:
+      "A 110 kW ESS can help customers reduce peak exposure, create optionality for VPPs, and prepare for Capacity and Demand Charge Reduction without taking on unnecessary complexity.",
+    offer: "$0 Monthly for First 100 users",
+    proof: [
+      "Demand Charge Reduction through smarter peak management.",
+      "Capacity strategy that keeps future participation options open.",
+      "VPP readiness designed around customer control and value sharing.",
+    ],
+    cards: [
       {
-        title: "Customer-first strategy",
+        title: "Peak Management",
         body:
-          "Energy systems should be shaped around customer load shape, future goals, not forced after the fact.",
+          "Use storage dispatch to reduce costly demand events and make site flexibility visible before contract decisions are locked in.",
       },
       {
-        title: "Trust before complexity",
+        title: "Capacity Optionality",
         body:
-          "we're the partner you can trust to translate complexity into confidence both today and evolving RTO/ISO market programs.",
+          "Position battery flexibility for future Capacity value while keeping the operating strategy aligned with customer needs.",
       },
       {
-        title: "Value from day one",
+        title: "VPP Pathway",
         body:
-          "Participation should be useful immediately through an educate-first approach.",
+          "Prepare for VPPs with a practical participation model that can grow as market programs, tariffs, and controls mature.",
       },
     ],
   },
   finalCta: {
-    title: "Be early to the decentralized energy future.",
+    title: "Start Turning Flexibility Into Revenue.",
     body:
-      "Join the early-bird list to learn more about EZ NRG and help shape what customer-first energy strategy should become.",
+      "Join the early-bird list to see how storage batteries, flexible load, and VPP participation can help your site reduce energy risk and create new earning opportunities.",
+  },
+};
+
+export const enrollment = {
+  overview: {
+    eyebrow: "Get started",
+    title: "Start with a refundable $500 deposit.",
+    body:
+      "Enroll to let EZ NRG shape your load, evaluate storage and flexibility options, and prepare proposals built around your site. If you decide not to move forward for any reason whatsoever, the full $500 is returned.",
+    primaryCta: "Review Deposit",
+    secondaryCta: "Submit Intake",
+    steps: [
+      {
+        title: "1. Review the deposit",
+        body:
+          "The refundable $500 deposit starts the load-shaping and proposal workflow without locking you into a final project.",
+      },
+      {
+        title: "2. Share your site context",
+        body:
+          "Our agentic workflow will verify certain details with you to determine the structure we can give you. Within 2 hours, you will receive next steps or your deposit back.",
+      },
+      {
+        title: "3. Receive proposals",
+        body:
+          "EZ NRG shapes your load, evaluates storage and flexibility options, and prepares practical next-step proposals.",
+      },
+    ],
+  },
+  deposit: {
+    eyebrow: "Refundable deposit",
+    title: "$500 to begin load shaping and proposal work.",
+    body:
+      "The deposit gives EZ NRG the signal to begin reviewing your load, site context, storage fit, and future VPP or demand-charge opportunities. It is fully refundable if you do not move forward for any reason.",
+    highlights: [
+      "Fully refundable if you decide not to move forward.",
+      "Used to begin load shaping and proposal development.",
+      "No payment is collected on this website yet.",
+    ],
+    placeholder: "Payment integration coming soon.",
+    primaryCta: "Continue to Intake",
+    secondaryCta: "Back to Overview",
+  },
+  intake: {
+    eyebrow: "Enrollment intake",
+    title: "Tell us what to shape around.",
+    body:
+      "Share the basic facility and energy context EZ NRG needs to begin load shaping and proposal preparation after the refundable deposit step.",
+    submitLabel: "Submit Intake",
+    successMessage:
+      "Thanks. Your enrollment intake was received and the next steps page is loading.",
+  },
+  nextSteps: {
+    eyebrow: "Next steps",
+    title: "What happens after intake.",
+    body:
+      "EZ NRG will use your submitted site context to shape load, identify storage and flexibility paths, and prepare proposals. You stay in control of the decision, including the ability to receive the full $500 back if you do not move forward.",
+    steps: [
+      {
+        title: "Load shaping",
+        body:
+          "We review site context, usage patterns, utility exposure, and demand-charge opportunities.",
+      },
+      {
+        title: "Proposal development",
+        body:
+          "We translate the load shape into practical options for storage batteries, flexibility, and future VPP participation.",
+      },
+      {
+        title: "Decision or refund",
+        body:
+          "You decide whether to move forward. If not, the refundable $500 deposit is returned in full.",
+      },
+    ],
+    primaryCta: "Return Home",
   },
 };
 
@@ -97,9 +186,6 @@ export const about = {
 };
 
 export const learn = {
-  title: "Understand the energy market before you sign.",
-  body:
-    "A practical primer on deregulation, supplier choice, FERC 2222, and why customer contracts now matter more than ever.",
   summary: [
     {
       label: "Old model",
@@ -282,4 +368,46 @@ export const contactFields = [
     autocomplete: "organization",
   },
   { name: "message", label: "Message", type: "textarea", autocomplete: "off" },
+];
+
+export const enrollmentFields = [
+  { name: "name", label: "Name", type: "text", autocomplete: "name" },
+  { name: "email", label: "Email", type: "email", autocomplete: "email" },
+  {
+    name: "company",
+    label: "Company",
+    type: "text",
+    autocomplete: "organization",
+  },
+  {
+    name: "role",
+    label: "Role/title",
+    type: "text",
+    autocomplete: "organization-title",
+  },
+  { name: "phone", label: "Phone", type: "tel", autocomplete: "tel" },
+  {
+    name: "facility",
+    label: "Facility or service address",
+    type: "text",
+    autocomplete: "street-address",
+  },
+  {
+    name: "utility",
+    label: "Utility / market",
+    type: "text",
+    autocomplete: "off",
+  },
+  {
+    name: "loadContext",
+    label: "Current load, demand, or bill context",
+    type: "textarea",
+    autocomplete: "off",
+  },
+  {
+    name: "goalsTiming",
+    label: "Goals / timing",
+    type: "textarea",
+    autocomplete: "off",
+  },
 ];
