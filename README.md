@@ -47,6 +47,26 @@ F2=
 RESEND_FROM_EMAIL=
 ```
 
+The first enrollment step saves name and phone immediately during local preview.
+By default, those demo leads are appended to `data/enrollment-contact-leads.csv`.
+Set `ENROLLMENT_CONTACT_CSV` to write the demo CSV somewhere else.
+
+For local enrollment-flow testing without configuring Resend, keep the
+`formType === "enrollment-contact"` CSV branch active and temporarily
+short-circuit only the later full enrollment submit. Add the temporary bypass in
+`api/contact.js` after the `isEnrollmentContactCapture(formType)` branch returns
+and before the `RESEND_API_KEY` check:
+
+```js
+if (isEnrollment) {
+  return json({ ok: true, skippedEmail: true });
+}
+```
+
+This lets step 1 continue saving name and phone to the local CSV while the final
+`formType === "enrollment"` submit skips email delivery. Remove the bypass before
+using the full production enrollment workflow.
+
 ## Editing copy
 
 Most site copy and page structure lives in `src/content.mjs`.

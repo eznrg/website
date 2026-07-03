@@ -3,7 +3,6 @@ import {
   contact,
   contactFields,
   enrollment,
-  enrollmentFields,
   home,
   learn,
   nav,
@@ -34,22 +33,17 @@ const pageMeta = {
   "/get-started": {
     title: "Get Started | EZ NRG",
     description:
-      "Start the EZ NRG enrollment flow with a refundable deposit and load-shaping intake.",
+      "Start the EZ NRG enrollment flow with contact details, utility information, process review, and a refundable deposit.",
   },
   "/get-started/deposit": {
     title: "Refundable Deposit | EZ NRG",
     description:
-      "Learn how the refundable $500 deposit starts load shaping and proposal development.",
+      "Place the refundable $500 deposit after completing the EZ NRG enrollment intake.",
   },
   "/get-started/intake": {
     title: "Enrollment Intake | EZ NRG",
     description:
-      "Share your facility and energy context so EZ NRG can prepare load-shaping proposals.",
-  },
-  "/get-started/next-steps": {
-    title: "Enrollment Next Steps | EZ NRG",
-    description:
-      "See what happens after submitting enrollment intake to EZ NRG.",
+      "Complete the step-by-step EZ NRG enrollment intake with contact and utility details.",
   },
 };
 
@@ -110,7 +104,7 @@ function header(path) {
       <img src="/logo.svg" alt="EZ NRG" width="176" height="44">
     </a>
     <button class="menu-button" type="button" data-menu-toggle aria-expanded="false" aria-controls="primary-navigation">
-      <span class="sr-only">Toggle navigation</span>
+      <span class="visually-hidden sr-only">Toggle navigation</span>
       ${icon("menu")}
     </button>
     <nav class="nav" id="primary-navigation" aria-label="Primary navigation" data-nav>
@@ -218,16 +212,16 @@ function dashboardVisual() {
 }
 
 function cardGrid(items, className = "") {
-  return `<div class="card-grid ${className}">
+  return `<div class="grid-layout grid-3 card-grid ${className}">
     ${items
       .map(
         (item) => {
           const body = item.body
-            ? `<p>${escapeHtml(item.body)}</p>`
+            ? `<p class="muted-copy">${escapeHtml(item.body)}</p>`
             : "";
 
-          return `<article class="info-card reveal">
-          <span class="card-icon">${icon("spark")}</span>
+          return `<article class="surface-card surface-card-interactive surface-card-glow info-card reveal">
+          <span class="icon-chip card-icon">${icon("spark")}</span>
           <h3>${escapeHtml(item.title)}</h3>
           ${body}
         </article>`;
@@ -242,7 +236,7 @@ function form(fields, submitLabel, successMessage, formName, options = {}) {
     ? ` data-success-redirect="${attr(options.successRedirect)}"`
     : "";
 
-  return `<form class="form-panel reveal" method="post" action="/api/contact" data-form="${attr(
+  return `<form class="surface-card form-panel reveal" method="post" action="/api/contact" data-form="${attr(
     formName,
   )}"${successRedirect}>
     <input type="hidden" name="formType" value="${attr(formName)}">
@@ -277,13 +271,131 @@ function form(fields, submitLabel, successMessage, formName, options = {}) {
   </form>`;
 }
 
+function enrollmentIntakeForm() {
+  const stepLabels = enrollment.intake.steps
+    .map(
+      (label, index) => `<li class="${index === 0 ? "is-active" : ""}" data-enrollment-step-tab="${index}">
+        <span>${String(index + 1).padStart(2, "0")}</span>
+        ${escapeHtml(label)}
+      </li>`,
+    )
+    .join("");
+
+  return `<form class="surface-card form-panel enrollment-flow reveal" method="post" action="/api/contact" enctype="multipart/form-data" data-form="enrollment" data-enrollment-flow data-success-redirect="/get-started/deposit">
+    <input type="hidden" name="formType" value="enrollment">
+    <input type="hidden" name="intakeStep" value="1" data-current-step>
+    <ol class="enrollment-stepper" aria-label="Enrollment progress">
+      ${stepLabels}
+    </ol>
+
+    <fieldset class="enrollment-step-panel is-active" data-enrollment-step="0">
+      <span class="step-count">Step 1 of 3</span>
+      <legend>Basic contact information</legend>
+      <p>Start with the person EZ NRG should contact. The next screen asks for utility details.</p>
+      <div class="enrollment-field-grid two">
+        <label for="enrollment-name">Name
+          <input id="enrollment-name" name="name" type="text" autocomplete="name" required>
+        </label>
+        <label for="enrollment-phone">Phone number
+          <input id="enrollment-phone" name="phone" type="tel" autocomplete="tel" required>
+        </label>
+      </div>
+      <div class="enrollment-form-actions">
+        <button class="button button-primary" type="button" data-step-next data-save-contact-step>Continue to Utility ${icon("arrow")}</button>
+      </div>
+    </fieldset>
+
+    <fieldset class="enrollment-step-panel" data-enrollment-step="1" hidden>
+      <span class="step-count">Step 2 of 3</span>
+      <legend>Email and utility choice</legend>
+      <p>Start with your email. Then upload a utility bill PDF or image, or enter the account details manually.</p>
+      <div class="enrollment-field-grid">
+        <label class="wide" for="enrollment-email">Email
+          <input id="enrollment-email" name="email" type="email" autocomplete="email" required>
+        </label>
+      </div>
+
+      <div class="bill-choice" role="radiogroup" aria-label="Utility bill preference">
+        <label>
+          <input type="radio" name="billPreference" value="upload" checked data-bill-option="upload">
+          Upload bill file
+        </label>
+        <label>
+          <input type="radio" name="billPreference" value="manual" data-bill-option="manual">
+          Enter manually
+        </label>
+      </div>
+
+      <div class="surface-card surface-card-interactive surface-card-glow bill-panel upload-panel enrollment-upload-panel" data-bill-panel="upload" data-bill-upload>
+        <span class="icon-chip upload-icon">${icon("file")}</span>
+        <h3>Upload a utility bill</h3>
+        <p class="muted-copy">Upload a PDF or bill picture and we will use it for the account number, service address, and utility market.</p>
+        <label class="button button-primary contract-upload-button" for="utility-bill-file">
+          Choose bill file ${icon("upload")}
+        </label>
+        <input class="visually-hidden contract-file-input" id="utility-bill-file" name="utilityBill" type="file" accept="application/pdf,image/*" data-bill-input>
+        <p class="upload-status" data-bill-status role="status" aria-live="polite">No bill file selected.</p>
+      </div>
+
+      <div class="bill-panel manual-panel" data-bill-panel="manual" hidden>
+        <div class="enrollment-field-grid two">
+          <label for="enrollment-account">Utility account number
+            <input id="enrollment-account" name="accountNumber" type="text" autocomplete="off" required>
+          </label>
+          <label for="enrollment-address">Service address
+            <input id="enrollment-address" name="facility" type="text" autocomplete="street-address" required>
+          </label>
+          <label for="enrollment-utility">Utility market
+            <input id="enrollment-utility" name="utility" type="text" autocomplete="off" placeholder="ComEd, PJM, ERCOT, etc." required>
+          </label>
+          <label for="enrollment-rate-class">Rate class or plan name
+            <input id="enrollment-rate-class" name="rateClass" type="text" autocomplete="off">
+          </label>
+          <label for="enrollment-meter">Meter number
+            <input id="enrollment-meter" name="meterNumber" type="text" autocomplete="off">
+          </label>
+          <label class="wide" for="enrollment-bill-notes">Bill details or recent usage notes
+            <textarea id="enrollment-bill-notes" name="billNotes" autocomplete="off"></textarea>
+          </label>
+        </div>
+      </div>
+
+      <div class="enrollment-form-actions split">
+        <button class="button button-secondary" type="button" data-step-prev>Back</button>
+        <button class="button button-primary" type="button" data-step-next>Continue to Deposit ${icon("arrow")}</button>
+      </div>
+    </fieldset>
+
+    <fieldset class="enrollment-step-panel" data-enrollment-step="2" hidden>
+      <span class="step-count">Step 3 of 3</span>
+      <legend>Refundable deposit comes last</legend>
+      <div class="enrollment-deposit-preview">
+        <p class="eyebrow">Refundable deposit</p>
+        <h3>$500 starts the proposal workflow after intake.</h3>
+        <p>Submit the intake now. The next page asks for the refundable deposit, and no payment is collected by this website until the payment integration is live.</p>
+      </div>
+      <div class="enrollment-form-actions split">
+        <button class="button button-secondary" type="button" data-step-prev>Back</button>
+        <button class="button button-primary" type="submit">${escapeHtml(
+          enrollment.intake.submitLabel,
+        )} ${icon("arrow")}</button>
+      </div>
+    </fieldset>
+
+    <p class="form-success" role="status" aria-live="polite" hidden>${escapeHtml(
+      enrollment.intake.successMessage,
+    )}</p>
+    <p class="form-error" role="alert" hidden>Something went wrong. Please try again soon.</p>
+  </form>`;
+}
+
 function learnSummaryCards() {
   return learn.summary
     .map(
-      (item) => `<article class="learn-summary-card reveal">
+      (item) => `<article class="surface-card surface-card-interactive surface-card-glow learn-summary-card reveal">
         <span>${escapeHtml(item.label)}</span>
         <h3>${escapeHtml(item.value)}</h3>
-        <p>${escapeHtml(item.body)}</p>
+        <p class="muted-copy">${escapeHtml(item.body)}</p>
       </article>`,
     )
     .join("");
@@ -307,14 +419,14 @@ function learnPrimer() {
 
   const panels = learn.modules
     .map(
-      (item, index) => `<article class="primer-panel${
+      (item, index) => `<article class="surface-card primer-panel${
         index === 0 ? " is-active" : ""
       }" role="tabpanel" id="primer-panel-${attr(item.id)}" aria-labelledby="primer-tab-${attr(
         item.id,
       )}" data-primer-panel="${attr(item.id)}"${index === 0 ? "" : " hidden"}>
         <p class="eyebrow">${escapeHtml(item.kicker)}</p>
         <h3>${escapeHtml(item.title)}</h3>
-        <p>${escapeHtml(item.body)}</p>
+        <p class="muted-copy">${escapeHtml(item.body)}</p>
         <ul>
           ${item.bullets.map((bullet) => `<li>${icon("check")}<span>${escapeHtml(bullet)}</span></li>`).join("")}
         </ul>
@@ -335,10 +447,10 @@ function learnPrimer() {
 function watchlistCards() {
   return learn.watchlist
     .map(
-      (item) => `<article class="watch-card reveal">
-        <span class="card-icon">${icon("key")}</span>
+      (item) => `<article class="surface-card surface-card-interactive surface-card-glow watch-card reveal">
+        <span class="icon-chip card-icon">${icon("key")}</span>
         <h3>${escapeHtml(item.title)}</h3>
-        <p>${escapeHtml(item.body)}</p>
+        <p class="muted-copy">${escapeHtml(item.body)}</p>
       </article>`,
     )
     .join("");
@@ -359,11 +471,11 @@ function channelCards() {
               item.label,
             )} link coming soon</span>`;
 
-        return `<article class="channel-card reveal">
-          <span class="channel-icon">${icon(iconName)}</span>
+        return `<article class="surface-card surface-card-interactive surface-card-glow channel-card reveal">
+          <span class="icon-chip channel-icon">${icon(iconName)}</span>
           <div>
             <h3>${escapeHtml(item.name)}</h3>
-            <p>${escapeHtml(item.body)}</p>
+            <p class="muted-copy">${escapeHtml(item.body)}</p>
           </div>
           ${action}
         </article>`;
@@ -379,10 +491,10 @@ function storageSection() {
 
   const cards = home.storage.cards
     .map(
-      (item) => `<article class="storage-card reveal">
-        <span class="card-icon">${icon("spark")}</span>
+      (item) => `<article class="surface-card surface-card-interactive surface-card-glow storage-card reveal">
+        <span class="icon-chip card-icon">${icon("spark")}</span>
         <h3>${escapeHtml(item.title)}</h3>
-        <p>${escapeHtml(item.body)}</p>
+        <p class="muted-copy">${escapeHtml(item.body)}</p>
       </article>`,
     )
     .join("");
@@ -400,7 +512,7 @@ function storageSection() {
           home.storage.offer,
         )} ${icon("arrow")}</a>
       </div>
-      <div class="storage-visual-card reveal" aria-label="110 kW ESS customer value stack">
+      <div class="surface-card surface-card-interactive surface-card-glow storage-visual-card reveal" aria-label="110 kW ESS customer value stack">
         <div class="storage-visual-topline">
           <span>110 kW ESS</span>
           <strong>Ready</strong>
@@ -426,23 +538,52 @@ function storageSection() {
         </div>
       </div>
     </div>
-    <div class="container storage-card-grid">
+    <div class="container grid-layout grid-3 storage-card-grid">
       ${cards}
     </div>
   </section>`;
 }
 
 function enrollmentCards(items) {
-  return `<div class="enrollment-card-grid">
+  return `<div class="grid-layout grid-3 enrollment-card-grid">
     ${items
       .map(
-        (item) => `<article class="enrollment-card reveal">
-          <span class="card-icon">${icon("spark")}</span>
+        (item) => `<article class="surface-card surface-card-interactive surface-card-glow enrollment-card reveal">
+          <span class="icon-chip card-icon">${icon("spark")}</span>
           <h3>${escapeHtml(item.title)}</h3>
-          <p>${escapeHtml(item.body)}</p>
+          <p class="muted-copy">${escapeHtml(item.body)}</p>
         </article>`,
       )
       .join("")}
+  </div>`;
+}
+
+function enrollmentOverviewSections(items) {
+  return `<div class="enrollment-scroll-sections">
+    ${items
+      .map(
+        (item, index) => `<article class="enrollment-scroll-step reveal">
+          <span class="enrollment-scroll-index">${String(index + 1).padStart(2, "0")}</span>
+          <div>
+            <h2>${escapeHtml(item.title.replace(/^\d+\.\s*/, ""))}</h2>
+            <p>${escapeHtml(item.body)}</p>
+          </div>
+        </article>`,
+      )
+      .join("")}
+  </div>`;
+}
+
+function enrollmentOverviewActions() {
+  return `<div class="enrollment-bottom-actions reveal">
+    <div>
+      <p class="eyebrow">Ready when you are</p>
+      <h2>Start with a quick review.</h2>
+      <p>Share the basics now so EZ NRG can start understanding your utility setup.</p>
+    </div>
+    <div class="hero-actions">
+      ${buttonLink("/get-started/intake", enrollment.overview.primaryCta)}
+    </div>
   </div>`;
 }
 
@@ -455,9 +596,8 @@ function enrollmentHighlights(items) {
 function enrollmentNav(activePath) {
   const steps = [
     { href: "/get-started", label: "Overview" },
-    { href: "/get-started/deposit", label: "Deposit" },
     { href: "/get-started/intake", label: "Intake" },
-    { href: "/get-started/next-steps", label: "Next steps" },
+    { href: "/get-started/deposit", label: "Deposit" },
   ];
 
   return `<nav class="enrollment-nav" aria-label="Enrollment steps">
@@ -498,7 +638,7 @@ export function renderHome() {
       </div>
       <div class="container">${cardGrid(home.shift.cards)}</div>
     </section>
-    <section class="section belief-section">
+    <section class="section section-band belief-section">
       <div class="container split-intro">
         <div class="reveal">
           <p class="eyebrow">What EZ NRG believes</p>
@@ -515,7 +655,7 @@ export function renderHome() {
           <h2>${escapeHtml(home.finalCta.title)}</h2>
           <p>${escapeHtml(home.finalCta.body)}</p>
         </div>
-        <div class="channel-card-grid cta-channel-grid">
+        <div class="grid-layout grid-2 channel-card-grid cta-channel-grid">
           ${channelCards()}
         </div>
       </div>
@@ -534,17 +674,14 @@ export function renderGetStarted() {
         </div>
         <div class="section-body reveal">
           <p>${escapeHtml(enrollment.overview.body)}</p>
-          <div class="hero-actions">
-            ${buttonLink("/get-started/deposit", enrollment.overview.primaryCta)}
-            ${buttonLink("/get-started/intake", enrollment.overview.secondaryCta, "secondary")}
-          </div>
         </div>
       </div>
     </section>
     <section class="section enrollment-section">
       <div class="container">
         ${enrollmentNav("/get-started")}
-        ${enrollmentCards(enrollment.overview.steps)}
+        ${enrollmentOverviewSections(enrollment.overview.steps)}
+        ${enrollmentOverviewActions()}
       </div>
     </section>`,
   );
@@ -569,16 +706,16 @@ export function renderGetStartedDeposit() {
       <div class="container enrollment-panel-grid">
         <div>
           ${enrollmentNav("/get-started/deposit")}
-          <div class="enrollment-payment-panel reveal">
+          <div class="surface-card surface-card-interactive surface-card-glow enrollment-payment-panel reveal">
             <p class="eyebrow">Payment status</p>
             <h2>${escapeHtml(enrollment.deposit.placeholder)}</h2>
             <p>No payment is collected on this website yet. This page is a skeleton for the future deposit step.</p>
             <span class="button button-secondary is-disabled" aria-disabled="true">Deposit payment not live</span>
           </div>
         </div>
-        <aside class="enrollment-aside reveal">
-          <h3>Continue the skeleton flow</h3>
-          <p>Use intake to share the site information EZ NRG will shape proposals around once the deposit workflow is live.</p>
+        <aside class="surface-card surface-card-interactive surface-card-glow enrollment-aside reveal">
+          <h3>Need to finish intake?</h3>
+          <p>The deposit belongs at the end of the enrollment workflow after contact details and utility information.</p>
           ${buttonLink("/get-started/intake", enrollment.deposit.primaryCta)}
           ${buttonLink("/get-started", enrollment.deposit.secondaryCta, "secondary")}
         </aside>
@@ -590,7 +727,7 @@ export function renderGetStartedDeposit() {
 export function renderGetStartedIntake() {
   return layout(
     "/get-started/intake",
-    `<section class="page-hero enrollment-hero section">
+    `<section class="page-hero enrollment-hero intake-hero section">
       <div class="container split-intro">
         <div class="reveal">
           <p class="eyebrow">${escapeHtml(enrollment.intake.eyebrow)}</p>
@@ -600,46 +737,9 @@ export function renderGetStartedIntake() {
       </div>
     </section>
     <section class="section enrollment-section">
-      <div class="container enrollment-panel-grid">
-        <div>
-          ${enrollmentNav("/get-started/intake")}
-          ${form(
-            enrollmentFields,
-            enrollment.intake.submitLabel,
-            enrollment.intake.successMessage,
-            "enrollment",
-            { successRedirect: "/get-started/next-steps" },
-          )}
-        </div>
-        <aside class="enrollment-aside reveal">
-          <h3>Refundable deposit reminder</h3>
-          <p>The $500 deposit starts load shaping and proposal development. If you do not move forward for any reason, it is returned in full.</p>
-          ${buttonLink("/get-started/deposit", "Review Deposit", "secondary")}
-        </aside>
-      </div>
-    </section>`,
-  );
-}
-
-export function renderGetStartedNextSteps() {
-  return layout(
-    "/get-started/next-steps",
-    `<section class="page-hero enrollment-hero section">
-      <div class="container split-intro">
-        <div class="reveal">
-          <p class="eyebrow">${escapeHtml(enrollment.nextSteps.eyebrow)}</p>
-          <h1>${escapeHtml(enrollment.nextSteps.title)}</h1>
-        </div>
-        <div class="section-body reveal">
-          <p>${escapeHtml(enrollment.nextSteps.body)}</p>
-          ${buttonLink("/", enrollment.nextSteps.primaryCta)}
-        </div>
-      </div>
-    </section>
-    <section class="section enrollment-section">
       <div class="container">
-        ${enrollmentNav("/get-started/next-steps")}
-        ${enrollmentCards(enrollment.nextSteps.steps)}
+        ${enrollmentNav("/get-started/intake")}
+        ${enrollmentIntakeForm()}
       </div>
     </section>`,
   );
@@ -661,10 +761,10 @@ export function renderAbout() {
           <p class="eyebrow">Co-founders</p>
           <h2>Building with customers.</h2>
         </div>
-        <div class="founder-grid">
+        <div class="grid-layout grid-2 founder-grid">
           ${about.founders
             .map(
-              (founder) => `<article class="founder-card reveal">
+              (founder) => `<article class="surface-card surface-card-interactive surface-card-glow founder-card reveal">
                 <span class="founder-mark">${escapeHtml(
                   founder.name
                     .split(" ")
@@ -672,7 +772,7 @@ export function renderAbout() {
                     .join(""),
                 )}</span>
                 <h3>${escapeHtml(founder.name)}</h3>
-                <p>${escapeHtml(founder.role)}</p>
+                <p class="muted-copy">${escapeHtml(founder.role)}</p>
               </article>`,
             )
             .join("")}
@@ -693,13 +793,13 @@ export function renderLearn() {
           <h2>${escapeHtml(learn.channels.title)}</h2>
           <p>${escapeHtml(learn.channels.body)}</p>
         </div>
-        <div class="channel-card-grid">
+        <div class="grid-layout grid-2 channel-card-grid">
           ${channelCards()}
         </div>
       </div>
     </section>
     <section class="section learn-summary-section">
-      <div class="container learn-summary-grid">
+      <div class="container grid-layout grid-3 learn-summary-grid">
         ${learnSummaryCards()}
       </div>
     </section>
@@ -715,7 +815,7 @@ export function renderLearn() {
         ${learnPrimer()}
       </div>
     </section>
-    <section class="section contract-watch-section">
+    <section class="section section-band contract-watch-section">
       <div class="container split-intro">
         <div class="reveal">
           <p class="eyebrow">Contract watchlist</p>
@@ -723,7 +823,7 @@ export function renderLearn() {
         </div>
         <p class="section-body reveal">Supplier contracts are where market design becomes customer reality. The future backend agent will look for the clauses that usually decide whether a contract is flexible, expensive, or aligned.</p>
       </div>
-      <div class="container watch-grid">
+      <div class="container grid-layout grid-3 watch-grid">
         ${watchlistCards()}
       </div>
     </section>
@@ -734,14 +834,14 @@ export function renderLearn() {
           <h2>${escapeHtml(learn.upload.title)}</h2>
           <p>${escapeHtml(learn.upload.body)}</p>
         </div>
-        <div class="upload-panel reveal" data-contract-upload>
-          <span class="upload-icon">${icon("file")}</span>
+        <div class="surface-card surface-card-interactive surface-card-glow upload-panel reveal" data-contract-upload>
+          <span class="icon-chip upload-icon">${icon("file")}</span>
           <h3>Supplier agreement PDF</h3>
-          <p>${escapeHtml(learn.upload.note)}</p>
+          <p class="muted-copy">${escapeHtml(learn.upload.note)}</p>
           <label class="button button-primary contract-upload-button" for="supplier-contract-pdf">
             ${escapeHtml(learn.upload.button)} ${icon("upload")}
           </label>
-          <input class="contract-file-input" id="supplier-contract-pdf" type="file" accept="application/pdf" data-contract-input>
+          <input class="visually-hidden contract-file-input" id="supplier-contract-pdf" type="file" accept="application/pdf" data-contract-input>
           <p class="upload-status" data-contract-status role="status" aria-live="polite">No file selected.</p>
         </div>
       </div>

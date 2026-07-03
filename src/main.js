@@ -92,6 +92,242 @@ if (!reducedMotionQuery.matches && precisePointerQuery.matches) {
     });
 }
 
+document.querySelectorAll("[data-enrollment-flow]").forEach((flow) => {
+  const steps = Array.from(flow.querySelectorAll("[data-enrollment-step]"));
+  const tabs = Array.from(flow.querySelectorAll("[data-enrollment-step-tab]"));
+  const currentStepInput = flow.querySelector("[data-current-step]");
+  const error = flow.querySelector(".form-error");
+  let activeIndex = 0;
+
+  function showStep(index, focus = true) {
+    activeIndex = Math.max(0, Math.min(index, steps.length - 1));
+
+    steps.forEach((step, stepIndex) => {
+      const isActive = stepIndex === activeIndex;
+      step.hidden = !isActive;
+      step.classList.toggle("is-active", isActive);
+    });
+
+    tabs.forEach((tab, tabIndex) => {
+      tab.classList.toggle("is-active", tabIndex === activeIndex);
+      tab.classList.toggle("is-complete", tabIndex < activeIndex);
+    });
+
+    if (currentStepInput) {
+      currentStepInput.value = String(activeIndex + 1);
+    }
+
+    if (focus) {
+      const legend = steps[activeIndex]?.querySelector("legend");
+      legend?.setAttribute("tabindex", "-1");
+      legend?.focus({ preventScroll: true });
+    }
+  }
+
+  function validateCurrentStep() {
+    const controls = Array.from(
+      steps[activeIndex]?.querySelectorAll("input, textarea, select") || [],
+    ).filter(
+      (control) =>
+        !control.disabled &&
+        control.type !== "hidden" &&
+        !control.closest("[hidden]"),
+    );
+
+    for (const control of controls) {
+      if (!control.checkValidity()) {
+        control.reportValidity();
+        return false;
+      }
+    }
+
+    const selectedBillOption = steps[activeIndex]?.querySelector(
+      "[data-bill-option]:checked",
+    );
+
+    if (selectedBillOption?.getAttribute("data-bill-option") === "upload") {
+      const upload = steps[activeIndex].querySelector("[data-bill-upload]");
+      const input = upload?.querySelector("[data-bill-input]");
+      const status = upload?.querySelector("[data-bill-status]");
+
+      if (!input?.files?.length) {
+        if (status) {
+          status.textContent =
+            "Please choose a utility bill file or select Enter manually.";
+          status.classList.add("is-error");
+          status.classList.remove("is-ready");
+        }
+
+        upload?.classList.add("is-error");
+        upload?.classList.remove("is-ready");
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  function setFlowError(message) {
+    if (!error) return;
+
+    error.textContent = message;
+    error.hidden = false;
+  }
+
+  function clearFlowError() {
+    if (error) {
+      error.hidden = true;
+    }
+  }
+
+  async function saveContactStep(button) {
+    const name = flow.querySelector('[name="name"]')?.value.trim() || "";
+    const phone = flow.querySelector('[name="phone"]')?.value.trim() || "";
+    const saveKey = `${name}\n${phone}`;
+
+    if (flow.dataset.contactSaveKey === saveKey) {
+      return true;
+    }
+
+    const originalLabel = button.innerHTML;
+
+    button.disabled = true;
+    button.textContent = "Saving...";
+    clearFlowError();
+
+    try {
+      const response = await fetch(flow.action, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          formType: "enrollment-contact",
+          name,
+          phone,
+          sourcePath: window.location.pathname,
+        }),
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result.error || "Contact save failed.");
+      }
+
+      flow.dataset.contactSaveKey = saveKey;
+      return true;
+    } catch (saveError) {
+      setFlowError(
+        saveError instanceof Error
+          ? saveError.message
+          : "We could not save your contact details. Please try again.",
+      );
+      return false;
+    } finally {
+      button.disabled = false;
+      button.innerHTML = originalLabel;
+    }
+  }
+
+  flow.querySelectorAll("[data-step-next]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      if (!validateCurrentStep()) return;
+
+      if (button.hasAttribute("data-save-contact-step")) {
+        const didSave = await saveContactStep(button);
+        if (!didSave) return;
+      }
+
+      showStep(activeIndex + 1);
+    });
+  });
+
+  flow.querySelectorAll("[data-step-prev]").forEach((button) => {
+    button.addEventListener("click", () => {
+      showStep(activeIndex - 1);
+    });
+  });
+
+  showStep(0, false);
+});
+
+document.querySelectorAll("[data-bill-upload]").forEach((upload) => {
+  const input = upload.querySelector("[data-bill-input]");
+  const status = upload.querySelector("[data-bill-status]");
+  const maxSizeMb = 10;
+
+  if (!input || !status) return;
+
+  input.addEventListener("change", () => {
+    const file = input.files && input.files[0];
+
+    if (!file) {
+      status.textContent = "No bill file selected.";
+      status.classList.remove("is-ready", "is-error");
+      upload.classList.remove("is-ready", "is-error");
+      return;
+    }
+
+    const type = file.type.toLowerCase();
+    const isAccepted =
+      type === "application/pdf" ||
+      type.startsWith("image/") ||
+      /\.(pdf|png|jpe?g|webp|heic)$/i.test(file.name);
+
+    if (!isAccepted) {
+      input.value = "";
+      status.textContent = "Please choose a PDF or image of the utility bill.";
+      status.classList.add("is-error");
+      status.classList.remove("is-ready");
+      upload.classList.add("is-error");
+      upload.classList.remove("is-ready");
+      return;
+    }
+
+    const sizeMb = file.size / (1024 * 1024);
+
+    if (sizeMb > maxSizeMb) {
+      input.value = "";
+      status.textContent = `Please choose a bill file under ${maxSizeMb} MB.`;
+      status.classList.add("is-error");
+      status.classList.remove("is-ready");
+      upload.classList.add("is-error");
+      upload.classList.remove("is-ready");
+      return;
+    }
+
+    status.textContent = `Selected: ${file.name} (${sizeMb.toFixed(1)} MB).`;
+    status.classList.add("is-ready");
+    status.classList.remove("is-error");
+    upload.classList.add("is-ready");
+    upload.classList.remove("is-error");
+  });
+});
+
+document.querySelectorAll("[data-bill-option]").forEach((option) => {
+  const flow = option.closest("[data-enrollment-flow]");
+  const panels = Array.from(flow?.querySelectorAll("[data-bill-panel]") || []);
+
+  function updatePanels() {
+    const selected = flow?.querySelector("[data-bill-option]:checked");
+    const selectedValue = selected?.getAttribute("data-bill-option");
+
+    panels.forEach((panel) => {
+      const isActive = panel.getAttribute("data-bill-panel") === selectedValue;
+
+      panel.hidden = !isActive;
+      panel.querySelectorAll("input, textarea, select").forEach((control) => {
+        control.disabled = !isActive;
+      });
+    });
+  }
+
+  option.addEventListener("change", updatePanels);
+  updatePanels();
+});
+
 if (menu && menuToggle) {
   menuToggle.addEventListener("click", () => {
     const open = menu.classList.toggle("is-open");

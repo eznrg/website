@@ -100,75 +100,57 @@ export const home = {
 export const enrollment = {
   overview: {
     eyebrow: "Get started",
-    title: "Start with a refundable $500 deposit.",
+    title: "See what EZ NRG can do for you.",
     body:
-      "Enroll to let EZ NRG shape your load, evaluate storage and flexibility options, and prepare proposals built around your site. If you decide not to move forward for any reason whatsoever, the full $500 is returned.",
-    primaryCta: "Review Deposit",
-    secondaryCta: "Submit Intake",
+      "Enrollment is a simple way to let us look at your utility setup and show where EZ NRG may be able to help. It is quick, guided, and built so you can understand the opportunity without pressure.",
+    primaryCta: "Start My Review",
+    secondaryCta: "See Deposit Details",
     steps: [
       {
-        title: "1. Review the deposit",
+        title: "1. Start with the basics",
         body:
-          "The refundable $500 deposit starts the load-shaping and proposal workflow without locking you into a final project.",
+          "Tell us who to contact and the best number to reach you. No long form up front, no sales pressure, and no commitment just to get started.",
       },
       {
-        title: "2. Share your site context",
+        title: "2. Let us read the energy picture",
         body:
-          "Our agentic workflow will verify certain details with you to determine the structure we can give you. Within 2 hours, you will receive next steps or your deposit back.",
+          "Upload a utility bill or enter the details manually. We use that context to understand your account, your market, and where better options may exist.",
       },
       {
-        title: "3. Receive proposals",
+        title: "3. Decide with confidence",
         body:
-          "EZ NRG shapes your load, evaluates storage and flexibility options, and prepares practical next-step proposals.",
+          "If the fit makes sense, the refundable deposit starts the deeper review. If it does not, you are not locked into anything.",
       },
     ],
   },
   deposit: {
     eyebrow: "Refundable deposit",
-    title: "$500 to begin load shaping and proposal work.",
+    title: "Final step: place the refundable $500 deposit.",
     body:
-      "The deposit gives EZ NRG the signal to begin reviewing your load, site context, storage fit, and future VPP or demand-charge opportunities. It is fully refundable if you do not move forward for any reason.",
+      "After intake, the deposit gives EZ NRG the signal to begin reviewing your load, site context, storage fit, and future VPP or demand-charge opportunities. It is fully refundable if you do not move forward for any reason.",
     highlights: [
+      "Requested after contact and utility details.",
       "Fully refundable if you decide not to move forward.",
       "Used to begin load shaping and proposal development.",
       "No payment is collected on this website yet.",
     ],
     placeholder: "Payment integration coming soon.",
-    primaryCta: "Continue to Intake",
+    primaryCta: "Back to Intake",
     secondaryCta: "Back to Overview",
   },
   intake: {
     eyebrow: "Enrollment intake",
-    title: "Tell us what to shape around.",
+    title: "Start with name and phone.",
     body:
-      "Share the basic facility and energy context EZ NRG needs to begin load shaping and proposal preparation after the refundable deposit step.",
-    submitLabel: "Submit Intake",
+      "The enrollment intake is broken into short steps so customers can start with name and phone, then choose whether to upload a utility bill or enter utility information manually.",
+    submitLabel: "Submit Intake and Continue to Deposit",
     successMessage:
-      "Thanks. Your enrollment intake was received and the next steps page is loading.",
-  },
-  nextSteps: {
-    eyebrow: "Next steps",
-    title: "What happens after intake.",
-    body:
-      "EZ NRG will use your submitted site context to shape load, identify storage and flexibility paths, and prepare proposals. You stay in control of the decision, including the ability to receive the full $500 back if you do not move forward.",
+      "Thanks. Your enrollment intake was received and the deposit page is loading.",
     steps: [
-      {
-        title: "Load shaping",
-        body:
-          "We review site context, usage patterns, utility exposure, and demand-charge opportunities.",
-      },
-      {
-        title: "Proposal development",
-        body:
-          "We translate the load shape into practical options for storage batteries, flexibility, and future VPP participation.",
-      },
-      {
-        title: "Decision or refund",
-        body:
-          "You decide whether to move forward. If not, the refundable $500 deposit is returned in full.",
-      },
+      "Contact",
+      "Utility",
+      "Deposit",
     ],
-    primaryCta: "Return Home",
   },
 };
 

@@ -13,6 +13,12 @@
   --amber: #f4b942;
   --border: rgba(255, 255, 255, 0.08);
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  --surface-card-bg:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.055), transparent 34%),
+    rgba(16, 27, 45, 0.78);
+  --surface-card-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+  --surface-card-hover-shadow: 0 26px 76px rgba(0, 0, 0, 0.26), 0 0 44px rgba(20, 184, 166, 0.08);
+  --ease-standard: 180ms ease;
   --max: 1160px;
 }
 
@@ -192,6 +198,7 @@ textarea {
   height: 23px;
 }
 
+.visually-hidden,
 .sr-only {
   position: absolute;
   width: 1px;
@@ -277,6 +284,86 @@ textarea {
   color: #06121d;
   background: var(--amber);
   font-size: 0.92rem;
+}
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: var(--grid-columns, minmax(0, 1fr));
+  gap: var(--grid-gap, 16px);
+}
+
+.grid-2 {
+  --grid-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-3 {
+  --grid-columns: repeat(3, minmax(0, 1fr));
+}
+
+.muted-copy {
+  color: var(--muted);
+}
+
+.surface-card {
+  border: 1px solid var(--surface-card-border, var(--border));
+  border-radius: var(--surface-card-radius, 8px);
+  background: var(--surface-card-bg);
+  box-shadow: var(--surface-card-shadow);
+}
+
+.surface-card-interactive {
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--ease-standard), border-color var(--ease-standard), box-shadow var(--ease-standard);
+}
+
+.surface-card-glow::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background:
+    radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 0%), rgba(120, 243, 230, 0.2), transparent 30%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.055), transparent 40%);
+  opacity: 0;
+  transition: opacity var(--ease-standard);
+}
+
+.surface-card-glow > * {
+  position: relative;
+  z-index: 1;
+}
+
+.surface-card-interactive:hover {
+  transform: translateY(-6px);
+  border-color: rgba(20, 184, 166, 0.34);
+  box-shadow: var(--surface-card-hover-shadow);
+}
+
+.surface-card-glow:hover::before {
+  opacity: 1;
+}
+
+.icon-chip {
+  display: grid;
+  width: var(--icon-chip-size, 38px);
+  height: var(--icon-chip-size, 38px);
+  margin-bottom: var(--icon-chip-margin-bottom, 22px);
+  place-items: center;
+  color: var(--icon-chip-color, var(--amber));
+  background: var(--icon-chip-bg, rgba(244, 185, 66, 0.1));
+  border: 1px solid var(--icon-chip-border, rgba(244, 185, 66, 0.22));
+  border-radius: var(--icon-chip-radius, 8px);
+  transition:
+    transform var(--icon-chip-transition-duration, var(--ease-standard)),
+    color var(--icon-chip-transition-duration, var(--ease-standard)),
+    background-color var(--icon-chip-transition-duration, var(--ease-standard)),
+    border-color var(--icon-chip-transition-duration, var(--ease-standard));
+}
+
+.icon-chip svg {
+  width: var(--icon-chip-svg-size, 20px);
+  height: var(--icon-chip-svg-size, 20px);
 }
 
 .hero {
@@ -466,7 +553,7 @@ h3 {
   content: "";
   background: linear-gradient(90deg, transparent, rgba(120, 243, 230, 0.18), transparent);
   transform: rotate(13deg);
-  animation: panel-scan 6s ease-in-out infinite;
+  animation: scan-line 6s ease-in-out infinite;
 }
 
 .hero-visual.is-interacting .strategy-panel {
@@ -511,7 +598,7 @@ h3 {
     radial-gradient(circle at 53% 57%, rgba(244, 185, 66, 0.16), transparent 16%),
     radial-gradient(circle at 82% 40%, rgba(155, 227, 125, 0.14), transparent 18%);
   opacity: 0.75;
-  animation: map-glow 4.8s ease-in-out infinite;
+  animation: soft-glow 4.8s ease-in-out infinite;
 }
 
 .pulse-line {
@@ -519,7 +606,7 @@ h3 {
   inset: 50% 28px auto;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--teal), var(--amber), transparent);
-  animation: pulse 4s ease-in-out infinite;
+  animation: soft-pulse 4s ease-in-out infinite;
   transform-origin: center;
 }
 
@@ -532,7 +619,7 @@ h3 {
   border-radius: 50%;
   background: var(--cyan);
   box-shadow: 0 0 26px rgba(120, 243, 230, 0.62);
-  animation: node-pulse 2.8s ease-in-out infinite;
+  animation: scale-pulse 2.8s ease-in-out infinite;
 }
 
 .node::after {
@@ -542,7 +629,7 @@ h3 {
   border: 1px solid currentColor;
   border-radius: inherit;
   opacity: 0;
-  animation: node-ring 2.8s ease-in-out infinite;
+  animation: expand-ring 2.8s ease-in-out infinite;
 }
 
 .node-a {
@@ -589,7 +676,7 @@ h3 {
   background:
     linear-gradient(90deg, var(--teal), var(--amber)) 0 0 / 0% 100% no-repeat,
     rgba(255, 255, 255, 0.08);
-  animation: signal-fill 900ms cubic-bezier(0.18, 0.84, 0.32, 1) forwards;
+  animation: fill-bar 900ms cubic-bezier(0.18, 0.84, 0.32, 1) forwards;
 }
 
 .signal-row:nth-child(2) i {
@@ -625,88 +712,11 @@ h3 {
 .page-hero p,
 .cta-copy p,
 .storage-copy p,
-.info-card p,
-.enrollment-card p,
-.enrollment-aside p,
-.enrollment-payment-panel p,
-.storage-card p,
-.founder-card p,
+.enrollment-scroll-step p,
+.enrollment-bottom-actions p,
 .site-footer p,
 .coming-soon {
   color: var(--muted);
-}
-
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.info-card,
-.founder-card,
-.enrollment-card,
-.enrollment-aside,
-.enrollment-payment-panel,
-.form-panel {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.055), transparent 34%),
-    rgba(16, 27, 45, 0.78);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
-}
-
-.info-card,
-.learn-summary-card,
-.watch-card,
-.channel-card,
-.storage-card,
-.storage-visual-card,
-.enrollment-card,
-.enrollment-aside,
-.enrollment-payment-panel,
-.founder-card,
-.upload-panel {
-  position: relative;
-  overflow: hidden;
-  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
-}
-
-.info-card::before,
-.learn-summary-card::before,
-.watch-card::before,
-.channel-card::before,
-.storage-card::before,
-.storage-visual-card::before,
-.enrollment-card::before,
-.enrollment-aside::before,
-.enrollment-payment-panel::before,
-.founder-card::before,
-.upload-panel::before {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  content: "";
-  background:
-    radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 0%), rgba(120, 243, 230, 0.2), transparent 30%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.055), transparent 40%);
-  opacity: 0;
-  transition: opacity 180ms ease;
-}
-
-.info-card > *,
-.learn-summary-card > *,
-.watch-card > *,
-.channel-card > *,
-.storage-card > *,
-.storage-visual-card > *,
-.enrollment-card > *,
-.enrollment-aside > *,
-.enrollment-payment-panel > *,
-.founder-card > *,
-.upload-panel > * {
-  position: relative;
-  z-index: 1;
 }
 
 .info-card {
@@ -714,65 +724,14 @@ h3 {
   padding: 26px;
 }
 
-.info-card:hover,
-.learn-summary-card:hover,
-.watch-card:hover,
-.channel-card:hover,
-.storage-card:hover,
-.storage-visual-card:hover,
-.enrollment-card:hover,
-.enrollment-aside:hover,
-.enrollment-payment-panel:hover,
-.founder-card:hover,
-.upload-panel:hover {
-  transform: translateY(-6px);
-  border-color: rgba(20, 184, 166, 0.34);
-  box-shadow: 0 26px 76px rgba(0, 0, 0, 0.26), 0 0 44px rgba(20, 184, 166, 0.08);
-}
-
-.info-card:hover::before,
-.learn-summary-card:hover::before,
-.watch-card:hover::before,
-.channel-card:hover::before,
-.storage-card:hover::before,
-.storage-visual-card:hover::before,
-.enrollment-card:hover::before,
-.enrollment-aside:hover::before,
-.enrollment-payment-panel:hover::before,
-.founder-card:hover::before,
-.upload-panel:hover::before {
-  opacity: 1;
-}
-
-.card-icon {
-  display: grid;
-  width: 38px;
-  height: 38px;
-  margin-bottom: 22px;
-  place-items: center;
-  color: var(--amber);
-  background: rgba(244, 185, 66, 0.1);
-  border: 1px solid rgba(244, 185, 66, 0.22);
-  border-radius: 8px;
-  transition: transform 180ms ease, color 180ms ease, background-color 180ms ease, border-color 180ms ease;
-}
-
-.card-icon svg {
-  width: 20px;
-  height: 20px;
-}
-
-.info-card:hover .card-icon,
-.watch-card:hover .card-icon,
-.enrollment-card:hover .card-icon,
-.storage-card:hover .card-icon {
+.surface-card:hover .card-icon {
   color: #06121d;
   background: linear-gradient(135deg, var(--amber), var(--cyan));
   border-color: transparent;
   transform: translateY(-2px) rotate(-4deg);
 }
 
-.belief-section {
+.section-band {
   background: linear-gradient(180deg, rgba(8, 24, 39, 0.58), rgba(7, 17, 31, 0));
 }
 
@@ -830,12 +789,9 @@ h3 {
 
 .storage-visual-card,
 .storage-card {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background:
+  --surface-card-bg:
     linear-gradient(145deg, rgba(255, 255, 255, 0.07), transparent 34%),
     rgba(16, 27, 45, 0.78);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
 }
 
 .storage-visual-card {
@@ -872,7 +828,7 @@ h3 {
   content: "";
   background: linear-gradient(90deg, transparent, var(--cyan), var(--amber), transparent);
   opacity: 0.72;
-  animation: pulse 4s ease-in-out infinite;
+  animation: soft-pulse 4s ease-in-out infinite;
 }
 
 .battery-stack span {
@@ -932,9 +888,6 @@ h3 {
 }
 
 .storage-card-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
   margin-top: 18px;
 }
 
@@ -963,12 +916,27 @@ h3 {
 .belief-section .eyebrow,
 #storage-batteries .eyebrow,
 .enrollment-hero .eyebrow,
+.enrollment-bottom-actions .eyebrow,
 #early-bird .eyebrow {
   color: #f0bb47;
 }
 
 .enrollment-section {
   padding-top: 34px;
+}
+
+.page-hero.intake-hero {
+  padding-top: 88px;
+  padding-bottom: 14px;
+}
+
+.page-hero.intake-hero + .enrollment-section {
+  padding-top: 18px;
+}
+
+.page-hero.intake-hero h1 {
+  max-width: 620px;
+  font-size: clamp(2.5rem, 4.7vw, 3.85rem);
 }
 
 .enrollment-nav {
@@ -999,14 +967,13 @@ h3 {
   background: rgba(20, 184, 166, 0.12);
 }
 
-.enrollment-card-grid,
 .enrollment-panel-grid {
   display: grid;
   gap: 16px;
 }
 
 .enrollment-card-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  --grid-columns: repeat(4, minmax(0, 1fr));
 }
 
 .enrollment-panel-grid {
@@ -1022,6 +989,67 @@ h3 {
 
 .enrollment-card {
   min-height: 250px;
+}
+
+.enrollment-scroll-sections {
+  border-top: 1px solid var(--border);
+}
+
+.enrollment-scroll-step {
+  display: grid;
+  min-height: clamp(360px, 54vh, 620px);
+  grid-template-columns: minmax(86px, 0.28fr) minmax(0, 1fr);
+  gap: clamp(26px, 6vw, 96px);
+  align-items: center;
+  padding: clamp(48px, 8vw, 112px) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.enrollment-scroll-index {
+  color: rgba(120, 243, 230, 0.18);
+  font-size: 8.8rem;
+  font-weight: 900;
+  line-height: 0.78;
+  letter-spacing: 0;
+}
+
+.enrollment-scroll-step h2 {
+  max-width: 780px;
+  margin-bottom: 18px;
+  font-size: 4.8rem;
+  line-height: 0.98;
+  overflow-wrap: break-word;
+}
+
+.enrollment-scroll-step p {
+  max-width: 720px;
+  font-size: 1.28rem;
+  line-height: 1.65;
+}
+
+.enrollment-bottom-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(24px, 5vw, 72px);
+  align-items: end;
+  padding: clamp(52px, 8vw, 104px) 0 8px;
+}
+
+.enrollment-bottom-actions h2 {
+  max-width: 760px;
+  margin-bottom: 16px;
+  font-size: 4rem;
+  line-height: 1;
+  overflow-wrap: break-word;
+}
+
+.enrollment-bottom-actions p:last-child {
+  max-width: 620px;
+  font-size: 1.16rem;
+}
+
+.enrollment-bottom-actions .hero-actions {
+  justify-content: flex-end;
 }
 
 .enrollment-payment-panel h2 {
@@ -1042,6 +1070,172 @@ h3 {
 
 .enrollment-proof {
   margin-top: 22px;
+}
+
+.enrollment-flow {
+  gap: 24px;
+}
+
+.enrollment-stepper {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.enrollment-stepper li {
+  display: grid;
+  min-height: 72px;
+  align-content: center;
+  gap: 6px;
+  padding: 12px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
+.enrollment-stepper span {
+  color: var(--amber);
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.enrollment-stepper li.is-active,
+.enrollment-stepper li.is-complete {
+  color: var(--text);
+  border-color: rgba(120, 243, 230, 0.34);
+  background: rgba(20, 184, 166, 0.11);
+}
+
+.enrollment-step-panel {
+  display: grid;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.enrollment-step-panel[hidden] {
+  display: none;
+}
+
+.enrollment-step-panel legend {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color: var(--text);
+  font-size: clamp(1.8rem, 3.2vw, 2.65rem);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.enrollment-step-panel legend:focus {
+  outline: none;
+}
+
+.enrollment-step-panel > p {
+  max-width: 780px;
+  margin: 0;
+  color: var(--muted);
+}
+
+.step-count {
+  color: var(--amber);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.enrollment-field-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.enrollment-field-grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.enrollment-field-grid .wide {
+  grid-column: 1 / -1;
+}
+
+.enrollment-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.enrollment-form-actions.split {
+  justify-content: space-between;
+}
+
+.enrollment-form-actions .button {
+  width: auto;
+}
+
+.bill-choice {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.bill-choice label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(7, 17, 31, 0.44);
+}
+
+.bill-choice input {
+  width: auto;
+  accent-color: var(--cyan);
+}
+
+.bill-panel[hidden] {
+  display: none;
+}
+
+.enrollment-upload-panel {
+  padding: 22px;
+}
+
+.manual-panel {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(7, 17, 31, 0.38);
+}
+
+.enrollment-deposit-preview {
+  display: grid;
+  gap: 10px;
+  padding: 24px;
+  border: 1px solid rgba(244, 185, 66, 0.24);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(244, 185, 66, 0.12), transparent 52%),
+    rgba(7, 17, 31, 0.42);
+}
+
+.enrollment-deposit-preview h3 {
+  max-width: 720px;
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
+}
+
+.enrollment-deposit-preview p {
+  max-width: 820px;
+  margin: 0;
+  color: var(--muted);
 }
 
 .button.is-disabled,
@@ -1089,6 +1283,24 @@ h3 {
   width: 100%;
 }
 
+.form-panel .bill-choice label {
+  display: flex;
+}
+
+.form-panel .bill-choice input {
+  width: auto;
+}
+
+.form-panel .contract-upload-button {
+  display: inline-flex;
+  color: #06121d;
+  line-height: 1;
+}
+
+.form-panel .contract-upload-button svg {
+  color: currentColor;
+}
+
 .form-success,
 .form-error {
   margin: 0;
@@ -1113,29 +1325,6 @@ h3 {
   padding-top: 32px;
 }
 
-.learn-summary-grid,
-.watch-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.learn-summary-card,
-.watch-card,
-.primer-panel,
-.channel-card,
-.enrollment-card,
-.enrollment-aside,
-.enrollment-payment-panel,
-.upload-panel {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.055), transparent 34%),
-    rgba(16, 27, 45, 0.78);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
-}
-
 .learn-summary-card {
   min-height: 230px;
   padding: 26px;
@@ -1151,12 +1340,7 @@ h3 {
   text-transform: uppercase;
 }
 
-.learn-summary-card p,
-.watch-card p,
-.primer-panel p,
-.channel-card p,
 .channel-copy p,
-.upload-panel p,
 .upload-copy p {
   color: var(--muted);
 }
@@ -1237,7 +1421,7 @@ h3 {
 }
 
 .primer-panel.is-active {
-  animation: panel-enter 320ms ease both;
+  animation: fade-rise 320ms ease both;
 }
 
 .primer-panel h3 {
@@ -1274,12 +1458,8 @@ h3 {
   color: var(--green);
 }
 
-.contract-watch-section {
-  background: linear-gradient(180deg, rgba(8, 24, 39, 0.58), rgba(7, 17, 31, 0));
-}
-
 .watch-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  --grid-columns: repeat(4, minmax(0, 1fr));
 }
 
 .watch-card {
@@ -1304,12 +1484,6 @@ h3 {
   max-width: 680px;
 }
 
-.channel-card-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
 .channel-card {
   display: grid;
   gap: 16px;
@@ -1318,19 +1492,12 @@ h3 {
 }
 
 .channel-icon {
-  display: grid;
-  width: 52px;
-  height: 52px;
-  place-items: center;
-  color: var(--cyan);
-  background: rgba(20, 184, 166, 0.1);
-  border: 1px solid rgba(120, 243, 230, 0.2);
-  border-radius: 8px;
-}
-
-.channel-icon svg {
-  width: 28px;
-  height: 28px;
+  --icon-chip-size: 52px;
+  --icon-chip-margin-bottom: 0;
+  --icon-chip-color: var(--cyan);
+  --icon-chip-bg: rgba(20, 184, 166, 0.1);
+  --icon-chip-border: rgba(120, 243, 230, 0.2);
+  --icon-chip-svg-size: 28px;
 }
 
 .channel-action {
@@ -1375,20 +1542,9 @@ h3 {
 }
 
 .upload-icon {
-  display: grid;
-  width: 58px;
-  height: 58px;
-  place-items: center;
-  color: var(--amber);
-  background: rgba(244, 185, 66, 0.1);
-  border: 1px solid rgba(244, 185, 66, 0.22);
-  border-radius: 8px;
-  transition: transform 220ms ease, color 220ms ease, background-color 220ms ease, border-color 220ms ease;
-}
-
-.upload-icon svg {
-  width: 28px;
-  height: 28px;
+  --icon-chip-size: 58px;
+  --icon-chip-svg-size: 28px;
+  --icon-chip-transition-duration: 220ms;
 }
 
 .upload-panel.is-ready {
@@ -1410,18 +1566,6 @@ h3 {
 .contract-upload-button {
   width: 100%;
   margin-top: 8px;
-}
-
-.contract-file-input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
 }
 
 .upload-status {
@@ -1566,7 +1710,7 @@ h3 {
   }
 }
 
-@keyframes panel-scan {
+@keyframes scan-line {
   0%,
   36% {
     left: -55%;
@@ -1582,7 +1726,7 @@ h3 {
   }
 }
 
-@keyframes map-glow {
+@keyframes soft-glow {
   0%,
   100% {
     opacity: 0.54;
@@ -1594,7 +1738,7 @@ h3 {
   }
 }
 
-@keyframes node-pulse {
+@keyframes scale-pulse {
   0%,
   100% {
     transform: scale(1);
@@ -1604,7 +1748,7 @@ h3 {
   }
 }
 
-@keyframes node-ring {
+@keyframes expand-ring {
   0% {
     opacity: 0;
     transform: scale(0.35);
@@ -1618,13 +1762,13 @@ h3 {
   }
 }
 
-@keyframes signal-fill {
+@keyframes fill-bar {
   to {
     background-size: var(--fill) 100%, 100% 100%;
   }
 }
 
-@keyframes panel-enter {
+@keyframes fade-rise {
   from {
     opacity: 0;
     transform: translateY(8px);
@@ -1635,7 +1779,7 @@ h3 {
   }
 }
 
-@keyframes pulse {
+@keyframes soft-pulse {
   0%,
   100% {
     opacity: 0.55;
@@ -1713,6 +1857,7 @@ h3 {
   .learn-summary-grid,
   .watch-grid,
   .enrollment-card-grid,
+  .enrollment-stepper,
   .storage-card-grid,
   .channel-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1732,6 +1877,33 @@ h3 {
 
   .card-grid {
     grid-template-columns: 1fr;
+  }
+
+  .enrollment-bottom-actions {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .enrollment-scroll-index {
+    font-size: 6.6rem;
+  }
+
+  .enrollment-scroll-step h2 {
+    max-width: 11ch;
+    font-size: 3.85rem;
+  }
+
+  .enrollment-scroll-step p {
+    font-size: 1.16rem;
+  }
+
+  .enrollment-bottom-actions h2 {
+    max-width: 12ch;
+    font-size: 3.3rem;
+  }
+
+  .enrollment-bottom-actions .hero-actions {
+    justify-content: flex-start;
   }
 
   .cta-copy {
@@ -1784,6 +1956,41 @@ h3 {
     width: 100%;
   }
 
+  .enrollment-scroll-step {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding: 46px 0;
+  }
+
+  .enrollment-scroll-index {
+    font-size: 5.2rem;
+  }
+
+  .enrollment-scroll-step h2 {
+    max-width: 9.5ch;
+    font-size: 2.85rem;
+  }
+
+  .enrollment-scroll-step p {
+    max-width: 30ch;
+    font-size: 1rem;
+  }
+
+  .enrollment-bottom-actions {
+    padding-top: 50px;
+  }
+
+  .enrollment-bottom-actions h2 {
+    max-width: 10ch;
+    font-size: 2.65rem;
+  }
+
+  .enrollment-bottom-actions p:last-child {
+    max-width: 30ch;
+    font-size: 1rem;
+  }
+
   .hero-visual {
     display: none;
   }
@@ -1806,6 +2013,9 @@ h3 {
   .learn-summary-grid,
   .watch-grid,
   .enrollment-card-grid,
+  .enrollment-stepper,
+  .enrollment-field-grid.two,
+  .bill-choice,
   .storage-card-grid,
   .channel-card-grid,
   .footer-grid {
@@ -1818,10 +2028,30 @@ h3 {
   .enrollment-card,
   .enrollment-aside,
   .enrollment-payment-panel,
+  .enrollment-upload-panel,
+  .enrollment-deposit-preview,
   .storage-visual-card,
   .storage-card,
   .upload-panel {
     padding: 20px;
+  }
+
+  .enrollment-stepper li {
+    min-height: 62px;
+  }
+
+  .enrollment-stepper {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .enrollment-form-actions,
+  .enrollment-form-actions.split {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .enrollment-form-actions .button {
+    width: 100%;
   }
 
   .storage-meter-list div {
@@ -1831,6 +2061,25 @@ h3 {
 
   .storage-proof li {
     grid-template-columns: 1fr;
+  }
+
+  .page-hero.intake-hero h1 {
+    max-width: 11ch;
+    font-size: clamp(2rem, 8vw, 2.35rem);
+  }
+
+  .page-hero.intake-hero .section-body {
+    max-width: 32ch;
+    font-size: 1rem;
+  }
+
+  .enrollment-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .enrollment-nav a {
+    justify-content: center;
   }
 
   .primer-tabs {
