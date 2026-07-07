@@ -171,22 +171,24 @@ export default {
     const isEnrollment = formType === "enrollment";
 
     const missingRequired = isEnrollment
-      ? !name ||
-        !email ||
-        !company ||
-        !role ||
-        !phone ||
-        !facility ||
-        !utility ||
-        !loadContext ||
-        !goalsTiming
+      ? !name || !phone
       : !name || !email || !company || !message;
 
-    if (missingRequired || !isEmail(email)) {
-      return json(
-        { error: "Please complete the form with a valid email address." },
-        { status: 400 },
-      );
+    // Enrollment only needs a name and phone. Email is optional there, but if
+    // one is provided it still has to be valid. Other forms require a valid email.
+    const emailInvalid = isEnrollment
+      ? Boolean(email) && !isEmail(email)
+      : !isEmail(email);
+
+    if (missingRequired || emailInvalid) {
+      let error = "Please complete the form with a valid email address.";
+      if (isEnrollment) {
+        error = missingRequired
+          ? "Please add your name and a phone number."
+          : "That email address doesn't look right — or just leave it blank.";
+      }
+
+      return json({ error }, { status: 400 });
     }
 
     const { html, subject, text } = buildEmail({
@@ -205,20 +207,24 @@ export default {
 
     const from = process.env.RESEND_FROM_EMAIL || `EZ NRG <${FOUNDERS_EMAIL}>`;
 
+    const emailPayload = {
+      from,
+      to: recipients,
+      subject,
+      html,
+      text,
+    };
+    if (email) {
+      emailPayload.reply_to = email;
+    }
+
     const response = await fetch(RESEND_ENDPOINT, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        from,
-        to: recipients,
-        subject,
-        html,
-        text,
-        reply_to: email,
-      }),
+      body: JSON.stringify(emailPayload),
     });
 
     if (!response.ok) {

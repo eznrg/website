@@ -151,6 +151,10 @@ document.querySelectorAll("[data-form]").forEach((form) => {
 
       form.reset();
 
+      if (form.dataset.hideOnSuccess !== undefined) {
+        form.classList.add("is-submitted");
+      }
+
       if (success) {
         success.hidden = false;
       }
