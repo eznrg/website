@@ -34,7 +34,7 @@ const pageMeta = {
   "/get-started": {
     title: "Enroll | EZ NRG",
     description:
-      "Reserve your spot with EZ NRG. Leave your name and number and we'll reach out within 2 hours about the refundable $500 deposit.",
+      "Reserve your spot with EZ NRG. Leave your name and number and we'll reach out within 24 hours about the refundable $500 deposit.",
   },
 };
 

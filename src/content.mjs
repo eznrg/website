@@ -101,10 +101,10 @@ export const enrollment = {
   eyebrow: "Get started",
   title: "Start with a refundable $500 deposit.",
   body:
-    "No payment today — just leave your name and number. We'll reach out within 2 hours to walk you through the deposit and your next steps. If you ever decide not to move forward, the full $500 is returned.",
+    "No payment today — just leave your name and number. We'll reach out within 24 hours to walk you through the deposit and your next steps. If you ever decide not to move forward, the full $500 is returned.",
   submitLabel: "Reserve my spot",
   successMessage:
-    "You're on the list. We'll reach out by phone within 2 hours — no payment is collected here.",
+    "You're on the list. We'll text you within 24 hours to coordinate a call — no payment is collected here.",
   assurances: [
     {
       title: "Fully refundable",
@@ -112,7 +112,7 @@ export const enrollment = {
         "The $500 deposit is returned in full if you decide not to move forward, for any reason.",
     },
     {
-      title: "A real person, within 2 hours",
+      title: "A real person, within 24 hours",
       body:
         "We call or text to confirm your details and walk you through next steps — no long forms.",
     },
@@ -325,4 +325,11 @@ export const contactFields = [
 export const enrollmentFields = [
   { name: "name", label: "Name", type: "text", autocomplete: "name" },
   { name: "phone", label: "Phone number", type: "tel", autocomplete: "tel" },
+  {
+    name: "email",
+    label: "Email (optional)",
+    type: "email",
+    autocomplete: "email",
+    required: false,
+  },
 ];

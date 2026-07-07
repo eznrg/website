@@ -5,6 +5,10 @@ const RECIPIENT_ENV_KEYS = [
   ["f2", "F2"],
 ];
 
+// TODO: fill in the real invite links once the channels exist.
+const TELEGRAM_INVITE_URL = "";
+const WHATSAPP_INVITE_URL = "";
+
 function json(body, init = {}) {
   return Response.json(body, {
     ...init,
@@ -127,6 +131,72 @@ function buildEmail({
   return { html, subject, text };
 }
 
+function buildWelcomeEmail({ name }) {
+  const subject = "Welcome to EZ NRG";
+  const greetingName = name ? escapeHtml(name) : "there";
+
+  const telegramLine = TELEGRAM_INVITE_URL
+    ? `<a href="${escapeHtml(TELEGRAM_INVITE_URL)}">Join our Telegram</a>`
+    : "Join our Telegram (link/channel missing)";
+  const whatsappLine = WHATSAPP_INVITE_URL
+    ? `<a href="${escapeHtml(WHATSAPP_INVITE_URL)}">Join our WhatsApp</a>`
+    : "Join our WhatsApp (link/channel account missing)";
+
+  const html = `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#111827;max-width:640px;">
+    <h1 style="font-size:22px;margin:0 0 16px;">Welcome to EZ NRG, ${greetingName}.</h1>
+    <p>Thanks for reserving your spot. You're now first in line as we build the customer-first energy platform for the decentralized energy future.</p>
+    <p>Here's what that means for you: EZ NRG is building the coordination, optimization, and settlement layer that turns energy complexity into confidence. Our DeFi-powered platform acts as a verification tool &mdash; a trust layer between customers, asset owners, and market partners &mdash; so savings, flexibility value, and program revenue are shared clearly and fairly. No bait-and-switch contracts or teaser rates you need a lawyer to decode. Just one straightforward, double-sided contract, built around what's best for you.</p>
+    <p>Your $500 deposit is fully refundable &mdash; if you ever decide not to move forward, you get it all back. No payment is being collected right now.</p>
+    <p>While you wait, join the conversation: ${telegramLine} &middot; ${whatsappLine}.</p>
+    <p>We'll reach out within 24 hours via text message to coordinate and set up a call from there :)</p>
+    <p>Talk soon,<br>The EZ NRG Team</p>
+  </div>`;
+
+  const text = [
+    `Welcome to EZ NRG, ${name || "there"}.`,
+    "",
+    "Thanks for reserving your spot. You're now first in line as we build the customer-first energy platform for the decentralized energy future.",
+    "",
+    "Here's what that means for you: EZ NRG is building the coordination, optimization, and settlement layer that turns energy complexity into confidence. Our DeFi-powered platform acts as a verification tool - a trust layer between customers, asset owners, and market partners - so savings, flexibility value, and program revenue are shared clearly and fairly. No bait-and-switch contracts or teaser rates you need a lawyer to decode. Just one straightforward, double-sided contract, built around what's best for you.",
+    "",
+    "Your $500 deposit is fully refundable - if you ever decide not to move forward, you get it all back. No payment is being collected right now.",
+    "",
+    `While you wait, join the conversation: Join our Telegram ${TELEGRAM_INVITE_URL || "(link/channel missing)"} / Join our WhatsApp ${WHATSAPP_INVITE_URL || "(link/channel account missing)"}`,
+    "",
+    "We'll reach out within 24 hours via text message to coordinate and set up a call from there :)",
+    "",
+    "Talk soon,",
+    "The EZ NRG Team",
+  ].join("\n");
+
+  return { html, subject, text };
+}
+
+async function sendWelcomeEmail({ apiKey, from, name, to }) {
+  const { html, subject, text } = buildWelcomeEmail({ name });
+
+  const response = await fetch(RESEND_ENDPOINT, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ from, to: [to], subject, html, text }),
+  });
+
+  if (!response.ok) {
+    let detail = "Resend request failed.";
+    try {
+      const errorBody = await response.json();
+      detail = errorBody.message || errorBody.error || detail;
+    } catch {
+      detail = await response.text();
+    }
+
+    console.error("Resend welcome email error:", detail);
+  }
+}
+
 export default {
   async fetch(request) {
     if (request.method !== "POST") {
@@ -241,6 +311,14 @@ export default {
         { error: "We could not send your message. Please try again soon." },
         { status: 502 },
       );
+    }
+
+    if (isEnrollment && email) {
+      try {
+        await sendWelcomeEmail({ apiKey, from, name, to: email });
+      } catch (welcomeError) {
+        console.error("Failed to send welcome email:", welcomeError);
+      }
     }
 
     return json({ ok: true });
