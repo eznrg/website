@@ -98,78 +98,30 @@ export const home = {
 };
 
 export const enrollment = {
-  overview: {
-    eyebrow: "Get started",
-    title: "Start with a refundable $500 deposit.",
-    body:
-      "Enroll to let EZ NRG shape your load, evaluate storage and flexibility options, and prepare proposals built around your site. If you decide not to move forward for any reason whatsoever, the full $500 is returned.",
-    primaryCta: "Review Deposit",
-    secondaryCta: "Submit Intake",
-    steps: [
-      {
-        title: "1. Review the deposit",
-        body:
-          "The refundable $500 deposit starts the load-shaping and proposal workflow without locking you into a final project.",
-      },
-      {
-        title: "2. Share your site context",
-        body:
-          "Our agentic workflow will verify certain details with you to determine the structure we can give you. Within 2 hours, you will receive next steps or your deposit back.",
-      },
-      {
-        title: "3. Receive proposals",
-        body:
-          "EZ NRG shapes your load, evaluates storage and flexibility options, and prepares practical next-step proposals.",
-      },
-    ],
-  },
-  deposit: {
-    eyebrow: "Refundable deposit",
-    title: "$500 to begin load shaping and proposal work.",
-    body:
-      "The deposit gives EZ NRG the signal to begin reviewing your load, site context, storage fit, and future VPP or demand-charge opportunities. It is fully refundable if you do not move forward for any reason.",
-    highlights: [
-      "Fully refundable if you decide not to move forward.",
-      "Used to begin load shaping and proposal development.",
-      "No payment is collected on this website yet.",
-    ],
-    placeholder: "Payment integration coming soon.",
-    primaryCta: "Continue to Intake",
-    secondaryCta: "Back to Overview",
-  },
-  intake: {
-    eyebrow: "Enrollment intake",
-    title: "Tell us what to shape around.",
-    body:
-      "Share the basic facility and energy context EZ NRG needs to begin load shaping and proposal preparation after the refundable deposit step.",
-    submitLabel: "Submit Intake",
-    successMessage:
-      "Thanks. Your enrollment intake was received and the next steps page is loading.",
-  },
-  nextSteps: {
-    eyebrow: "Next steps",
-    title: "What happens after intake.",
-    body:
-      "EZ NRG will use your submitted site context to shape load, identify storage and flexibility paths, and prepare proposals. You stay in control of the decision, including the ability to receive the full $500 back if you do not move forward.",
-    steps: [
-      {
-        title: "Load shaping",
-        body:
-          "We review site context, usage patterns, utility exposure, and demand-charge opportunities.",
-      },
-      {
-        title: "Proposal development",
-        body:
-          "We translate the load shape into practical options for storage batteries, flexibility, and future VPP participation.",
-      },
-      {
-        title: "Decision or refund",
-        body:
-          "You decide whether to move forward. If not, the refundable $500 deposit is returned in full.",
-      },
-    ],
-    primaryCta: "Return Home",
-  },
+  eyebrow: "Get started",
+  title: "Start with a refundable $500 deposit.",
+  body:
+    "No payment today — just leave your name and number. We'll reach out within 2 hours to walk you through the deposit and your next steps. If you ever decide not to move forward, the full $500 is returned.",
+  submitLabel: "Reserve my spot",
+  successMessage:
+    "You're on the list. We'll reach out by phone within 2 hours — no payment is collected here.",
+  assurances: [
+    {
+      title: "Fully refundable",
+      body:
+        "The $500 deposit is returned in full if you decide not to move forward, for any reason.",
+    },
+    {
+      title: "A real person, within 2 hours",
+      body:
+        "We call or text to confirm your details and walk you through next steps — no long forms.",
+    },
+    {
+      title: "Nothing to pay here",
+      body:
+        "No payment is collected on this site. Reserving your spot simply starts the conversation.",
+    },
+  ],
 };
 
 export const about = {
@@ -372,42 +324,5 @@ export const contactFields = [
 
 export const enrollmentFields = [
   { name: "name", label: "Name", type: "text", autocomplete: "name" },
-  { name: "email", label: "Email", type: "email", autocomplete: "email" },
-  {
-    name: "company",
-    label: "Company",
-    type: "text",
-    autocomplete: "organization",
-  },
-  {
-    name: "role",
-    label: "Role/title",
-    type: "text",
-    autocomplete: "organization-title",
-  },
-  { name: "phone", label: "Phone", type: "tel", autocomplete: "tel" },
-  {
-    name: "facility",
-    label: "Facility or service address",
-    type: "text",
-    autocomplete: "street-address",
-  },
-  {
-    name: "utility",
-    label: "Utility / market",
-    type: "text",
-    autocomplete: "off",
-  },
-  {
-    name: "loadContext",
-    label: "Current load, demand, or bill context",
-    type: "textarea",
-    autocomplete: "off",
-  },
-  {
-    name: "goalsTiming",
-    label: "Goals / timing",
-    type: "textarea",
-    autocomplete: "off",
-  },
+  { name: "phone", label: "Phone number", type: "tel", autocomplete: "tel" },
 ];

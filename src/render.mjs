@@ -32,24 +32,9 @@ const pageMeta = {
       "Start a conversation with EZ NRG about customer-first energy strategy.",
   },
   "/get-started": {
-    title: "Get Started | EZ NRG",
+    title: "Enroll | EZ NRG",
     description:
-      "Start the EZ NRG enrollment flow with a refundable deposit and load-shaping intake.",
-  },
-  "/get-started/deposit": {
-    title: "Refundable Deposit | EZ NRG",
-    description:
-      "Learn how the refundable $500 deposit starts load shaping and proposal development.",
-  },
-  "/get-started/intake": {
-    title: "Enrollment Intake | EZ NRG",
-    description:
-      "Share your facility and energy context so EZ NRG can prepare load-shaping proposals.",
-  },
-  "/get-started/next-steps": {
-    title: "Enrollment Next Steps | EZ NRG",
-    description:
-      "See what happens after submitting enrollment intake to EZ NRG.",
+      "Reserve your spot with EZ NRG. Leave your name and number and we'll reach out within 2 hours about the refundable $500 deposit.",
   },
 };
 
@@ -241,10 +226,11 @@ function form(fields, submitLabel, successMessage, formName, options = {}) {
   const successRedirect = options.successRedirect
     ? ` data-success-redirect="${attr(options.successRedirect)}"`
     : "";
+  const hideOnSuccess = options.hideOnSuccess ? " data-hide-on-success" : "";
 
   return `<form class="form-panel reveal" method="post" action="/api/contact" data-form="${attr(
     formName,
-  )}"${successRedirect}>
+  )}"${successRedirect}${hideOnSuccess}>
     <input type="hidden" name="formType" value="${attr(formName)}">
     ${fields
       .map((field) => {
@@ -432,43 +418,20 @@ function storageSection() {
   </section>`;
 }
 
-function enrollmentCards(items) {
-  return `<div class="enrollment-card-grid">
+function enrollAssurances(items) {
+  return `<ul class="enroll-assurances">
     ${items
       .map(
-        (item) => `<article class="enrollment-card reveal">
-          <span class="card-icon">${icon("spark")}</span>
-          <h3>${escapeHtml(item.title)}</h3>
-          <p>${escapeHtml(item.body)}</p>
-        </article>`,
+        (item) => `<li class="reveal">
+          <span class="enroll-check">${icon("check")}</span>
+          <div>
+            <h3>${escapeHtml(item.title)}</h3>
+            <p>${escapeHtml(item.body)}</p>
+          </div>
+        </li>`,
       )
       .join("")}
-  </div>`;
-}
-
-function enrollmentHighlights(items) {
-  return `<ul class="storage-proof enrollment-proof">
-    ${items.map((item) => `<li>${icon("check")}<span>${escapeHtml(item)}</span></li>`).join("")}
   </ul>`;
-}
-
-function enrollmentNav(activePath) {
-  const steps = [
-    { href: "/get-started", label: "Overview" },
-    { href: "/get-started/deposit", label: "Deposit" },
-    { href: "/get-started/intake", label: "Intake" },
-    { href: "/get-started/next-steps", label: "Next steps" },
-  ];
-
-  return `<nav class="enrollment-nav" aria-label="Enrollment steps">
-    ${steps
-      .map(
-        (step) => `<a href="${attr(step.href)}" class="${
-          step.href === activePath ? "is-active" : ""
-        }">${escapeHtml(step.label)}</a>`,
-      )
-      .join("")}
-  </nav>`;
 }
 
 export function renderHome() {
@@ -526,120 +489,23 @@ export function renderHome() {
 export function renderGetStarted() {
   return layout(
     "/get-started",
-    `<section class="page-hero enrollment-hero section">
-      <div class="container split-intro">
-        <div class="reveal">
-          <p class="eyebrow">${escapeHtml(enrollment.overview.eyebrow)}</p>
-          <h1>${escapeHtml(enrollment.overview.title)}</h1>
-        </div>
-        <div class="section-body reveal">
-          <p>${escapeHtml(enrollment.overview.body)}</p>
-          <div class="hero-actions">
-            ${buttonLink("/get-started/deposit", enrollment.overview.primaryCta)}
-            ${buttonLink("/get-started/intake", enrollment.overview.secondaryCta, "secondary")}
-          </div>
-        </div>
+    `<section class="page-hero enroll-hero section">
+      <div class="container narrow enroll-intro reveal">
+        <p class="eyebrow">${escapeHtml(enrollment.eyebrow)}</p>
+        <h1>${escapeHtml(enrollment.title)}</h1>
+        <p>${escapeHtml(enrollment.body)}</p>
       </div>
     </section>
-    <section class="section enrollment-section">
-      <div class="container">
-        ${enrollmentNav("/get-started")}
-        ${enrollmentCards(enrollment.overview.steps)}
-      </div>
-    </section>`,
-  );
-}
-
-export function renderGetStartedDeposit() {
-  return layout(
-    "/get-started/deposit",
-    `<section class="page-hero enrollment-hero section">
-      <div class="container split-intro">
-        <div class="reveal">
-          <p class="eyebrow">${escapeHtml(enrollment.deposit.eyebrow)}</p>
-          <h1>${escapeHtml(enrollment.deposit.title)}</h1>
-        </div>
-        <div class="section-body reveal">
-          <p>${escapeHtml(enrollment.deposit.body)}</p>
-          ${enrollmentHighlights(enrollment.deposit.highlights)}
-        </div>
-      </div>
-    </section>
-    <section class="section enrollment-section">
-      <div class="container enrollment-panel-grid">
-        <div>
-          ${enrollmentNav("/get-started/deposit")}
-          <div class="enrollment-payment-panel reveal">
-            <p class="eyebrow">Payment status</p>
-            <h2>${escapeHtml(enrollment.deposit.placeholder)}</h2>
-            <p>No payment is collected on this website yet. This page is a skeleton for the future deposit step.</p>
-            <span class="button button-secondary is-disabled" aria-disabled="true">Deposit payment not live</span>
-          </div>
-        </div>
-        <aside class="enrollment-aside reveal">
-          <h3>Continue the skeleton flow</h3>
-          <p>Use intake to share the site information EZ NRG will shape proposals around once the deposit workflow is live.</p>
-          ${buttonLink("/get-started/intake", enrollment.deposit.primaryCta)}
-          ${buttonLink("/get-started", enrollment.deposit.secondaryCta, "secondary")}
-        </aside>
-      </div>
-    </section>`,
-  );
-}
-
-export function renderGetStartedIntake() {
-  return layout(
-    "/get-started/intake",
-    `<section class="page-hero enrollment-hero section">
-      <div class="container split-intro">
-        <div class="reveal">
-          <p class="eyebrow">${escapeHtml(enrollment.intake.eyebrow)}</p>
-          <h1>${escapeHtml(enrollment.intake.title)}</h1>
-        </div>
-        <p class="section-body reveal">${escapeHtml(enrollment.intake.body)}</p>
-      </div>
-    </section>
-    <section class="section enrollment-section">
-      <div class="container enrollment-panel-grid">
-        <div>
-          ${enrollmentNav("/get-started/intake")}
-          ${form(
-            enrollmentFields,
-            enrollment.intake.submitLabel,
-            enrollment.intake.successMessage,
-            "enrollment",
-            { successRedirect: "/get-started/next-steps" },
-          )}
-        </div>
-        <aside class="enrollment-aside reveal">
-          <h3>Refundable deposit reminder</h3>
-          <p>The $500 deposit starts load shaping and proposal development. If you do not move forward for any reason, it is returned in full.</p>
-          ${buttonLink("/get-started/deposit", "Review Deposit", "secondary")}
-        </aside>
-      </div>
-    </section>`,
-  );
-}
-
-export function renderGetStartedNextSteps() {
-  return layout(
-    "/get-started/next-steps",
-    `<section class="page-hero enrollment-hero section">
-      <div class="container split-intro">
-        <div class="reveal">
-          <p class="eyebrow">${escapeHtml(enrollment.nextSteps.eyebrow)}</p>
-          <h1>${escapeHtml(enrollment.nextSteps.title)}</h1>
-        </div>
-        <div class="section-body reveal">
-          <p>${escapeHtml(enrollment.nextSteps.body)}</p>
-          ${buttonLink("/", enrollment.nextSteps.primaryCta)}
-        </div>
-      </div>
-    </section>
-    <section class="section enrollment-section">
-      <div class="container">
-        ${enrollmentNav("/get-started/next-steps")}
-        ${enrollmentCards(enrollment.nextSteps.steps)}
+    <section class="section enroll-section">
+      <div class="container enroll-shell">
+        ${form(
+          enrollmentFields,
+          enrollment.submitLabel,
+          enrollment.successMessage,
+          "enrollment",
+          { hideOnSuccess: true },
+        )}
+        ${enrollAssurances(enrollment.assurances)}
       </div>
     </section>`,
   );

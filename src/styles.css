@@ -962,7 +962,7 @@ h3 {
 #shift .eyebrow,
 .belief-section .eyebrow,
 #storage-batteries .eyebrow,
-.enrollment-hero .eyebrow,
+.enroll-hero .eyebrow,
 #early-bird .eyebrow {
   color: #f0bb47;
 }
@@ -1107,6 +1107,97 @@ h3 {
   color: #ffc2b8;
   background: rgba(255, 104, 84, 0.08);
   border: 1px solid rgba(255, 104, 84, 0.24);
+}
+
+/* On confirmation, collapse the fields so only the success note remains. */
+.form-panel.is-submitted label,
+.form-panel.is-submitted > button {
+  display: none;
+}
+
+.form-panel.is-submitted .form-success {
+  padding: 20px;
+  font-size: 1.02rem;
+}
+
+/* Enroll page
+   ------------------------------------------------------------ */
+
+.enroll-intro {
+  text-align: center;
+}
+
+.enroll-intro h1 {
+  margin-inline: auto;
+  font-size: clamp(2.6rem, 5.4vw, 4.4rem);
+}
+
+.enroll-intro p {
+  max-width: 620px;
+  margin-inline: auto;
+}
+
+.enroll-section {
+  padding-top: 8px;
+}
+
+.enroll-shell {
+  display: grid;
+  gap: 30px;
+  width: min(100% - 40px, 560px);
+  margin-inline: auto;
+}
+
+.enroll-shell .form-panel {
+  gap: 20px;
+  padding: 30px;
+}
+
+.enroll-shell .form-panel input {
+  min-height: 52px;
+  font-size: 1.02rem;
+}
+
+.enroll-assurances {
+  display: grid;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.enroll-assurances li {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.enroll-assurances h3 {
+  margin-bottom: 4px;
+  font-size: 1.02rem;
+}
+
+.enroll-assurances p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.enroll-check {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  color: var(--green);
+  background: rgba(155, 227, 125, 0.1);
+  border: 1px solid rgba(155, 227, 125, 0.22);
+  border-radius: 10px;
+}
+
+.enroll-check svg {
+  width: 20px;
+  height: 20px;
 }
 
 .learn-summary-section {
