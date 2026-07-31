@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Unlisted landing page: keep OUT of search results. Do not remove. -->
+  <meta name="robots" content="noindex">
+
+  <title>EZ NRG for Hospitality</title>
+  <meta name="description" content="Customer-first energy strategy for hospitality operators.">
+  <link rel="icon" href="/logo.svg" type="image/svg+xml">
+
+  <!--
+    Business-channel links. Replace the two href values below with the real
+    Telegram and WhatsApp channel URLs. They are the only things to change here.
+    TELEGRAM_CHANNEL_URL  -> the Telegram <a> href in the channels section
+    WHATSAPP_CHANNEL_URL  -> the WhatsApp <a> href in the channels section
+  -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&family=Inter:wght@400;700;800&family=IBM+Plex+Mono:wght@600&display=swap" rel="stylesheet">
+
+  <style>
+    /*
+      Self-contained styles for the standalone hospitality landing page.
+      These MIRROR the main site's mint theme but are intentionally copied,
+      not imported — this page has no dependency on /src/styles.css, so a
+      future theme change on the main site can never alter or break it.
+    */
+    :root {
+      color-scheme: dark;
+      --bg: #101312;
+      --surface: #171b19;
+      --surface-2: #202521;
+      --text: #f4f1ea;
+      --muted: #a8b0a9;
+      --primary: #8bd8a6;
+      --primary-foreground: #07120c;
+      --teal-deep: #6fc190;
+      --border: #2b312d;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+      --max: 1160px;
+      --font-display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+      --radius: 6px;
+      --radius-lg: 10px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse 900px 620px at 18% -8%, rgba(139, 216, 166, 0.22), transparent 60%),
+        linear-gradient(135deg, rgba(139, 216, 166, 0.08), transparent 46%),
+        var(--bg);
+      font-family: var(--font-body);
+      font-feature-settings: "ss01" 1;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img, svg { display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    .container { width: min(100% - 40px, var(--max)); margin-inline: auto; }
+    .section { position: relative; padding: 96px 0; }
+
+    h1, h2, h3 {
+      margin-top: 0;
+      font-family: var(--font-display);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.04;
+    }
+    p { margin-top: 0; }
+
+    /* Header ------------------------------------------------------ */
+    .site-header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(16, 19, 18, 0.84);
+      backdrop-filter: blur(18px);
+    }
+    .header-shell {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 76px;
+      gap: 24px;
+    }
+    .brand img { width: 176px; height: auto; }
+    .header-tag {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    /* Eyebrow ----------------------------------------------------- */
+    .eyebrow {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 16px;
+      color: var(--primary);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      width: 14px;
+      height: 1px;
+      content: "";
+      background: currentColor;
+      opacity: 0.7;
+    }
+
+    /* Buttons ----------------------------------------------------- */
+    .button {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 18px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-lg);
+      font-family: var(--font-display);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+    .button svg { width: 20px; height: 20px; flex: 0 0 auto; }
+    .button:hover, .button:focus-visible { transform: translateY(-2px); }
+    .button-primary {
+      color: var(--primary-foreground);
+      background: linear-gradient(135deg, var(--primary), var(--teal-deep) 72%);
+      box-shadow: 0 18px 50px rgba(139, 216, 166, 0.2);
+    }
+    .button-primary:hover, .button-primary:focus-visible {
+      box-shadow: 0 22px 62px rgba(139, 216, 166, 0.3);
+    }
+    .button-secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--border);
+    }
+    .button-secondary:hover, .button-secondary:focus-visible {
+      border-color: rgba(139, 216, 166, 0.34);
+    }
+
+    /* Hero -------------------------------------------------------- */
+    .hero { padding-top: 72px; padding-bottom: 56px; overflow: hidden; }
+    .hero h1 {
+      max-width: 780px;
+      margin-bottom: 22px;
+      font-size: clamp(2.6rem, 5vw, 4.4rem);
+      letter-spacing: -0.03em;
+    }
+    .hero-body {
+      max-width: 640px;
+      margin-bottom: 30px;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+
+    /* Cards ------------------------------------------------------- */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .info-card {
+      min-height: 240px;
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(145deg, rgba(139, 216, 166, 0.055), transparent 34%),
+        rgba(23, 27, 25, 0.78);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+    .info-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(139, 216, 166, 0.34);
+      box-shadow: 0 26px 76px rgba(0, 0, 0, 0.26), 0 0 44px rgba(139, 216, 166, 0.08);
+    }
+    .card-icon {
+      display: grid;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 22px;
+      place-items: center;
+      color: var(--primary);
+      background: rgba(139, 216, 166, 0.1);
+      border: 1px solid rgba(139, 216, 166, 0.22);
+      border-radius: var(--radius-lg);
+    }
+    .card-icon svg { width: 22px; height: 22px; }
+    .info-card h3 { margin-bottom: 12px; font-size: 1.16rem; letter-spacing: -0.01em; }
+    .info-card p { margin: 0; color: var(--muted); }
+
+    .section-heading { max-width: 720px; margin-bottom: 32px; }
+    .section-heading h2 { font-size: clamp(2rem, 4vw, 3.2rem); margin-bottom: 14px; }
+    .section-heading p { color: var(--muted); font-size: 1.05rem; }
+
+    /* Channels ---------------------------------------------------- */
+    .channel-section { border-top: 1px solid var(--border); }
+    .channel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .channel-card {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+      min-height: 240px;
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(145deg, rgba(139, 216, 166, 0.055), transparent 34%),
+        rgba(23, 27, 25, 0.78);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+    .channel-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(139, 216, 166, 0.34);
+      box-shadow: 0 26px 76px rgba(0, 0, 0, 0.26), 0 0 44px rgba(139, 216, 166, 0.08);
+    }
+    .channel-icon {
+      display: grid;
+      width: 52px;
+      height: 52px;
+      place-items: center;
+      color: var(--primary);
+      background: rgba(139, 216, 166, 0.1);
+      border: 1px solid rgba(139, 216, 166, 0.2);
+      border-radius: var(--radius-lg);
+    }
+    .channel-icon svg { width: 28px; height: 28px; }
+    .channel-card h3 { font-size: 1.16rem; margin-bottom: 6px; }
+    .channel-card p { margin: 0; color: var(--muted); }
+    .channel-action { align-self: end; width: 100%; }
+
+    /* Footer ------------------------------------------------------ */
+    .site-footer {
+      padding: 44px 0;
+      border-top: 1px solid var(--border);
+      background: rgba(16, 19, 18, 0.36);
+    }
+    .site-footer p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+    /* Reveal on scroll ------------------------------------------- */
+    .reveal { opacity: 1; transform: none; }
+    .is-enhanced .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 650ms ease, transform 650ms cubic-bezier(0.18, 0.84, 0.32, 1);
+    }
+    .is-enhanced .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .card-grid { grid-template-columns: 1fr; }
+      .channel-grid { grid-template-columns: 1fr; }
+      .section { padding: 68px 0; }
+    }
+    @media (max-width: 640px) {
+      .container { width: min(100% - 28px, var(--max)); }
+      .header-tag { display: none; }
+      .hero-actions { display: grid; }
+      .button { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 1ms !important;
+        transition-duration: 1ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-shell">
+      <a class="brand" href="https://eznrg.ai/" aria-label="EZ NRG home">
+        <img src="/logo.svg" alt="EZ NRG" width="176" height="44">
+      </a>
+      <span class="header-tag">For hospitality operators</span>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="section hero">
+      <div class="container reveal">
+        <p class="eyebrow">Hospitality energy strategy</p>
+        <h1>Energy strategy built around your property.</h1>
+        <p class="hero-body">
+          <!-- PLACEHOLDER COPY — to be replaced with white-paper content.
+               Speaks to hotels, restaurants, and multi-site hospitality operators. -->
+          EZ NRG helps hospitality operators understand exactly how and when their
+          properties use energy — then turns that into a lower, more predictable cost
+          basis. Join our operator channels below to start the conversation.
+        </p>
+        <div class="hero-actions">
+          <!-- Primary action = join the business channels (no enroll flow on this page) -->
+          <a class="button button-primary" href="#channels">Join our operator channels
+            <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10h10.4M10.9 5.8 15.2 10l-4.3 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Value props (placeholder — replace from white paper) -->
+    <section class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Why operators work with us</p>
+          <h2>Turn your property's usage into an advantage.</h2>
+          <p>Placeholder section — the three pillars below will be rewritten from the hospitality white paper.</p>
+        </div>
+        <div class="card-grid">
+          <article class="info-card reveal">
+            <span class="card-icon">
+              <svg aria-hidden="true" viewBox="0 0 20 20"><path d="m10 1.8 1.9 5.7 5.8 1.9-5.8 1.9L10 17l-1.9-5.7-5.8-1.9 5.8-1.9L10 1.8Z" fill="currentColor"/></svg>
+            </span>
+            <h3>Understand your load shape</h3>
+            <p>We analyze interval data to learn how and when each property actually uses energy — not just the monthly total.</p>
+          </article>
+          <article class="info-card reveal">
+            <span class="card-icon">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.4 9.6a4.8 4.8 0 1 1-2.2-2.2L21 16.2V20h-3.8v-2.7h-2.7v-2.6h-2.4l-2.6-2.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <h3>Price it around your operations</h3>
+            <p>A strategy tuned to hospitality demand patterns gives us a more optimal cost basis — and you a price-match guarantee.</p>
+          </article>
+          <article class="info-card reveal">
+            <span class="card-icon">
+              <svg aria-hidden="true" viewBox="0 0 20 20"><path d="m4.2 10.3 3.4 3.4 8.2-8.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <h3>Backed by a guarantee</h3>
+            <p>We put our money where our mouth is — with a money-back guarantee and in-house financing behind the strategy.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Channels -->
+    <section class="section channel-section" id="channels">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Stay in the loop</p>
+          <h2>Join our operator channels.</h2>
+          <p>Get practical energy-market updates and talk to our team directly on Telegram and WhatsApp.</p>
+        </div>
+        <div class="channel-grid">
+          <article class="channel-card reveal">
+            <span class="channel-icon">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m20.2 4.6-3 15.2c-.2 1-1.1 1.3-1.9.8l-4.5-3.4-2.2 2.1c-.2.2-.4.4-.9.4l.3-4.8L16.8 7c.4-.3-.1-.5-.5-.2L5.4 13.7.8 12.2c-1-.3-1-.9.2-1.4L19 3.8c.8-.3 1.5.2 1.2.8Z" fill="currentColor"/></svg>
+            </span>
+            <div>
+              <h3>Telegram</h3>
+              <p>Fast market notes and launch updates for hospitality operators.</p>
+            </div>
+            <!-- TELEGRAM_CHANNEL_URL — replace href with the real Telegram channel link -->
+            <a class="button button-primary channel-action" href="#REPLACE_ME_TELEGRAM" target="_blank" rel="noopener">Join Telegram
+              <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10h10.4M10.9 5.8 15.2 10l-4.3 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+          <article class="channel-card reveal">
+            <span class="channel-icon">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19.1 6 15.5a7.4 7.4 0 1 1 2.9 2.8L5 19.1Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.2 8.8c.2-.5.4-.5.8-.5h.5c.2 0 .4.1.5.4l.7 1.7c.1.3 0 .5-.2.7l-.4.5c-.1.1-.2.3-.1.5.4.8 1.2 1.6 2.1 2.1.2.1.4.1.5-.1l.6-.7c.2-.2.4-.2.7-.1l1.6.8c.3.1.4.3.4.6 0 .6-.4 1.5-1 1.7-.7.3-2 .1-3.6-.8-2.2-1.2-3.6-3.1-4.1-4.6-.4-1-.3-1.8.1-2.2Z" fill="currentColor"/></svg>
+            </span>
+            <div>
+              <h3>WhatsApp</h3>
+              <p>Mobile-friendly reminders and a direct line to our team.</p>
+            </div>
+            <!-- WHATSAPP_CHANNEL_URL — replace href with the real WhatsApp channel link -->
+            <a class="button button-secondary channel-action" href="#REPLACE_ME_WHATSAPP" target="_blank" rel="noopener">Join WhatsApp
+              <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10h10.4M10.9 5.8 15.2 10l-4.3 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>EZ NRG — customer-first energy strategy for the decentralized energy future.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Minimal, self-contained reveal-on-scroll (mirrors the main site's feel).
+    document.documentElement.classList.add("is-enhanced");
+    var els = document.querySelectorAll(".reveal");
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); }
+        });
+      }, { rootMargin: "0px 0px -10% 0px" });
+      els.forEach(function (el) { io.observe(el); });
+    } else {
+      els.forEach(function (el) { el.classList.add("is-visible"); });
+    }
+  </script>
+</body>
+</html>
