@@ -130,6 +130,43 @@ export const about = {
     "EZ NRG is a stakeholder-enablement partner making the future of energy decentralized.",
     "We believe the energy transition will scale only when customers have a clear reason to participate, a simple way to benefit, and a trusted partner helping them navigate complexity. Our DeFi platform will act as a verification tool to automate, scale, and build trust through a stakeholder-led model.",
   ],
+  pillars: [
+    {
+      index: "01",
+      id: "what",
+      eyebrow: "What we do",
+      title: "We understand your load shape before we ever quote a price.",
+      paragraphs: [
+        "The first thing we do is understand your load shape by analyzing your interval data. When you get an electric bill, it only shows how much energy you used in the calendar month. While that's helpful, it's not what matters. What matters is how much energy you used and when you used it — that's what lets us understand your daily usage trends based on the hour of day.",
+        "We then run a risk analysis on what it will cost to price that usage, and whether you might simply be better off staying with the utility company. If we accept your load shape into our portfolio, we implement an initial price. That price may be a little higher than competitors, but our strategy gives us a far more optimal cost basis.",
+        "So while we can offer a price-match guarantee, we take the spread — the price you pay minus our cost basis — and use it to strengthen your property as a long-term allocation in our portfolio. This is why we do not offer behind-the-meter solutions to customers whose load and property dynamics we don't understand on a deep, granular level.",
+        "Through this approach, we raise the value of our entire portfolio while working toward the optimal energy strategy, backed by our in-house financing vehicle. So trust us when we say we put our money where our mouth is — backed by a money-back guarantee, no questions asked.",
+      ],
+    },
+    {
+      index: "02",
+      id: "how",
+      eyebrow: "How we do it",
+      title: "Customer obsession, not customer count.",
+      paragraphs: [
+        "We're only able to achieve this because of how customer-obsessed we are. Our business model isn't to pack as many customers into our portfolio as possible — it's a quality-over-quantity strategy.",
+        "If, during our service, we find that continuing wouldn't benefit our other customers within the portfolio, we respectfully ask to part ways.",
+        "Another key part of how we do this is the Intelligence Layer we've built, EzIntelligentNRG, to make sure we maximize and optimize for both sides of the equation — the customer and the energy strategy.",
+      ],
+    },
+    {
+      index: "03",
+      id: "why",
+      eyebrow: "Why we do it",
+      title: "If we don't create value for our stakeholders, we shouldn't be in business.",
+      paragraphs: [
+        "We hold a simple philosophy at EZ NRG: if our team fails to drive value for our stakeholders, we shouldn't be in business.",
+        "That's why all of our information is open-sourced to every customer we've worked with (minimum six-month enrollment). At any time, you can request your property-specific data — your \"load profile\" — and we will erase it from our records.",
+        "Decentralization means open networks and open standards. Our on-chain strategy keeps us honest to the people we've promised to serve, and smart contracts ensure all parties hold up their end of the bargain.",
+        "We do what we do to build the future of stakeholder-led energy. Learn more about our team below, and feel free to say hi or ask us anything — even if it's technical, or if you have doubts about any claim we make.",
+      ],
+    },
+  ],
   founders: [
     { name: "Rishi Patel", role: "Co-founder" },
     { name: "Deepak Sai Pendyala", role: "Co-founder" },
