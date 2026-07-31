@@ -547,7 +547,7 @@
       padding: 20px;
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      background: rgba(23, 27, 25, 0.62);
+      background: #151917;
       scroll-margin-top: 96px;
     }
     .chart-card h3 {
@@ -574,11 +574,274 @@
       font-weight: 600;
     }
     .chart-stat .n { margin-top: 2px !important; color: var(--muted) !important; font-size: 0.75rem; }
-    .chart-card img {
+    /* Load-profile chart ------------------------------------------- */
+    .viz {
+      --viz-surface: #151917;
+      --viz-grid: #262c28;
+      --viz-ink: #f4f1ea;
+      --viz-ink-2: #9aa39c;
+      --viz-sum: #46a26d;
+      --viz-win: #8f83e8;
+      margin: 0;
+      padding: 16px 20px 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--viz-surface);
+    }
+    /* Inside a card that already draws the surface, the chart brings no chrome
+       of its own — but keeps --viz-surface so marker rings punch out cleanly. */
+    .viz-bare { padding: 0; border: 0; background: none; }
+    .viz-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 6px 18px;
+      margin-bottom: 14px;
+    }
+    .viz-title {
+      margin: 0 !important;
+      max-width: none !important;
+      color: var(--viz-ink) !important;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .viz-sub {
+      margin: 2px 0 0 !important;
+      max-width: none !important;
+      color: var(--viz-ink-2) !important;
+      font-size: 0.74rem;
+      line-height: 1.4;
+    }
+    .viz-legend {
+      display: flex;
+      gap: 16px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: var(--viz-ink-2);
+      font-size: 0.74rem;
+    }
+    .viz-legend li { display: flex; align-items: center; gap: 7px; }
+    .viz-key {
+      display: inline-block;
+      flex: none;
+      width: 15px;
+      height: 2px;
+      border-radius: 1px;
+      background: currentColor;
+    }
+    .s-sum { color: var(--viz-sum); }
+    .s-win { color: var(--viz-win); }
+
+    .viz-body {
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr);
+      grid-template-areas: "yaxis plot" ". xaxis" ". xtitle";
+      column-gap: 8px;
+    }
+    .viz-yaxis { grid-area: yaxis; position: relative; }
+    .viz-yt {
+      position: absolute;
+      right: 0;
+      transform: translateY(-50%);
+      color: var(--viz-ink-2);
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .viz-plot {
+      grid-area: plot;
+      position: relative;
+      height: clamp(170px, 26vw, 230px);
+      outline: none;
+    }
+    .viz-plot:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 6px;
+      border-radius: 3px;
+    }
+    /* Hairline gridlines, solid, one step off the surface. */
+    .viz-gl {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--viz-grid);
+    }
+    .viz-svg {
+      position: absolute;
+      inset: 0;
       width: 100%;
-      height: auto;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .viz-line {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Direct labels — one per series, on its own peak. The marker sits exactly
+       on the data point; the value rides beside it. */
+    .viz-peak { position: absolute; width: 0; height: 0; pointer-events: none; }
+    .viz-peak-dot {
+      position: absolute;
+      left: -4.5px;
+      top: -4.5px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 2px var(--viz-surface);
+    }
+    .viz-peak-t {
+      position: absolute;
+      left: 10px;
+      top: -19px;
+      color: var(--viz-ink);
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      white-space: nowrap;
+      /* keeps the value legible where it passes over a line */
+      text-shadow: 0 0 5px var(--viz-surface), 0 0 3px var(--viz-surface);
+    }
+    .viz-peak.is-below .viz-peak-t { top: 6px; }
+    .viz-peak.is-left .viz-peak-t { left: auto; right: 10px; }
+    .viz-peak-t b { font-weight: 600; }
+
+    /* Hover / focus layer */
+    .viz-cross {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      margin-left: -0.5px;
+      background: rgba(244, 241, 234, 0.28);
+      pointer-events: none;
+    }
+    .viz-dot {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      margin: -4.5px 0 0 -4.5px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 2px var(--viz-surface);
+      pointer-events: none;
+    }
+    .viz-tip {
+      position: absolute;
+      z-index: 2;
+      min-width: 132px;
+      padding: 8px 10px 7px;
       border: 1px solid var(--border);
       border-radius: var(--radius);
+      background: var(--surface-2);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+      pointer-events: none;
+    }
+    .viz-tip p { margin: 0 !important; max-width: none !important; }
+    .viz-tip-h {
+      margin-bottom: 5px !important;
+      color: var(--viz-ink-2) !important;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .viz-tip-r {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--viz-ink) !important;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.55;
+    }
+    .viz-tip-r b { font-weight: 600; font-variant-numeric: tabular-nums; }
+    .viz-tip-r em {
+      margin-left: auto;
+      padding-left: 10px;
+      color: var(--viz-ink-2);
+      font-size: 0.68rem;
+      font-style: normal;
+    }
+    .viz-tip-d {
+      margin-top: 4px !important;
+      padding-top: 4px;
+      border-top: 1px solid var(--border);
+      color: var(--viz-ink-2) !important;
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+    }
+
+    .viz-xaxis { grid-area: xaxis; position: relative; height: 16px; }
+    .viz-xt {
+      position: absolute;
+      top: 4px;
+      transform: translateX(-50%);
+      color: var(--viz-ink-2);
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .viz-xtitle {
+      grid-area: xtitle;
+      margin: 2px 0 0 !important;
+      max-width: none !important;
+      color: var(--viz-ink-2) !important;
+      font-size: 0.66rem;
+      text-align: center;
+    }
+
+    /* Table view — every value stays reachable without hovering. */
+    .viz-data { margin-top: 10px; border-top: 1px solid var(--border); }
+    .viz-data > summary {
+      padding: 8px 2px 2px;
+      color: var(--viz-ink-2);
+      cursor: pointer;
+      font-size: 0.72rem;
+      list-style-position: inside;
+    }
+    .viz-data > summary:hover { color: var(--viz-ink); }
+    .viz-data-wrap { max-height: 290px; overflow: auto; margin-bottom: 8px; }
+    .viz-data table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .viz-data th, .viz-data td {
+      padding: 4px 8px;
+      border-bottom: 1px solid rgba(43, 49, 45, 0.55);
+      text-align: right;
+    }
+    .viz-data th:first-child, .viz-data td:first-child { text-align: left; }
+    .viz-data thead th {
+      position: sticky;
+      top: 0;
+      background: var(--viz-surface);
+      color: var(--viz-ink-2);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .viz-data td { color: var(--viz-ink-2); }
+    .viz-data td:first-child { color: var(--viz-ink); }
+
+    @media (max-width: 560px) {
+      .viz { padding: 14px 14px 8px; }
+      .viz-xt.is-dense { display: none; }
+      .viz-body { grid-template-columns: 26px minmax(0, 1fr); }
     }
 
     /* Sources --------------------------------------------------------- */
@@ -671,6 +934,20 @@
       .stat, .step, .layer, .chart-card, .table-wrap { background: #fff; border-color: #ccc; }
       .article > section { page-break-inside: avoid; padding-top: 28px; }
       a { color: #111 !important; text-decoration: none; }
+      .viz {
+        --viz-surface: #fff;
+        --viz-grid: #ddd;
+        --viz-ink: #111;
+        --viz-ink-2: #555;
+        background: #fff;
+        border-color: #ccc;
+        break-inside: avoid;
+      }
+      .viz-tip, .viz-cross, .viz-dot { display: none !important; }
+      /* collapsed <details> prints as a dead "View data table" line */
+      .viz-data { display: none; }
+      .chart-stat .v { color: #111 !important; }
+      .chart-stat .k, .chart-stat .n { color: #555 !important; }
     }
   </style>
 </head>
@@ -1042,38 +1319,373 @@
         <h2>Appendix: Property Load Profiles</h2>
         <p>Four meters, four ComEd-territory lodging properties — all showing the same shape: a January peak, a summer trough, and ramp-hour spikes rather than summer-afternoon ones. Each chart plots average hourly load across summer days versus winter days.</p>
         <div class="chart-grid">
-          <figure class="chart-card" id="prop-780">
+          <div class="chart-card" id="prop-780">
             <h3>Customer 1 · Meter 780</h3>
             <div class="chart-stats">
               <div class="chart-stat"><p class="k">Peak Demand</p><p class="v">101.62 kW</p><p class="n">Jan 14, 2024 · 17:00</p></div>
               <div class="chart-stat"><p class="k">Average Load</p><p class="v">19.9 kW</p><p class="n">731 days coverage</p></div>
             </div>
-            <img src="../img/load-profile-meter-780.png" alt="Seasonal hourly load profile for Customer 1 · Meter 780: average hourly load in kW across summer days versus winter days." width="968" height="340" loading="lazy" decoding="async">
-          </figure>
-          <figure class="chart-card" id="prop-781">
+            <div class="viz viz-bare" id="viz-780">
+              <div class="viz-head">
+                <p class="viz-sub">Average load (kW) by hour of day</p>
+                <ul class="viz-legend">
+                  <li><span class="viz-key s-sum"></span>Summer</li>
+                  <li><span class="viz-key s-win"></span>Winter</li>
+                </ul>
+              </div>
+              <div class="viz-body">
+                <div class="viz-yaxis">
+                  <span class="viz-yt" style="top:100.00%">5</span>
+                  <span class="viz-yt" style="top:66.67%">10</span>
+                  <span class="viz-yt" style="top:33.33%">15</span>
+                  <span class="viz-yt" style="top:0.00%">20</span>
+                </div>
+                <div class="viz-plot" tabindex="0" role="img" data-viz="{&quot;lo&quot;:5,&quot;hi&quot;:20,&quot;s&quot;:[10.6,9.9,9.2,8.6,8.2,7.8,7.8,8.8,9.8,11,11.6,11.7,12,11.9,12.2,12.9,13.8,14.5,14.3,13.5,12.8,12.6,12.4,11.4],&quot;w&quot;:[18.5,18.4,18.5,18.6,18.7,19.2,19.8,19.8,18.9,18.3,18,17.7,17.3,16.8,16.4,16.6,17.3,18.4,19.1,19.4,19.5,19.4,19.2,18.9]}"
+                     aria-label="Line chart: average hourly load in kW for Customer 1 · Meter 780, summer days versus winter days. Use the arrow keys to read each hour; the full table is below the chart.">
+                  <span class="viz-gl" style="top:100.00%"></span>
+                  <span class="viz-gl" style="top:66.67%"></span>
+                  <span class="viz-gl" style="top:33.33%"></span>
+                  <span class="viz-gl" style="top:0.00%"></span>
+                  <svg class="viz-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                    <path class="viz-line s-sum" d="M0.0 626.7 L43.5 673.3 L87.0 720.0 L130.4 760.0 L173.9 786.7 L217.4 813.3 L260.9 813.3 L304.3 746.7 L347.8 680.0 L391.3 600.0 L434.8 560.0 L478.3 553.3 L521.7 533.3 L565.2 540.0 L608.7 520.0 L652.2 473.3 L695.7 413.3 L739.1 366.7 L782.6 380.0 L826.1 433.3 L869.6 480.0 L913.0 493.3 L956.5 506.7 L1000.0 573.3" vector-effect="non-scaling-stroke"/>
+                    <path class="viz-line s-win" d="M0.0 100.0 L43.5 106.7 L87.0 100.0 L130.4 93.3 L173.9 86.7 L217.4 53.3 L260.9 13.3 L304.3 13.3 L347.8 73.3 L391.3 113.3 L434.8 133.3 L478.3 153.3 L521.7 180.0 L565.2 213.3 L608.7 240.0 L652.2 226.7 L695.7 180.0 L739.1 106.7 L782.6 60.0 L826.1 40.0 L869.6 33.3 L913.0 40.0 L956.5 53.3 L1000.0 73.3" vector-effect="non-scaling-stroke"/>
+                  </svg>
+                  <span class="viz-peak s-sum is-left" style="left:73.91%;top:36.67%"><i class="viz-peak-dot"></i><span class="viz-peak-t"><b>14.5</b> kW</span></span>
+                  <span class="viz-peak s-win is-below" style="left:26.09%;top:1.33%"><i class="viz-peak-dot"></i><span class="viz-peak-t"><b>19.8</b> kW</span></span>
+                  <span class="viz-cross" hidden></span>
+                  <span class="viz-dot s-sum" hidden></span>
+                  <span class="viz-dot s-win" hidden></span>
+                  <div class="viz-tip" role="status" aria-live="polite" hidden>
+                    <p class="viz-tip-h"></p>
+                    <p class="viz-tip-r"><span class="viz-key s-sum"></span><b></b> kW<em>Summer</em></p>
+                    <p class="viz-tip-r"><span class="viz-key s-win"></span><b></b> kW<em>Winter</em></p>
+                    <p class="viz-tip-d"></p>
+                  </div>
+                </div>
+                <div class="viz-xaxis">
+                  <span class="viz-xt" style="left:0.00%">0</span>
+                  <span class="viz-xt is-dense" style="left:13.04%">3</span>
+                  <span class="viz-xt" style="left:26.09%">6</span>
+                  <span class="viz-xt is-dense" style="left:39.13%">9</span>
+                  <span class="viz-xt" style="left:52.17%">12</span>
+                  <span class="viz-xt is-dense" style="left:65.22%">15</span>
+                  <span class="viz-xt" style="left:78.26%">18</span>
+                  <span class="viz-xt is-dense" style="left:91.30%">21</span>
+                </div>
+                <p class="viz-xtitle">Hour of day</p>
+              </div>
+              <details class="viz-data">
+                <summary>View data table</summary>
+                <div class="viz-data-wrap">
+                  <table>
+                    <thead><tr><th>Hour</th><th>Summer</th><th>Winter</th><th>Δ</th></tr></thead>
+                    <tbody>
+                      <tr><td>00:00</td><td>10.6</td><td>18.5</td><td>+7.9</td></tr>
+                      <tr><td>01:00</td><td>9.9</td><td>18.4</td><td>+8.5</td></tr>
+                      <tr><td>02:00</td><td>9.2</td><td>18.5</td><td>+9.3</td></tr>
+                      <tr><td>03:00</td><td>8.6</td><td>18.6</td><td>+10.0</td></tr>
+                      <tr><td>04:00</td><td>8.2</td><td>18.7</td><td>+10.5</td></tr>
+                      <tr><td>05:00</td><td>7.8</td><td>19.2</td><td>+11.4</td></tr>
+                      <tr><td>06:00</td><td>7.8</td><td>19.8</td><td>+12.0</td></tr>
+                      <tr><td>07:00</td><td>8.8</td><td>19.8</td><td>+11.0</td></tr>
+                      <tr><td>08:00</td><td>9.8</td><td>18.9</td><td>+9.1</td></tr>
+                      <tr><td>09:00</td><td>11.0</td><td>18.3</td><td>+7.3</td></tr>
+                      <tr><td>10:00</td><td>11.6</td><td>18.0</td><td>+6.4</td></tr>
+                      <tr><td>11:00</td><td>11.7</td><td>17.7</td><td>+6.0</td></tr>
+                      <tr><td>12:00</td><td>12.0</td><td>17.3</td><td>+5.3</td></tr>
+                      <tr><td>13:00</td><td>11.9</td><td>16.8</td><td>+4.9</td></tr>
+                      <tr><td>14:00</td><td>12.2</td><td>16.4</td><td>+4.2</td></tr>
+                      <tr><td>15:00</td><td>12.9</td><td>16.6</td><td>+3.7</td></tr>
+                      <tr><td>16:00</td><td>13.8</td><td>17.3</td><td>+3.5</td></tr>
+                      <tr><td>17:00</td><td>14.5</td><td>18.4</td><td>+3.9</td></tr>
+                      <tr><td>18:00</td><td>14.3</td><td>19.1</td><td>+4.8</td></tr>
+                      <tr><td>19:00</td><td>13.5</td><td>19.4</td><td>+5.9</td></tr>
+                      <tr><td>20:00</td><td>12.8</td><td>19.5</td><td>+6.7</td></tr>
+                      <tr><td>21:00</td><td>12.6</td><td>19.4</td><td>+6.8</td></tr>
+                      <tr><td>22:00</td><td>12.4</td><td>19.2</td><td>+6.8</td></tr>
+                      <tr><td>23:00</td><td>11.4</td><td>18.9</td><td>+7.5</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+            </div>
+          </div>
+          <div class="chart-card" id="prop-781">
             <h3>Customer 1 · Meter 781</h3>
             <div class="chart-stats">
               <div class="chart-stat"><p class="k">Peak Demand</p><p class="v">26.00 kW</p><p class="n">Jan 13, 2024 · 19:00</p></div>
               <div class="chart-stat"><p class="k">Average Load</p><p class="v">10.1 kW</p></div>
             </div>
-            <img src="../img/load-profile-meter-781.png" alt="Seasonal hourly load profile for Customer 1 · Meter 781: average hourly load in kW across summer days versus winter days." width="968" height="340" loading="lazy" decoding="async">
-          </figure>
-          <figure class="chart-card" id="prop-542">
+            <div class="viz viz-bare" id="viz-781">
+              <div class="viz-head">
+                <p class="viz-sub">Average load (kW) by hour of day</p>
+                <ul class="viz-legend">
+                  <li><span class="viz-key s-sum"></span>Summer</li>
+                  <li><span class="viz-key s-win"></span>Winter</li>
+                </ul>
+              </div>
+              <div class="viz-body">
+                <div class="viz-yaxis">
+                  <span class="viz-yt" style="top:100.00%">9</span>
+                  <span class="viz-yt" style="top:75.00%">10</span>
+                  <span class="viz-yt" style="top:50.00%">11</span>
+                  <span class="viz-yt" style="top:25.00%">12</span>
+                  <span class="viz-yt" style="top:0.00%">13</span>
+                </div>
+                <div class="viz-plot" tabindex="0" role="img" data-viz="{&quot;lo&quot;:9,&quot;hi&quot;:13,&quot;s&quot;:[10.95,10.6,10.25,10.1,10,9.85,9.05,9.25,9.5,10.05,10.6,10.75,10.8,10.6,10.3,10.15,10.2,10.3,10.4,10.6,12.05,12.5,12.05,11.4],&quot;w&quot;:[10,9.7,9.5,9.4,9.35,9.6,9.9,9.25,9.05,9.5,9.9,10.1,10,9.65,9.35,9.25,9.7,10.3,10.65,11.15,11.45,11.3,10.9,10.4]}"
+                     aria-label="Line chart: average hourly load in kW for Customer 1 · Meter 781, summer days versus winter days. Use the arrow keys to read each hour; the full table is below the chart.">
+                  <span class="viz-gl" style="top:100.00%"></span>
+                  <span class="viz-gl" style="top:75.00%"></span>
+                  <span class="viz-gl" style="top:50.00%"></span>
+                  <span class="viz-gl" style="top:25.00%"></span>
+                  <span class="viz-gl" style="top:0.00%"></span>
+                  <svg class="viz-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                    <path class="viz-line s-sum" d="M0.0 512.5 L43.5 600.0 L87.0 687.5 L130.4 725.0 L173.9 750.0 L217.4 787.5 L260.9 987.5 L304.3 937.5 L347.8 875.0 L391.3 737.5 L434.8 600.0 L478.3 562.5 L521.7 550.0 L565.2 600.0 L608.7 675.0 L652.2 712.5 L695.7 700.0 L739.1 675.0 L782.6 650.0 L826.1 600.0 L869.6 237.5 L913.0 125.0 L956.5 237.5 L1000.0 400.0" vector-effect="non-scaling-stroke"/>
+                    <path class="viz-line s-win" d="M0.0 750.0 L43.5 825.0 L87.0 875.0 L130.4 900.0 L173.9 912.5 L217.4 850.0 L260.9 775.0 L304.3 937.5 L347.8 987.5 L391.3 875.0 L434.8 775.0 L478.3 725.0 L521.7 750.0 L565.2 837.5 L608.7 912.5 L652.2 937.5 L695.7 825.0 L739.1 675.0 L782.6 587.5 L826.1 462.5 L869.6 387.5 L913.0 425.0 L956.5 525.0 L1000.0 650.0" vector-effect="non-scaling-stroke"/>
+                  </svg>
+                  <span class="viz-peak s-sum is-below is-left" style="left:91.30%;top:12.50%"><i class="viz-peak-dot"></i><span class="viz-peak-t"><b>12.5</b> kW</span></span>
+                  <span class="viz-peak s-win is-left" style="left:86.96%;top:38.75%"><i class="viz-peak-dot"></i><span class="viz-peak-t"><b>11.5</b> kW</span></span>
+                  <span class="viz-cross" hidden></span>
+                  <span class="viz-dot s-sum" hidden></span>
+                  <span class="viz-dot s-win" hidden></span>
+                  <div class="viz-tip" role="status" aria-live="polite" hidden>
+                    <p class="viz-tip-h"></p>
+                    <p class="viz-tip-r"><span class="viz-key s-sum"></span><b></b> kW<em>Summer</em></p>
+                    <p class="viz-tip-r"><span class="viz-key s-win"></span><b></b> kW<em>Winter</em></p>
+                    <p class="viz-tip-d"></p>
+                  </div>
+                </div>
+                <div class="viz-xaxis">
+                  <span class="viz-xt" style="left:0.00%">0</span>
+                  <span class="viz-xt is-dense" style="left:13.04%">3</span>
+                  <span class="viz-xt" style="left:26.09%">6</span>
+                  <span class="viz-xt is-dense" style="left:39.13%">9</span>
+                  <span class="viz-xt" style="left:52.17%">12</span>
+                  <span class="viz-xt is-dense" style="left:65.22%">15</span>
+                  <span class="viz-xt" style="left:78.26%">18</span>
+                  <span class="viz-xt is-dense" style="left:91.30%">21</span>
+                </div>
+                <p class="viz-xtitle">Hour of day</p>
+              </div>
+              <details class="viz-data">
+                <summary>View data table</summary>
+                <div class="viz-data-wrap">
+                  <table>
+                    <thead><tr><th>Hour</th><th>Summer</th><th>Winter</th><th>Δ</th></tr></thead>
+                    <tbody>
+                      <tr><td>00:00</td><td>11.0</td><td>10.0</td><td>−1.0</td></tr>
+                      <tr><td>01:00</td><td>10.6</td><td>9.7</td><td>−0.9</td></tr>
+                      <tr><td>02:00</td><td>10.3</td><td>9.5</td><td>−0.8</td></tr>
+                      <tr><td>03:00</td><td>10.1</td><td>9.4</td><td>−0.7</td></tr>
+                      <tr><td>04:00</td><td>10.0</td><td>9.4</td><td>−0.6</td></tr>
+                      <tr><td>05:00</td><td>9.9</td><td>9.6</td><td>−0.3</td></tr>
+                      <tr><td>06:00</td><td>9.1</td><td>9.9</td><td>+0.8</td></tr>
+                      <tr><td>07:00</td><td>9.3</td><td>9.3</td><td>0.0</td></tr>
+                      <tr><td>08:00</td><td>9.5</td><td>9.1</td><td>−0.4</td></tr>
+                      <tr><td>09:00</td><td>10.1</td><td>9.5</td><td>−0.6</td></tr>
+                      <tr><td>10:00</td><td>10.6</td><td>9.9</td><td>−0.7</td></tr>
+                      <tr><td>11:00</td><td>10.8</td><td>10.1</td><td>−0.7</td></tr>
+                      <tr><td>12:00</td><td>10.8</td><td>10.0</td><td>−0.8</td></tr>
+                      <tr><td>13:00</td><td>10.6</td><td>9.7</td><td>−0.9</td></tr>
+                      <tr><td>14:00</td><td>10.3</td><td>9.4</td><td>−0.9</td></tr>
+                      <tr><td>15:00</td><td>10.2</td><td>9.3</td><td>−0.9</td></tr>
+                      <tr><td>16:00</td><td>10.2</td><td>9.7</td><td>−0.5</td></tr>
+                      <tr><td>17:00</td><td>10.3</td><td>10.3</td><td>0.0</td></tr>
+                      <tr><td>18:00</td><td>10.4</td><td>10.7</td><td>+0.3</td></tr>
+                      <tr><td>19:00</td><td>10.6</td><td>11.2</td><td>+0.6</td></tr>
+                      <tr><td>20:00</td><td>12.1</td><td>11.5</td><td>−0.6</td></tr>
+                      <tr><td>21:00</td><td>12.5</td><td>11.3</td><td>−1.2</td></tr>
+                      <tr><td>22:00</td><td>12.1</td><td>10.9</td><td>−1.2</td></tr>
+                      <tr><td>23:00</td><td>11.4</td><td>10.4</td><td>−1.0</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+            </div>
+          </div>
+          <div class="chart-card" id="prop-542">
             <h3>Customer 2 · Meter 542</h3>
             <div class="chart-stats">
               <div class="chart-stat"><p class="k">Peak Demand</p><p class="v">84.35 kW</p><p class="n">Jan 15, 2024 · 07:00</p></div>
               <div class="chart-stat"><p class="k">Average Load</p><p class="v">16.7 kW</p></div>
             </div>
-            <img src="../img/load-profile-meter-542.png" alt="Seasonal hourly load profile for Customer 2 · Meter 542: average hourly load in kW across summer days versus winter days." width="968" height="340" loading="lazy" decoding="async">
-          </figure>
-          <figure class="chart-card" id="prop-571">
+            <div class="viz viz-bare" id="viz-542">
+              <div class="viz-head">
+                <p class="viz-sub">Average load (kW) by hour of day</p>
+                <ul class="viz-legend">
+                  <li><span class="viz-key s-sum"></span>Summer</li>
+                  <li><span class="viz-key s-win"></span>Winter</li>
+                </ul>
+              </div>
+              <div class="viz-body">
+                <div class="viz-yaxis">
+                  <span class="viz-yt" style="top:100.00%">10</span>
+                  <span class="viz-yt" style="top:66.67%">15</span>
+                  <span class="viz-yt" style="top:33.33%">20</span>
+                  <span class="viz-yt" style="top:0.00%">25</span>
+                </div>
+                <div class="viz-plot" tabindex="0" role="img" data-viz="{&quot;lo&quot;:10,&quot;hi&quot;:25,&quot;s&quot;:[14.15,13.6,12.9,12.5,12.15,12.1,13.1,14.4,15.5,16.9,17.4,17.2,17.2,17.1,17.4,17.6,17.75,17.9,17.3,16.75,16.05,15.8,15.6,14.95],&quot;w&quot;:[22.3,22.35,22.35,22.55,22.8,23.6,24.5,24.2,22.5,21.4,20.1,19.2,19.15,18.2,17.7,18.1,18.55,19.9,20.8,21.2,21.5,21.75,22,22.05]}"
+                     aria-label="Line chart: average hourly load in kW for Customer 2 · Meter 542, summer days versus winter days. Use the arrow keys to read each hour; the full table is below the chart.">
+                  <span class="viz-gl" style="top:100.00%"></span>
+                  <span class="viz-gl" style="top:66.67%"></span>
+                  <span class="viz-gl" style="top:33.33%"></span>
+                  <span class="viz-gl" style="top:0.00%"></span>
+                  <svg class="viz-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                    <path class="viz-line s-sum" d="M0.0 723.3 L43.5 760.0 L87.0 806.7 L130.4 833.3 L173.9 856.7 L217.4 860.0 L260.9 793.3 L304.3 706.7 L347.8 633.3 L391.3 540.0 L434.8 506.7 L478.3 520.0 L521.7 520.0 L565.2 526.7 L608.7 506.7 L652.2 493.3 L695.7 483.3 L739.1 473.3 L782.6 513.3 L826.1 550.0 L869.6 596.7 L913.0 613.3 L956.5 626.7 L1000.0 670.0" vector-effect="non-scaling-stroke"/>
+                    <path class="viz-line s-win" d="M0.0 180.0 L43.5 176.7 L87.0 176.7 L130.4 163.3 L173.9 146.7 L217.4 93.3 L260.9 33.3 L304.3 53.3 L347.8 166.7 L391.3 240.0 L434.8 326.7 L478.3 386.7 L521.7 390.0 L565.2 453.3 L608.7 486.7 L652.2 460.0 L695.7 430.0 L739.1 340.0 L782.6 280.0 L826.1 253.3 L869.6 233.3 L913.0 216.7 L956.5 200.0 L1000.0 196.7" vector-effect="non-scaling-stroke"/>
+                  </svg>
+                  <span class="viz-peak s-sum is-left" style="left:73.91%;top:47.33%"><i class="viz-peak-dot"></i><span class="viz-peak-t"><b>17.9</b> kW</span></span>
+                  <span class="viz-peak s-win is-below" style="left:26.09%;top:3.33%"><i class="viz-peak-dot"></i><span class="viz-peak-t"><b>24.5</b> kW</span></span>
+                  <span class="viz-cross" hidden></span>
+                  <span class="viz-dot s-sum" hidden></span>
+                  <span class="viz-dot s-win" hidden></span>
+                  <div class="viz-tip" role="status" aria-live="polite" hidden>
+                    <p class="viz-tip-h"></p>
+                    <p class="viz-tip-r"><span class="viz-key s-sum"></span><b></b> kW<em>Summer</em></p>
+                    <p class="viz-tip-r"><span class="viz-key s-win"></span><b></b> kW<em>Winter</em></p>
+                    <p class="viz-tip-d"></p>
+                  </div>
+                </div>
+                <div class="viz-xaxis">
+                  <span class="viz-xt" style="left:0.00%">0</span>
+                  <span class="viz-xt is-dense" style="left:13.04%">3</span>
+                  <span class="viz-xt" style="left:26.09%">6</span>
+                  <span class="viz-xt is-dense" style="left:39.13%">9</span>
+                  <span class="viz-xt" style="left:52.17%">12</span>
+                  <span class="viz-xt is-dense" style="left:65.22%">15</span>
+                  <span class="viz-xt" style="left:78.26%">18</span>
+                  <span class="viz-xt is-dense" style="left:91.30%">21</span>
+                </div>
+                <p class="viz-xtitle">Hour of day</p>
+              </div>
+              <details class="viz-data">
+                <summary>View data table</summary>
+                <div class="viz-data-wrap">
+                  <table>
+                    <thead><tr><th>Hour</th><th>Summer</th><th>Winter</th><th>Δ</th></tr></thead>
+                    <tbody>
+                      <tr><td>00:00</td><td>14.2</td><td>22.3</td><td>+8.1</td></tr>
+                      <tr><td>01:00</td><td>13.6</td><td>22.4</td><td>+8.8</td></tr>
+                      <tr><td>02:00</td><td>12.9</td><td>22.4</td><td>+9.5</td></tr>
+                      <tr><td>03:00</td><td>12.5</td><td>22.6</td><td>+10.1</td></tr>
+                      <tr><td>04:00</td><td>12.2</td><td>22.8</td><td>+10.6</td></tr>
+                      <tr><td>05:00</td><td>12.1</td><td>23.6</td><td>+11.5</td></tr>
+                      <tr><td>06:00</td><td>13.1</td><td>24.5</td><td>+11.4</td></tr>
+                      <tr><td>07:00</td><td>14.4</td><td>24.2</td><td>+9.8</td></tr>
+                      <tr><td>08:00</td><td>15.5</td><td>22.5</td><td>+7.0</td></tr>
+                      <tr><td>09:00</td><td>16.9</td><td>21.4</td><td>+4.5</td></tr>
+                      <tr><td>10:00</td><td>17.4</td><td>20.1</td><td>+2.7</td></tr>
+                      <tr><td>11:00</td><td>17.2</td><td>19.2</td><td>+2.0</td></tr>
+                      <tr><td>12:00</td><td>17.2</td><td>19.2</td><td>+2.0</td></tr>
+                      <tr><td>13:00</td><td>17.1</td><td>18.2</td><td>+1.1</td></tr>
+                      <tr><td>14:00</td><td>17.4</td><td>17.7</td><td>+0.3</td></tr>
+                      <tr><td>15:00</td><td>17.6</td><td>18.1</td><td>+0.5</td></tr>
+                      <tr><td>16:00</td><td>17.8</td><td>18.6</td><td>+0.8</td></tr>
+                      <tr><td>17:00</td><td>17.9</td><td>19.9</td><td>+2.0</td></tr>
+                      <tr><td>18:00</td><td>17.3</td><td>20.8</td><td>+3.5</td></tr>
+                      <tr><td>19:00</td><td>16.8</td><td>21.2</td><td>+4.4</td></tr>
+                      <tr><td>20:00</td><td>16.1</td><td>21.5</td><td>+5.4</td></tr>
+                      <tr><td>21:00</td><td>15.8</td><td>21.8</td><td>+6.0</td></tr>
+                      <tr><td>22:00</td><td>15.6</td><td>22.0</td><td>+6.4</td></tr>
+                      <tr><td>23:00</td><td>15.0</td><td>22.1</td><td>+7.1</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+            </div>
+          </div>
+          <div class="chart-card" id="prop-571">
             <h3>Customer 2 · Meter 571</h3>
             <div class="chart-stats">
               <div class="chart-stat"><p class="k">Peak Demand</p><p class="v">45.96 kW</p><p class="n">Jan 1, 2024 · 09:00</p></div>
               <div class="chart-stat"><p class="k">Average Load</p><p class="v">26.2 kW</p></div>
             </div>
-            <img src="../img/load-profile-meter-571.png" alt="Seasonal hourly load profile for Customer 2 · Meter 571: average hourly load in kW across summer days versus winter days." width="968" height="340" loading="lazy" decoding="async">
-          </figure>
+            <div class="viz viz-bare" id="viz-571">
+              <div class="viz-head">
+                <p class="viz-sub">Average load (kW) by hour of day</p>
+                <ul class="viz-legend">
+                  <li><span class="viz-key s-sum"></span>Summer</li>
+                  <li><span class="viz-key s-win"></span>Winter</li>
+                </ul>
+              </div>
+              <div class="viz-body">
+                <div class="viz-yaxis">
+                  <span class="viz-yt" style="top:100.00%">22</span>
+                  <span class="viz-yt" style="top:75.00%">24</span>
+                  <span class="viz-yt" style="top:50.00%">26</span>
+                  <span class="viz-yt" style="top:25.00%">28</span>
+                  <span class="viz-yt" style="top:0.00%">30</span>
+                </div>
+                <div class="viz-plot" tabindex="0" role="img" data-viz="{&quot;lo&quot;:22,&quot;hi&quot;:30,&quot;s&quot;:[24.7,24.3,24,24.05,25.8,28.05,29.4,29.9,30,27.6,25.75,25.15,25.25,25.05,25.05,25.5,26,26.5,27.25,28.05,28.8,28.85,27.05,25.5],&quot;w&quot;:[24.45,24.2,23.95,24.05,25.8,27.95,29.45,29.05,28.8,27.5,25.75,24.9,24.8,24.4,24.25,24.3,24.95,25.85,26.65,27.4,27.7,27.45,26.05,24.95]}"
+                     aria-label="Line chart: average hourly load in kW for Customer 2 · Meter 571, summer days versus winter days. Use the arrow keys to read each hour; the full table is below the chart.">
+                  <span class="viz-gl" style="top:100.00%"></span>
+                  <span class="viz-gl" style="top:75.00%"></span>
+                  <span class="viz-gl" style="top:50.00%"></span>
+                  <span class="viz-gl" style="top:25.00%"></span>
+                  <span class="viz-gl" style="top:0.00%"></span>
+                  <svg class="viz-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                    <path class="viz-line s-sum" d="M0.0 662.5 L43.5 712.5 L87.0 750.0 L130.4 743.7 L173.9 525.0 L217.4 243.7 L260.9 75.0 L304.3 12.5 L347.8 0.0 L391.3 300.0 L434.8 531.3 L478.3 606.3 L521.7 593.8 L565.2 618.7 L608.7 618.7 L652.2 562.5 L695.7 500.0 L739.1 437.5 L782.6 343.8 L826.1 243.7 L869.6 150.0 L913.0 143.7 L956.5 368.7 L1000.0 562.5" vector-effect="non-scaling-stroke"/>
+                    <path class="viz-line s-win" d="M0.0 693.8 L43.5 725.0 L87.0 756.3 L130.4 743.7 L173.9 525.0 L217.4 256.3 L260.9 68.8 L304.3 118.7 L347.8 150.0 L391.3 312.5 L434.8 531.3 L478.3 637.5 L521.7 650.0 L565.2 700.0 L608.7 718.8 L652.2 712.5 L695.7 631.3 L739.1 518.7 L782.6 418.8 L826.1 325.0 L869.6 287.5 L913.0 318.8 L956.5 493.7 L1000.0 631.3" vector-effect="non-scaling-stroke"/>
+                  </svg>
+                  <span class="viz-peak s-sum is-below" style="left:34.78%;top:0.00%"><i class="viz-peak-dot"></i><span class="viz-peak-t"><b>30.0</b> kW</span></span>
+                  <span class="viz-cross" hidden></span>
+                  <span class="viz-dot s-sum" hidden></span>
+                  <span class="viz-dot s-win" hidden></span>
+                  <div class="viz-tip" role="status" aria-live="polite" hidden>
+                    <p class="viz-tip-h"></p>
+                    <p class="viz-tip-r"><span class="viz-key s-sum"></span><b></b> kW<em>Summer</em></p>
+                    <p class="viz-tip-r"><span class="viz-key s-win"></span><b></b> kW<em>Winter</em></p>
+                    <p class="viz-tip-d"></p>
+                  </div>
+                </div>
+                <div class="viz-xaxis">
+                  <span class="viz-xt" style="left:0.00%">0</span>
+                  <span class="viz-xt is-dense" style="left:13.04%">3</span>
+                  <span class="viz-xt" style="left:26.09%">6</span>
+                  <span class="viz-xt is-dense" style="left:39.13%">9</span>
+                  <span class="viz-xt" style="left:52.17%">12</span>
+                  <span class="viz-xt is-dense" style="left:65.22%">15</span>
+                  <span class="viz-xt" style="left:78.26%">18</span>
+                  <span class="viz-xt is-dense" style="left:91.30%">21</span>
+                </div>
+                <p class="viz-xtitle">Hour of day</p>
+              </div>
+              <details class="viz-data">
+                <summary>View data table</summary>
+                <div class="viz-data-wrap">
+                  <table>
+                    <thead><tr><th>Hour</th><th>Summer</th><th>Winter</th><th>Δ</th></tr></thead>
+                    <tbody>
+                      <tr><td>00:00</td><td>24.7</td><td>24.5</td><td>−0.2</td></tr>
+                      <tr><td>01:00</td><td>24.3</td><td>24.2</td><td>−0.1</td></tr>
+                      <tr><td>02:00</td><td>24.0</td><td>24.0</td><td>0.0</td></tr>
+                      <tr><td>03:00</td><td>24.1</td><td>24.1</td><td>0.0</td></tr>
+                      <tr><td>04:00</td><td>25.8</td><td>25.8</td><td>0.0</td></tr>
+                      <tr><td>05:00</td><td>28.1</td><td>28.0</td><td>−0.1</td></tr>
+                      <tr><td>06:00</td><td>29.4</td><td>29.5</td><td>+0.1</td></tr>
+                      <tr><td>07:00</td><td>29.9</td><td>29.1</td><td>−0.8</td></tr>
+                      <tr><td>08:00</td><td>30.0</td><td>28.8</td><td>−1.2</td></tr>
+                      <tr><td>09:00</td><td>27.6</td><td>27.5</td><td>−0.1</td></tr>
+                      <tr><td>10:00</td><td>25.8</td><td>25.8</td><td>0.0</td></tr>
+                      <tr><td>11:00</td><td>25.2</td><td>24.9</td><td>−0.3</td></tr>
+                      <tr><td>12:00</td><td>25.3</td><td>24.8</td><td>−0.5</td></tr>
+                      <tr><td>13:00</td><td>25.1</td><td>24.4</td><td>−0.7</td></tr>
+                      <tr><td>14:00</td><td>25.1</td><td>24.3</td><td>−0.8</td></tr>
+                      <tr><td>15:00</td><td>25.5</td><td>24.3</td><td>−1.2</td></tr>
+                      <tr><td>16:00</td><td>26.0</td><td>25.0</td><td>−1.0</td></tr>
+                      <tr><td>17:00</td><td>26.5</td><td>25.9</td><td>−0.6</td></tr>
+                      <tr><td>18:00</td><td>27.3</td><td>26.7</td><td>−0.6</td></tr>
+                      <tr><td>19:00</td><td>28.1</td><td>27.4</td><td>−0.7</td></tr>
+                      <tr><td>20:00</td><td>28.8</td><td>27.7</td><td>−1.1</td></tr>
+                      <tr><td>21:00</td><td>28.9</td><td>27.5</td><td>−1.4</td></tr>
+                      <tr><td>22:00</td><td>27.1</td><td>26.1</td><td>−1.0</td></tr>
+                      <tr><td>23:00</td><td>25.5</td><td>25.0</td><td>−0.5</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+            </div>
+          </div>
         </div>
         <h3 id="appendix-a5">Appendix A5 — Illustrative Monthly Cost Proxy (Meters 780 &amp; 781 Combined)</h3>
         <p class="table-note">Illustrative demand and energy cost proxy, not a full ComEd bill reconstruction — excludes capacity, transmission, taxes, riders, and other supplier-specific pass-throughs. Delivery charges assume $20/kW on the billing month’s highest kW interval; energy charges assume $0.08/kWh.</p>
@@ -1190,6 +1802,101 @@
       window.addEventListener("scroll", onScroll, { passive: true });
       window.addEventListener("resize", onScroll, { passive: true });
       update();
+    })();
+  </script>
+
+  <script>
+    /* Load-profile charts: crosshair + readout on hover, tap and keyboard.
+       Purely additive — the plotted lines, labels, axes and data table all
+       render without this script. */
+    (function () {
+      var charts = document.querySelectorAll(".viz-plot[data-viz]");
+      if (!charts.length) return;
+
+      Array.prototype.forEach.call(charts, function (plot) {
+        var d;
+        try { d = JSON.parse(plot.getAttribute("data-viz")); } catch (e) { return; }
+        var n = d.s.length;
+        var span = d.hi - d.lo;
+        var cross = plot.querySelector(".viz-cross");
+        var dots = plot.querySelectorAll(".viz-dot");
+        var tip = plot.querySelector(".viz-tip");
+        var head = tip.querySelector(".viz-tip-h");
+        var vals = tip.querySelectorAll(".viz-tip-r b");
+        var delta = tip.querySelector(".viz-tip-d");
+        var cur = -1;
+
+        function pct(v) { return ((d.hi - v) / span) * 100; }
+        function f1(v) { return (Math.round(v * 10) / 10).toFixed(1); }
+
+        function show(i) {
+          if (i === cur) return;
+          cur = i;
+          var x = (i / (n - 1)) * 100;
+          var ys = pct(d.s[i]);
+          var yw = pct(d.w[i]);
+
+          cross.style.left = x + "%";
+          dots[0].style.left = x + "%"; dots[0].style.top = ys + "%";
+          dots[1].style.left = x + "%"; dots[1].style.top = yw + "%";
+
+          head.textContent = (i < 10 ? "0" + i : i) + ":00";
+          vals[0].textContent = f1(d.s[i]);
+          vals[1].textContent = f1(d.w[i]);
+          /* derived from the displayed values, so the readout is self-consistent */
+          var diff = Math.round((Math.round(d.w[i] * 10) - Math.round(d.s[i] * 10))) / 10;
+          delta.textContent = diff === 0
+            ? "Winter and summer are level"
+            : "Winter " + (diff > 0 ? "+" : "\u2212") + f1(Math.abs(diff)) + " kW vs. summer";
+
+          cross.hidden = dots[0].hidden = dots[1].hidden = tip.hidden = false;
+
+          /* Keep the readout inside the plot, and clear of the two markers. */
+          var w = plot.clientWidth, h = plot.clientHeight;
+          var tw = tip.offsetWidth, th = tip.offsetHeight;
+          var left = Math.min(Math.max((x / 100) * w - tw / 2, 0), Math.max(w - tw, 0));
+          tip.style.left = left + "px";
+          tip.style.top = (Math.min(ys, yw) < 45 ? h - th : 0) + "px";
+        }
+
+        function hide() {
+          cur = -1;
+          cross.hidden = dots[0].hidden = dots[1].hidden = tip.hidden = true;
+        }
+
+        function at(clientX) {
+          var r = plot.getBoundingClientRect();
+          if (!r.width) return 0;
+          var i = Math.round(((clientX - r.left) / r.width) * (n - 1));
+          return Math.max(0, Math.min(n - 1, i));
+        }
+
+        plot.addEventListener("pointermove", function (e) { show(at(e.clientX)); });
+        plot.addEventListener("pointerdown", function (e) { show(at(e.clientX)); });
+        plot.addEventListener("pointerleave", function (e) {
+          if (e.pointerType !== "touch") hide();
+        });
+        plot.addEventListener("focus", function () { if (cur < 0) show(12); });
+        plot.addEventListener("blur", hide);
+        /* The readout is placed in pixels, so re-place it when the plot resizes. */
+        window.addEventListener("resize", function () {
+          if (cur < 0) return;
+          var i = cur;
+          cur = -1;
+          show(i);
+        });
+        plot.addEventListener("keydown", function (e) {
+          var k = e.key, i = cur < 0 ? 12 : cur;
+          if (k === "ArrowRight") i = Math.min(n - 1, i + 1);
+          else if (k === "ArrowLeft") i = Math.max(0, i - 1);
+          else if (k === "Home") i = 0;
+          else if (k === "End") i = n - 1;
+          else if (k === "Escape") { hide(); return; }
+          else return;
+          e.preventDefault();
+          show(i);
+        });
+      });
     })();
   </script>
 </body>

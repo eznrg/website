@@ -268,12 +268,274 @@
       align-items: center;
     }
     .shape-figure { margin: 0; }
-    .shape-figure img {
-      width: 100%;
-      height: auto;
+    /* Load-profile chart ------------------------------------------- */
+    .viz {
+      --viz-surface: #151917;
+      --viz-grid: #262c28;
+      --viz-ink: #f4f1ea;
+      --viz-ink-2: #9aa39c;
+      --viz-sum: #46a26d;
+      --viz-win: #8f83e8;
+      margin: 0;
+      padding: 16px 20px 10px;
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      background: rgba(23, 27, 25, 0.78);
+      background: var(--viz-surface);
+    }
+    /* Inside a card that already draws the surface, the chart brings no chrome
+       of its own — but keeps --viz-surface so marker rings punch out cleanly. */
+    .viz-bare { padding: 0; border: 0; background: none; }
+    .viz-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 6px 18px;
+      margin-bottom: 14px;
+    }
+    .viz-title {
+      margin: 0 !important;
+      max-width: none !important;
+      color: var(--viz-ink) !important;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .viz-sub {
+      margin: 2px 0 0 !important;
+      max-width: none !important;
+      color: var(--viz-ink-2) !important;
+      font-size: 0.74rem;
+      line-height: 1.4;
+    }
+    .viz-legend {
+      display: flex;
+      gap: 16px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: var(--viz-ink-2);
+      font-size: 0.74rem;
+    }
+    .viz-legend li { display: flex; align-items: center; gap: 7px; }
+    .viz-key {
+      display: inline-block;
+      flex: none;
+      width: 15px;
+      height: 2px;
+      border-radius: 1px;
+      background: currentColor;
+    }
+    .s-sum { color: var(--viz-sum); }
+    .s-win { color: var(--viz-win); }
+
+    .viz-body {
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr);
+      grid-template-areas: "yaxis plot" ". xaxis" ". xtitle";
+      column-gap: 8px;
+    }
+    .viz-yaxis { grid-area: yaxis; position: relative; }
+    .viz-yt {
+      position: absolute;
+      right: 0;
+      transform: translateY(-50%);
+      color: var(--viz-ink-2);
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .viz-plot {
+      grid-area: plot;
+      position: relative;
+      height: clamp(170px, 26vw, 230px);
+      outline: none;
+    }
+    .viz-plot:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 6px;
+      border-radius: 3px;
+    }
+    /* Hairline gridlines, solid, one step off the surface. */
+    .viz-gl {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--viz-grid);
+    }
+    .viz-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .viz-line {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Direct labels — one per series, on its own peak. The marker sits exactly
+       on the data point; the value rides beside it. */
+    .viz-peak { position: absolute; width: 0; height: 0; pointer-events: none; }
+    .viz-peak-dot {
+      position: absolute;
+      left: -4.5px;
+      top: -4.5px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 2px var(--viz-surface);
+    }
+    .viz-peak-t {
+      position: absolute;
+      left: 10px;
+      top: -19px;
+      color: var(--viz-ink);
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      white-space: nowrap;
+      /* keeps the value legible where it passes over a line */
+      text-shadow: 0 0 5px var(--viz-surface), 0 0 3px var(--viz-surface);
+    }
+    .viz-peak.is-below .viz-peak-t { top: 6px; }
+    .viz-peak.is-left .viz-peak-t { left: auto; right: 10px; }
+    .viz-peak-t b { font-weight: 600; }
+
+    /* Hover / focus layer */
+    .viz-cross {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      margin-left: -0.5px;
+      background: rgba(244, 241, 234, 0.28);
+      pointer-events: none;
+    }
+    .viz-dot {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      margin: -4.5px 0 0 -4.5px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 2px var(--viz-surface);
+      pointer-events: none;
+    }
+    .viz-tip {
+      position: absolute;
+      z-index: 2;
+      min-width: 132px;
+      padding: 8px 10px 7px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface-2);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+      pointer-events: none;
+    }
+    .viz-tip p { margin: 0 !important; max-width: none !important; }
+    .viz-tip-h {
+      margin-bottom: 5px !important;
+      color: var(--viz-ink-2) !important;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .viz-tip-r {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--viz-ink) !important;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.55;
+    }
+    .viz-tip-r b { font-weight: 600; font-variant-numeric: tabular-nums; }
+    .viz-tip-r em {
+      margin-left: auto;
+      padding-left: 10px;
+      color: var(--viz-ink-2);
+      font-size: 0.68rem;
+      font-style: normal;
+    }
+    .viz-tip-d {
+      margin-top: 4px !important;
+      padding-top: 4px;
+      border-top: 1px solid var(--border);
+      color: var(--viz-ink-2) !important;
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+    }
+
+    .viz-xaxis { grid-area: xaxis; position: relative; height: 16px; }
+    .viz-xt {
+      position: absolute;
+      top: 4px;
+      transform: translateX(-50%);
+      color: var(--viz-ink-2);
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .viz-xtitle {
+      grid-area: xtitle;
+      margin: 2px 0 0 !important;
+      max-width: none !important;
+      color: var(--viz-ink-2) !important;
+      font-size: 0.66rem;
+      text-align: center;
+    }
+
+    /* Table view — every value stays reachable without hovering. */
+    .viz-data { margin-top: 10px; border-top: 1px solid var(--border); }
+    .viz-data > summary {
+      padding: 8px 2px 2px;
+      color: var(--viz-ink-2);
+      cursor: pointer;
+      font-size: 0.72rem;
+      list-style-position: inside;
+    }
+    .viz-data > summary:hover { color: var(--viz-ink); }
+    .viz-data-wrap { max-height: 290px; overflow: auto; margin-bottom: 8px; }
+    .viz-data table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .viz-data th, .viz-data td {
+      padding: 4px 8px;
+      border-bottom: 1px solid rgba(43, 49, 45, 0.55);
+      text-align: right;
+    }
+    .viz-data th:first-child, .viz-data td:first-child { text-align: left; }
+    .viz-data thead th {
+      position: sticky;
+      top: 0;
+      background: var(--viz-surface);
+      color: var(--viz-ink-2);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .viz-data td { color: var(--viz-ink-2); }
+    .viz-data td:first-child { color: var(--viz-ink); }
+
+    @media (max-width: 560px) {
+      .viz { padding: 14px 14px 8px; }
+      .viz-xt.is-dense { display: none; }
+      .viz-body { grid-template-columns: 26px minmax(0, 1fr); }
     }
     .shape-figure figcaption {
       margin-top: 12px;
@@ -553,9 +815,93 @@
         </div>
         <div class="shape-grid reveal">
           <figure class="shape-figure">
-            <img src="img/load-profile-meter-780.png"
-                 alt="Seasonal hourly load profile for a metered lodging property: average load in kW by hour of day, comparing summer days against winter days. Winter load runs higher all day and peaks in the evening ramp."
-                 width="968" height="340" loading="lazy" decoding="async">
+            <div class="viz" id="viz-lp-780">
+              <div class="viz-head">
+                <div>
+                  <p class="viz-title">Customer 1 · Meter 780</p>
+                  <p class="viz-sub">Average load (kW) by hour of day — summer days vs. winter days</p>
+                </div>
+                <ul class="viz-legend">
+                  <li><span class="viz-key s-sum"></span>Summer</li>
+                  <li><span class="viz-key s-win"></span>Winter</li>
+                </ul>
+              </div>
+              <div class="viz-body">
+                <div class="viz-yaxis">
+                  <span class="viz-yt" style="top:100.00%">5</span>
+                  <span class="viz-yt" style="top:66.67%">10</span>
+                  <span class="viz-yt" style="top:33.33%">15</span>
+                  <span class="viz-yt" style="top:0.00%">20</span>
+                </div>
+                <div class="viz-plot" tabindex="0" role="img" data-viz="{&quot;lo&quot;:5,&quot;hi&quot;:20,&quot;s&quot;:[10.6,9.9,9.2,8.6,8.2,7.8,7.8,8.8,9.8,11,11.6,11.7,12,11.9,12.2,12.9,13.8,14.5,14.3,13.5,12.8,12.6,12.4,11.4],&quot;w&quot;:[18.5,18.4,18.5,18.6,18.7,19.2,19.8,19.8,18.9,18.3,18,17.7,17.3,16.8,16.4,16.6,17.3,18.4,19.1,19.4,19.5,19.4,19.2,18.9]}"
+                     aria-label="Line chart: average hourly load in kW for a metered lodging property, summer days versus winter days. Winter load runs higher all day and peaks in the evening ramp. Use the arrow keys to read each hour; the full table is below the chart.">
+                  <span class="viz-gl" style="top:100.00%"></span>
+                  <span class="viz-gl" style="top:66.67%"></span>
+                  <span class="viz-gl" style="top:33.33%"></span>
+                  <span class="viz-gl" style="top:0.00%"></span>
+                  <svg class="viz-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                    <path class="viz-line s-sum" d="M0.0 626.7 L43.5 673.3 L87.0 720.0 L130.4 760.0 L173.9 786.7 L217.4 813.3 L260.9 813.3 L304.3 746.7 L347.8 680.0 L391.3 600.0 L434.8 560.0 L478.3 553.3 L521.7 533.3 L565.2 540.0 L608.7 520.0 L652.2 473.3 L695.7 413.3 L739.1 366.7 L782.6 380.0 L826.1 433.3 L869.6 480.0 L913.0 493.3 L956.5 506.7 L1000.0 573.3" vector-effect="non-scaling-stroke"/>
+                    <path class="viz-line s-win" d="M0.0 100.0 L43.5 106.7 L87.0 100.0 L130.4 93.3 L173.9 86.7 L217.4 53.3 L260.9 13.3 L304.3 13.3 L347.8 73.3 L391.3 113.3 L434.8 133.3 L478.3 153.3 L521.7 180.0 L565.2 213.3 L608.7 240.0 L652.2 226.7 L695.7 180.0 L739.1 106.7 L782.6 60.0 L826.1 40.0 L869.6 33.3 L913.0 40.0 L956.5 53.3 L1000.0 73.3" vector-effect="non-scaling-stroke"/>
+                  </svg>
+                  <span class="viz-peak s-sum is-left" style="left:73.91%;top:36.67%"><i class="viz-peak-dot"></i><span class="viz-peak-t"><b>14.5</b> kW</span></span>
+                  <span class="viz-peak s-win is-below" style="left:26.09%;top:1.33%"><i class="viz-peak-dot"></i><span class="viz-peak-t"><b>19.8</b> kW</span></span>
+                  <span class="viz-cross" hidden></span>
+                  <span class="viz-dot s-sum" hidden></span>
+                  <span class="viz-dot s-win" hidden></span>
+                  <div class="viz-tip" role="status" aria-live="polite" hidden>
+                    <p class="viz-tip-h"></p>
+                    <p class="viz-tip-r"><span class="viz-key s-sum"></span><b></b> kW<em>Summer</em></p>
+                    <p class="viz-tip-r"><span class="viz-key s-win"></span><b></b> kW<em>Winter</em></p>
+                    <p class="viz-tip-d"></p>
+                  </div>
+                </div>
+                <div class="viz-xaxis">
+                  <span class="viz-xt" style="left:0.00%">0</span>
+                  <span class="viz-xt is-dense" style="left:13.04%">3</span>
+                  <span class="viz-xt" style="left:26.09%">6</span>
+                  <span class="viz-xt is-dense" style="left:39.13%">9</span>
+                  <span class="viz-xt" style="left:52.17%">12</span>
+                  <span class="viz-xt is-dense" style="left:65.22%">15</span>
+                  <span class="viz-xt" style="left:78.26%">18</span>
+                  <span class="viz-xt is-dense" style="left:91.30%">21</span>
+                </div>
+                <p class="viz-xtitle">Hour of day</p>
+              </div>
+              <details class="viz-data">
+                <summary>View data table</summary>
+                <div class="viz-data-wrap">
+                  <table>
+                    <thead><tr><th>Hour</th><th>Summer</th><th>Winter</th><th>Δ</th></tr></thead>
+                    <tbody>
+                      <tr><td>00:00</td><td>10.6</td><td>18.5</td><td>+7.9</td></tr>
+                      <tr><td>01:00</td><td>9.9</td><td>18.4</td><td>+8.5</td></tr>
+                      <tr><td>02:00</td><td>9.2</td><td>18.5</td><td>+9.3</td></tr>
+                      <tr><td>03:00</td><td>8.6</td><td>18.6</td><td>+10.0</td></tr>
+                      <tr><td>04:00</td><td>8.2</td><td>18.7</td><td>+10.5</td></tr>
+                      <tr><td>05:00</td><td>7.8</td><td>19.2</td><td>+11.4</td></tr>
+                      <tr><td>06:00</td><td>7.8</td><td>19.8</td><td>+12.0</td></tr>
+                      <tr><td>07:00</td><td>8.8</td><td>19.8</td><td>+11.0</td></tr>
+                      <tr><td>08:00</td><td>9.8</td><td>18.9</td><td>+9.1</td></tr>
+                      <tr><td>09:00</td><td>11.0</td><td>18.3</td><td>+7.3</td></tr>
+                      <tr><td>10:00</td><td>11.6</td><td>18.0</td><td>+6.4</td></tr>
+                      <tr><td>11:00</td><td>11.7</td><td>17.7</td><td>+6.0</td></tr>
+                      <tr><td>12:00</td><td>12.0</td><td>17.3</td><td>+5.3</td></tr>
+                      <tr><td>13:00</td><td>11.9</td><td>16.8</td><td>+4.9</td></tr>
+                      <tr><td>14:00</td><td>12.2</td><td>16.4</td><td>+4.2</td></tr>
+                      <tr><td>15:00</td><td>12.9</td><td>16.6</td><td>+3.7</td></tr>
+                      <tr><td>16:00</td><td>13.8</td><td>17.3</td><td>+3.5</td></tr>
+                      <tr><td>17:00</td><td>14.5</td><td>18.4</td><td>+3.9</td></tr>
+                      <tr><td>18:00</td><td>14.3</td><td>19.1</td><td>+4.8</td></tr>
+                      <tr><td>19:00</td><td>13.5</td><td>19.4</td><td>+5.9</td></tr>
+                      <tr><td>20:00</td><td>12.8</td><td>19.5</td><td>+6.7</td></tr>
+                      <tr><td>21:00</td><td>12.6</td><td>19.4</td><td>+6.8</td></tr>
+                      <tr><td>22:00</td><td>12.4</td><td>19.2</td><td>+6.8</td></tr>
+                      <tr><td>23:00</td><td>11.4</td><td>18.9</td><td>+7.5</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+            </div>
             <figcaption>Average hourly load, summer days vs. winter days — one metered property
               (Customer 1 · Meter 780). Annual peak: 101.62 kW on Jan 14, 2024 at 17:00, against
               a 19.9 kW average.</figcaption>
@@ -703,6 +1049,101 @@
     } else {
       els.forEach(function (el) { el.classList.add("is-visible"); });
     }
+  </script>
+
+  <script>
+    /* Load-profile charts: crosshair + readout on hover, tap and keyboard.
+       Purely additive — the plotted lines, labels, axes and data table all
+       render without this script. */
+    (function () {
+      var charts = document.querySelectorAll(".viz-plot[data-viz]");
+      if (!charts.length) return;
+
+      Array.prototype.forEach.call(charts, function (plot) {
+        var d;
+        try { d = JSON.parse(plot.getAttribute("data-viz")); } catch (e) { return; }
+        var n = d.s.length;
+        var span = d.hi - d.lo;
+        var cross = plot.querySelector(".viz-cross");
+        var dots = plot.querySelectorAll(".viz-dot");
+        var tip = plot.querySelector(".viz-tip");
+        var head = tip.querySelector(".viz-tip-h");
+        var vals = tip.querySelectorAll(".viz-tip-r b");
+        var delta = tip.querySelector(".viz-tip-d");
+        var cur = -1;
+
+        function pct(v) { return ((d.hi - v) / span) * 100; }
+        function f1(v) { return (Math.round(v * 10) / 10).toFixed(1); }
+
+        function show(i) {
+          if (i === cur) return;
+          cur = i;
+          var x = (i / (n - 1)) * 100;
+          var ys = pct(d.s[i]);
+          var yw = pct(d.w[i]);
+
+          cross.style.left = x + "%";
+          dots[0].style.left = x + "%"; dots[0].style.top = ys + "%";
+          dots[1].style.left = x + "%"; dots[1].style.top = yw + "%";
+
+          head.textContent = (i < 10 ? "0" + i : i) + ":00";
+          vals[0].textContent = f1(d.s[i]);
+          vals[1].textContent = f1(d.w[i]);
+          /* derived from the displayed values, so the readout is self-consistent */
+          var diff = Math.round((Math.round(d.w[i] * 10) - Math.round(d.s[i] * 10))) / 10;
+          delta.textContent = diff === 0
+            ? "Winter and summer are level"
+            : "Winter " + (diff > 0 ? "+" : "\u2212") + f1(Math.abs(diff)) + " kW vs. summer";
+
+          cross.hidden = dots[0].hidden = dots[1].hidden = tip.hidden = false;
+
+          /* Keep the readout inside the plot, and clear of the two markers. */
+          var w = plot.clientWidth, h = plot.clientHeight;
+          var tw = tip.offsetWidth, th = tip.offsetHeight;
+          var left = Math.min(Math.max((x / 100) * w - tw / 2, 0), Math.max(w - tw, 0));
+          tip.style.left = left + "px";
+          tip.style.top = (Math.min(ys, yw) < 45 ? h - th : 0) + "px";
+        }
+
+        function hide() {
+          cur = -1;
+          cross.hidden = dots[0].hidden = dots[1].hidden = tip.hidden = true;
+        }
+
+        function at(clientX) {
+          var r = plot.getBoundingClientRect();
+          if (!r.width) return 0;
+          var i = Math.round(((clientX - r.left) / r.width) * (n - 1));
+          return Math.max(0, Math.min(n - 1, i));
+        }
+
+        plot.addEventListener("pointermove", function (e) { show(at(e.clientX)); });
+        plot.addEventListener("pointerdown", function (e) { show(at(e.clientX)); });
+        plot.addEventListener("pointerleave", function (e) {
+          if (e.pointerType !== "touch") hide();
+        });
+        plot.addEventListener("focus", function () { if (cur < 0) show(12); });
+        plot.addEventListener("blur", hide);
+        /* The readout is placed in pixels, so re-place it when the plot resizes. */
+        window.addEventListener("resize", function () {
+          if (cur < 0) return;
+          var i = cur;
+          cur = -1;
+          show(i);
+        });
+        plot.addEventListener("keydown", function (e) {
+          var k = e.key, i = cur < 0 ? 12 : cur;
+          if (k === "ArrowRight") i = Math.min(n - 1, i + 1);
+          else if (k === "ArrowLeft") i = Math.max(0, i - 1);
+          else if (k === "Home") i = 0;
+          else if (k === "End") i = n - 1;
+          else if (k === "Escape") { hide(); return; }
+          else return;
+          e.preventDefault();
+          show(i);
+        });
+      });
+    })();
   </script>
 </body>
 </html>

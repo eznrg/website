@@ -6,7 +6,6 @@ A **standalone, unlisted** two-page site for hospitality operators:
 | --- | --- | --- |
 | `index.html` | `https://eznrg.ai/hospitality` | Landing page |
 | `whitepaper/index.html` | `https://eznrg.ai/hospitality/whitepaper` | Full white paper — *The Flexible Hotel, a Grid Asset* |
-| `img/*.png` | `/hospitality/img/…` | Seasonal load-profile charts (already mint-themed) |
 
 ## Why this folder exists (read before editing)
 
@@ -27,7 +26,7 @@ These pages are deliberately kept **separate from the generated site**:
 ## How it gets deployed
 
 `scripts/build.mjs` copies this folder **recursively** to `dist/hospitality/` during the
-build, so `whitepaper/` and `img/` come along automatically. With `cleanUrls: true` in
+build, so `whitepaper/` comes along automatically. With `cleanUrls: true` in
 `vercel.json`, `dist/hospitality/index.html` is served at `/hospitality` and
 `dist/hospitality/whitepaper/index.html` at `/hospitality/whitepaper`. That one `cp` line
 is the *only* place shared code references this folder.
@@ -52,6 +51,33 @@ Structure worth knowing:
   matching chart card in Appendix A.
 - **Print** — `@media print` hides the header, rail, and CTA and flips to light text.
 
+## The load-profile charts
+
+Five seasonal load-profile charts — one on the landing page, four in Appendix A —
+are **hand-built HTML/SVG**, not images and not a charting library. Each is a
+`.viz` block: HTML for the gridlines, axis ticks, legend, direct labels, and
+readout; a two-path `<svg>` (viewBox `0 0 1000 1000`, `preserveAspectRatio="none"`,
+`vector-effect="non-scaling-stroke"`) for the lines themselves. That split keeps
+axis text at real CSS pixels down to 320px and the strokes a true 2px at every
+width — which a single scaled SVG cannot do.
+
+- **The lines, labels, axes, and data table all render with JavaScript off.** The
+  script at the bottom of each page only adds the hover layer (crosshair, markers,
+  readout) and arrow-key navigation. Nothing is gated behind it: every value is
+  also in the `<details>` table under each chart.
+- **Data** lives inline in the `data-viz` attribute on each `.viz-plot` (24 hourly
+  points per series) and again in the table body. Change one, change the other.
+  Values were digitized from the original Plotly PNG exports, which are in git
+  history at commit `6cb96c1` (`hospitality_static/img/load-profile-meter-*.png`).
+- **Series colors** are `--viz-sum` `#46a26d` and `--viz-win` `#8f83e8`, defined on
+  `.viz`. They are *not* the site's `--primary`/`--gold`: that original pairing
+  failed both colorblind separation (ΔE 5.6 deutan) and the normal-vision floor
+  (ΔE 10.8) against the chart surface. The current pair clears every check — keep
+  any replacement validated rather than swapping by eye.
+- **Direct labels** mark each series' peak. When two peaks fall close enough to
+  collide, only the higher one is labeled — the generator decides this, so a data
+  edit may change which labels appear.
+
 ## Editing
 
 - **Channel links:** replace the two `#REPLACE_ME_TELEGRAM` / `#REPLACE_ME_WHATSAPP`
@@ -59,5 +85,5 @@ Structure worth knowing:
   These are still placeholders.
 - **Landing-page figures:** every number in the hero stat band comes from the white paper.
   If a figure changes there, change it here too.
-- Assets like `/logo.svg` come from `public/` (already deployed with the main site);
-  the load-profile charts live in `img/` and are referenced as `../img/…` from the paper.
+- Assets like `/logo.svg` come from `public/` (already deployed with the main site).
+  These two pages ship no images of their own.
