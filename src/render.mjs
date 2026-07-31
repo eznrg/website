@@ -521,6 +521,26 @@ export function renderAbout() {
         ${about.intro.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
       </div>
     </section>
+    <section class="section pillars-section">
+      <div class="container pillars-list">
+        ${about.pillars
+          .map(
+            (pillar) => `<article class="pillar reveal" id="${escapeHtml(pillar.id)}">
+              <div class="pillar-head">
+                <span class="pillar-index">${escapeHtml(pillar.index)}</span>
+                <div>
+                  <p class="eyebrow">${escapeHtml(pillar.eyebrow)}</p>
+                  <h2>${escapeHtml(pillar.title)}</h2>
+                </div>
+              </div>
+              <div class="pillar-body">
+                ${pillar.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+              </div>
+            </article>`,
+          )
+          .join("")}
+      </div>
+    </section>
     <section class="section founders-section">
       <div class="container">
         <div class="section-heading reveal">

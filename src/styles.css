@@ -1587,6 +1587,85 @@ h3 {
   font-weight: 900;
 }
 
+.pillars-section {
+  border-top: 1px solid var(--border);
+}
+
+.pillars-list {
+  display: grid;
+  gap: 20px;
+}
+
+.pillar {
+  position: relative;
+  overflow: hidden;
+  padding: 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(139, 216, 166, 0.055), transparent 34%),
+    rgba(23, 27, 25, 0.78);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.pillar:hover {
+  transform: translateY(-4px);
+  border-color: rgba(139, 216, 166, 0.34);
+  box-shadow: 0 26px 76px rgba(0, 0, 0, 0.26), 0 0 44px rgba(139, 216, 166, 0.08);
+}
+
+.pillar-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+  margin-bottom: 22px;
+}
+
+.pillar-index {
+  flex: 0 0 auto;
+  color: var(--primary);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+
+.pillar-head .eyebrow {
+  margin-bottom: 8px;
+}
+
+.pillar-head h2 {
+  margin-bottom: 0;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+}
+
+.pillar-body {
+  display: grid;
+  gap: 16px;
+  max-width: 860px;
+  padding-left: calc(1rem + 22px);
+}
+
+.pillar-body p {
+  color: var(--muted);
+  font-size: 1.02rem;
+}
+
+@media (max-width: 640px) {
+  .pillar {
+    padding: 22px;
+  }
+
+  .pillar-head {
+    gap: 14px;
+  }
+
+  .pillar-body {
+    padding-left: 0;
+  }
+}
+
 .coming-soon {
   margin: 28px 0 0;
   padding-top: 24px;
