@@ -1,0 +1,37 @@
+/*
+  Design tokens for every standalone page under `static/`.
+
+  These MIRROR the main site's mint theme but are intentionally copied, not
+  imported — nothing here depends on /src/styles.css, so a future theme change
+  on the main site can never alter or break these pages. When the main site's
+  palette moves and you want these pages to follow, edit THIS file; it is the
+  one place the tokens live now.
+
+  Linked by all four pages, including the white paper — which shares the palette
+  but not the component layer in theme.css. Load this BEFORE theme.css: theme.css
+  consumes these custom properties and renders unstyled without them.
+
+  Pages may add page-specific tokens in their own `:root` block after this file
+  (the white paper adds --gold and --measure that way).
+*/
+:root {
+  color-scheme: dark;
+  --bg: #101312;
+  --surface: #171b19;
+  --surface-2: #202521;
+  --text: #f4f1ea;
+  --muted: #a8b0a9;
+  --primary: #8bd8a6;
+  --primary-foreground: #07120c;
+  --teal-deep: #6fc190;
+  --border: #2b312d;
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+  --max: 1160px;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  /* Structural corners only. Decorative shapes (pill badges = 999px,
+     circles/dots = 50%) keep their own literals. */
+  --radius: 6px;
+  --radius-lg: 10px;
+}
