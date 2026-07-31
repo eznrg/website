@@ -1,0 +1,1196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Unlisted document: keep OUT of search results. Do not remove. -->
+  <meta name="robots" content="noindex">
+
+  <title>The Flexible Hotel, a Grid Asset — EZ NRG White Paper</title>
+  <meta name="description" content="Turning occupancy, timing, and machine learning into economic value — for hotel owners in ComEd/PJM.">
+  <link rel="icon" href="/logo.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /*
+      Self-contained styles for the standalone hospitality white paper.
+      These MIRROR the main site's mint theme but are intentionally copied,
+      not imported — this page has no dependency on /src/styles.css, exactly
+      like ../index.html. Keep the token block below in sync with that file.
+    */
+    :root {
+      color-scheme: dark;
+      --bg: #101312;
+      --surface: #171b19;
+      --surface-2: #202521;
+      --text: #f4f1ea;
+      --muted: #a8b0a9;
+      --primary: #8bd8a6;
+      --primary-foreground: #07120c;
+      --teal-deep: #6fc190;
+      --border: #2b312d;
+      --gold: #d6bc78;
+      --max: 1160px;
+      --font-display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+      --radius: 6px;
+      --radius-lg: 10px;
+      --measure: 68ch;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse 900px 620px at 18% -8%, rgba(139, 216, 166, 0.16), transparent 60%),
+        linear-gradient(135deg, rgba(139, 216, 166, 0.06), transparent 46%),
+        var(--bg);
+      font-family: var(--font-body);
+      font-feature-settings: "ss01" 1;
+      line-height: 1.68;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img, svg { display: block; }
+    a { color: inherit; }
+
+    .container { width: min(100% - 40px, var(--max)); margin-inline: auto; }
+
+    h1, h2, h3 {
+      margin-top: 0;
+      font-family: var(--font-display);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+    }
+    p { margin-top: 0; }
+
+    /* Reading progress ------------------------------------------- */
+    .progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      z-index: 60;
+      width: 100%;
+      height: 2px;
+      transform: scaleX(0);
+      transform-origin: 0 50%;
+      background: linear-gradient(90deg, var(--primary), var(--teal-deep));
+      will-change: transform;
+    }
+
+    /* Header ------------------------------------------------------ */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--border);
+      background: rgba(16, 19, 18, 0.88);
+      backdrop-filter: blur(18px);
+    }
+    .header-shell {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 68px;
+      gap: 20px;
+    }
+    .brand img { width: 152px; height: auto; }
+    .header-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 180ms ease;
+    }
+    .header-back:hover, .header-back:focus-visible { color: var(--primary); }
+    .header-back .ic { width: 14px; height: 14px; }
+
+    /* Document shell ---------------------------------------------- */
+    .doc {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      padding: 56px 0 96px;
+    }
+    @media (min-width: 1080px) {
+      .doc { grid-template-columns: 232px minmax(0, 1fr); gap: 56px; }
+    }
+
+    /* Sticky rail TOC --------------------------------------------- */
+    .rail { display: none; }
+    @media (min-width: 1080px) {
+      .rail {
+        position: sticky;
+        top: 108px;
+        display: block;
+        align-self: start;
+        max-height: calc(100vh - 148px);
+        overflow-y: auto;
+      }
+    }
+    .rail-title {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .rail ol { margin: 0; padding: 0; list-style: none; }
+    .rail li { margin-bottom: 2px; }
+    .rail a {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 8px;
+      padding: 5px 8px 5px 0;
+      border-left: 2px solid transparent;
+      padding-left: 10px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.35;
+      text-decoration: none;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+    .rail a span:first-child {
+      color: rgba(139, 216, 166, 0.55);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+    }
+    .rail a:hover, .rail a:focus-visible { color: var(--text); }
+    .rail a.is-active {
+      border-left-color: var(--primary);
+      color: var(--text);
+    }
+    .rail a.is-active span:first-child { color: var(--primary); }
+
+    /* Article ------------------------------------------------------ */
+    .article { min-width: 0; }
+    .article > section { scroll-margin-top: 96px; }
+    .article p, .article li { max-width: var(--measure); }
+    .article p { margin-bottom: 20px; color: #ddd9d0; }
+
+    /* Cover -------------------------------------------------------- */
+    .cover { padding-bottom: 20px; margin-bottom: 56px; border-bottom: 1px solid var(--border); }
+    .eyebrow {
+      margin: 0 0 16px;
+      color: var(--primary);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .cover h1 {
+      max-width: 16ch;
+      margin-bottom: 22px;
+      font-size: clamp(2.5rem, 6vw, 4.1rem);
+      letter-spacing: -0.035em;
+      line-height: 1.02;
+    }
+    .cover-sub {
+      max-width: 52ch;
+      margin-bottom: 40px;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      line-height: 1.55;
+    }
+    .cover-byline {
+      margin: 0;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    /* Stat cards --------------------------------------------------- */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px;
+      max-width: none;
+      margin: 0 0 32px;
+    }
+    .stat-grid.is-single { grid-template-columns: minmax(0, 300px); }
+    .stat {
+      padding: 18px 20px 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(145deg, rgba(139, 216, 166, 0.05), transparent 42%),
+        rgba(23, 27, 25, 0.72);
+    }
+    .stat-label {
+      margin: 0 0 12px !important;
+      max-width: none !important;
+      color: var(--muted) !important;
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.13em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+    .stat-icon {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      margin-bottom: 14px;
+      place-items: center;
+      color: var(--primary);
+      background: rgba(139, 216, 166, 0.1);
+      border: 1px solid rgba(139, 216, 166, 0.2);
+      border-radius: 8px;
+    }
+    .stat-icon .ic { width: 15px; height: 15px; }
+    .stat-value {
+      margin: 0 !important;
+      max-width: none !important;
+      color: var(--text) !important;
+      font-family: var(--font-mono);
+      font-size: 1.42rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    /* Section markers ---------------------------------------------- */
+    .article > section { padding-top: 56px; }
+    .sec-marker { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+    .sec-num {
+      color: var(--primary);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+    }
+    .sec-rule { flex: 1; height: 1px; background: var(--border); }
+    .article h2 {
+      margin-bottom: 26px;
+      font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+      letter-spacing: -0.028em;
+    }
+    .article h3 {
+      margin: 34px 0 12px;
+      max-width: var(--measure);
+      font-family: var(--font-body);
+      font-size: 1.02rem;
+      font-weight: 700;
+      letter-spacing: -0.005em;
+      line-height: 1.4;
+    }
+
+    /* Citations & cross-refs --------------------------------------- */
+    .cite {
+      display: inline-block;
+      padding: 0 1px;
+      color: var(--primary);
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      text-decoration: none;
+      vertical-align: 0.35em;
+      transition: opacity 160ms ease;
+    }
+    .cite:hover, .cite:focus-visible { opacity: 0.7; text-decoration: underline; }
+    .meter-ref {
+      display: inline-block;
+      margin: 0 1px;
+      padding: 1px 5px;
+      color: var(--primary);
+      background: rgba(139, 216, 166, 0.08);
+      border: 1px solid rgba(139, 216, 166, 0.2);
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      text-decoration: none;
+      vertical-align: 0.2em;
+      transition: background 160ms ease;
+    }
+    .meter-ref:hover, .meter-ref:focus-visible { background: rgba(139, 216, 166, 0.18); }
+    .article p > a:not(.cite):not(.meter-ref) { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
+
+    /* Table of contents -------------------------------------------- */
+    .toc { padding-top: 0 !important; }
+    .toc ol { margin: 0; padding: 0; list-style: none; }
+    .toc li { max-width: none; }
+    .toc a {
+      display: grid;
+      grid-template-columns: 34px 1fr 18px;
+      gap: 12px;
+      align-items: center;
+      padding: 13px 4px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.98rem;
+      text-decoration: none;
+      transition: color 160ms ease, padding-left 160ms ease;
+    }
+    .toc a:hover, .toc a:focus-visible { color: var(--primary); padding-left: 10px; }
+    .toc .toc-n { color: var(--primary); font-family: var(--font-mono); font-size: 0.76rem; }
+    .toc .ic { width: 14px; height: 14px; color: var(--muted); }
+
+    /* Step / flow / ladder / layer blocks --------------------------- */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+      gap: 12px;
+      margin: 0 0 32px;
+    }
+    /* The five stages are a sequence — keep them on one row once they fit. */
+    @media (min-width: 900px) {
+      .steps { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    }
+    .step {
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(23, 27, 25, 0.62);
+    }
+    .step .stat-icon { margin-bottom: 12px; }
+    .step-name {
+      margin: 0 0 5px !important;
+      max-width: none !important;
+      color: var(--text) !important;
+      font-family: var(--font-display);
+      font-size: 0.98rem;
+      font-weight: 600;
+    }
+    .step-desc {
+      margin: 0 !important;
+      max-width: none !important;
+      color: var(--muted) !important;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin: 4px 0 32px;
+    }
+    .flow .step { position: relative; }
+    @media (min-width: 760px) {
+      .flow { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 26px; }
+      .flow .step + .step::before {
+        position: absolute;
+        top: 50%;
+        left: -20px;
+        width: 14px;
+        height: 14px;
+        margin-top: -7px;
+        color: var(--border);
+        content: "";
+        background: currentColor;
+        clip-path: polygon(0 42%, 62% 42%, 62% 20%, 100% 50%, 62% 80%, 62% 58%, 0 58%);
+      }
+    }
+
+    .ladder { margin: 0 0 32px; padding: 0; list-style: none; }
+    .ladder > li {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 16px;
+      max-width: none;
+      padding: 18px 0;
+      border-top: 1px solid var(--border);
+    }
+    .ladder > li:last-child { border-bottom: 1px solid var(--border); }
+    .ladder-n {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      color: var(--primary);
+      background: rgba(139, 216, 166, 0.09);
+      border: 1px solid rgba(139, 216, 166, 0.22);
+      border-radius: 50%;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .ladder-title {
+      margin: 2px 0 6px !important;
+      max-width: none !important;
+      color: var(--text) !important;
+      font-weight: 700;
+      font-size: 0.98rem;
+    }
+    .ladder-desc { margin: 0 !important; color: var(--muted) !important; font-size: 0.92rem; }
+
+    .layers { display: grid; gap: 12px; margin: 0 0 32px; }
+    .layer {
+      padding: 20px 22px;
+      border: 1px solid var(--border);
+      border-left: 2px solid rgba(139, 216, 166, 0.45);
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(145deg, rgba(139, 216, 166, 0.04), transparent 40%),
+        rgba(23, 27, 25, 0.62);
+    }
+    .layer-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .layer-head .ic { width: 17px; height: 17px; color: var(--primary); }
+    .layer-name {
+      margin: 0 !important;
+      max-width: none !important;
+      color: var(--text) !important;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .layer ul { margin: 0; padding: 0; list-style: none; }
+    .layer ul li {
+      position: relative;
+      max-width: var(--measure);
+      padding-left: 16px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.62;
+    }
+    .layer ul li::before {
+      position: absolute;
+      top: 0.72em;
+      left: 0;
+      width: 4px;
+      height: 4px;
+      content: "";
+      background: rgba(139, 216, 166, 0.6);
+      border-radius: 50%;
+    }
+    .layer > p { margin: 0 !important; color: var(--muted) !important; font-size: 0.92rem; }
+
+    /* Tables -------------------------------------------------------- */
+    .table-wrap {
+      max-width: none;
+      margin: 0 0 14px;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(23, 27, 25, 0.62);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    thead th {
+      padding: 13px 16px;
+      color: var(--muted);
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-align: left;
+      white-space: nowrap;
+      border-bottom: 1px solid var(--border);
+    }
+    tbody td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(43, 49, 45, 0.6);
+      white-space: nowrap;
+    }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody td:first-child { color: var(--text); }
+    tbody td:not(:first-child) { color: var(--muted); font-family: var(--font-mono); font-size: 0.84rem; }
+    tbody tr.is-total td {
+      color: var(--text);
+      font-weight: 600;
+      background: rgba(139, 216, 166, 0.05);
+      border-top: 1px solid var(--border);
+    }
+    .table-note {
+      margin: 0 0 30px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+
+    /* Pull quote ----------------------------------------------------- */
+    .pullquote {
+      max-width: none;
+      margin: 40px 0;
+      padding: 30px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .pullquote p {
+      max-width: 34ch;
+      margin: 0;
+      color: var(--text) !important;
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 2.6vw, 1.65rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.28;
+    }
+
+    /* Charts / appendix ---------------------------------------------- */
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+      margin: 8px 0 34px;
+    }
+    .chart-card {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(23, 27, 25, 0.62);
+      scroll-margin-top: 96px;
+    }
+    .chart-card h3 {
+      margin: 0 0 16px;
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .chart-stats { display: flex; flex-wrap: wrap; gap: 26px; margin-bottom: 18px; }
+    .chart-stat p { margin: 0 !important; max-width: none !important; }
+    .chart-stat .k {
+      color: var(--muted) !important;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .chart-stat .v {
+      margin-top: 4px !important;
+      color: var(--text) !important;
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .chart-stat .n { margin-top: 2px !important; color: var(--muted) !important; font-size: 0.75rem; }
+    .chart-card img {
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    /* Sources --------------------------------------------------------- */
+    .source-list { margin: 0; padding: 0; list-style: none; }
+    .source-list li {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 10px;
+      max-width: none;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(43, 49, 45, 0.6);
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.55;
+      scroll-margin-top: 96px;
+    }
+    .source-list li:target { background: rgba(139, 216, 166, 0.06); }
+    .source-list .n { color: var(--primary); font-family: var(--font-mono); font-size: 0.72rem; }
+
+    /* CTA + footer ----------------------------------------------------- */
+    .doc-cta {
+      max-width: none;
+      margin-top: 64px;
+      padding: 34px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(145deg, rgba(139, 216, 166, 0.07), transparent 44%),
+        rgba(23, 27, 25, 0.78);
+    }
+    .doc-cta h2 { margin-bottom: 10px; font-size: clamp(1.4rem, 2.6vw, 1.85rem); }
+    .doc-cta p { margin-bottom: 22px; color: var(--muted) !important; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 20px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-lg);
+      color: var(--primary-foreground);
+      background: linear-gradient(135deg, var(--primary), var(--teal-deep) 72%);
+      box-shadow: 0 18px 50px rgba(139, 216, 166, 0.18);
+      font-family: var(--font-display);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+    .button:hover, .button:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 62px rgba(139, 216, 166, 0.28);
+    }
+    .button .ic { width: 18px; height: 18px; }
+
+    .site-footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      background: rgba(16, 19, 18, 0.36);
+    }
+    .site-footer p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+    .ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* Responsive ------------------------------------------------------- */
+    @media (max-width: 640px) {
+      .container { width: min(100% - 28px, var(--max)); }
+      .doc { padding-top: 36px; }
+      .article > section { padding-top: 44px; }
+      .toc a { grid-template-columns: 30px 1fr 16px; gap: 10px; font-size: 0.92rem; }
+      .doc-cta { padding: 26px 22px; }
+      .button { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 1ms !important;
+        transition-duration: 1ms !important;
+      }
+    }
+
+    /* Print ------------------------------------------------------------- */
+    @media print {
+      .progress, .site-header, .rail, .doc-cta { display: none !important; }
+      body { background: #fff; color: #111; }
+      .doc { display: block; padding: 0; }
+      .article p, .article li, .stat-value, .layer > p { color: #111 !important; }
+      .stat, .step, .layer, .chart-card, .table-wrap { background: #fff; border-color: #ccc; }
+      .article > section { page-break-inside: avoid; padding-top: 28px; }
+      a { color: #111 !important; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></symbol>
+      <symbol id="i-brain" viewBox="0 0 24 24"><path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></symbol>
+      <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/></symbol>
+      <symbol id="i-dollar" viewBox="0 0 24 24"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></symbol>
+      <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
+      <symbol id="i-thermometer" viewBox="0 0 24 24"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24"><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z"/></symbol>
+      <symbol id="i-percent" viewBox="0 0 24 24"><line x1="19" x2="5" y1="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
+      <symbol id="i-factory" viewBox="0 0 24 24"><path d="M12 16h.01"/><path d="M16 16h.01"/><path d="M3 19a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5a.5.5 0 0 0-.769-.422l-4.462 2.844A.5.5 0 0 1 15 10.5v-2a.5.5 0 0 0-.769-.422L9.77 10.922A.5.5 0 0 1 9 10.5V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/><path d="M8 16h.01"/></symbol>
+      <symbol id="i-cable" viewBox="0 0 24 24"><path d="M17 19a1 1 0 0 1-1-1v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a1 1 0 0 1-1 1z"/><path d="M17 21v-2"/><path d="M19 14V6.5a1 1 0 0 0-7 0v11a1 1 0 0 1-7 0V10"/><path d="M21 21v-2"/><path d="M3 5V3"/><path d="M4 10a2 2 0 0 1-2-2V6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2a2 2 0 0 1-2 2z"/><path d="M7 5V3"/></symbol>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+      <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
+      <symbol id="i-trending-up" viewBox="0 0 24 24"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></symbol>
+      <symbol id="i-trending-down" viewBox="0 0 24 24"><path d="M16 17h6v-6"/><path d="m22 17-8.5-8.5-5 5L2 7"/></symbol>
+      <symbol id="i-line-chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+      <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="site-header">
+    <div class="container header-shell">
+      <a class="brand" href="https://eznrg.ai/" aria-label="EZ NRG home">
+        <img src="/logo.svg" alt="EZ NRG" width="152" height="38">
+      </a>
+      <a class="header-back" href="/hospitality"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"/></svg>Back to hospitality</a>
+    </div>
+  </header>
+
+  <main id="main" class="container doc">
+    <!-- Sticky section rail (desktop) -->
+    <nav class="rail" aria-label="Document sections">
+      <p class="rail-title">Contents</p>
+      <ol>
+        <li><a href="#exec-summary"><span>01</span><span>Executive Summary</span></a></li>
+        <li><a href="#what-we-do"><span>02</span><span>What We Do</span></a></li>
+        <li><a href="#distinct-system"><span>03</span><span>Why Hotels Are a Distinct Energy System</span></a></li>
+        <li><a href="#load-shape"><span>04</span><span>The Load Shape Is the Asset</span></a></li>
+        <li><a href="#adopt-strategy"><span>05</span><span>Why Hotels Need to Adopt an Energy Strategy</span></a></li>
+        <li><a href="#market-context"><span>06</span><span>Market Context: Illinois, ComEd &amp; PJM</span></a></li>
+        <li><a href="#intelligence-stack"><span>07</span><span>Solution: The Hotel Energy Intelligence Stack</span></a></li>
+        <li><a href="#immediate-savings"><span>08</span><span>Driving Immediate Savings</span></a></li>
+        <li><a href="#long-term-economics"><span>09</span><span>Long-Term Economics</span></a></li>
+        <li><a href="#btm-storage"><span>10</span><span>Behind-the-Meter Generation &amp; Storage</span></a></li>
+        <li><a href="#appendix-a"><span>A</span><span>Appendix: Property Load Profiles</span></a></li>
+        <li><a href="#sources"><span>B</span><span>Sources</span></a></li>
+      </ol>
+    </nav>
+
+    <article class="article">
+      <!-- Cover ------------------------------------------------------ -->
+      <header class="cover">
+        <!-- No brand mark here: the sticky site header already carries the logo. -->
+        <p class="eyebrow">Energy Strategy White Paper</p>
+        <h1>The Flexible Hotel, a Grid Asset</h1>
+        <p class="cover-sub">Turning occupancy, timing, and machine learning into economic value — for hotel owners in ComEd/PJM.</p>
+        <div class="stat-grid">
+          <div class="stat">
+            <p class="stat-label">Target Bill Reduction</p>
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-trending-down"/></svg></span>
+            <p class="stat-value">90–100%</p>
+          </div>
+          <div class="stat">
+            <p class="stat-label">Owner Capital Required</p>
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-dollar"/></svg></span>
+            <p class="stat-value">$0 down</p>
+          </div>
+          <div class="stat">
+            <p class="stat-label">Asset-Value Lever</p>
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-trending-up"/></svg></span>
+            <p class="stat-value">$625K</p>
+          </div>
+        </div>
+        <p class="cover-byline">Prepared by EZ NRG&nbsp; ·&nbsp; For hotel owners &amp; general managers evaluating an energy strategy partner</p>
+      </header>
+
+      <!-- Table of contents ------------------------------------------ -->
+      <section class="toc" id="toc" aria-label="Table of contents">
+        <div class="sec-marker"><span class="sec-num">Contents</span><span class="sec-rule"></span></div>
+        <h2>Table of Contents</h2>
+        <ol>
+          <li><a href="#exec-summary"><span class="toc-n">01</span><span>Executive Summary</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#what-we-do"><span class="toc-n">02</span><span>What We Do</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#distinct-system"><span class="toc-n">03</span><span>Why Hotels Are a Distinct Energy System</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#load-shape"><span class="toc-n">04</span><span>The Load Shape Is the Asset</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#adopt-strategy"><span class="toc-n">05</span><span>Why Hotels Need to Adopt an Energy Strategy</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#market-context"><span class="toc-n">06</span><span>Market Context: Illinois, ComEd &amp; PJM</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#intelligence-stack"><span class="toc-n">07</span><span>Solution: The Hotel Energy Intelligence Stack</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#immediate-savings"><span class="toc-n">08</span><span>Driving Immediate Savings</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#long-term-economics"><span class="toc-n">09</span><span>Long-Term Economics</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#btm-storage"><span class="toc-n">10</span><span>Behind-the-Meter Generation &amp; Storage</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#appendix-a"><span class="toc-n">A</span><span>Appendix: Property Load Profiles</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#sources"><span class="toc-n">B</span><span>Sources</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+        </ol>
+      </section>
+
+      <!-- 01 --------------------------------------------------------- -->
+      <section id="exec-summary">
+        <div class="sec-marker"><span class="sec-num">01</span><span class="sec-rule"></span></div>
+        <h2>Executive Summary</h2>
+        <p>A hotel is not an office building with beds. It is a 24/7 service factory where electricity, gas, and water are converted into sleep quality, hot showers, clean linens, food service, comfort, and brand consistency. That makes energy both a cost center and a product input. The goal is not simply to use less energy — it is to use the right energy, at the right time, in ways guests never notice, all in the effort to increase Net Operating Income (NOI). Because a hotel trades on its NOI, every dollar of energy cost removed raises not just profit but the property’s underlying asset value. EZ NRG is built to deliver that value on an aligned model: we own the enabling asset, the owner saves, with $0 down.</p>
+        <p>In ComEd/PJM, the value of energy management is increasingly determined not only by annual kWh savings, but by when load occurs, how much flexibility exists, and whether performance can be verified. This white paper argues that machine learning should not be treated as a stand-alone product or an “AI layer.” Its practical role is to coordinate decisions that already have economic value: forecasting load, identifying peak-risk windows, estimating controllable flexibility, detecting waste, improving procurement decisions, and preparing hotels for future demand response, storage, and virtual-power-plant participation. Regulatory reform — including FERC Order 2222 and Illinois storage/VPP policy — creates upside, but the near-term business case rests on existing operational savings, better procurement, and management. The recommended strategy is staged in five steps:</p>
+        <div class="steps">
+          <div class="step"><span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-gauge"/></svg></span><p class="step-name">Measure</p><p class="step-desc">Normalize interval, weather &amp; occupancy data</p></div>
+          <div class="step"><span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-brain"/></svg></span><p class="step-name">Model</p><p class="step-desc">Forecast load &amp; flag anomalies</p></div>
+          <div class="step"><span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-sliders"/></svg></span><p class="step-name">Control</p><p class="step-desc">Act within guardrails, comfort first</p></div>
+          <div class="step"><span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-dollar"/></svg></span><p class="step-name">Monetize</p><p class="step-desc">Procurement, peak &amp; DR value</p></div>
+          <div class="step"><span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg></span><p class="step-name">Build</p><p class="step-desc">Size solar, storage &amp; CHP last</p></div>
+        </div>
+        <h3>24/7 Buildings</h3>
+        <p>Hotel energy use is materially influenced by occupancy, but not linearly determined by it. The highest-value forecasting variables are occupancy, weather, service intensity, equipment schedules, and operating constraints. As utility rates become more dynamic (Time-of-Use) and market access grows, this opens the door to a unique opportunity. DOE’s Better Buildings hospitality sector notes that hotels are among the higher energy and water consumers per square foot because they operate continuously, and EIA’s 2018 CBECS lodging data shows that lodging represented 3% of U.S. commercial buildings, 9% of fuels consumption, and 8% of fuels expenditures — while water heating and space heating alone accounted for almost 40% of energy usage.<a class="cite" href="#src-1">[1]</a><a class="cite" href="#src-2">[2]</a></p>
+        <h3>Bridging the Value Gap Through Expertise</h3>
+        <p>Hotel owners are entering a period where energy value is increasingly determined by timing, flexibility, and verifiability rather than only annual kWh savings or supplier contract price. PJM capacity-market volatility has moved from an abstract wholesale issue into a retail procurement issue: the 2025/2026 Base Residual Auction produced a $14.7 billion total cost to load, the 2026/2027 BRA cleared at the $329.17/MW-day UCAP cap, and the 2027/2028 BRA cleared at the temporary $333.44/MW-day UCAP cap while procuring less capacity than the RTO Reliability Requirement. These outcomes don’t flow through identically to every hotel — exposure depends on supplier contract structure, utility treatment, hedging, and rate design — but they make the same point: load shape, peak contribution, and contract structure now matter more than they did in a low-capacity-price environment.</p>
+      </section>
+
+      <!-- 02 --------------------------------------------------------- -->
+      <section id="what-we-do">
+        <div class="sec-marker"><span class="sec-num">02</span><span class="sec-rule"></span></div>
+        <h2>What We Do</h2>
+        <p>We help hotel owners lower electricity cost and reduce market exposure using procurement, bill analysis, interval-data intelligence, and operational peak management — without disrupting guest experience.</p>
+      </section>
+
+      <!-- 03 --------------------------------------------------------- -->
+      <section id="distinct-system">
+        <div class="sec-marker"><span class="sec-num">03</span><span class="sec-rule"></span></div>
+        <h2>Why Hotels Are a Distinct Energy System</h2>
+        <h3>A hotel is a service platform, not a generic commercial building.</h3>
+        <p>Unlike many commercial properties, a hotel does not simply consume energy to keep a space open during business hours — it converts energy into a continuous guest experience: conditioned rooms, hot water, clean linens, food service, lighting, ventilation, elevators, technology access, common-area comfort, and brand-required amenity availability. Energy is therefore not just a utility expense; it is an input into the hotel’s core product. DOE and ENERGY STAR hospitality resources identify operations and controls as key energy-management themes for lodging facilities.<a class="cite" href="#src-1">[1]</a><a class="cite" href="#src-3">[3]</a> Hotels also carry a mix of fixed, variable, and schedulable loads: common-area lighting, ventilation, refrigeration, IT systems, pumps, elevators, and baseline HVAC are always present, while occupancy, weather, housekeeping, food service, laundry volume, and event schedules drive the rest. A limited-service roadside hotel, a full-service urban hotel, and a resort property may all be classified as “lodging,” but their energy profiles behave very differently.</p>
+        <h3>The key variables are occupancy, weather, and service intensity.</h3>
+        <p>Occupancy changes guest-room HVAC, plug load, domestic hot water, elevators, laundry volume, kitchen activity, and staffing. Weather changes heating and cooling demand, humidity-control requirements, and equipment efficiency. Service intensity changes the non-room load, especially in full-service properties with kitchens, banquet space, laundry, pools, or spas — hotel energy forecasting research has explicitly used occupancy rate and temperature as model inputs, and hotel cooling-energy research confirms the influence of meteorological conditions and guest counts.<a class="cite" href="#src-4">[4]</a><a class="cite" href="#src-5">[5]</a> This is why hotel load should not be treated as simply proportional to occupancy: a hotel has a meaningful baseload, and two nights with the same room count can produce different energy outcomes depending on outdoor temperature, event activity, laundry timing, guest behavior, and operating schedules.</p>
+        <h3>This load profile creates an information problem.</h3>
+        <p>A monthly bill shows how much energy was consumed, but not when the hotel created cost, when it had flexibility, or which subsystem caused the deviation. The required foundation is therefore high-resolution interval data, weather, occupancy proxies, and operational context — together, they let a hotel move from reactive bill review to predictive energy management. The question changes from “how much did we spend last month?” to “which hours are likely to create avoidable costs, which systems are driving that risk, and what can we safely do about it without compromising the guest experience?” This is also why an intelligence layer becomes more valuable across a portfolio: one hotel’s interval data can identify local waste and peak-risk patterns, but many similar hotels in the same region reveal stronger ones — how comparable properties respond to weather, how occupancy translates into load, and which interventions are most effective.<a class="cite" href="#src-6">[6]</a><a class="cite" href="#src-7">[7]</a> Hotels are not merely buildings to be benchmarked; they are operating systems with measurable demand, controllable flexibility, and repeatable patterns.</p>
+      </section>
+
+      <!-- 04 --------------------------------------------------------- -->
+      <section id="load-shape">
+        <div class="sec-marker"><span class="sec-num">04</span><span class="sec-rule"></span></div>
+        <h2>The Load Shape Is the Asset</h2>
+        <p>If a hotel’s energy strategy has a single foundation, it is the shape of its load — not the total kilowatt-hours it consumes, but when those kilowatts arrive. Across four metered lodging properties in the ComEd territory, that shape is strikingly consistent, and it points the same direction.</p>
+        <p>Every one of the four meters set its annual peak in January, and every peak landed in a morning or evening ramp hour — 07:00 and 09:00 on one side of the day, 17:00 and 19:00 on the other<a class="meter-ref" href="#prop-780" title="See Appendix A · Meter 780">780</a><a class="meter-ref" href="#prop-781" title="See Appendix A · Meter 781">781</a>. None peaked on a summer afternoon. That single fact matters because PJM’s system and capacity peaks fall on hot summer afternoons<a class="cite" href="#src-8">[8]</a> — the hotel’s load is inverted relative to the grid it buys from. When the grid is most stressed and capacity is most expensive, these properties run near their seasonal minimum; when they hit their own peaks, the wider grid is calm.</p>
+        <p>The monthly record makes the inversion concrete. For the combined meters detailed in <a href="#appendix-a5">Appendix A5</a>, billing-month peak demand runs 127 kW in January and 98 kW in December but collapses to 46–47 kW across June, July, and August — a winter peak more than 2.5× the summer one. Because delivery (demand) charges are set by each month’s highest kW interval, the property carries its heaviest demand-charge burden in winter, not summer.</p>
+        <div class="stat-grid">
+          <div class="stat">
+            <p class="stat-label">Peak-to-Average Ratio</p>
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-activity"/></svg></span>
+            <p class="stat-value">5.1x</p>
+          </div>
+          <div class="stat">
+            <p class="stat-label">Winter vs. Summer Peak</p>
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-thermometer"/></svg></span>
+            <p class="stat-value">2.5x+</p>
+          </div>
+          <div class="stat">
+            <p class="stat-label">Jan vs. Jul Delivery Charge</p>
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg></span>
+            <p class="stat-value">$2,540 / $920</p>
+          </div>
+        </div>
+        <p>Two consequences follow, and they run through the rest of this paper. First, the peaks are peaky — individual meters show peak-to-average ratios as high as 5× (a 101.62 kW peak against a 19.9 kW average)<a class="meter-ref" href="#prop-780" title="See Appendix A · Meter 780">780</a>. A load that spikes far above its own baseline for a handful of ramp hours is, by definition, a load with a large controllable, schedulable slice — the raw material for demand-charge management, demand response, and storage dispatch. Second, because those spikes rarely coincide with the grid’s own peaks, the property is naturally well-positioned on the capacity and coincident-peak exposures that increasingly drive cost.</p>
+        <h3>This is what it means to call a hotel a grid asset rather than a passive ratepayer.</h3>
+        <p>The load shape is not a liability to be minimized; it is an asset to be understood and then monetized — through procurement structured around the real profile, demand-charge reduction targeted at the winter ramp hours, and, eventually, storage sized to the specific hours that carry the cost.</p>
+      </section>
+
+      <!-- 05 --------------------------------------------------------- -->
+      <section id="adopt-strategy">
+        <div class="sec-marker"><span class="sec-num">05</span><span class="sec-rule"></span></div>
+        <h2>Why Hotels Need to Adopt an Energy Strategy</h2>
+        <p>From 2023 to 2025, one Chicago-area property saw considerable operating improvements — but energy tells a more complicated story than the topline growth suggests.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Year</th><th>OCU</th><th>Revenue</th><th>ADR</th><th>RevPAR</th><th>GOP</th><th>Net Income</th></tr></thead>
+            <tbody>
+              <tr><td>2023</td><td>52.5%</td><td>$3.2M</td><td>$106</td><td>$55.80</td><td>$574,643</td><td>($406,347)</td></tr>
+              <tr><td>2024</td><td>56.4%</td><td>$3.7M</td><td>$112</td><td>$63.10</td><td>$634,240</td><td>($578,020)</td></tr>
+              <tr><td>2025</td><td>63.2%</td><td>$4.3M</td><td>$119</td><td>$75.30</td><td>$1,076,857</td><td>($189,548)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">OCU = occupancy · TR = total revenue · ADR = average daily rate · RevPAR = revenue per available room · GOP = gross operating profit. Net income shown in parentheses where negative.</p>
+        <p>This Chicago-North hotel improved materially from 2023 to 2025. However, the core finding with respect to energy is that utilities remained highly significant to profitability: in 2025, utilities still represented 21.7% of GOP. The stronger thesis is not simply that hotels should use less energy and “save more money” — it is that hotels need to know which loads are fixed, which are variable, which are weather-driven, which are schedulable, and which are controllable without affecting guest experience.</p>
+        <h3>Financial Implications &amp; Scenarios</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Utility</th><th>2024</th><th>2025</th></tr></thead>
+            <tbody>
+              <tr><td>Electricity</td><td>$144,649 (3.92% of TR)</td><td>$154,748 (3.58% of TR)</td></tr>
+              <tr><td>Natural Gas</td><td>$25,849 (0.70% of TR)</td><td>$28,189 (0.65% of TR)</td></tr>
+              <tr><td>Water &amp; Sewer</td><td>$35,735 (0.97% of TR)</td><td>$50,667 (1.17% of TR)</td></tr>
+              <tr class="is-total"><td>Total Utilities</td><td>$206,234 (5.6% of TR)</td><td>$233,605 (5.4% of TR)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">Electricity, natural gas, and water/sewer are distinct utility line items and are never averaged together.</p>
+        <p>Because utilities scale against a much smaller profit base than revenue, even a partial reduction moves GOP materially. A full elimination of the electricity line would have moved GOP by double digits in either year:</p>
+        <div class="stat-grid">
+          <div class="stat">
+            <p class="stat-label">2024 Electricity as % of GOP</p>
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-percent"/></svg></span>
+            <p class="stat-value">22.8%</p>
+          </div>
+          <div class="stat">
+            <p class="stat-label">2025 Electricity as % of GOP</p>
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-percent"/></svg></span>
+            <p class="stat-value">14.4%</p>
+          </div>
+        </div>
+        <h3>Energy Cost Is an Asset-Value Lever, Not Just a Line Item</h3>
+        <p>Because hotels trade as income-producing assets, these utility figures matter well beyond the income statement. Every recurring dollar removed from operating expense flows directly into Net Operating Income, and stabilized NOI capitalized at the prevailing market cap rate is a primary determinant of a hotel’s value.<a class="cite" href="#src-9">[9]</a><a class="cite" href="#src-10">[10]</a> The arithmetic is direct: at an illustrative 8.0% cap rate, a $50,000 reduction in annual utility expense is not merely a $50,000 saving — it represents roughly $625,000 in incremental asset value ($50,000 ÷ 0.08). Energy strategy is not a cost-cutting exercise; it is a balance-sheet lever, and the payoff scales with the property’s valuation multiple.</p>
+        <blockquote class="pullquote">
+          <p>At EZ NRG, our strategy targets 90–100% reductions to a client’s electricity bill — without the owner taking out loans, and with $0 down. We own the asset. You save.</p>
+        </blockquote>
+      </section>
+
+      <!-- 06 --------------------------------------------------------- -->
+      <section id="market-context">
+        <div class="sec-marker"><span class="sec-num">06</span><span class="sec-rule"></span></div>
+        <h2>Market Context: Illinois, ComEd &amp; PJM</h2>
+        <h3>Market Structure</h3>
+        <p>Founded in 1927, PJM is the regional grid operator responsible for coordinating the movement of wholesale electricity across a large multi-state region that includes northern Illinois and the ComEd service territory. PJM doesn’t own power plants, local distribution wires, or customer meters — instead, it acts as the independent system operator and market administrator that balances electricity supply and demand in real time, manages transmission-grid reliability, and runs wholesale markets for energy, capacity, and ancillary services.</p>
+        <div class="flow">
+          <div class="step"><span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-factory"/></svg></span><p class="step-name">Power Plant</p><p class="step-desc">Generates electricity</p></div>
+          <div class="step"><span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg></span><p class="step-name">Transmission</p><p class="step-desc">PJM balances &amp; moves it long-distance</p></div>
+          <div class="step"><span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-cable"/></svg></span><p class="step-name">Distribution</p><p class="step-desc">ComEd delivers it locally</p></div>
+          <div class="step"><span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg></span><p class="step-name">End User</p><p class="step-desc">The hotel meters &amp; pays</p></div>
+        </div>
+        <p>Customers usually don’t interact directly with PJM, but PJM outcomes influence the cost structure that eventually flows through to suppliers, utilities, and end-use customers.<a class="cite" href="#src-11">[11]</a> Its membership includes utility companies, wholesale suppliers, large industrial users, and a growing number of DER aggregators participating on behalf of energy users who couldn’t otherwise access PJM’s markets.<a class="cite" href="#src-12">[12]</a> In Illinois, ComEd remains responsible for delivering electricity safely and reliably over the local distribution system — even when a customer chooses a third-party retail supplier, ComEd continues to provide delivery service, maintain local wires and infrastructure, and respond to outages.</p>
+        <h3>Why This Matters to a Hotel’s Bill</h3>
+        <p>Energy cost is shaped by more than the supplier’s cents-per-kWh rate. A hotel’s bill can reflect delivery charges, supply charges, capacity-related costs, transmission-related costs, taxes, riders, and contract-specific pass-throughs. PJM doesn’t send the hotel a monthly retail bill, but its markets help determine the underlying wholesale costs that suppliers and utilities must manage — so a hotel’s physical load shape (when it uses electricity, how high its peaks run, how flexible it can be) affects its exposure to costs that originate upstream. When the system is tight, high-demand hours become especially important: a customer that can forecast, reduce, or shift load during those windows may reduce certain cost exposures, improve procurement outcomes, or participate indirectly in demand response through an approved market participant or aggregator. A hotel may be a retail customer on paper, but its operating behavior still has wholesale-market consequences.</p>
+        <h3>Economic Opportunities</h3>
+        <p>Value accrues in layers. The opportunities below ascend from the broadest and lowest-risk — smarter procurement and reduced capacity exposure — through demand response and aggregation, up to the most capital-intensive layer, behind-the-meter assets. Each higher rung depends on the operational intelligence established beneath it, which is why the sequence matters as much as any single tactic.</p>
+        <ol class="ladder">
+          <li><span class="ladder-n">1</span><div><p class="ladder-title">Procurement &amp; Capacity Exposure</p><p class="ladder-desc">FERC oversees PJM’s energy, capacity, and ancillary-service markets — understanding them opens opportunities to use energy in grid-wide low-demand hours and less during high demand.<a class="cite" href="#src-13">[13]</a><a class="cite" href="#src-14">[14]</a> Beyond monthly demand charges, a hotel’s contribution during a small number of system-wide peak hours can influence future capacity-related charges.</p></div></li>
+          <li><span class="ladder-n">2</span><div><p class="ladder-title">Demand Response Participation</p><p class="ladder-desc">HVAC, domestic hot water, laundry, pool equipment, and ventilation schedules can often be adjusted for short periods without materially impacting the guest experience when professionally managed.</p></div></li>
+          <li><span class="ladder-n">3</span><div><p class="ladder-title">Virtual Power Plants &amp; DER Aggregation</p><p class="ladder-desc">Most individual hotels are too small to participate directly in wholesale markets. Aggregators combine hundreds or thousands of sites into a portfolio capable of meeting market participation requirements.</p></div></li>
+          <li><span class="ladder-n">4</span><div><p class="ladder-title">Behind-the-Meter Asset Optimization</p><p class="ladder-desc">Battery storage, solar, CHP, and thermal storage are valuable not because they store electricity, but because they store it at one moment and deploy it at another — which is why operational intelligence must precede capital deployment.</p></div></li>
+        </ol>
+        <h3>Retail Choice &amp; Illinois Energy Policy</h3>
+        <p>Illinois has retail electric choice in the major investor-owned utility territories, including ComEd, Ameren Illinois, and MidAmerican — customers can choose who supplies the electricity-supply portion of their service while the local utility remains responsible for delivery, reliability, outage response, and metering.<a class="cite" href="#src-15">[15]</a> For hotel owners, retail choice should be viewed as a strategic procurement tool rather than a simple rate-shopping exercise: a fixed-price product provides budget certainty but can embed supplier risk premiums, while an indexed or pass-through product exposes the customer more directly to wholesale movement, capacity costs, or other non-energy components. The best product depends on the hotel’s actual operating profile, not only the lowest quoted cents-per-kWh rate.<a class="cite" href="#src-16">[16]</a> The Clean and Reliable Grid Affordability Act (CRGA, Public Act 104-0458, 2025) creates a policy pathway for energy storage procurement, a Storage for All evaluation, and customer-sited flexibility programs — all directly relevant to hotel earnings. In PJM, DER aggregation for energy and ancillary services is scheduled for February 1, 2028, with capacity-market implementation tied to the 2028/2029 capacity year. A hotel platform that can already measure, forecast, verify, and safely control load will be better positioned as these markets become accessible.</p>
+      </section>
+
+      <!-- 07 --------------------------------------------------------- -->
+      <section id="intelligence-stack">
+        <div class="sec-marker"><span class="sec-num">07</span><span class="sec-rule"></span></div>
+        <h2>Solution: The Hotel Energy Intelligence Stack</h2>
+        <p>Machine learning is useful when it improves a decision that already has economic value. For hotels, the useful decisions are load forecasting, block sizing, peak-risk alerts, controllable-load estimation, anomaly detection, demand response execution, and behind-the-meter dispatch — an established research area, and NREL’s Wattile project illustrates probabilistic building load forecasting using historical weather and occupancy indicator streams.<a class="cite" href="#src-17">[17]</a> The four layers below map directly onto the five-step sequence introduced earlier: Data and Intelligence are where the property measures and models; Control is where it acts; Market is where verified performance is monetized. Behind-the-meter assets come last, and only after the first four layers have established what the load is worth.</p>
+        <div class="layers">
+          <div class="layer">
+            <div class="layer-head"><svg class="ic" aria-hidden="true"><use href="#i-database"/></svg><p class="layer-name">The Data Layer</p></div>
+            <ul>
+              <li>Revenue-grade interval meter data (15-minute or finer)</li>
+              <li>Submetering for HVAC, hot water, laundry</li>
+              <li>BMS points: temperatures, setpoints, equipment status</li>
+              <li>Occupancy &amp; service proxies: PMS room count, bookings, events</li>
+              <li>Market data: weather forecasts, PJM day-ahead &amp; real-time prices</li>
+            </ul>
+          </div>
+          <div class="layer">
+            <div class="layer-head"><svg class="ic" aria-hidden="true"><use href="#i-brain"/></svg><p class="layer-name">The Intelligence Layer</p></div>
+            <ul>
+              <li>Baseline modeling</li>
+              <li>Probabilistic load forecasting</li>
+              <li>Flexibility envelope modeling</li>
+              <li>Anomaly detection</li>
+              <li>Optimization</li>
+            </ul>
+          </div>
+          <div class="layer">
+            <div class="layer-head"><svg class="ic" aria-hidden="true"><use href="#i-sliders"/></svg><p class="layer-name">The Control Layer</p></div>
+            <p>Deterministic execution at the edge; the model recommends, the building only runs pre-approved sequences. Hard guardrails, in order: life safety, guest comfort, equipment protection, cost optimization. OpenADR standardizes DR/DER communication, but local override &amp; fail-safe logic are still required.<a class="cite" href="#src-18">[18]</a><a class="cite" href="#src-19">[19]</a></p>
+          </div>
+          <div class="layer">
+            <div class="layer-head"><svg class="ic" aria-hidden="true"><use href="#i-trending-up"/></svg><p class="layer-name">The Market Layer</p></div>
+            <p>Negotiate procurement around a better-understood load profile; reduce peak-risk exposure; participate in demand response through a partner; dispatch solar-storage against known marginal-value hours.<a class="cite" href="#src-20">[20]</a><a class="cite" href="#src-21">[21]</a></p>
+          </div>
+        </div>
+        <h3>Baselines</h3>
+        <p>The baseline is the foundation of the entire strategy. A useful baseline can’t rely only on last year’s bills or average monthly usage — it must use interval data, weather, occupancy proxies, and operational context to estimate what load would have been under comparable conditions. A 90%-occupancy day in July should not be compared directly to a 45%-occupancy day in April.</p>
+        <h3>Forecast Accuracy</h3>
+        <p>A model may show acceptable average error across the month but still fail during the highest-value hours, so it should measure peak-hour error and confidence-band performance — and know when operator review is required. Accuracy should improve as more interval, occupancy, weather, and event data accumulate.</p>
+      </section>
+
+      <!-- 08 --------------------------------------------------------- -->
+      <section id="immediate-savings">
+        <div class="sec-marker"><span class="sec-num">08</span><span class="sec-rule"></span></div>
+        <h2>Driving Immediate Savings</h2>
+        <h3>Electricity Procurement</h3>
+        <p>Retail electricity choice has been a contentious topic in states across the United States, with critics questioning its effectiveness — often due to the conflict of interest a broker has in serving their clients. EZ NRG aligns those interests in a verifiable, autonomous manner, so our incentive remains to serve you.</p>
+        <h3>Real-Time Pricing</h3>
+        <p>Electricity procurement deals with securing forward contracts for future usage. Pre-existing structures also combine a fixed procurement with a real-time balancing mechanism — complex and costly enough that they’re typically reserved for industrial-scale customers. But these structures would be especially beneficial to hospitality owners given the nature of their load shape: because hospitality load runs inverted relative to grid-wide usage — peaking during morning and evening ramp hours rather than summer afternoons<a class="meter-ref" href="#prop-780" title="See Appendix A · Meter 780">780</a><a class="meter-ref" href="#prop-781" title="See Appendix A · Meter 781">781</a> — hospitality properties have a real opportunity to leverage this fact. By aggregating properties, EZ NRG can act as the aggregator, adding value to hospitality owners through futures hedging, options contracts, and more.</p>
+        <p>We analyzed over 25,000 days of data from hotel owners in the Chicagoland region and correlated their interval usage with ComEd real-time pricing data. We found their average price could have been $2.96 per kWh (before capacity and transmission fees) had an energy strategy partner helped them confidently enroll in the program. Real-time pricing does carry downsides — severe peaks during grid-stressed events and added billing complexity from settling interval data against real-time prices — but not leveraging the real-time market, or at least negotiating smarter procurement contracts, is money left on the table for property owners.</p>
+        <div class="stat-grid is-single">
+          <div class="stat">
+            <p class="stat-label">Modeled Average Price</p>
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-line-chart"/></svg></span>
+            <p class="stat-value">$2.96/kWh</p>
+          </div>
+        </div>
+        <p class="table-note">Before capacity &amp; transmission fees · 25,000+ property-days analyzed, Chicagoland region</p>
+      </section>
+
+      <!-- 09 --------------------------------------------------------- -->
+      <section id="long-term-economics">
+        <div class="sec-marker"><span class="sec-num">09</span><span class="sec-rule"></span></div>
+        <h2>Long-Term Economics</h2>
+        <h3>A Waterfall of Value Creation That Compounds</h3>
+        <p>Because of our vision for a stakeholder-led, decentralized energy business model, the economic benefits for our clients compound over time with each partner and with growth. The initial phase is designed to reduce upfront owner risk by focusing first on data access, bill analysis, interval-load review, and low-risk operational recommendations before any capital deployment or market obligation.<a class="cite" href="#src-22">[22]</a><a class="cite" href="#src-23">[23]</a><a class="cite" href="#src-20">[20]</a><a class="cite" href="#src-24">[24]</a><a class="cite" href="#src-25">[25]</a></p>
+        <h3>Potential Economic Benefits</h3>
+        <p>The future is hard to predict, and the following is for illustrative purposes only. If a hotel owner were to install a 100 kW battery and offer it as a demand response product to PJM, at the most recent price of $333.44/MW-day, the gross contracted earnings would look like this:</p>
+        <div class="stat-grid">
+          <div class="stat">
+            <p class="stat-label">Daily Gross Capacity Revenue</p>
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+            <p class="stat-value">$30.68</p>
+          </div>
+          <div class="stat">
+            <p class="stat-label">Annual Gross Capacity Revenue</p>
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-dollar"/></svg></span>
+            <p class="stat-value">$11,196.92</p>
+          </div>
+          <div class="stat">
+            <p class="stat-label">Demand Charge Reduction</p>
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-trending-down"/></svg></span>
+            <p class="stat-value">$9,600/yr</p>
+          </div>
+        </div>
+        <p class="table-note">Demand charge reduction assumes 40 kW shaved per month at $20/kW.</p>
+        <p>While these figures may not seem significant on their own, this roughly $20,000 per year could instead fund sales-agency spend for additional bookings — and it doesn’t account for other market revenues (ancillary, energy, arbitrage). As rates continue to rise, this becomes a real profit lever for increasing income and asset value.</p>
+      </section>
+
+      <!-- 10 --------------------------------------------------------- -->
+      <section id="btm-storage">
+        <div class="sec-marker"><span class="sec-num">10</span><span class="sec-rule"></span></div>
+        <h2>Behind-the-Meter Generation &amp; Storage: Sequence Matters</h2>
+        <p>Behind-the-meter assets should be sized after the load is understood. Their financial value depends on when output or discharge coincides with avoided energy costs, demand charges, capacity exposure, DR events, tariff rules, interconnection limits, and emissions goals.<a class="cite" href="#src-17">[17]</a><a class="cite" href="#src-21">[21]</a><a class="cite" href="#src-25">[25]</a><a class="cite" href="#src-27">[27]</a></p>
+        <h3>Solar Considerations</h3>
+        <p>Solar is not automatically a peak hedge. DOE’s discussion of the duck curve explains that high solar production can reduce net load during the day while demand ramps in the evening after solar falls off — a reason to analyze timing before maximizing system size.<a class="cite" href="#src-26">[26]</a></p>
+        <h3>Storage Considerations</h3>
+        <p>Battery value is primarily a timing problem. NREL research identifies demand charges as a key predictor of financial performance for behind-the-meter battery storage, and EIA explains that battery arbitrage means charging when prices are low and discharging when prices are high.<a class="cite" href="#src-25">[25]</a><a class="cite" href="#src-27">[27]</a> In hotels, the same asset may support peak management, DR performance, solar self-consumption, resilience planning, and tariff optimization — but those use cases must be stacked carefully. Given the unique load shapes of hotel properties<a class="meter-ref" href="#prop-780" title="See Appendix A · Meter 780">780</a><a class="meter-ref" href="#prop-781" title="See Appendix A · Meter 781">781</a>, storage offers owners unusual flexibility in reducing demand charges while using headroom that sits unused much of the year.</p>
+        <h3>Recommended Sequencing</h3>
+        <ol class="ladder">
+          <li><span class="ladder-n">1</span><div><p class="ladder-title">Measure</p><p class="ladder-desc">Create clean whole-building and major-end-use interval data.</p></div></li>
+          <li><span class="ladder-n">2</span><div><p class="ladder-title">Model</p><p class="ladder-desc">Forecast load, estimate uncertainty, and identify marginal-value hours.</p></div></li>
+          <li><span class="ladder-n">3</span><div><p class="ladder-title">Control</p><p class="ladder-desc">Test low-risk operating strategies with comfort and equipment guardrails.</p></div></li>
+          <li><span class="ladder-n">4</span><div><p class="ladder-title">Monetize</p><p class="ladder-desc">Use performance records for procurement, peak-risk management, and DR participation.</p></div></li>
+          <li><span class="ladder-n">5</span><div><p class="ladder-title">Build</p><p class="ladder-desc">Size storage and other strategies only after the first four steps establish the value stack.</p></div></li>
+        </ol>
+        <h3>Considerations</h3>
+        <p>The evolution of electricity markets has never been instantaneous. Regulatory frameworks develop through a deliberate process involving utilities, regulators, grid operators, consumer advocates, market participants, and policymakers — and while that can slow implementation, the process exists to preserve reliability, ensure fair competition, and avoid unintended consequences. FERC Order 2222 was issued in September 2020, and regional market operators have begun implementing compliance frameworks, but full market participation for aggregated distributed energy resources remains a multi-year undertaking; in PJM, implementation continues in phases, with current timelines extending into 2028 for full functionality. We acknowledge the uncertainty in timing, market design, participation requirements, and the economic value ultimately available to our stakeholders.</p>
+        <blockquote class="pullquote">
+          <p>We don’t try to time the market. We become the market by serving our customers.</p>
+        </blockquote>
+        <p>We believe uncertainty should be acknowledged rather than ignored. As stewards of our stakeholders’ capital, we view regulatory developments as opportunities, not assumptions — so we proceed cautiously, focusing on strategies that generate measurable value under today’s market structure while maintaining optionality for future participation. Our business model does not depend on the successful implementation of any single regulatory initiative: the core economics come from improving energy procurement, reducing operating expenses, forecasting load more accurately, optimizing consumption patterns, and identifying operational inefficiencies — benefits that can be realized immediately, under existing market rules. Should Order 2222 and similar reforms unlock additional opportunities for distributed energy resources, demand flexibility, virtual power plants, or wholesale market participation, our platform is designed to capture them. If timelines shift or market structures evolve differently than anticipated, the underlying value proposition is unchanged: lower energy costs, reduced volatility, improved operational intelligence, and stronger asset performance. Regulatory change represents upside, not a prerequisite.</p>
+      </section>
+
+      <!-- Appendix A ------------------------------------------------- -->
+      <section id="appendix-a">
+        <div class="sec-marker"><span class="sec-num">A</span><span class="sec-rule"></span></div>
+        <h2>Appendix: Property Load Profiles</h2>
+        <p>Four meters, four ComEd-territory lodging properties — all showing the same shape: a January peak, a summer trough, and ramp-hour spikes rather than summer-afternoon ones. Each chart plots average hourly load across summer days versus winter days.</p>
+        <div class="chart-grid">
+          <figure class="chart-card" id="prop-780">
+            <h3>Customer 1 · Meter 780</h3>
+            <div class="chart-stats">
+              <div class="chart-stat"><p class="k">Peak Demand</p><p class="v">101.62 kW</p><p class="n">Jan 14, 2024 · 17:00</p></div>
+              <div class="chart-stat"><p class="k">Average Load</p><p class="v">19.9 kW</p><p class="n">731 days coverage</p></div>
+            </div>
+            <img src="../img/load-profile-meter-780.png" alt="Seasonal hourly load profile for Customer 1 · Meter 780: average hourly load in kW across summer days versus winter days." width="968" height="340" loading="lazy" decoding="async">
+          </figure>
+          <figure class="chart-card" id="prop-781">
+            <h3>Customer 1 · Meter 781</h3>
+            <div class="chart-stats">
+              <div class="chart-stat"><p class="k">Peak Demand</p><p class="v">26.00 kW</p><p class="n">Jan 13, 2024 · 19:00</p></div>
+              <div class="chart-stat"><p class="k">Average Load</p><p class="v">10.1 kW</p></div>
+            </div>
+            <img src="../img/load-profile-meter-781.png" alt="Seasonal hourly load profile for Customer 1 · Meter 781: average hourly load in kW across summer days versus winter days." width="968" height="340" loading="lazy" decoding="async">
+          </figure>
+          <figure class="chart-card" id="prop-542">
+            <h3>Customer 2 · Meter 542</h3>
+            <div class="chart-stats">
+              <div class="chart-stat"><p class="k">Peak Demand</p><p class="v">84.35 kW</p><p class="n">Jan 15, 2024 · 07:00</p></div>
+              <div class="chart-stat"><p class="k">Average Load</p><p class="v">16.7 kW</p></div>
+            </div>
+            <img src="../img/load-profile-meter-542.png" alt="Seasonal hourly load profile for Customer 2 · Meter 542: average hourly load in kW across summer days versus winter days." width="968" height="340" loading="lazy" decoding="async">
+          </figure>
+          <figure class="chart-card" id="prop-571">
+            <h3>Customer 2 · Meter 571</h3>
+            <div class="chart-stats">
+              <div class="chart-stat"><p class="k">Peak Demand</p><p class="v">45.96 kW</p><p class="n">Jan 1, 2024 · 09:00</p></div>
+              <div class="chart-stat"><p class="k">Average Load</p><p class="v">26.2 kW</p></div>
+            </div>
+            <img src="../img/load-profile-meter-571.png" alt="Seasonal hourly load profile for Customer 2 · Meter 571: average hourly load in kW across summer days versus winter days." width="968" height="340" loading="lazy" decoding="async">
+          </figure>
+        </div>
+        <h3 id="appendix-a5">Appendix A5 — Illustrative Monthly Cost Proxy (Meters 780 &amp; 781 Combined)</h3>
+        <p class="table-note">Illustrative demand and energy cost proxy, not a full ComEd bill reconstruction — excludes capacity, transmission, taxes, riders, and other supplier-specific pass-throughs. Delivery charges assume $20/kW on the billing month’s highest kW interval; energy charges assume $0.08/kWh.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Month</th><th>Peak kW</th><th>D-Charges</th><th>kWh</th><th>E-Charges</th><th>Total</th></tr></thead>
+            <tbody>
+              <tr><td>January</td><td>127</td><td>$2,540</td><td>42,377</td><td>$3,390</td><td>$5,930</td></tr>
+              <tr><td>February</td><td>114</td><td>$2,280</td><td>31,752</td><td>$2,540</td><td>$4,820</td></tr>
+              <tr><td>March</td><td>77</td><td>$1,540</td><td>20,371</td><td>$1,630</td><td>$3,170</td></tr>
+              <tr><td>April</td><td>76</td><td>$1,520</td><td>15,600</td><td>$1,248</td><td>$2,768</td></tr>
+              <tr><td>May</td><td>47</td><td>$940</td><td>10,224</td><td>$820</td><td>$1,760</td></tr>
+              <tr><td>June</td><td>46</td><td>$920</td><td>11,017</td><td>$881</td><td>$1,801</td></tr>
+              <tr><td>July</td><td>46</td><td>$920</td><td>13,955</td><td>$1,116</td><td>$2,036</td></tr>
+              <tr><td>August</td><td>47</td><td>$940</td><td>16,628</td><td>$1,330</td><td>$2,270</td></tr>
+              <tr><td>September</td><td>38</td><td>$760</td><td>15,037</td><td>$1,203</td><td>$1,963</td></tr>
+              <tr><td>October</td><td>80</td><td>$1,600</td><td>14,257</td><td>$1,141</td><td>$2,741</td></tr>
+              <tr><td>November</td><td>78</td><td>$1,560</td><td>10,637</td><td>$851</td><td>$2,411</td></tr>
+              <tr><td>December</td><td>98</td><td>$1,960</td><td>36,088</td><td>$2,887</td><td>$4,847</td></tr>
+              <tr class="is-total"><td>Total</td><td>—</td><td>$17,480</td><td>237,943</td><td>$19,037</td><td>$36,517</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Appendix B ------------------------------------------------- -->
+      <section id="sources">
+        <div class="sec-marker"><span class="sec-num">B</span><span class="sec-rule"></span></div>
+        <h2>Sources</h2>
+        <p>Numbered to match the citation marks used throughout this report.</p>
+        <ol class="source-list">
+          <li id="src-1"><span class="n">[1]</span><span>U.S. Department of Energy, Better Buildings Solution Center, “Hospitality.”</span></li>
+          <li id="src-2"><span class="n">[2]</span><span>U.S. Energy Information Administration, 2018 CBECS, Principal Building Activities: Lodging.</span></li>
+          <li id="src-3"><span class="n">[3]</span><span>ENERGY STAR, “Energy Savings Tips for Small Businesses: Lodging.”</span></li>
+          <li id="src-4"><span class="n">[4]</span><span>Casteleiro-Roca et al., “Short-Term Energy Demand Forecast in Hotels Using Hybrid Intelligent Modeling,” Sensors, 2019.</span></li>
+          <li id="src-5"><span class="n">[5]</span><span>Borowski et al., “Prediction of Cooling Energy Consumption in Hotel Building Using Machine Learning Techniques,” Energies, 2020.</span></li>
+          <li id="src-6"><span class="n">[6]</span><span>U.S. Department of Energy FEMP, “M&amp;V Guidelines: Measurement and Verification for Federal Energy Projects,” Version 5.0.</span></li>
+          <li id="src-7"><span class="n">[7]</span><span>Zhang et al., “A Review of Machine Learning in Building Load Prediction,” Applied Energy, 2021 / OSTI.</span></li>
+          <li id="src-8"><span class="n">[8]</span><span>PJM, “Summer 2025 RTO Coincident Peaks (5CP).”</span></li>
+          <li id="src-9"><span class="n">[9]</span><span>Freddie Mac Multifamily, “Capitalization Rate Guidance,” March 2025.</span></li>
+          <li id="src-10"><span class="n">[10]</span><span>HVS, “Hotel Valuation Techniques.”</span></li>
+          <li id="src-11"><span class="n">[11]</span><span>PJM, “PJM at a Glance.”</span></li>
+          <li id="src-12"><span class="n">[12]</span><span>PJM, “Distributed Energy Resources.”</span></li>
+          <li id="src-13"><span class="n">[13]</span><span>Federal Energy Regulatory Commission, “PJM” market overview.</span></li>
+          <li id="src-14"><span class="n">[14]</span><span>PJM, “Understanding the Differences Among PJM’s Markets,” fact sheet.</span></li>
+          <li id="src-15"><span class="n">[15]</span><span>Plug In Illinois, Illinois Commerce Commission electric-choice website, “Electric Choice Basics.”</span></li>
+          <li id="src-16"><span class="n">[16]</span><span>ComEd, “Understanding Your Electric Bill: A Discussion With a ComEd Expert.”</span></li>
+          <li id="src-17"><span class="n">[17]</span><span>NREL, “Wattile: Probabilistic Deep Learning-Based Forecasting of Building Energy Consumption.”</span></li>
+          <li id="src-18"><span class="n">[18]</span><span>LBNL / ACEEE, Watson et al., “Strategies for Demand Response in Commercial Buildings.”</span></li>
+          <li id="src-19"><span class="n">[19]</span><span>OpenADR Alliance, overview of the Open Automated Demand Response standard.</span></li>
+          <li id="src-20"><span class="n">[20]</span><span>PJM, “Demand Response,” fact sheet.</span></li>
+          <li id="src-21"><span class="n">[21]</span><span>Lawrence Berkeley National Laboratory, “Demand Flexibility.”</span></li>
+          <li id="src-22"><span class="n">[22]</span><span>PJM, “2025/2026 Base Residual Auction Report.”</span></li>
+          <li id="src-23"><span class="n">[23]</span><span>PJM, “2026/2027 Base Residual Auction Report.”</span></li>
+          <li id="src-24"><span class="n">[24]</span><span>CME Group, “Henry Hub Natural Gas Futures Overview.”</span></li>
+          <li id="src-25"><span class="n">[25]</span><span>NREL, “Identifying Potential Markets for Behind-the-Meter Battery Energy Storage: A Survey of U.S. Demand Charges.”</span></li>
+          <li id="src-26"><span class="n">[26]</span><span>U.S. Department of Energy, “Confronting the Duck Curve: How to Address Over-Generation of Solar Energy.”</span></li>
+          <li id="src-27"><span class="n">[27]</span><span>U.S. Energy Information Administration, “Utility-Scale Batteries Are More Commonly Used for Price Arbitrage.”</span></li>
+        </ol>
+      </section>
+
+      <!-- CTA -------------------------------------------------------- -->
+      <aside class="doc-cta">
+        <h2>Want this run against your property?</h2>
+        <p>We start with your interval data and your bills — no capital, no disruption to the guest experience. Join our operator channels and we'll take it from there.</p>
+        <a class="button" href="/hospitality#channels">Talk to our team<svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+      </aside>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>EZ NRG — customer-first energy strategy for the decentralized energy future.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Reading progress + active-section highlighting in the sticky rail.
+    // Self-contained, no dependencies (mirrors ../index.html's approach).
+    (function () {
+      var bar = document.getElementById("progress");
+      var railLinks = Array.prototype.slice.call(
+        document.querySelectorAll(".rail a")
+      );
+      var byId = {};
+      railLinks.forEach(function (a) {
+        byId[a.getAttribute("href").slice(1)] = a;
+      });
+      var sections = Object.keys(byId)
+        .map(function (id) { return document.getElementById(id); })
+        .filter(Boolean);
+
+      var ticking = false;
+      function update() {
+        ticking = false;
+        var doc = document.documentElement;
+        var max = doc.scrollHeight - doc.clientHeight;
+        if (bar) {
+          bar.style.transform =
+            "scaleX(" + (max > 0 ? Math.min(1, doc.scrollTop / max) : 0) + ")";
+        }
+        // Active = last section whose top is above the 40% viewport line.
+        var line = doc.clientHeight * 0.4;
+        var active = null;
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].getBoundingClientRect().top <= line) active = sections[i];
+        }
+        railLinks.forEach(function (a) { a.classList.remove("is-active"); });
+        if (active && byId[active.id]) byId[active.id].classList.add("is-active");
+      }
+      function onScroll() {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+      update();
+    })();
+  </script>
+</body>
+</html>
