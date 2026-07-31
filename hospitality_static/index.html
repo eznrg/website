@@ -28,6 +28,7 @@
       These MIRROR the main site's mint theme but are intentionally copied,
       not imported — this page has no dependency on /src/styles.css, so a
       future theme change on the main site can never alter or break it.
+      The white paper at ./whitepaper/ carries its own copy of the same tokens.
     */
     :root {
       color-scheme: dark;
@@ -79,6 +80,8 @@
       line-height: 1.04;
     }
     p { margin-top: 0; }
+
+    .ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     /* Header ------------------------------------------------------ */
     .site-header {
@@ -164,18 +167,56 @@
     /* Hero -------------------------------------------------------- */
     .hero { padding-top: 72px; padding-bottom: 56px; overflow: hidden; }
     .hero h1 {
-      max-width: 780px;
+      max-width: 820px;
       margin-bottom: 22px;
       font-size: clamp(2.6rem, 5vw, 4.4rem);
       letter-spacing: -0.03em;
     }
     .hero-body {
-      max-width: 640px;
+      max-width: 660px;
       margin-bottom: 30px;
       color: var(--muted);
       font-size: clamp(1.05rem, 2vw, 1.25rem);
     }
     .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+
+    /* Stat band --------------------------------------------------- */
+    .stat-band {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+    .stat-item .stat-icon {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 16px;
+      place-items: center;
+      color: var(--primary);
+      background: rgba(139, 216, 166, 0.1);
+      border: 1px solid rgba(139, 216, 166, 0.22);
+      border-radius: 9px;
+    }
+    .stat-item .stat-icon .ic { width: 17px; height: 17px; }
+    .stat-value {
+      margin: 0 0 6px;
+      font-family: var(--font-mono);
+      font-size: clamp(1.7rem, 3.2vw, 2.2rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+    .stat-label { margin: 0; max-width: 24ch; color: var(--muted); font-size: 0.9rem; line-height: 1.45; }
+    .stat-source {
+      margin: 26px 0 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+      opacity: 0.85;
+    }
+    .stat-source a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
 
     /* Cards ------------------------------------------------------- */
     .card-grid {
@@ -214,9 +255,90 @@
     .info-card h3 { margin-bottom: 12px; font-size: 1.16rem; letter-spacing: -0.01em; }
     .info-card p { margin: 0; color: var(--muted); }
 
-    .section-heading { max-width: 720px; margin-bottom: 32px; }
+    .section-heading { max-width: 760px; margin-bottom: 32px; }
     .section-heading h2 { font-size: clamp(2rem, 4vw, 3.2rem); margin-bottom: 14px; }
     .section-heading p { color: var(--muted); font-size: 1.05rem; }
+
+    /* Load-shape explainer ---------------------------------------- */
+    .shape-section { border-top: 1px solid var(--border); }
+    .shape-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      gap: 40px;
+      align-items: center;
+    }
+    .shape-figure { margin: 0; }
+    .shape-figure img {
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(23, 27, 25, 0.78);
+    }
+    .shape-figure figcaption {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.5;
+    }
+    .shape-copy p { color: var(--muted); margin-bottom: 18px; }
+    .shape-copy p strong { color: var(--text); font-weight: 700; }
+    .shape-copy p:last-child { margin-bottom: 0; }
+
+    /* Sequence steps ---------------------------------------------- */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .step {
+      padding: 24px 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(23, 27, 25, 0.62);
+    }
+    .step-n {
+      margin: 0 0 16px;
+      color: rgba(139, 216, 166, 0.6);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+    }
+    .step .card-icon { width: 36px; height: 36px; margin-bottom: 16px; }
+    .step .card-icon svg { width: 18px; height: 18px; }
+    .step h3 { margin-bottom: 8px; font-size: 1.05rem; }
+    .step p { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
+
+    /* White-paper CTA --------------------------------------------- */
+    .paper-section { border-top: 1px solid var(--border); }
+    .paper-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 36px;
+      align-items: center;
+      padding: 44px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(145deg, rgba(139, 216, 166, 0.08), transparent 44%),
+        rgba(23, 27, 25, 0.82);
+      box-shadow: 0 26px 76px rgba(0, 0, 0, 0.28);
+    }
+    .paper-card h2 { margin-bottom: 14px; font-size: clamp(1.7rem, 3.2vw, 2.4rem); }
+    .paper-card > div > p { margin: 0 0 8px; color: var(--muted); font-size: 1.02rem; max-width: 60ch; }
+    .paper-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin-top: 20px !important;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
 
     /* Channels ---------------------------------------------------- */
     .channel-section { border-top: 1px solid var(--border); }
@@ -277,9 +399,15 @@
     }
     .is-enhanced .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
+    @media (max-width: 1000px) {
+      .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .shape-grid { grid-template-columns: 1fr; gap: 30px; }
+      .paper-card { grid-template-columns: 1fr; gap: 26px; padding: 34px; }
+    }
     @media (max-width: 900px) {
       .card-grid { grid-template-columns: 1fr; }
       .channel-grid { grid-template-columns: 1fr; }
+      .stat-band { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; }
       .section { padding: 68px 0; }
     }
     @media (max-width: 640px) {
@@ -287,6 +415,9 @@
       .header-tag { display: none; }
       .hero-actions { display: grid; }
       .button { width: 100%; }
+      .steps { grid-template-columns: 1fr; }
+      .stat-band { grid-template-columns: 1fr; }
+      .paper-card { padding: 26px 22px; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -297,6 +428,23 @@
   </style>
 </head>
 <body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></symbol>
+      <symbol id="i-brain" viewBox="0 0 24 24"><path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></symbol>
+      <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/></symbol>
+      <symbol id="i-dollar" viewBox="0 0 24 24"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></symbol>
+      <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
+      <symbol id="i-thermometer" viewBox="0 0 24 24"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></symbol>
+      <symbol id="i-percent" viewBox="0 0 24 24"><line x1="19" x2="5" y1="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
+      <symbol id="i-trending-up" viewBox="0 0 24 24"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+      <symbol id="i-building" viewBox="0 0 24 24"><path d="M12 16h.01"/><path d="M16 16h.01"/><path d="M3 19a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5a.5.5 0 0 0-.769-.422l-4.462 2.844A.5.5 0 0 1 15 10.5v-2a.5.5 0 0 0-.769-.422L9.77 10.922A.5.5 0 0 1 9 10.5V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/><path d="M8 16h.01"/></symbol>
+      <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
+    </defs>
+  </svg>
+
   <header class="site-header">
     <div class="container header-shell">
       <a class="brand" href="https://eznrg.ai/" aria-label="EZ NRG home">
@@ -311,53 +459,186 @@
     <section class="section hero">
       <div class="container reveal">
         <p class="eyebrow">Hospitality energy strategy</p>
-        <h1>Energy strategy built around your property.</h1>
+        <h1>Your hotel is already a grid asset.</h1>
         <p class="hero-body">
-          <!-- PLACEHOLDER COPY — to be replaced with white-paper content.
-               Speaks to hotels, restaurants, and multi-site hospitality operators. -->
-          EZ NRG helps hospitality operators understand exactly how and when their
-          properties use energy — then turns that into a lower, more predictable cost
-          basis. Join our operator channels below to start the conversation.
+          A hotel is not an office building with beds — it is a 24/7 service factory that
+          converts energy into hot showers, clean linens, and comfort. The goal is not simply
+          to use less energy. It is to use the right energy, at the right time, in ways guests
+          never notice. We turn your property's load shape into a lower, more predictable
+          cost basis.
         </p>
         <div class="hero-actions">
-          <!-- Primary action = join the business channels (no enroll flow on this page) -->
-          <a class="button button-primary" href="#channels">Join our operator channels
-            <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10h10.4M10.9 5.8 15.2 10l-4.3 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <a class="button button-primary" href="/hospitality/whitepaper">Read the white paper
+            <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>
           </a>
+          <a class="button button-secondary" href="#channels">Join our operator channels</a>
+        </div>
+
+        <!-- Headline figures, all sourced from the white paper -->
+        <div class="stat-band">
+          <div class="stat-item">
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-activity"/></svg></span>
+            <p class="stat-value">5.1x</p>
+            <p class="stat-label">Peak-to-average ratio on a metered property</p>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-thermometer"/></svg></span>
+            <p class="stat-value">2.5x+</p>
+            <p class="stat-label">Winter peak vs. summer peak demand</p>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-percent"/></svg></span>
+            <p class="stat-value">21.7%</p>
+            <p class="stat-label">Utilities as a share of GOP, 2025</p>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-trending-up"/></svg></span>
+            <p class="stat-value">$625K</p>
+            <p class="stat-label">Asset value per $50K of annual savings</p>
+          </div>
+        </div>
+        <p class="stat-source">
+          Figures drawn from metered ComEd-territory lodging properties and one Chicago-area
+          operator's financials. <a href="/hospitality/whitepaper">See the full white paper</a>
+          for methodology, assumptions, and sources.
+        </p>
+      </div>
+    </section>
+
+    <!-- Why hotels are different -->
+    <section class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Why hotels are different</p>
+          <h2>A hotel is a distinct energy system.</h2>
+          <p>Lodging is 3% of U.S. commercial buildings but 9% of fuels consumption — and water
+             heating and space heating alone account for almost 40% of that usage. The load
+             behaves unlike any other commercial property.</p>
+        </div>
+        <div class="card-grid">
+          <article class="info-card reveal">
+            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-building"/></svg></span>
+            <h3>Energy is a product input</h3>
+            <p>Your property converts energy into a continuous guest experience — conditioned
+               rooms, hot water, laundry, food service, amenity availability. That makes energy
+               a cost center and an input to the product at the same time.</p>
+          </article>
+          <article class="info-card reveal">
+            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-thermometer"/></svg></span>
+            <h3>Occupancy alone doesn't explain it</h3>
+            <p>Load is driven by occupancy, weather, and service intensity together. Two nights
+               with the same room count can produce very different energy outcomes depending on
+               temperature, events, and laundry timing.</p>
+          </article>
+          <article class="info-card reveal">
+            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-database"/></svg></span>
+            <h3>The monthly bill hides the answer</h3>
+            <p>A bill shows how much you consumed — not when you created cost, where you had
+               flexibility, or which subsystem drove the deviation. Interval data, weather, and
+               occupancy context are what make those questions answerable.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- Value props (placeholder — replace from white paper) -->
+    <!-- Load shape explainer -->
+    <section class="section shape-section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">The load shape is the asset</p>
+          <h2>Your peaks don't line up with the grid's.</h2>
+          <p>Across four metered ComEd-territory properties, every meter set its annual peak in
+             January — and every peak landed in a morning or evening ramp hour. None peaked on a
+             summer afternoon.</p>
+        </div>
+        <div class="shape-grid reveal">
+          <figure class="shape-figure">
+            <img src="img/load-profile-meter-780.png"
+                 alt="Seasonal hourly load profile for a metered lodging property: average load in kW by hour of day, comparing summer days against winter days. Winter load runs higher all day and peaks in the evening ramp."
+                 width="968" height="340" loading="lazy" decoding="async">
+            <figcaption>Average hourly load, summer days vs. winter days — one metered property
+              (Customer 1 · Meter 780). Annual peak: 101.62 kW on Jan 14, 2024 at 17:00, against
+              a 19.9 kW average.</figcaption>
+          </figure>
+          <div class="shape-copy">
+            <p>PJM's system and capacity peaks fall on <strong>hot summer afternoons</strong>. These
+               properties run near their seasonal minimum in exactly those hours — and hit their own
+               peaks when the wider grid is calm.</p>
+            <p>That inversion is an advantage. Billing-month peak demand runs <strong>127 kW in
+               January</strong> but collapses to <strong>46–47 kW across June, July, and
+               August</strong>. Because delivery charges are set by each month's highest kW interval,
+               the heaviest demand-charge burden lands in winter, not summer.</p>
+            <p>A load that spikes far above its own baseline for a handful of ramp hours is, by
+               definition, a load with a large controllable slice — the raw material for
+               demand-charge management, demand response, and storage dispatch.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sequence -->
     <section class="section">
       <div class="container">
         <div class="section-heading reveal">
-          <p class="eyebrow">Why operators work with us</p>
-          <h2>Turn your property's usage into an advantage.</h2>
-          <p>Placeholder section — the three pillars below will be rewritten from the hospitality white paper.</p>
+          <p class="eyebrow">How we work</p>
+          <h2>Five steps, in this order.</h2>
+          <p>Machine learning is useful when it improves a decision that already has economic
+             value. Capital comes last — only after the first four steps establish what the load
+             is actually worth.</p>
         </div>
-        <div class="card-grid">
-          <article class="info-card reveal">
-            <span class="card-icon">
-              <svg aria-hidden="true" viewBox="0 0 20 20"><path d="m10 1.8 1.9 5.7 5.8 1.9-5.8 1.9L10 17l-1.9-5.7-5.8-1.9 5.8-1.9L10 1.8Z" fill="currentColor"/></svg>
-            </span>
-            <h3>Understand your load shape</h3>
-            <p>We analyze interval data to learn how and when each property actually uses energy — not just the monthly total.</p>
+        <div class="steps">
+          <article class="step reveal">
+            <p class="step-n">01</p>
+            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-gauge"/></svg></span>
+            <h3>Measure</h3>
+            <p>Normalize interval, weather &amp; occupancy data.</p>
           </article>
-          <article class="info-card reveal">
-            <span class="card-icon">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.4 9.6a4.8 4.8 0 1 1-2.2-2.2L21 16.2V20h-3.8v-2.7h-2.7v-2.6h-2.4l-2.6-2.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-            <h3>Price it around your operations</h3>
-            <p>A strategy tuned to hospitality demand patterns gives us a more optimal cost basis — and you a price-match guarantee.</p>
+          <article class="step reveal">
+            <p class="step-n">02</p>
+            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-brain"/></svg></span>
+            <h3>Model</h3>
+            <p>Forecast load and flag anomalies.</p>
           </article>
-          <article class="info-card reveal">
-            <span class="card-icon">
-              <svg aria-hidden="true" viewBox="0 0 20 20"><path d="m4.2 10.3 3.4 3.4 8.2-8.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-            <h3>Backed by a guarantee</h3>
-            <p>We put our money where our mouth is — with a money-back guarantee and in-house financing behind the strategy.</p>
+          <article class="step reveal">
+            <p class="step-n">03</p>
+            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-sliders"/></svg></span>
+            <h3>Control</h3>
+            <p>Act within guardrails — comfort first.</p>
           </article>
+          <article class="step reveal">
+            <p class="step-n">04</p>
+            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-dollar"/></svg></span>
+            <h3>Monetize</h3>
+            <p>Procurement, peak &amp; demand-response value.</p>
+          </article>
+          <article class="step reveal">
+            <p class="step-n">05</p>
+            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg></span>
+            <h3>Build</h3>
+            <p>Size solar, storage &amp; CHP last.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- White paper -->
+    <section class="section paper-section">
+      <div class="container">
+        <div class="paper-card reveal">
+          <div>
+            <p class="eyebrow">Energy strategy white paper</p>
+            <h2>The Flexible Hotel, a Grid Asset</h2>
+            <p>Turning occupancy, timing, and machine learning into economic value — for hotel
+               owners in ComEd/PJM. Covers market structure, the load-shape evidence, procurement,
+               demand response, and behind-the-meter sequencing, with per-property load profiles
+               and a monthly cost proxy in the appendix.</p>
+            <p class="paper-meta">
+              <span>10 sections</span><span>4 metered properties</span><span>27 sources</span>
+            </p>
+          </div>
+          <a class="button button-primary" href="/hospitality/whitepaper">Read the white paper
+            <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </a>
         </div>
       </div>
     </section>
