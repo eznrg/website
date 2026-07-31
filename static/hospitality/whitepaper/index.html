@@ -15,31 +15,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 
+  <!-- Palette shared with the other standalone pages under static/. This page
+       deliberately does NOT link theme.css: it shares the tokens but not the
+       component layer — it is a reading document with its own denser
+       typography, sticky header, TOC rail, and print styles, all below. -->
+  <link rel="stylesheet" href="/static/tokens.css">
+
   <style>
     /*
-      Self-contained styles for the standalone hospitality white paper.
-      These MIRROR the main site's mint theme but are intentionally copied,
-      not imported — this page has no dependency on /src/styles.css, exactly
-      like ../index.html. Keep the token block below in sync with that file.
+      Page-specific styles for the standalone hospitality white paper.
+      The palette lives in /static/tokens.css; the two tokens below are used
+      only by this page. Nothing here depends on /src/styles.css, so a future
+      theme change on the main site can never alter or break it.
     */
     :root {
-      color-scheme: dark;
-      --bg: #101312;
-      --surface: #171b19;
-      --surface-2: #202521;
-      --text: #f4f1ea;
-      --muted: #a8b0a9;
-      --primary: #8bd8a6;
-      --primary-foreground: #07120c;
-      --teal-deep: #6fc190;
-      --border: #2b312d;
       --gold: #d6bc78;
-      --max: 1160px;
-      --font-display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-      --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-      --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-      --radius: 6px;
-      --radius-lg: 10px;
       --measure: 68ch;
     }
 

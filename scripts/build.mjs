@@ -27,17 +27,30 @@ await cp(join(root, "public"), dist, { recursive: true });
 await cp(join(root, "src/styles.css"), join(dist, "assets/styles.css"));
 await cp(join(root, "src/main.js"), join(dist, "assets/main.js"));
 
-// Standalone hospitality landing page. `hospitality_static/` is a self-contained,
-// UNLISTED page (its own inline styles, no dependency on src/) served at
-// eznrg.ai/hospitality. It is intentionally kept OUT of the render pipeline above,
-// the `nav` array, and public/sitemap.xml, and carries a `noindex` meta tag — it is
-// reachable only by direct link and must not be linked from the main site.
-// See hospitality_static/README.md. Copied verbatim to dist/hospitality/ (the
-// source-only README is filtered out so it is not deployed).
-await cp(join(root, "hospitality_static"), join(dist, "hospitality"), {
+// Standalone landing pages. Each `static/<name>/` is a self-contained, UNLISTED
+// page served at eznrg.ai/<name>. They are intentionally kept OUT of the render
+// pipeline above, the `nav` array, and public/sitemap.xml, and each carries a
+// `noindex` meta tag — reachable only by direct link, and they must not be linked
+// from the main site. `static/shared/` holds the theme they link at /static/*; it
+// mirrors the mint theme but never imports src/styles.css, so a main-site theme
+// change cannot break these pages. See static/README.md.
+//
+// The copy is recursive, so nested pages (e.g. hospitality/whitepaper/) come along
+// with no build change. Source-only files are filtered out of the deploy.
+const standalonePages = ["hospitality", "residential", "commercial"];
+const isSourceOnly = (src) => src.endsWith("README.md") || src.endsWith(".DS_Store");
+
+await cp(join(root, "static/shared"), join(dist, "static"), {
   recursive: true,
-  filter: (src) => !src.endsWith("README.md"),
+  filter: (src) => !isSourceOnly(src),
 });
+
+for (const name of standalonePages) {
+  await cp(join(root, "static", name), join(dist, name), {
+    recursive: true,
+    filter: (src) => !isSourceOnly(src),
+  });
+}
 
 for (const page of pages) {
   const output = join(dist, page.path);
@@ -45,4 +58,6 @@ for (const page of pages) {
   await writeFile(output, page.html);
 }
 
-console.log(`Built ${pages.length} pages to ${dist}`);
+console.log(
+  `Built ${pages.length} pages + ${standalonePages.length} standalone pages to ${dist}`,
+);

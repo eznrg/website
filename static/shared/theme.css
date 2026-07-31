@@ -1,0 +1,264 @@
+/*
+  Shared component layer for the standalone LANDING pages under `static/`:
+  /hospitality, /residential, /commercial.
+
+  Requires tokens.css to be linked first — every color, font, and radius here is
+  a custom property defined there.
+
+  The white paper (static/hospitality/whitepaper/) deliberately does NOT link
+  this file. It shares the palette but not the components: it is a reading
+  document with a denser line-height, a sticky header, a TOC rail, and print
+  styles, so it keeps its own component CSS inline.
+
+  A change here lands on all three landing pages at once. Page-specific CSS —
+  the hospitality stat band, load-profile charts, sequence steps, and white-paper
+  CTA — stays in that page's own inline <style> block.
+*/
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse 900px 620px at 18% -8%, rgba(139, 216, 166, 0.22), transparent 60%),
+    linear-gradient(135deg, rgba(139, 216, 166, 0.08), transparent 46%),
+    var(--bg);
+  font-family: var(--font-body);
+  font-feature-settings: "ss01" 1;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg { display: block; }
+a { color: inherit; text-decoration: none; }
+
+.container { width: min(100% - 40px, var(--max)); margin-inline: auto; }
+.section { position: relative; padding: 96px 0; }
+
+h1, h2, h3 {
+  margin-top: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+}
+p { margin-top: 0; }
+
+.ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Header ------------------------------------------------------ */
+.site-header {
+  border-bottom: 1px solid var(--border);
+  background: rgba(16, 19, 18, 0.84);
+  backdrop-filter: blur(18px);
+}
+.header-shell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 76px;
+  gap: 24px;
+}
+.brand img { width: 176px; height: auto; }
+.header-tag {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Eyebrow ----------------------------------------------------- */
+.eyebrow {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.eyebrow::before {
+  width: 14px;
+  height: 1px;
+  content: "";
+  background: currentColor;
+  opacity: 0.7;
+}
+
+/* Buttons ----------------------------------------------------- */
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+.button svg { width: 20px; height: 20px; flex: 0 0 auto; }
+.button:hover, .button:focus-visible { transform: translateY(-2px); }
+.button-primary {
+  color: var(--primary-foreground);
+  background: linear-gradient(135deg, var(--primary), var(--teal-deep) 72%);
+  box-shadow: 0 18px 50px rgba(139, 216, 166, 0.2);
+}
+.button-primary:hover, .button-primary:focus-visible {
+  box-shadow: 0 22px 62px rgba(139, 216, 166, 0.3);
+}
+.button-secondary {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border);
+}
+.button-secondary:hover, .button-secondary:focus-visible {
+  border-color: rgba(139, 216, 166, 0.34);
+}
+
+/* Hero -------------------------------------------------------- */
+.hero { padding-top: 72px; padding-bottom: 56px; overflow: hidden; }
+.hero h1 {
+  max-width: 820px;
+  margin-bottom: 22px;
+  font-size: clamp(2.6rem, 5vw, 4.4rem);
+  letter-spacing: -0.03em;
+}
+.hero-body {
+  max-width: 660px;
+  margin-bottom: 30px;
+  color: var(--muted);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+}
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+
+/* Cards ------------------------------------------------------- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.info-card {
+  min-height: 240px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(145deg, rgba(139, 216, 166, 0.055), transparent 34%),
+    rgba(23, 27, 25, 0.78);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+.info-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(139, 216, 166, 0.34);
+  box-shadow: 0 26px 76px rgba(0, 0, 0, 0.26), 0 0 44px rgba(139, 216, 166, 0.08);
+}
+.card-icon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 22px;
+  place-items: center;
+  color: var(--primary);
+  background: rgba(139, 216, 166, 0.1);
+  border: 1px solid rgba(139, 216, 166, 0.22);
+  border-radius: var(--radius-lg);
+}
+.card-icon svg { width: 22px; height: 22px; }
+.info-card h3 { margin-bottom: 12px; font-size: 1.16rem; letter-spacing: -0.01em; }
+.info-card p { margin: 0; color: var(--muted); }
+
+.section-heading { max-width: 760px; margin-bottom: 32px; }
+.section-heading h2 { font-size: clamp(2rem, 4vw, 3.2rem); margin-bottom: 14px; }
+.section-heading p { color: var(--muted); font-size: 1.05rem; }
+
+/* Channels ---------------------------------------------------- */
+.channel-section { border-top: 1px solid var(--border); }
+.channel-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+.channel-card {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  min-height: 240px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(145deg, rgba(139, 216, 166, 0.055), transparent 34%),
+    rgba(23, 27, 25, 0.78);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+.channel-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(139, 216, 166, 0.34);
+  box-shadow: 0 26px 76px rgba(0, 0, 0, 0.26), 0 0 44px rgba(139, 216, 166, 0.08);
+}
+.channel-icon {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  color: var(--primary);
+  background: rgba(139, 216, 166, 0.1);
+  border: 1px solid rgba(139, 216, 166, 0.2);
+  border-radius: var(--radius-lg);
+}
+.channel-icon svg { width: 28px; height: 28px; }
+.channel-card h3 { font-size: 1.16rem; margin-bottom: 6px; }
+.channel-card p { margin: 0; color: var(--muted); }
+.channel-action { align-self: end; width: 100%; }
+
+/* Footer ------------------------------------------------------ */
+.site-footer {
+  padding: 44px 0;
+  border-top: 1px solid var(--border);
+  background: rgba(16, 19, 18, 0.36);
+}
+.site-footer p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+/* Reveal on scroll ------------------------------------------- */
+.reveal { opacity: 1; transform: none; }
+.is-enhanced .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 650ms ease, transform 650ms cubic-bezier(0.18, 0.84, 0.32, 1);
+}
+.is-enhanced .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 900px) {
+  .card-grid { grid-template-columns: 1fr; }
+  .channel-grid { grid-template-columns: 1fr; }
+  .section { padding: 68px 0; }
+}
+@media (max-width: 640px) {
+  .container { width: min(100% - 28px, var(--max)); }
+  .header-tag { display: none; }
+  .hero-actions { display: grid; }
+  .button { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}
