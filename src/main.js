@@ -53,32 +53,9 @@ if (revealElements.length) {
 }
 
 if (!reducedMotionQuery.matches && precisePointerQuery.matches) {
-  const heroVisual = document.querySelector(".hero-visual");
-  const strategyPanel = heroVisual?.querySelector(".strategy-panel");
-
-  if (heroVisual && strategyPanel) {
-    heroVisual.addEventListener("pointermove", (event) => {
-      const rect = heroVisual.getBoundingClientRect();
-      const x = (event.clientX - rect.left) / rect.width - 0.5;
-      const y = (event.clientY - rect.top) / rect.height - 0.5;
-
-      strategyPanel.style.setProperty("--tilt-x", `${(-y * 7).toFixed(2)}deg`);
-      strategyPanel.style.setProperty("--tilt-y", `${(x * 9).toFixed(2)}deg`);
-      strategyPanel.style.setProperty("--glow-x", `${((x + 0.5) * 100).toFixed(1)}%`);
-      strategyPanel.style.setProperty("--glow-y", `${((y + 0.5) * 100).toFixed(1)}%`);
-      heroVisual.classList.add("is-interacting");
-    });
-
-    heroVisual.addEventListener("pointerleave", () => {
-      strategyPanel.style.setProperty("--tilt-x", "0deg");
-      strategyPanel.style.setProperty("--tilt-y", "0deg");
-      heroVisual.classList.remove("is-interacting");
-    });
-  }
-
   document
     .querySelectorAll(
-      ".info-card, .learn-summary-card, .watch-card, .channel-card, .storage-card, .storage-visual-card, .founder-card, .upload-panel, .enrollment-card, .enrollment-payment-panel, .enrollment-aside",
+      ".info-card, .learn-summary-card, .watch-card, .channel-card, .storage-card, .storage-visual-card, .founder-card, .upload-panel",
     )
     .forEach((card) => {
       card.addEventListener("pointermove", (event) => {

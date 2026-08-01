@@ -1,20 +1,48 @@
 :root {
   color-scheme: dark;
+
+  /* Depth. These are three distinct values, not one repeated: the background
+     needs somewhere to travel that isn't black. --ink-teal is the floor the
+     page settles into, --bg the mid-tone, --surface the card plane. */
+  --bg-deep: #0b0e0d;
   --bg: #101312;
-  --bg-2: #101312;
+  --ink-teal: #0e1a17;
   --surface: #171b19;
   --surface-2: #202521;
   --muted-surface: #242926;
+
   --text: #f4f1ea;
   --muted: #a8b0a9;
-  --primary: #8bd8a6;
+
+  /* Two accents, and each one means something. Mint = off-peak, abundant,
+     what we give back. Ember = the peak window, what energy costs when
+     everyone wants it at once. Never swap them for decoration: the whole
+     product thesis is that those two states are different. */
+  --mint: #8bd8a6;
+  --mint-lift: #b9edcd;
+  --mint-deep: #6fc190;
+  --ember: #f2a65a;
+  --ember-deep: #d98940;
+
+  --primary: var(--mint);
   --primary-foreground: #07120c;
-  --ring: #8bd8a6;
-  --teal: #8bd8a6;
-  --teal-deep: #6fc190;
-  --cyan: #8bd8a6;
-  --green: #8bd8a6;
-  --amber: #8bd8a6;
+  --ring: var(--mint);
+
+  /* Legacy names kept as one-line aliases so the semantic pair above stays
+     the only place a hex is chosen. Previously all six were the same mint,
+     which silently flattened ~14 gradients into solid bars; they now span
+     mint-deep -> mint -> mint-lift, so those gradients actually travel.
+
+     Note none of them alias --ember. Every historic --amber site (card
+     icons, tab underlines, the skip link) is decorative, and ember is not a
+     decorative colour here -- it marks the peak window and what it costs.
+     Reach for --ember explicitly, or not at all. */
+  --teal: var(--mint);
+  --teal-deep: var(--mint-deep);
+  --cyan: var(--mint-lift);
+  --green: var(--mint);
+  --amber: var(--mint-deep);
+
   --border: #2b312d;
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
   --max: 1160px;
@@ -40,16 +68,33 @@ body {
   margin: 0;
   min-width: 320px;
   color: var(--text);
-  background:
-    radial-gradient(ellipse 900px 620px at 18% -8%, rgba(139, 216, 166, 0.22), transparent 60%),
-    linear-gradient(135deg, rgba(139, 216, 166, 0.08), transparent 46%),
-    var(--bg);
+  background: var(--bg-deep);
   font-family: var(--font-body);
   font-feature-settings: "ss01" 1;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
+/*
+  The whole background lives here, on ONE viewport-fixed layer.
+
+  Three things were making it band and read as "black to green":
+
+  1. It was sized to the document box, so a 0.08-alpha ramp got stretched
+     over thousands of pixels. At 8-bit precision that is fewer than 20
+     distinct steps across the page -- textbook Mach banding.
+  2. Every stop ended at the keyword `transparent`, which is transparent
+     BLACK (rgba(0,0,0,0)). Mint -> transparent interpolates through grey,
+     so the ramp literally passed through black on its way out. Every stop
+     below ends at rgba() zero-alpha of its OWN hue.
+  3. There was a 72px grid of 1px white rules animating on top of it. Those
+     were the "visible lines". It is gone.
+
+  The last background layer is a tile of fractal noise at ~4%. That is the
+  standard fix for banding on dark gradients: it dithers the steps apart so
+  the eye integrates them instead of seeing edges. Section glows composite
+  on top of this at low alpha, so the grain survives through them too.
+*/
 body::before {
   position: fixed;
   inset: 0;
@@ -57,12 +102,13 @@ body::before {
   pointer-events: none;
   content: "";
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), transparent 82%);
-  animation: grid-drift 32s linear infinite;
-  will-change: background-position;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"),
+    radial-gradient(115% 70% at 6% -14%, rgba(139, 216, 166, 0.17), rgba(139, 216, 166, 0) 64%),
+    radial-gradient(85% 55% at 98% 2%, rgba(242, 166, 90, 0.06), rgba(242, 166, 90, 0) 60%),
+    radial-gradient(130% 100% at 50% 116%, rgba(14, 26, 23, 0.85), rgba(14, 26, 23, 0) 72%),
+    linear-gradient(178deg, #121715 0%, #0f1312 48%, var(--bg-deep) 100%);
+  background-size: 160px 160px, auto, auto, auto, auto;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
 }
 
 img,
@@ -113,7 +159,7 @@ textarea {
   z-index: 20;
   padding: 10px 14px;
   color: var(--primary-foreground);
-  background: var(--amber);
+  background: var(--mint);
   border-radius: var(--radius);
   transform: translateY(-140%);
 }
@@ -241,7 +287,7 @@ textarea {
   width: 58%;
   pointer-events: none;
   content: "";
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0));
   transform: skewX(-18deg);
   transition: left 420ms ease;
 }
@@ -289,7 +335,8 @@ textarea {
   min-height: 42px;
   padding-inline: 14px;
   color: var(--primary-foreground);
-  background: var(--amber);
+  background: linear-gradient(135deg, var(--mint), var(--mint-deep) 78%);
+  box-shadow: 0 12px 32px rgba(139, 216, 166, 0.18);
   font-size: 0.92rem;
 }
 
@@ -297,31 +344,49 @@ textarea {
   min-height: calc(100vh - 124px);
   display: flex;
   align-items: center;
-  overflow: hidden;
   padding-top: 48px;
-  padding-bottom: 48px;
+  padding-bottom: 56px;
 }
 
+/*
+  Section glow. The old version was a 420px-tall box with blur(8px) and no
+  bottom mask, so it ended on a hard horizontal line partway down the page.
+  Radial gradients that fall off to zero alpha of their own hue have no edge
+  to see, and the mask guarantees the bottom third is gone regardless.
+*/
 .hero::after,
 .cta-section::before,
-.contact-section::before {
+.contact-section::before,
+.upload-section::before {
   position: absolute;
-  inset: 10% 0 auto;
-  height: 420px;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
   content: "";
+  background: radial-gradient(
+    58% 62% at 22% 26%,
+    rgba(139, 216, 166, 0.15),
+    rgba(139, 216, 166, 0) 70%
+  );
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 42%, rgba(0, 0, 0, 0) 96%);
+}
+
+/*
+  Only the hero gets the warm counterweight, because only the hero has the
+  curve next to it to explain what warm means. Everywhere else an ember glow
+  is just an orange smudge, which is worse than no second hue at all.
+*/
+.hero::after {
   background:
-    linear-gradient(108deg, transparent, rgba(139, 216, 166, 0.18) 44%, transparent 72%),
-    linear-gradient(8deg, transparent, rgba(139, 216, 166, 0.08) 54%, transparent 74%);
-  filter: blur(8px);
+    radial-gradient(58% 62% at 22% 26%, rgba(139, 216, 166, 0.15), rgba(139, 216, 166, 0) 70%),
+    radial-gradient(40% 46% at 86% 16%, rgba(242, 166, 90, 0.07), rgba(242, 166, 90, 0) 68%);
 }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.62fr);
+  grid-template-columns: minmax(0, 1fr) minmax(370px, 0.88fr);
   align-items: center;
-  gap: 52px;
+  gap: 56px;
 }
 
 .eyebrow {
@@ -362,25 +427,33 @@ h3 {
   line-height: 1.04;
 }
 
+/*
+  The scale was inverted: h2 topped out at 4.5rem while the hero h1 stopped
+  at 3.8rem, so every section heading shouted louder than the page's actual
+  headline. h1 > h2 > h3 now, with the hero the largest thing on the site.
+*/
 h1 {
-  max-width: 760px;
+  max-width: 15ch;
   margin-bottom: 24px;
-  font-size: clamp(3rem, 5.2vw, 5.2rem);
+  font-size: clamp(2.9rem, 5.6vw, 4.8rem);
   font-weight: 600;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
 }
 
 .hero-copy h1 {
+  max-width: 17ch;
   color: var(--text);
   font-family: var(--font-display);
-  font-size: clamp(2.8rem, 3.6vw, 3.8rem);
-  text-shadow: 0 0 42px rgba(139, 216, 166, 0.16);
+  text-shadow: 0 0 48px rgba(139, 216, 166, 0.14);
 }
 
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
   .hero-copy h1 {
     color: transparent;
-    background: linear-gradient(112deg, var(--text) 0%, var(--cyan) 28%, var(--green) 58%, var(--amber) 96%);
+    /* Restrained on purpose: cream that only lifts toward mint in the last
+       quarter. The old version ran through four stops that were all the
+       same hex, so it rendered as a flat mint bar. */
+    background: linear-gradient(102deg, var(--text) 0%, var(--text) 46%, var(--mint-lift) 88%, var(--mint) 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -388,8 +461,9 @@ h1 {
 }
 
 h2 {
+  max-width: 22ch;
   margin-bottom: 22px;
-  font-size: clamp(2rem, 4.3vw, 4.5rem);
+  font-size: clamp(1.9rem, 3.3vw, 3rem);
 }
 
 h3 {
@@ -411,239 +485,6 @@ h3 {
   gap: 14px;
 }
 
-.hero-visual {
-  position: relative;
-  min-height: 450px;
-  display: grid;
-  place-items: center;
-  perspective: 1000px;
-}
-
-.key-ghost {
-  position: absolute;
-  inset: auto 0 16px auto;
-  width: min(420px, 92%);
-  aspect-ratio: 1;
-  opacity: 0.34;
-  transform: rotate(-18deg);
-  animation: ghost-float 9s ease-in-out infinite;
-}
-
-.key-ghost::before,
-.key-ghost::after {
-  position: absolute;
-  content: "";
-  border: 1px solid rgba(139, 216, 166, 0.28);
-}
-
-.key-ghost::before {
-  width: 46%;
-  aspect-ratio: 1;
-  top: 5%;
-  left: 2%;
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 54px rgba(16, 19, 18, 0.92), 0 0 80px rgba(139, 216, 166, 0.18);
-}
-
-.key-ghost::after {
-  width: 62%;
-  height: 9%;
-  top: 25%;
-  left: 38%;
-  border-left: 0;
-  border-radius: 0 8px 8px 0;
-  box-shadow:
-    0 42px 0 -1px rgba(139, 216, 166, 0.18),
-    62px 42px 0 -1px rgba(139, 216, 166, 0.14);
-}
-
-.strategy-panel {
-  position: relative;
-  width: min(100%, 460px);
-  min-height: 392px;
-  padding: 24px;
-  overflow: hidden;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.09), transparent 36%),
-    linear-gradient(180deg, rgba(139, 216, 166, 0.13), rgba(23, 27, 25, 0.92)),
-    var(--surface);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  transform: perspective(960px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-  transform-style: preserve-3d;
-  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
-  will-change: transform;
-}
-
-.strategy-panel::before {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  content: "";
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 36px 36px;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), transparent 78%);
-}
-
-.strategy-panel::after {
-  position: absolute;
-  inset: -30% auto -30% -55%;
-  width: 42%;
-  pointer-events: none;
-  content: "";
-  background: linear-gradient(90deg, transparent, rgba(139, 216, 166, 0.18), transparent);
-  transform: rotate(13deg);
-  animation: panel-scan 6s ease-in-out infinite;
-}
-
-.hero-visual.is-interacting .strategy-panel {
-  border-color: rgba(139, 216, 166, 0.28);
-  box-shadow: 0 30px 92px rgba(0, 0, 0, 0.42), 0 0 58px rgba(139, 216, 166, 0.12);
-}
-
-.panel-topline {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  gap: 18px;
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.panel-topline strong {
-  color: var(--amber);
-  font-weight: 600;
-}
-
-.pulse-map {
-  position: relative;
-  z-index: 1;
-  height: 148px;
-  margin: 26px 0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-lg);
-  background: rgba(16, 19, 18, 0.42);
-}
-
-.pulse-map::after {
-  position: absolute;
-  inset: 20px 28px;
-  pointer-events: none;
-  content: "";
-  background:
-    radial-gradient(circle at 20% 34%, rgba(139, 216, 166, 0.18), transparent 18%),
-    radial-gradient(circle at 53% 57%, rgba(139, 216, 166, 0.16), transparent 16%),
-    radial-gradient(circle at 82% 40%, rgba(139, 216, 166, 0.14), transparent 18%);
-  opacity: 0.75;
-  animation: map-glow 4.8s ease-in-out infinite;
-}
-
-.pulse-line {
-  position: absolute;
-  inset: 50% 28px auto;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--teal), var(--amber), transparent);
-  animation: pulse 4s ease-in-out infinite;
-  transform-origin: center;
-}
-
-.node {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  color: var(--cyan);
-  border: 2px solid var(--bg);
-  border-radius: 50%;
-  background: var(--cyan);
-  box-shadow: 0 0 26px rgba(139, 216, 166, 0.62);
-  animation: node-pulse 2.8s ease-in-out infinite;
-}
-
-.node::after {
-  position: absolute;
-  inset: -9px;
-  content: "";
-  border: 1px solid currentColor;
-  border-radius: inherit;
-  opacity: 0;
-  animation: node-ring 2.8s ease-in-out infinite;
-}
-
-.node-a {
-  top: 33%;
-  left: 20%;
-}
-
-.node-b {
-  top: 56%;
-  left: 52%;
-  color: var(--amber);
-  background: var(--amber);
-  animation-delay: 260ms;
-}
-
-.node-c {
-  top: 38%;
-  right: 18%;
-  color: var(--green);
-  background: var(--green);
-  animation-delay: 520ms;
-}
-
-.signal-list {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  gap: 12px;
-}
-
-.signal-row {
-  display: grid;
-  grid-template-columns: minmax(126px, 0.85fr) minmax(90px, 1fr);
-  align-items: center;
-  gap: 14px;
-  color: var(--text);
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.signal-row i {
-  height: 8px;
-  border-radius: 999px;
-  background:
-    linear-gradient(90deg, var(--teal), var(--amber)) 0 0 / 0% 100% no-repeat,
-    rgba(255, 255, 255, 0.08);
-  animation: signal-fill 900ms cubic-bezier(0.18, 0.84, 0.32, 1) forwards;
-}
-
-.signal-row:nth-child(2) i {
-  animation-delay: 90ms;
-}
-
-.signal-row:nth-child(3) i {
-  animation-delay: 180ms;
-}
-
-.signal-row:nth-child(4) i {
-  animation-delay: 270ms;
-}
-
-.signal-row:nth-child(5) i {
-  animation-delay: 360ms;
-}
-
-.section-line {
-  border-top: 1px solid var(--border);
-}
-
 .split-intro {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(300px, 0.8fr);
@@ -652,15 +493,16 @@ h3 {
   margin-bottom: 42px;
 }
 
+.split-intro:last-child {
+  margin-bottom: 0;
+}
+
 .section-body,
 .split-intro p,
 .page-hero p,
 .cta-copy p,
 .storage-copy p,
 .info-card p,
-.enrollment-card p,
-.enrollment-aside p,
-.enrollment-payment-panel p,
 .storage-card p,
 .founder-card p,
 .site-footer p,
@@ -676,14 +518,11 @@ h3 {
 
 .info-card,
 .founder-card,
-.enrollment-card,
-.enrollment-aside,
-.enrollment-payment-panel,
 .form-panel {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.055), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0) 34%),
     rgba(23, 27, 25, 0.78);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
 }
@@ -694,9 +533,6 @@ h3 {
 .channel-card,
 .storage-card,
 .storage-visual-card,
-.enrollment-card,
-.enrollment-aside,
-.enrollment-payment-panel,
 .founder-card,
 .upload-panel {
   position: relative;
@@ -710,9 +546,6 @@ h3 {
 .channel-card::before,
 .storage-card::before,
 .storage-visual-card::before,
-.enrollment-card::before,
-.enrollment-aside::before,
-.enrollment-payment-panel::before,
 .founder-card::before,
 .upload-panel::before {
   position: absolute;
@@ -720,8 +553,8 @@ h3 {
   pointer-events: none;
   content: "";
   background:
-    radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 0%), rgba(139, 216, 166, 0.2), transparent 30%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.055), transparent 40%);
+    radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 0%), rgba(139, 216, 166, 0.2), rgba(139, 216, 166, 0) 30%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0) 40%);
   opacity: 0;
   transition: opacity 180ms ease;
 }
@@ -732,9 +565,6 @@ h3 {
 .channel-card > *,
 .storage-card > *,
 .storage-visual-card > *,
-.enrollment-card > *,
-.enrollment-aside > *,
-.enrollment-payment-panel > *,
 .founder-card > *,
 .upload-panel > * {
   position: relative;
@@ -752,9 +582,6 @@ h3 {
 .channel-card:hover,
 .storage-card:hover,
 .storage-visual-card:hover,
-.enrollment-card:hover,
-.enrollment-aside:hover,
-.enrollment-payment-panel:hover,
 .founder-card:hover,
 .upload-panel:hover {
   transform: translateY(-6px);
@@ -768,9 +595,6 @@ h3 {
 .channel-card:hover::before,
 .storage-card:hover::before,
 .storage-visual-card:hover::before,
-.enrollment-card:hover::before,
-.enrollment-aside:hover::before,
-.enrollment-payment-panel:hover::before,
 .founder-card:hover::before,
 .upload-panel:hover::before {
   opacity: 1;
@@ -782,7 +606,7 @@ h3 {
   height: 38px;
   margin-bottom: 22px;
   place-items: center;
-  color: var(--amber);
+  color: var(--mint);
   background: rgba(139, 216, 166, 0.1);
   border: 1px solid rgba(139, 216, 166, 0.22);
   border-radius: var(--radius-lg);
@@ -796,7 +620,6 @@ h3 {
 
 .info-card:hover .card-icon,
 .watch-card:hover .card-icon,
-.enrollment-card:hover .card-icon,
 .storage-card:hover .card-icon {
   color: var(--primary-foreground);
   background: linear-gradient(135deg, var(--amber), var(--cyan));
@@ -804,15 +627,20 @@ h3 {
   transform: translateY(-2px) rotate(-4deg);
 }
 
-.belief-section {
-  background: linear-gradient(180deg, rgba(23, 27, 25, 0.58), rgba(16, 19, 18, 0));
-}
-
+/*
+  A section wash has to start AND end at zero alpha, or its first pixel is a
+  visible edge. The old rule opened at 0.08 mint directly under a hard 1px
+  #2b312d border -- the most literal black-line-then-green moment on the site.
+*/
 .storage-section {
-  border-top: 1px solid var(--border);
   background:
-    linear-gradient(180deg, rgba(139, 216, 166, 0.08), rgba(16, 19, 18, 0) 68%),
-    linear-gradient(100deg, rgba(139, 216, 166, 0.04), transparent 42%);
+    radial-gradient(120% 78% at 14% 0%, rgba(139, 216, 166, 0.07), rgba(139, 216, 166, 0) 60%),
+    linear-gradient(
+      180deg,
+      rgba(139, 216, 166, 0) 0%,
+      rgba(139, 216, 166, 0.045) 28%,
+      rgba(139, 216, 166, 0) 84%
+    );
 }
 
 .storage-grid {
@@ -847,7 +675,7 @@ h3 {
   gap: 12px;
   align-items: start;
   color: var(--text);
-  font-weight: 750;
+  font-weight: 700;
 }
 
 .storage-proof svg {
@@ -865,7 +693,7 @@ h3 {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.07), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 34%),
     rgba(23, 27, 25, 0.78);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
 }
@@ -904,7 +732,7 @@ h3 {
   inset: -18px 24px auto;
   height: 1px;
   content: "";
-  background: linear-gradient(90deg, transparent, var(--cyan), var(--amber), transparent);
+  background: linear-gradient(90deg, rgba(139, 216, 166, 0), var(--cyan), var(--amber), rgba(139, 216, 166, 0));
   opacity: 0.72;
   animation: pulse 4s ease-in-out infinite;
 }
@@ -920,14 +748,12 @@ h3 {
     rgba(16, 19, 18, 0.46);
 }
 
+/* The third and last 1px grid overlay. Removed with the other two. */
 .battery-stack span::after {
   position: absolute;
-  inset: 0;
+  inset: 0 0 0 var(--fill);
   content: "";
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  background-size: 28px 28px;
+  background: linear-gradient(90deg, rgba(11, 14, 13, 0.34), rgba(11, 14, 13, 0));
 }
 
 .battery-stack span:nth-child(1) {
@@ -954,7 +780,7 @@ h3 {
   align-items: center;
   color: var(--text);
   font-size: 0.9rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .storage-meter-list i {
@@ -994,88 +820,10 @@ h3 {
 }
 
 #shift .eyebrow,
-.belief-section .eyebrow,
 #storage-batteries .eyebrow,
 .enroll-hero .eyebrow,
 #early-bird .eyebrow {
   color: var(--primary);
-}
-
-.enrollment-section {
-  padding-top: 34px;
-}
-
-.enrollment-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 22px;
-}
-
-.enrollment-nav a {
-  display: inline-flex;
-  min-height: 40px;
-  align-items: center;
-  padding: 0 14px;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.035);
-  font-size: 0.86rem;
-  font-weight: 800;
-}
-
-.enrollment-nav a:hover,
-.enrollment-nav a:focus-visible,
-.enrollment-nav a.is-active {
-  color: var(--text);
-  border-color: rgba(139, 216, 166, 0.34);
-  background: rgba(139, 216, 166, 0.12);
-}
-
-.enrollment-card-grid,
-.enrollment-panel-grid {
-  display: grid;
-  gap: 16px;
-}
-
-.enrollment-card-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.enrollment-panel-grid {
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.45fr);
-  align-items: start;
-}
-
-.enrollment-card,
-.enrollment-aside,
-.enrollment-payment-panel {
-  padding: 26px;
-}
-
-.enrollment-card {
-  min-height: 250px;
-}
-
-.enrollment-payment-panel h2 {
-  max-width: 760px;
-  font-size: clamp(1.8rem, 3.2vw, 3rem);
-}
-
-.enrollment-aside {
-  position: sticky;
-  top: 112px;
-  display: grid;
-  gap: 14px;
-}
-
-.enrollment-aside .button {
-  width: 100%;
-}
-
-.enrollment-proof {
-  margin-top: 22px;
 }
 
 .button.is-disabled,
@@ -1100,7 +848,7 @@ h3 {
   gap: 8px;
   color: var(--text);
   font-size: 0.9rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .form-panel input,
@@ -1128,7 +876,7 @@ h3 {
   margin: 0;
   padding: 13px 14px;
   border-radius: var(--radius);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .form-success {
@@ -1249,14 +997,11 @@ h3 {
 .watch-card,
 .primer-panel,
 .channel-card,
-.enrollment-card,
-.enrollment-aside,
-.enrollment-payment-panel,
 .upload-panel {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.055), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0) 34%),
     rgba(23, 27, 25, 0.78);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
 }
@@ -1287,10 +1032,6 @@ h3 {
   color: var(--muted);
 }
 
-.primer-section {
-  border-top: 1px solid var(--border);
-}
-
 .primer-shell {
   display: grid;
   grid-template-columns: minmax(220px, 0.36fr) minmax(0, 1fr);
@@ -1317,7 +1058,7 @@ h3 {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   cursor: pointer;
-  font-weight: 850;
+  font-weight: 700;
   text-align: left;
   transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease, transform 180ms ease;
 }
@@ -1335,7 +1076,7 @@ h3 {
 }
 
 .primer-tab span {
-  color: var(--amber);
+  color: var(--mint);
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 600;
@@ -1404,7 +1145,12 @@ h3 {
 }
 
 .contract-watch-section {
-  background: linear-gradient(180deg, rgba(23, 27, 25, 0.58), rgba(16, 19, 18, 0));
+  background: linear-gradient(
+    180deg,
+    rgba(23, 27, 25, 0) 0%,
+    rgba(23, 27, 25, 0.5) 30%,
+    rgba(23, 27, 25, 0) 92%
+  );
 }
 
 .watch-grid {
@@ -1417,7 +1163,6 @@ h3 {
 }
 
 .channel-section {
-  border-top: 1px solid var(--border);
   padding-top: 80px;
   padding-bottom: 72px;
 }
@@ -1473,18 +1218,6 @@ h3 {
   transform: none;
 }
 
-.upload-section::before {
-  position: absolute;
-  inset: 8% 0 auto;
-  height: 430px;
-  z-index: -1;
-  pointer-events: none;
-  content: "";
-  background:
-    linear-gradient(108deg, transparent, rgba(139, 216, 166, 0.18) 44%, transparent 72%),
-    linear-gradient(8deg, transparent, rgba(139, 216, 166, 0.08) 54%, transparent 74%);
-  filter: blur(8px);
-}
 
 .upload-grid {
   display: grid;
@@ -1508,7 +1241,7 @@ h3 {
   width: 58px;
   height: 58px;
   place-items: center;
-  color: var(--amber);
+  color: var(--mint);
   background: rgba(139, 216, 166, 0.1);
   border: 1px solid rgba(139, 216, 166, 0.22);
   border-radius: var(--radius-lg);
@@ -1560,7 +1293,7 @@ h3 {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: rgba(16, 19, 18, 0.54);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .upload-status.is-ready {
@@ -1583,7 +1316,8 @@ h3 {
 }
 
 .page-hero h1 {
-  font-size: clamp(3rem, 6.6vw, 6rem);
+  max-width: 18ch;
+  font-size: clamp(2.9rem, 5.6vw, 4.4rem);
 }
 
 .page-hero p {
@@ -1618,11 +1352,7 @@ h3 {
   color: var(--primary-foreground);
   background: linear-gradient(135deg, var(--cyan), var(--amber));
   border-radius: var(--radius-lg);
-  font-weight: 900;
-}
-
-.pillars-section {
-  border-top: 1px solid var(--border);
+  font-weight: 700;
 }
 
 .pillars-list {
@@ -1637,7 +1367,7 @@ h3 {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(145deg, rgba(139, 216, 166, 0.055), transparent 34%),
+    linear-gradient(145deg, rgba(139, 216, 166, 0.055), rgba(139, 216, 166, 0) 34%),
     rgba(23, 27, 25, 0.78);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
   transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
@@ -1671,6 +1401,10 @@ h3 {
 }
 
 .pillar-head h2 {
+  /* ch is relative to the element's own font-size, so the global 22ch cap
+     lands around 370px here and broke these into three short lines inside a
+     1160px card. */
+  max-width: 32ch;
   margin-bottom: 0;
   font-size: clamp(1.5rem, 2.6vw, 2rem);
 }
@@ -1704,12 +1438,41 @@ h3 {
 .coming-soon {
   margin: 28px 0 0;
   padding-top: 24px;
-  border-top: 1px solid var(--border);
+}
+
+/*
+  Section seams. Seven hard `border-top: 1px solid #2b312d` rules used to cut
+  the page into stripes -- each one a literal black line, which is half of the
+  "black to green with visible lines" complaint. This is the peak-bracket
+  motif from the hero curve instead: a hairline that fades out at both ends,
+  so there is no edge to catch the eye at the viewport boundary.
+*/
+.primer-section::after,
+.channel-section::after,
+.pillars-section::after,
+.founders-section::after,
+.site-footer::after,
+.coming-soon::after {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  content: "";
+  background: linear-gradient(
+    90deg,
+    rgba(139, 216, 166, 0) 0%,
+    rgba(139, 216, 166, 0.24) 20%,
+    rgba(139, 216, 166, 0.24) 80%,
+    rgba(139, 216, 166, 0) 100%
+  );
+}
+
+.site-footer,
+.coming-soon {
+  position: relative;
 }
 
 .site-footer {
   padding: 44px 0;
-  border-top: 1px solid var(--border);
   background: rgba(16, 19, 18, 0.36);
 }
 
@@ -1733,12 +1496,342 @@ h3 {
 
 .footer-links a {
   color: var(--muted);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .footer-links a:hover,
 .footer-links a:focus-visible {
   color: var(--text);
+}
+
+/* ==========================================================================
+   The interval curve
+
+   The one piece of art on the site, and it is the product thesis drawn
+   literally: a bill is one number, a day has a shape. Off-peak draws in
+   mint, the peak window in ember. Nothing here is invented -- it is a
+   labelled illustrative load profile, and it says so.
+   ========================================================================== */
+
+.hero-curve {
+  position: relative;
+  margin: 0;
+  padding: 22px 22px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg, rgba(139, 216, 166, 0.055), rgba(139, 216, 166, 0) 44%),
+    rgba(14, 17, 16, 0.72);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+}
+
+.curve-topline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 18px;
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.curve-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.curve-key {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 auto;
+  border-radius: 2px;
+}
+
+.curve-key-mint {
+  background: var(--mint);
+}
+
+.curve-key-ember {
+  margin-left: 8px;
+  background: var(--ember);
+}
+
+.hero-curve svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.curve-baseline {
+  stroke: rgba(255, 255, 255, 0.09);
+  stroke-width: 1;
+}
+
+.curve-line {
+  fill: none;
+  stroke: var(--mint);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.curve-line-peak {
+  stroke: var(--ember);
+}
+
+.curve-peak-edge {
+  stroke: rgba(242, 166, 90, 0.4);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+}
+
+.curve-peak-label {
+  fill: var(--ember);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.curve-hour {
+  fill: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  opacity: 0.62;
+}
+
+/*
+  Draw-on. The stroke carries pathLength="1", so a dasharray of 1 is the
+  whole line regardless of its real length and the offset animates 1 -> 0.
+  No JS: the existing .reveal IntersectionObserver adds .is-visible, and the
+  global prefers-reduced-motion rule collapses the transition to 1ms, so the
+  curve simply appears for anyone who asked for less motion.
+*/
+.is-enhanced .hero-curve .curve-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1400ms cubic-bezier(0.32, 0.72, 0.24, 1) 220ms;
+}
+
+.is-enhanced .hero-curve.is-visible .curve-line {
+  stroke-dashoffset: 0;
+}
+
+.curve-readout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--border);
+}
+
+.curve-readout-item {
+  display: grid;
+  gap: 5px;
+  padding: 13px 14px;
+  background: rgba(12, 15, 14, 0.92);
+}
+
+.curve-readout-item span {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.curve-readout-item strong {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* The second readout is the cost half of the pair, so it wears ember. */
+.curve-readout-item:last-child strong {
+  color: var(--ember);
+}
+
+.curve-caption {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+/* ==========================================================================
+   Proof strip -- real mechanics only, no invented metrics
+   ========================================================================== */
+
+.proof-strip {
+  position: relative;
+  padding: 30px 0;
+  background: linear-gradient(
+    180deg,
+    rgba(139, 216, 166, 0) 0%,
+    rgba(139, 216, 166, 0.045) 50%,
+    rgba(139, 216, 166, 0) 100%
+  );
+}
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.proof-item {
+  display: grid;
+  gap: 5px;
+  padding-left: 16px;
+  border-left: 1px solid rgba(139, 216, 166, 0.22);
+}
+
+.proof-item strong {
+  color: var(--mint-lift);
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.proof-item span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+/* ==========================================================================
+   How it works -- three steps. The numbering is earned: it is a real
+   sequence, not decoration on an unordered list.
+   ========================================================================== */
+
+.step-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(158deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0) 46%),
+    rgba(23, 27, 25, 0.7);
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+
+.step:hover {
+  transform: translateY(-4px);
+  border-color: rgba(139, 216, 166, 0.3);
+}
+
+.step-index {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  color: var(--mint);
+  border: 1px solid rgba(139, 216, 166, 0.3);
+  border-radius: 50%;
+  background: rgba(139, 216, 166, 0.08);
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.step h3 {
+  margin-bottom: 8px;
+}
+
+.step p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   Assorted section furniture
+   ========================================================================== */
+
+.point-list {
+  display: grid;
+  gap: 14px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.point-list li {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.point-list svg {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  color: var(--mint);
+}
+
+.contract-section {
+  padding-top: 0;
+}
+
+.contract-shell {
+  position: relative;
+  overflow: hidden;
+  padding: 46px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(146deg, rgba(242, 166, 90, 0.07), rgba(242, 166, 90, 0) 54%),
+    rgba(23, 27, 25, 0.72);
+}
+
+/* This section is about what a contract costs you, so it wears the cost hue. */
+.contract-shell .eyebrow {
+  color: var(--ember);
+}
+
+.contract-shell .section-body {
+  max-width: 62ch;
+  margin-bottom: 28px;
+  font-size: 1.05rem;
+}
+
+.about-cta {
+  margin-top: 34px;
+}
+
+.contact-points-section {
+  padding-top: 0;
+}
+
+.how-section .eyebrow,
+.learn-hero .eyebrow {
+  color: var(--primary);
 }
 
 .reveal {
@@ -1757,80 +1850,6 @@ h3 {
 .is-enhanced .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-@keyframes grid-drift {
-  to {
-    background-position: 72px 72px, 72px 72px;
-  }
-}
-
-@keyframes ghost-float {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) rotate(-18deg);
-  }
-  50% {
-    transform: translate3d(-10px, -14px, 0) rotate(-15deg);
-  }
-}
-
-@keyframes panel-scan {
-  0%,
-  36% {
-    left: -55%;
-    opacity: 0;
-  }
-  48% {
-    opacity: 1;
-  }
-  66%,
-  100% {
-    left: 120%;
-    opacity: 0;
-  }
-}
-
-@keyframes map-glow {
-  0%,
-  100% {
-    opacity: 0.54;
-    transform: scale(0.98);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(1.01);
-  }
-}
-
-@keyframes node-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.28);
-  }
-}
-
-@keyframes node-ring {
-  0% {
-    opacity: 0;
-    transform: scale(0.35);
-  }
-  34% {
-    opacity: 0.42;
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.5);
-  }
-}
-
-@keyframes signal-fill {
-  to {
-    background-size: var(--fill) 100%, 100% 100%;
-  }
 }
 
 @keyframes panel-enter {
@@ -1911,7 +1930,6 @@ h3 {
   .split-intro,
   .cta-grid,
   .storage-grid,
-  .enrollment-panel-grid,
   .primer-shell,
   .channel-grid,
   .upload-grid {
@@ -1921,7 +1939,6 @@ h3 {
 
   .learn-summary-grid,
   .watch-grid,
-  .enrollment-card-grid,
   .storage-card-grid,
   .channel-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1935,19 +1952,17 @@ h3 {
     min-height: auto;
   }
 
-  .hero-visual {
-    min-height: 430px;
-  }
-
-  .card-grid {
+  .card-grid,
+  .step-list {
     grid-template-columns: 1fr;
   }
 
-  .cta-copy {
-    position: static;
+  .proof-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 22px;
   }
 
-  .enrollment-aside {
+  .cta-copy {
     position: static;
   }
 }
@@ -1959,6 +1974,24 @@ h3 {
 
   .section {
     padding: 68px 0;
+  }
+
+  /* The curve stays on mobile. It is the signature -- the old hero art was
+     hidden here, which left phones with a wall of text and no idea. */
+  .hero-curve {
+    padding: 16px 16px 14px;
+  }
+
+  .curve-readout {
+    grid-template-columns: 1fr;
+  }
+
+  .contract-shell {
+    padding: 26px;
+  }
+
+  .step {
+    padding: 22px;
   }
 
   .brand img {
@@ -1993,28 +2026,13 @@ h3 {
     width: 100%;
   }
 
-  .hero-visual {
-    display: none;
-  }
 
-  .strategy-panel {
-    min-height: 410px;
-    padding: 18px;
-  }
 
-  .signal-row {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
 
-  .pulse-map {
-    height: 150px;
-  }
 
   .founder-grid,
   .learn-summary-grid,
   .watch-grid,
-  .enrollment-card-grid,
   .storage-card-grid,
   .channel-card-grid,
   .footer-grid {
@@ -2024,9 +2042,6 @@ h3 {
 
   .primer-panel,
   .channel-card,
-  .enrollment-card,
-  .enrollment-aside,
-  .enrollment-payment-panel,
   .storage-visual-card,
   .storage-card,
   .upload-panel {
@@ -2038,8 +2053,10 @@ h3 {
     gap: 8px;
   }
 
-  .storage-proof li {
-    grid-template-columns: 1fr;
+  .storage-proof li,
+  .primer-panel li {
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 10px;
   }
 
   .primer-tabs {
@@ -2048,10 +2065,6 @@ h3 {
 
   .primer-tab {
     min-height: 54px;
-  }
-
-  .primer-panel li {
-    grid-template-columns: 1fr;
   }
 
   .footer-links {
