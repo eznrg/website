@@ -59,7 +59,6 @@ export const home = {
     { value: "$500", label: "Deposit, refundable in full for any reason" },
     { value: "24 hours", label: "A real person calls you back" },
     { value: "Price match", label: "Backed by a money-back guarantee" },
-    { value: "First 100", label: "$0/mo storage for early customers" },
   ],
   shape: {
     eyebrow: "Why the hour matters",
@@ -108,8 +107,8 @@ export const home = {
     eyebrow: "Storage",
     title: "Flexibility is the product. You're the driver.",
     body:
-      "A 110 kW battery on site turns your peak hours into something you control: lower demand charges now, and a seat at capacity and VPP markets as they open.",
-    offer: "$0/mo for the first 100 sites",
+      "A battery on site turns your peak hours into something you control: lower demand charges now, and a seat at capacity and VPP markets as they open.",
+    offer: "See what your flexibility is worth",
     proof: [
       "Cut demand charges by managing your own peaks.",
       "Keep capacity options open instead of locking them away.",
