@@ -1,8 +1,30 @@
-<svg width="184" height="44" viewBox="0 0 184 44" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">EZ NRG</title>
-  <desc id="desc">Placeholder EZ NRG logo mark with text</desc>
-  <rect width="44" height="44" rx="8" fill="#0B1828"/>
-  <path d="M25.8 5.5L11.5 24.4H22.2L18.1 38.5L32.5 19.2H21.6L25.8 5.5Z" fill="#14B8A6"/>
-  <path d="M27.7 6.4L22.6 18.1H34.1L19.4 38.4L23.8 25.1H10L27.7 6.4Z" stroke="#F4B942" stroke-width="1.6" stroke-linejoin="round"/>
-  <text x="58" y="29" fill="#F5F7FA" font-family="Manrope, Inter, Arial, sans-serif" font-size="20" font-weight="800" letter-spacing="3.2">EZ NRG</text>
+<svg width="184" height="44" viewBox="0 0 184 44" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ezlogo-title">
+  <title id="ezlogo-title">EZ NRG</title>
+  <!--
+    Mint-palette brand mark. Two notes for whoever edits this next:
+
+    1. The wordmark is drawn as stroked paths, not <text>. An SVG referenced
+       from an <img> cannot reach the page's webfonts, so the old
+       font-family="Manrope, ..." fell back to whatever sans the OS happened
+       to have - a different wordmark on every machine. Manrope was also a
+       fourth typeface the site never loaded.
+    2. Colours are literals on purpose: this file is served standalone, so it
+       cannot read the CSS custom properties. They mirror the ink-teal, mint
+       and ember tokens in src/styles.css. Change them together.
+  -->
+  <rect width="44" height="44" rx="9" fill="#0E1A17"/>
+  <path d="M25.8 5.5L11.5 24.4H22.2L18.1 38.5L32.5 19.2H21.6L25.8 5.5Z" fill="#8BD8A6"/>
+  <path d="M27.7 6.4L22.6 18.1H34.1L19.4 38.4L23.8 25.1H10L27.7 6.4Z" stroke="#F2A65A" stroke-width="1.6" stroke-linejoin="round"/>
+  <g stroke="#F4F1EA" stroke-width="2.4" stroke-linecap="butt" stroke-linejoin="miter">
+    <!-- E -->
+    <path d="M60 10V32M60 10H73M60 21H70M60 32H73"/>
+    <!-- Z -->
+    <path d="M79 10H92L79 32H92"/>
+    <!-- N -->
+    <path d="M104 32V10L119 32V10"/>
+    <!-- R -->
+    <path d="M125 32V10H132A5.5 5.5 0 0 1 132 21H125M131 21L139 32"/>
+    <!-- G -->
+    <path d="M165.5 15.5A11 11 0 1 0 167 21H158"/>
+  </g>
 </svg>

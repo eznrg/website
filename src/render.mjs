@@ -2,34 +2,36 @@ import {
   about,
   contact,
   contactFields,
+  earlyBirdFields,
   enrollment,
   enrollmentFields,
   home,
   learn,
   nav,
   site,
+  ui,
 } from "./content.mjs";
 
 const pageMeta = {
   "/": {
-    title: "EZ NRG | Customer-first energy strategy",
+    title: "EZ NRG | Energy priced by the hour, not the month",
     description:
-      "EZ NRG is reimagining how you participate in the future of energy.",
+      "EZ NRG reads your interval data before quoting a price, then backs that price with its own capital.",
   },
   "/about": {
     title: "About EZ NRG",
     description:
-      "Learn about EZ NRG, an early-stage energy strategy company focused on customer-aligned decentralized energy.",
+      "EZ NRG prices what it understands: load shapes, honest contracts, and a portfolio built on quality over quantity.",
   },
   "/learn": {
     title: "Energy Market Primer | EZ NRG",
     description:
-      "Learn how deregulation, supplier contracts, and FERC 2222 shape customer-first energy strategy.",
+      "How deregulation, supplier contracts, and FERC 2222 shape what your energy really costs — in about ninety seconds.",
   },
   "/contact": {
     title: "Contact EZ NRG",
     description:
-      "Start a conversation with EZ NRG about customer-first energy strategy.",
+      "Customers, investors, advisors, partners — start a real conversation with EZ NRG.",
   },
   "/get-started": {
     title: "Enroll | EZ NRG",
@@ -89,20 +91,20 @@ function header(path) {
     .join("");
 
   return `<header class="site-header" data-menu>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main">${escapeHtml(ui.skipLink)}</a>
   <div class="container header-shell">
     <a class="brand" href="/" aria-label="EZ NRG home">
       <img src="/logo.svg" alt="EZ NRG" width="176" height="44">
     </a>
     <button class="menu-button" type="button" data-menu-toggle aria-expanded="false" aria-controls="primary-navigation">
-      <span class="sr-only">Toggle navigation</span>
+      <span class="sr-only">${escapeHtml(ui.menuLabel)}</span>
       ${icon("menu")}
     </button>
     <nav class="nav" id="primary-navigation" aria-label="Primary navigation" data-nav>
       ${links}
-      <a class="button button-small" href="/get-started">Enroll Now ${icon(
-        "arrow",
-      )}</a>
+      <a class="button button-small" href="/get-started">${escapeHtml(
+        ui.headerCta,
+      )} ${icon("arrow")}</a>
     </nav>
   </div>
 </header>`;
@@ -115,7 +117,7 @@ function footer() {
       <a class="brand footer-brand" href="/" aria-label="EZ NRG home">
         <img src="/logo.svg" alt="EZ NRG" width="176" height="44">
       </a>
-      <p>Customer-first energy strategy for the decentralized energy future.</p>
+      <p>${escapeHtml(ui.footerTagline)}</p>
     </div>
     <div class="footer-links">
       ${nav
@@ -142,13 +144,13 @@ function layout(path, content) {
   <meta property="og:description" content="${attr(meta.description)}">
   <meta property="og:type" content="website">
   <meta property="og:url" content="${attr(canonical)}">
-  <meta name="theme-color" content="#07111F">
+  <meta name="theme-color" content="#0b0e0d">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="icon" href="/logo.svg" type="image/svg+xml">
   <script>document.documentElement.classList.add("is-enhanced");</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&family=Inter:wght@400;700;800&family=IBM+Plex+Mono:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/styles.css">
   <script src="/assets/main.js" defer></script>
   <script>
@@ -172,34 +174,143 @@ function buttonLink(href, label, style = "primary") {
   )} ${style === "primary" ? icon("arrow") : ""}</a>`;
 }
 
-function dashboardVisual() {
-  const labels = home.dashboard.labels
+/*
+  The hero visual: a real 24-hour interval curve rendered as inline SVG from
+  home.curve.values. Off-peak hours draw in mint; the peak window is bracketed
+  and filled in ember. This is the one piece of "art" on the site, and it is
+  the product thesis drawn literally: a month is one number, a day has shape.
+*/
+function intervalCurve() {
+  const { values, peakStart, peakEnd } = home.curve;
+  const width = 480;
+  const height = 220;
+  const padX = 10;
+  const padTop = 18;
+  const baseline = height - 26;
+  const stepX = (width - padX * 2) / (values.length - 1);
+  const scaleY = (baseline - padTop) / 100;
+
+  const pointFor = (value, index) => ({
+    x: padX + index * stepX,
+    y: baseline - value * scaleY,
+  });
+
+  const points = values.map(pointFor);
+
+  // Smooth the polyline with Catmull-Rom -> cubic Bezier conversion.
+  const path = points
+    .map((point, index) => {
+      if (index === 0) return `M ${point.x.toFixed(1)} ${point.y.toFixed(1)}`;
+      const p0 = points[Math.max(0, index - 2)];
+      const p1 = points[index - 1];
+      const p2 = point;
+      const p3 = points[Math.min(points.length - 1, index + 1)];
+      const c1x = p1.x + (p2.x - p0.x) / 6;
+      const c1y = p1.y + (p2.y - p0.y) / 6;
+      const c2x = p2.x - (p3.x - p1.x) / 6;
+      const c2y = p2.y - (p3.y - p1.y) / 6;
+      return `C ${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+    })
+    .join(" ");
+
+  const area = `${path} L ${points[points.length - 1].x.toFixed(1)} ${baseline} L ${points[0].x.toFixed(1)} ${baseline} Z`;
+
+  const peakLeft = pointFor(0, peakStart).x;
+  const peakRight = pointFor(0, peakEnd).x;
+
+  const hourMarks = [0, 6, 12, 18, 23]
+    .map((hour) => {
+      const x = pointFor(0, hour).x;
+      const label = hour === 0 ? "12am" : hour === 12 ? "12pm" : hour < 12 ? `${hour}am` : `${hour - 12}pm`;
+      return `<text x="${x.toFixed(1)}" y="${height - 8}" class="curve-hour"${hour === 23 ? ' text-anchor="end"' : hour === 0 ? "" : ' text-anchor="middle"'}>${label}</text>`;
+    })
+    .join("");
+
+  const readout = home.curve.readout
     .map(
-      (label, index) => `<div class="signal-row" style="--fill: ${
-        42 + (index + 1) * 9
-      }%">
-        <span>${escapeHtml(label)}</span>
-        <i aria-hidden="true"></i>
+      (item) => `<div class="curve-readout-item">
+        <span>${escapeHtml(item.label)}</span>
+        <strong>${escapeHtml(item.value)}</strong>
       </div>`,
     )
     .join("");
 
-  return `<div class="hero-visual" aria-label="Abstract energy strategy dashboard">
-    <div class="key-ghost" aria-hidden="true"></div>
-    <div class="strategy-panel">
-      <div class="panel-topline">
-        <span>${escapeHtml(home.dashboard.title)}</span>
-        <strong>${escapeHtml(home.dashboard.status)}</strong>
-      </div>
-      <div class="pulse-map" aria-hidden="true">
-        <span class="pulse-line"></span>
-        <span class="node node-a"></span>
-        <span class="node node-b"></span>
-        <span class="node node-c"></span>
-      </div>
-      <div class="signal-list">${labels}</div>
+  return `<figure class="hero-curve reveal" data-curve>
+    <figcaption class="curve-topline">
+      <span>${escapeHtml(home.curve.title)}</span>
+      <span class="curve-legend">
+        <i class="curve-key curve-key-mint" aria-hidden="true"></i>${escapeHtml(home.curve.offPeakLabel)}
+        <i class="curve-key curve-key-ember" aria-hidden="true"></i>${escapeHtml(home.curve.peakLabel)}
+      </span>
+    </figcaption>
+    <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="A 24-hour energy load curve. Usage rises through the day and peaks in the late afternoon window, when energy costs the most.">
+      <defs>
+        <linearGradient id="curve-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="var(--mint)" stop-opacity="0.28"/>
+          <stop offset="1" stop-color="var(--mint)" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="peak-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="var(--ember)" stop-opacity="0.34"/>
+          <stop offset="1" stop-color="var(--ember)" stop-opacity="0.03"/>
+        </linearGradient>
+        <clipPath id="peak-clip">
+          <rect x="${peakLeft.toFixed(1)}" y="0" width="${(peakRight - peakLeft).toFixed(1)}" height="${baseline}"/>
+        </clipPath>
+        <!--
+          The inverse of peak-clip. The two area fills must not overlap: mint
+          at 0.28 under ember at 0.30 composites to a muddy olive, which reads
+          as a rendering mistake rather than as "this slice costs more".
+          Each hue owns its own hours instead.
+        -->
+        <clipPath id="offpeak-clip">
+          <rect x="0" y="0" width="${peakLeft.toFixed(1)}" height="${baseline}"/>
+          <rect x="${peakRight.toFixed(1)}" y="0" width="${(width - peakRight).toFixed(1)}" height="${baseline}"/>
+        </clipPath>
+      </defs>
+      <line x1="${padX}" y1="${baseline}" x2="${width - padX}" y2="${baseline}" class="curve-baseline"/>
+      <path d="${area}" fill="url(#curve-fill)" clip-path="url(#offpeak-clip)"/>
+      <path d="${area}" fill="url(#peak-fill)" clip-path="url(#peak-clip)"/>
+      <path d="${path}" class="curve-line" pathLength="1"/>
+      <path d="${path}" class="curve-line curve-line-peak" pathLength="1" clip-path="url(#peak-clip)"/>
+      <line x1="${peakLeft.toFixed(1)}" y1="${padTop - 6}" x2="${peakLeft.toFixed(1)}" y2="${baseline}" class="curve-peak-edge"/>
+      <line x1="${peakRight.toFixed(1)}" y1="${padTop - 6}" x2="${peakRight.toFixed(1)}" y2="${baseline}" class="curve-peak-edge"/>
+      <text x="${((peakLeft + peakRight) / 2).toFixed(1)}" y="${padTop}" text-anchor="middle" class="curve-peak-label">${escapeHtml(home.curve.peakLabel)}</text>
+      ${hourMarks}
+    </svg>
+    <div class="curve-readout">${readout}</div>
+    <p class="curve-caption">${escapeHtml(home.curve.caption)}</p>
+  </figure>`;
+}
+
+function proofStrip() {
+  return `<section class="proof-strip" aria-label="What EZ NRG stands behind">
+    <div class="container proof-grid">
+      ${home.proof
+        .map(
+          (item) => `<div class="proof-item reveal">
+            <strong>${escapeHtml(item.value)}</strong>
+            <span>${escapeHtml(item.label)}</span>
+          </div>`,
+        )
+        .join("")}
     </div>
-  </div>`;
+  </section>`;
+}
+
+function howSteps() {
+  return `<ol class="step-list">
+    ${home.how.steps
+      .map(
+        (step) => `<li class="step reveal">
+          <span class="step-index">${escapeHtml(step.index)}</span>
+          <div>
+            <h3>${escapeHtml(step.title)}</h3>
+            <p>${escapeHtml(step.body)}</p>
+          </div>
+        </li>`,
+      )
+      .join("")}
+  </ol>`;
 }
 
 function cardGrid(items, className = "") {
@@ -259,7 +370,7 @@ function form(fields, submitLabel, successMessage, formName, options = {}) {
     <p class="form-success" role="status" aria-live="polite" hidden>${escapeHtml(
       successMessage,
     )}</p>
-    <p class="form-error" role="alert" hidden>Something went wrong. Please try again soon.</p>
+    <p class="form-error" role="alert" hidden>${escapeHtml(ui.formError)}</p>
   </form>`;
 }
 
@@ -386,10 +497,10 @@ function storageSection() {
           home.storage.offer,
         )} ${icon("arrow")}</a>
       </div>
-      <div class="storage-visual-card reveal" aria-label="110 kW ESS customer value stack">
+      <div class="storage-visual-card reveal" aria-label="110 kW battery value stack">
         <div class="storage-visual-topline">
-          <span>110 kW ESS</span>
-          <strong>Ready</strong>
+          <span>110 kW battery</span>
+          <strong>On site</strong>
         </div>
         <div class="battery-stack" aria-hidden="true">
           <span></span>
@@ -398,7 +509,7 @@ function storageSection() {
         </div>
         <div class="storage-meter-list">
           <div>
-            <span>Demand Charge Reduction</span>
+            <span>Demand charges</span>
             <i style="--fill: 82%"></i>
           </div>
           <div>
@@ -445,42 +556,60 @@ export function renderHome() {
           <p class="hero-body">${escapeHtml(home.hero.body)}</p>
           <div class="hero-actions">
             ${buttonLink(home.hero.primaryHref, home.hero.primaryCta)}
-            ${buttonLink("#shift", home.hero.secondaryCta, "secondary")}
+            ${buttonLink(home.hero.secondaryHref, home.hero.secondaryCta, "secondary")}
           </div>
         </div>
-        ${dashboardVisual()}
+        ${intervalCurve()}
       </div>
     </section>
-    <section class="section section-line" id="shift">
+    ${proofStrip()}
+    <section class="section" id="shift">
       <div class="container split-intro">
         <div class="reveal">
-          <p class="eyebrow">The shift</p>
-          <h2>${escapeHtml(home.shift.title)}</h2>
+          <p class="eyebrow">${escapeHtml(home.shape.eyebrow)}</p>
+          <h2>${escapeHtml(home.shape.title)}</h2>
         </div>
-        <p class="section-body reveal">${escapeHtml(home.shift.body)}</p>
+        <div class="reveal">
+          <p class="section-body">${escapeHtml(home.shape.body)}</p>
+          <ul class="point-list">
+            ${home.shape.points
+              .map((point) => `<li>${icon("check")}<span>${escapeHtml(point)}</span></li>`)
+              .join("")}
+          </ul>
+        </div>
       </div>
-      <div class="container">${cardGrid(home.shift.cards)}</div>
     </section>
-    <section class="section belief-section">
-      <div class="container split-intro">
-        <div class="reveal">
-          <p class="eyebrow">What EZ NRG believes</p>
-          <h2>${escapeHtml(home.beliefs.title)}</h2>
+    <section class="section how-section" id="how">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">${escapeHtml(home.how.eyebrow)}</p>
+          <h2>${escapeHtml(home.how.title)}</h2>
         </div>
-        <p class="section-body reveal">${escapeHtml(home.beliefs.body)}</p>
+        ${howSteps()}
+      </div>
+    </section>
+    <section class="section contract-section">
+      <div class="container contract-shell reveal">
+        <p class="eyebrow">${escapeHtml(home.contract.eyebrow)}</p>
+        <h2>${escapeHtml(home.contract.title)}</h2>
+        <p class="section-body">${escapeHtml(home.contract.body)}</p>
+        ${buttonLink(home.contract.ctaHref, home.contract.cta)}
       </div>
     </section>
     ${storageSection()}
     <section class="section cta-section" id="early-bird">
       <div class="container cta-grid">
         <div class="cta-copy reveal">
-          <p class="eyebrow">Early access</p>
+          <p class="eyebrow">${escapeHtml(home.finalCta.eyebrow)}</p>
           <h2>${escapeHtml(home.finalCta.title)}</h2>
           <p>${escapeHtml(home.finalCta.body)}</p>
         </div>
-        <div class="channel-card-grid cta-channel-grid">
-          ${channelCards()}
-        </div>
+        ${form(
+          earlyBirdFields,
+          home.finalCta.submitLabel,
+          home.finalCta.successMessage,
+          "early-bird",
+        )}
       </div>
     </section>`,
   );
@@ -516,7 +645,7 @@ export function renderAbout() {
     "/about",
     `<section class="page-hero about-hero section">
       <div class="container narrow reveal">
-        <p class="eyebrow">Company</p>
+        <p class="eyebrow">${escapeHtml(about.eyebrow)}</p>
         <h1>${escapeHtml(about.title)}</h1>
         ${about.intro.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
       </div>
@@ -544,8 +673,8 @@ export function renderAbout() {
     <section class="section founders-section">
       <div class="container">
         <div class="section-heading reveal">
-          <p class="eyebrow">Co-founders</p>
-          <h2>Building with customers.</h2>
+          <p class="eyebrow">${escapeHtml(about.foundersEyebrow)}</p>
+          <h2>${escapeHtml(about.foundersTitle)}</h2>
         </div>
         <div class="founder-grid">
           ${about.founders
@@ -564,6 +693,7 @@ export function renderAbout() {
             .join("")}
         </div>
         <p class="coming-soon reveal">${escapeHtml(about.note)}</p>
+        <div class="about-cta reveal">${buttonLink(about.ctaHref, about.cta)}</div>
       </div>
     </section>`,
   );
@@ -572,16 +702,11 @@ export function renderAbout() {
 export function renderLearn() {
   return layout(
     "/learn",
-    `<section class="section channel-section">
-      <div class="container channel-grid">
-        <div class="channel-copy reveal">
-          <p class="eyebrow">${escapeHtml(learn.channels.eyebrow)}</p>
-          <h2>${escapeHtml(learn.channels.title)}</h2>
-          <p>${escapeHtml(learn.channels.body)}</p>
-        </div>
-        <div class="channel-card-grid">
-          ${channelCards()}
-        </div>
+    `<section class="page-hero learn-hero section">
+      <div class="container narrow reveal">
+        <p class="eyebrow">${escapeHtml(learn.eyebrow)}</p>
+        <h1>${escapeHtml(learn.title)}</h1>
+        <p>${escapeHtml(learn.body)}</p>
       </div>
     </section>
     <section class="section learn-summary-section">
@@ -592,10 +717,9 @@ export function renderLearn() {
     <section class="section primer-section" id="primer">
       <div class="container split-intro">
         <div class="reveal">
-          <p class="eyebrow">Interactive primer</p>
-          <h2>From deregulation to customer-side markets.</h2>
+          <p class="eyebrow">${escapeHtml(learn.primerEyebrow)}</p>
+          <h2>${escapeHtml(learn.primerTitle)}</h2>
         </div>
-        <p class="section-body reveal">Use these sections as a fast education layer before comparing a supplier offer. The point is not that deregulation is good or bad in the abstract. The point is that customers need context before signing terms that determine who captures value.</p>
       </div>
       <div class="container">
         ${learnPrimer()}
@@ -604,10 +728,10 @@ export function renderLearn() {
     <section class="section contract-watch-section">
       <div class="container split-intro">
         <div class="reveal">
-          <p class="eyebrow">Contract watchlist</p>
-          <h2>What the future agent will explain.</h2>
+          <p class="eyebrow">${escapeHtml(learn.watchEyebrow)}</p>
+          <h2>${escapeHtml(learn.watchTitle)}</h2>
         </div>
-        <p class="section-body reveal">Supplier contracts are where market design becomes customer reality. The future backend agent will look for the clauses that usually decide whether a contract is flexible, expensive, or aligned.</p>
+        <p class="section-body reveal">${escapeHtml(learn.watchBody)}</p>
       </div>
       <div class="container watch-grid">
         ${watchlistCards()}
@@ -622,13 +746,25 @@ export function renderLearn() {
         </div>
         <div class="upload-panel reveal" data-contract-upload>
           <span class="upload-icon">${icon("file")}</span>
-          <h3>Supplier agreement PDF</h3>
+          <h3>${escapeHtml(learn.upload.panelTitle)}</h3>
           <p>${escapeHtml(learn.upload.note)}</p>
           <label class="button button-primary contract-upload-button" for="supplier-contract-pdf">
             ${escapeHtml(learn.upload.button)} ${icon("upload")}
           </label>
           <input class="contract-file-input" id="supplier-contract-pdf" type="file" accept="application/pdf" data-contract-input>
-          <p class="upload-status" data-contract-status role="status" aria-live="polite">No file selected.</p>
+          <p class="upload-status" data-contract-status role="status" aria-live="polite">${escapeHtml(learn.upload.emptyState)}</p>
+        </div>
+      </div>
+    </section>
+    <section class="section channel-section">
+      <div class="container channel-grid">
+        <div class="channel-copy reveal">
+          <p class="eyebrow">${escapeHtml(learn.channels.eyebrow)}</p>
+          <h2>${escapeHtml(learn.channels.title)}</h2>
+          <p>${escapeHtml(learn.channels.body)}</p>
+        </div>
+        <div class="channel-card-grid">
+          ${channelCards()}
         </div>
       </div>
     </section>`,
@@ -640,22 +776,27 @@ export function renderContact() {
     "/contact",
     `<section class="page-hero section">
       <div class="container narrow reveal">
-        <p class="eyebrow">Contact</p>
+        <p class="eyebrow">${escapeHtml(contact.eyebrow)}</p>
         <h1>${escapeHtml(contact.title)}</h1>
         <p>${escapeHtml(contact.body)}</p>
+      </div>
+    </section>
+    <section class="section contact-points-section">
+      <div class="container">
+        ${cardGrid(contact.points, "contact-point-grid")}
       </div>
     </section>
     <section class="section contact-section">
       <div class="container cta-grid">
         <div class="cta-copy reveal">
-          <p class="eyebrow">Early access</p>
-          <h2>Start a focused conversation.</h2>
+          <p class="eyebrow">${escapeHtml(contact.formEyebrow)}</p>
+          <h2>${escapeHtml(contact.formTitle)}</h2>
           <p>${escapeHtml(contact.earlyAccess)}</p>
         </div>
         ${form(
           contactFields,
-          "Send Message",
-          "Thanks. We received your message and will reach out soon.",
+          contact.submitLabel,
+          contact.successMessage,
           "contact",
         )}
       </div>
