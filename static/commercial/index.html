@@ -8,15 +8,14 @@
   <meta name="robots" content="noindex">
 
   <title>EZ NRG for Commercial</title>
-  <meta name="description" content="Customer-first energy strategy for commercial operators. Coming soon.">
+  <meta name="description" content="How ComEd default service and retail supply actually compare for Illinois commercial accounts.">
   <link rel="icon" href="/logo.svg" type="image/svg+xml">
 
   <!--
-    PLACEHOLDER PAGE. Two things to fill in before this is more than a
-    coming-soon notice:
+    Business-channel links. Replace the two href values below with the real
+    Telegram and WhatsApp channel URLs. They are the only things to change here.
     TELEGRAM_CHANNEL_URL  -> the Telegram <a> href in the channels section
     WHATSAPP_CHANNEL_URL  -> the WhatsApp <a> href in the channels section
-    Then replace the hero copy with real commercial positioning.
   -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,12 +23,541 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&family=Inter:wght@400;700;800&family=IBM+Plex+Mono:wght@600&display=swap" rel="stylesheet">
 
   <!-- Shared with the other standalone pages under static/. tokens.css must
-       come first: theme.css consumes its custom properties. This page has no
-       styles of its own — everything it uses lives in theme.css. -->
+       come first: theme.css consumes its custom properties. -->
   <link rel="stylesheet" href="/static/tokens.css">
   <link rel="stylesheet" href="/static/theme.css">
+
+  <style>
+    /*
+      Page-specific styles for the commercial landing page.
+
+      The palette, base typography, header, buttons, hero, cards, channels,
+      footer, and reveal animation all live in the shared /static/theme.css.
+      What stays here is only what this page uses on its own: the hero stat
+      band, the rate charts, the running totals, and the brief CTA. The stat
+      band, chart component, and CTA card are the same ones the hospitality
+      landing page uses — kept in step by hand, as they are there.
+    */
+
+    /* Stat band --------------------------------------------------- */
+    .stat-band {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+    .stat-item .stat-icon {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 16px;
+      place-items: center;
+      color: var(--primary);
+      background: rgba(139, 216, 166, 0.1);
+      border: 1px solid rgba(139, 216, 166, 0.22);
+      border-radius: 9px;
+    }
+    .stat-item .stat-icon .ic { width: 17px; height: 17px; }
+    .stat-value {
+      margin: 0 0 6px;
+      font-family: var(--font-mono);
+      font-size: clamp(1.7rem, 3.2vw, 2.2rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+    .stat-label { margin: 0; max-width: 24ch; color: var(--muted); font-size: 0.9rem; line-height: 1.45; }
+    .stat-source {
+      margin: 26px 0 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+      opacity: 0.85;
+    }
+    .stat-source a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
+
+    /* Rate chart component ----------------------------------------- */
+    .viz {
+      --viz-surface: #151917;
+      --viz-grid: #262c28;
+      --viz-ink: #f4f1ea;
+      --viz-ink-2: #9aa39c;
+      margin: 0;
+      padding: 16px 20px 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--viz-surface);
+    }
+    /* Inside a card that already draws the surface, the chart brings no chrome
+       of its own — but keeps --viz-surface so marker rings punch out cleanly. */
+    .viz-bare { padding: 0; border: 0; background: none; }
+    .viz-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 6px 18px;
+      margin-bottom: 14px;
+    }
+    .viz-title {
+      margin: 0 !important;
+      max-width: none !important;
+      color: var(--viz-ink) !important;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .viz-sub {
+      margin: 2px 0 0 !important;
+      max-width: none !important;
+      color: var(--viz-ink-2) !important;
+      font-size: 0.74rem;
+      line-height: 1.4;
+    }
+    .viz-legend {
+      display: flex;
+      gap: 16px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: var(--viz-ink-2);
+      font-size: 0.74rem;
+    }
+    .viz-legend li { display: flex; align-items: center; gap: 7px; }
+    .viz-key {
+      display: inline-block;
+      flex: none;
+      width: 15px;
+      height: 2px;
+      border-radius: 1px;
+      background: currentColor;
+    }
+
+    .viz-body {
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr);
+      grid-template-areas: "yaxis plot" ". xaxis" ". xtitle";
+      column-gap: 8px;
+    }
+    .viz-yaxis { grid-area: yaxis; position: relative; }
+    .viz-yt {
+      position: absolute;
+      right: 0;
+      transform: translateY(-50%);
+      color: var(--viz-ink-2);
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .viz-plot {
+      grid-area: plot;
+      position: relative;
+      height: clamp(170px, 26vw, 230px);
+      outline: none;
+    }
+    .viz-plot:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 6px;
+      border-radius: 3px;
+    }
+    /* Hairline gridlines, solid, one step off the surface. */
+    .viz-gl {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--viz-grid);
+    }
+    .viz-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .viz-line {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Direct labels — one per series, on its own peak. The marker sits exactly
+       on the data point; the value rides beside it. */
+    .viz-peak { position: absolute; width: 0; height: 0; pointer-events: none; }
+    .viz-peak-dot {
+      position: absolute;
+      left: -4.5px;
+      top: -4.5px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 2px var(--viz-surface);
+    }
+    .viz-peak-t {
+      position: absolute;
+      left: 10px;
+      top: -19px;
+      color: var(--viz-ink);
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      white-space: nowrap;
+      /* keeps the value legible where it passes over a line */
+      text-shadow: 0 0 5px var(--viz-surface), 0 0 3px var(--viz-surface);
+    }
+    .viz-peak.is-below .viz-peak-t { top: 6px; }
+    .viz-peak.is-left .viz-peak-t { left: auto; right: 10px; }
+    .viz-peak-t b { font-weight: 600; }
+
+    /* Hover / focus layer */
+    .viz-cross {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      margin-left: -0.5px;
+      background: rgba(244, 241, 234, 0.28);
+      pointer-events: none;
+    }
+    .viz-dot {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      margin: -4.5px 0 0 -4.5px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 2px var(--viz-surface);
+      pointer-events: none;
+    }
+    .viz-tip {
+      position: absolute;
+      z-index: 2;
+      min-width: 132px;
+      padding: 8px 10px 7px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface-2);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+      pointer-events: none;
+    }
+    .viz-tip p { margin: 0 !important; max-width: none !important; }
+    .viz-tip-h {
+      margin-bottom: 5px !important;
+      color: var(--viz-ink-2) !important;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .viz-tip-r {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--viz-ink) !important;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.55;
+    }
+    .viz-tip-r b { font-weight: 600; font-variant-numeric: tabular-nums; }
+    .viz-tip-r em {
+      margin-left: auto;
+      padding-left: 10px;
+      color: var(--viz-ink-2);
+      font-size: 0.68rem;
+      font-style: normal;
+    }
+    .viz-tip-d {
+      margin-top: 4px !important;
+      padding-top: 4px;
+      border-top: 1px solid var(--border);
+      color: var(--viz-ink-2) !important;
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+    }
+
+    .viz-xaxis { grid-area: xaxis; position: relative; height: 16px; }
+    .viz-xt {
+      position: absolute;
+      top: 4px;
+      transform: translateX(-50%);
+      color: var(--viz-ink-2);
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .viz-xtitle {
+      grid-area: xtitle;
+      margin: 2px 0 0 !important;
+      max-width: none !important;
+      color: var(--viz-ink-2) !important;
+      font-size: 0.66rem;
+      text-align: center;
+    }
+
+    /* Table view — every value stays reachable without hovering. */
+    .viz-data { margin-top: 10px; border-top: 1px solid var(--border); }
+    .viz-data > summary {
+      padding: 8px 2px 2px;
+      color: var(--viz-ink-2);
+      cursor: pointer;
+      font-size: 0.72rem;
+      list-style-position: inside;
+    }
+    .viz-data > summary:hover { color: var(--viz-ink); }
+    .viz-data-wrap { max-height: 290px; overflow: auto; margin-bottom: 8px; }
+    .viz-data table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .viz-data th, .viz-data td {
+      padding: 4px 8px;
+      border-bottom: 1px solid rgba(43, 49, 45, 0.55);
+      text-align: right;
+    }
+    .viz-data th:first-child, .viz-data td:first-child { text-align: left; }
+    .viz-data thead th {
+      position: sticky;
+      top: 0;
+      background: var(--viz-surface);
+      color: var(--viz-ink-2);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .viz-data td { color: var(--viz-ink-2); }
+    .viz-data td:first-child { color: var(--viz-ink); }
+
+    @media (max-width: 560px) {
+      .viz { padding: 14px 14px 8px; }
+      .viz-xt.is-dense { display: none; }
+      .viz-body { grid-template-columns: 26px minmax(0, 1fr); }
+    }
+
+    /* Chart series tokens ------------------------------------------
+       Colour follows the entity, so a series keeps its hue on every chart
+       across /commercial and its white paper. Validated with the data-viz
+       validator against this component's own --viz-surface (#151917), dark:
+         net ↔ ares  CVD ΔE 18.4 · normal 24.4   — pass
+         pos ↔ neg   CVD ΔE  7.4 · normal 28.7   — warn band, which is legal
+       ONLY with a second channel. On the diverging chart that channel is bar
+       direction about the zero baseline (and parentheses in the table), so
+       the sign never rests on hue alone. Do not swap these by eye. */
+    .viz {
+      --viz-net: #8f83e8;
+      --viz-ares: #46a26d;
+      --viz-pos: #46a26d;
+      --viz-neg: #d03b3b;
+    }
+    .s-net { color: var(--viz-net); }
+    .s-ares { color: var(--viz-ares); }
+    .s-pos, .viz-bar.is-pos { color: var(--viz-pos); }
+    .s-neg, .viz-bar.is-neg { color: var(--viz-neg); }
+    .s-bar { color: var(--viz-ink-2); }
+
+    /* Annotation — a labelled point that is not a series peak. */
+    .viz-note { position: absolute; width: 0; height: 0; pointer-events: none; }
+    .viz-note i {
+      position: absolute;
+      left: -4px;
+      top: -4px;
+      width: 8px;
+      height: 8px;
+      border: 2px solid var(--viz-ink-2);
+      border-radius: 50%;
+      background: var(--viz-surface);
+    }
+    .viz-note span {
+      position: absolute;
+      left: 12px;
+      top: -6px;
+      color: var(--viz-ink-2);
+      font-size: 0.68rem;
+      line-height: 1.35;
+      white-space: nowrap;
+      text-shadow: 0 0 5px var(--viz-surface), 0 0 3px var(--viz-surface);
+    }
+
+    /* Diverging columns --------------------------------------------
+       Bars are capped at 24px and centred in their slot, so the leftover
+       band width stays as air rather than being filled. */
+    .viz-plot.is-bars { height: clamp(200px, 30vw, 280px); }
+    .viz-zero {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--viz-ink-2);
+      opacity: 0.5;
+    }
+    .viz-bar {
+      position: absolute;
+      width: min(calc(100% / 30 - 2px), 24px);
+      min-height: 1px;
+      transform: translateX(-50%);
+      background: currentColor;
+    }
+    .viz-bar.is-pos { border-radius: 4px 4px 0 0; }
+    .viz-bar.is-neg { border-radius: 0 0 4px 4px; }
+    .viz-band {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      background: rgba(244, 241, 234, 0.04);
+    }
+    .viz-bandlabel {
+      position: absolute;
+      top: 2px;
+      margin-left: 6px;
+      color: var(--viz-ink-2);
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    /* Running totals under a chart --------------------------------- */
+    .tally {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .tally-item {
+      padding: 18px 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(23, 27, 25, 0.62);
+    }
+    .tally-k {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .tally-v {
+      margin: 0 0 4px;
+      font-family: var(--font-mono);
+      font-size: clamp(1.3rem, 2.6vw, 1.65rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .tally-v.is-pos { color: #7ec79b; }
+    .tally-v.is-neg { color: #e07a7a; }
+    .tally-n { margin: 0; color: var(--muted); font-size: 0.84rem; line-height: 1.45; }
+
+    /* An aside that is explicitly ours, not the source document's. */
+    .extension {
+      margin-top: 22px;
+      padding: 22px 24px;
+      border: 1px solid rgba(139, 216, 166, 0.24);
+      border-left-width: 3px;
+      border-radius: var(--radius-lg);
+      background: rgba(139, 216, 166, 0.05);
+    }
+    .extension p { margin: 0; color: var(--muted); }
+    .extension p + p { margin-top: 10px; }
+    .extension strong { color: var(--text); font-weight: 700; }
+    .extension .extension-k {
+      margin-bottom: 10px;
+      color: var(--primary);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .chart-section { border-top: 1px solid var(--border); }
+    .chart-copy { margin-top: 24px; }
+    .chart-copy p { color: var(--muted); margin-bottom: 16px; max-width: 76ch; }
+    .chart-copy p:last-child { margin-bottom: 0; }
+    .chart-copy strong { color: var(--text); font-weight: 700; }
+
+    @media (max-width: 900px) {
+      .tally { grid-template-columns: 1fr; }
+    }
+    /* The annotation's text is nowrap and sits inside the plot, so on a narrow
+       screen it is the one thing that can push the page wider than the
+       viewport. It is emphasis, not information — the crossing is visible in
+       the line itself, stated in the prose, and in the data table — so it goes
+       below 560px, the same width at which the dense x-ticks drop out. */
+    @media (max-width: 560px) {
+      .viz-note { display: none; }
+    }
+
+    /* White-paper CTA --------------------------------------------- */
+    .paper-section { border-top: 1px solid var(--border); }
+    .paper-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 36px;
+      align-items: center;
+      padding: 44px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(145deg, rgba(139, 216, 166, 0.08), transparent 44%),
+        rgba(23, 27, 25, 0.82);
+      box-shadow: 0 26px 76px rgba(0, 0, 0, 0.28);
+    }
+    .paper-card h2 { margin-bottom: 14px; font-size: clamp(1.7rem, 3.2vw, 2.4rem); }
+    .paper-card > div > p { margin: 0 0 8px; color: var(--muted); font-size: 1.02rem; max-width: 60ch; }
+    .paper-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin-top: 20px !important;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* Responsive overrides for this page's own sections. The shared
+       breakpoints for .card-grid, .channel-grid, .section, .container,
+       .header-tag, .hero-actions and .button live in /static/theme.css. */
+    @media (max-width: 1000px) {
+      .paper-card { grid-template-columns: 1fr; gap: 26px; padding: 34px; }
+    }
+    @media (max-width: 900px) {
+      .stat-band { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; }
+    }
+    @media (max-width: 640px) {
+      .stat-band { grid-template-columns: 1fr; }
+      .paper-card { padding: 26px 22px; }
+    }
+  </style>
 </head>
 <body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-cable" viewBox="0 0 24 24"><path d="M17 19a1 1 0 0 1-1-1v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a1 1 0 0 1-1 1z"/><path d="M17 21v-2"/><path d="M19 14V6.5a1 1 0 0 0-7 0v11a1 1 0 0 1-7 0V10"/><path d="M21 21v-2"/><path d="M3 5V3"/><path d="M4 10a2 2 0 0 1-2-2V6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2a2 2 0 0 1-2 2z"/><path d="M7 5V3"/></symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24"><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z"/></symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></symbol>
+      <symbol id="i-percent" viewBox="0 0 24 24"><line x1="19" x2="5" y1="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
+      <symbol id="i-trending-up" viewBox="0 0 24 24"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></symbol>
+      <symbol id="i-line-chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    </defs>
+  </svg>
+
   <header class="site-header">
     <div class="container header-shell">
       <a class="brand" href="https://eznrg.ai/" aria-label="EZ NRG home">
@@ -43,17 +571,402 @@
     <!-- Hero -->
     <section class="section hero">
       <div class="container reveal">
-        <p class="eyebrow">Commercial energy strategy</p>
-        <h1>Coming soon.</h1>
+        <p class="eyebrow">Illinois commercial energy</p>
+        <h1>The headline rate is not the benchmark.</h1>
         <p class="hero-body">
-          <!-- PLACEHOLDER COPY — replace when the commercial offering is ready. -->
-          We're building an energy strategy designed around your facilities — how and
-          when they actually use power, and what that should cost. Details are on the
-          way. Join our channels below to hear it first.
+          Every month, Illinois businesses open an electric bill, glance at the total, and
+          move on. That is understandable — behind that one number sit wholesale markets,
+          state procurement rules, delivery tariffs, monthly adjustments, supplier contracts,
+          and riders. Most customers are not ignoring the details because they are careless.
+          They are ignoring them because no one has explained the system in plain English.
         </p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#channels">Join our channels
-            <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10h10.4M10.9 5.8 15.2 10l-4.3 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <a class="button button-primary" href="/commercial/whitepaper">Read the brief
+            <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </a>
+          <a class="button button-secondary" href="#channels">Join our channels</a>
+        </div>
+
+        <!-- Headline figures, all computed from the rate table in the brief -->
+        <div class="stat-band">
+          <div class="stat-item">
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-percent"/></svg></span>
+            <p class="stat-value">7.439¢</p>
+            <p class="stat-label">Fixed rate that would have broken even, 2024–2025</p>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-line-chart"/></svg></span>
+            <p class="stat-value">11.614¢</p>
+            <p class="stat-label">Average default NET rate, 2026 year to date</p>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+            <p class="stat-value">17.870¢</p>
+            <p class="stat-label">Single-month peak default NET, May 2026</p>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-trending-up"/></svg></span>
+            <p class="stat-value">+78%</p>
+            <p class="stat-label">Rise in average default NET, 2024 to 2026 YTD</p>
+          </div>
+        </div>
+        <p class="stat-source">
+          Computed from ComEd 0–100 kW commercial default-service rates, January 2024 through
+          June 2026. <a href="/commercial/whitepaper">Read the full brief</a> for the method,
+          the assumptions, and the complete rate table.
+        </p>
+      </div>
+    </section>
+
+    <!-- What is measured -->
+    <section class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">What is measured</p>
+          <h2>Three things the total doesn't spell out.</h2>
+          <p>Illinois lets customers in the ComEd, Ameren Illinois, and MidAmerican territories
+             choose who supplies their electricity. Choosing does not change everything on the
+             bill — and knowing which part it changes is most of the work.</p>
+        </div>
+        <div class="card-grid">
+          <article class="info-card reveal">
+            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-cable"/></svg></span>
+            <h3>ComEd delivers either way</h3>
+            <p>ComEd owns and operates the local distribution system. If a storm knocks out
+               service, a meter fails, or local wires need repair, you still call ComEd.
+               Choosing a third-party supplier does not change the physical delivery path,
+               and it does not change the delivery charges.</p>
+          </article>
+          <article class="info-card reveal">
+            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg></span>
+            <h3>PJM sits upstream of the bill</h3>
+            <p>PJM is the regional grid operator and wholesale market administrator for the
+               territory. It owns none of the plants or lines it coordinates — it balances
+               supply and demand, monitors reliability, and runs the wholesale markets for
+               energy, capacity, and ancillary services that shape what suppliers must charge.</p>
+          </article>
+          <article class="info-card reveal">
+            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg></span>
+            <h3>Only some line items move</h3>
+            <p>Switching to a retail supplier replaces the supply charges and removes the
+               monthly Purchased Electricity Adjustment. Delivery stays with ComEd. Taxes and
+               fees stay put. A quoted rate that doesn't say which lines it actually replaces
+               is not comparable to anything.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- The benchmark -->
+    <section class="section chart-section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">The benchmark moved</p>
+          <h2>A fixed rate is only cheap relative to something.</h2>
+          <p>The benchmark for default service is <strong>NET</strong> — the published Price to
+             Compare plus that month's Purchased Electricity Adjustment. It is not a fixed
+             number, and over the last thirty months it has not been a stable one either.</p>
+        </div>
+        <div class="reveal">
+          <div class="viz" id="viz-rate">
+                <div class="viz-head">
+                  <div>
+                    <p class="viz-title">ComEd default service vs. a 7.8¢ fixed contract</p>
+                    <p class="viz-sub">Default-service NET rate (¢/kWh), 0–100 kW commercial · Jan 2024 – Jun 2026</p>
+                  </div>
+                  <ul class="viz-legend">
+                    <li><span class="viz-key s-net"></span>Default NET</li>
+                    <li><span class="viz-key s-ares"></span>Fixed 7.8¢</li>
+                  </ul>
+                </div>
+                <div class="viz-body">
+                  <div class="viz-yaxis">
+                    <span class="viz-yt" style="top:93.33%">5</span>
+                    <span class="viz-yt" style="top:60.00%">10</span>
+                    <span class="viz-yt" style="top:26.67%">15</span>
+                  </div>
+                  <div class="viz-plot" tabindex="0" role="img" data-viz="{&quot;lo&quot;:4,&quot;hi&quot;:19,&quot;u&quot;:&quot;¢&quot;,&quot;a&quot;:[6.796,7.147,6.665,6.461,8.028,6.867,6.711,6.838,6.632,4.765,5.756,5.74,6.082,6.535,6.655,6.289,8.589,10.7,9.727,10.144,10.195,8.282,8.03,8.902,10.061,10.593,9.553,10.863,17.87,10.743],&quot;b&quot;:[7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8,7.8]}"
+                       aria-label="Line chart: ComEd 0–100 kW commercial default-service NET rate in cents per kilowatt-hour, each month from January 2024 to June 2026, against a flat 7.8 cent fixed retail contract. The default rate runs below the contract through early 2025, crosses above it in May 2025, and stays above it for the rest of the period, peaking at 17.870 cents in May 2026. Use the arrow keys to read each month; the full table is below the chart.">
+                    <span class="viz-gl" style="top:93.33%"></span>
+                    <span class="viz-gl" style="top:60.00%"></span>
+                    <span class="viz-gl" style="top:26.67%"></span>
+                    <svg class="viz-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                      <path class="viz-line s-net" d="M0.0 813.6 L34.5 790.2 L69.0 822.3 L103.4 835.9 L137.9 731.5 L172.4 808.9 L206.9 819.3 L241.4 810.8 L275.9 824.5 L310.3 949.0 L344.8 882.9 L379.3 884.0 L413.8 861.2 L448.3 831.0 L482.8 823.0 L517.2 847.4 L551.7 694.1 L586.2 553.3 L620.7 618.2 L655.2 590.4 L689.7 587.0 L724.1 714.5 L758.6 731.3 L793.1 673.2 L827.6 595.9 L862.1 560.5 L896.6 629.8 L931.0 542.5 L965.5 75.3 L1000.0 550.5" vector-effect="non-scaling-stroke"/>
+                      <path class="viz-line s-ares" d="M0.0 746.7 L34.5 746.7 L69.0 746.7 L103.4 746.7 L137.9 746.7 L172.4 746.7 L206.9 746.7 L241.4 746.7 L275.9 746.7 L310.3 746.7 L344.8 746.7 L379.3 746.7 L413.8 746.7 L448.3 746.7 L482.8 746.7 L517.2 746.7 L551.7 746.7 L586.2 746.7 L620.7 746.7 L655.2 746.7 L689.7 746.7 L724.1 746.7 L758.6 746.7 L793.1 746.7 L827.6 746.7 L862.1 746.7 L896.6 746.7 L931.0 746.7 L965.5 746.7 L1000.0 746.7" vector-effect="non-scaling-stroke"/>
+                    </svg>
+                    <span class="viz-peak s-net is-left" style="left:96.55%;top:7.53%"><i class="viz-peak-dot"></i><span class="viz-peak-t"><b>17.870</b>¢ May 2026</span></span>
+                    <span class="viz-peak s-ares" style="left:27.59%;top:74.67%"><i class="viz-peak-dot"></i><span class="viz-peak-t"><b>7.800</b>¢ fixed</span></span>
+                    <span class="viz-note" style="left:55.17%;top:69.41%"><i></i><span>Default stays above the<br>contract from here · May 2025</span></span>
+                    <span class="viz-cross" hidden></span>
+                    <span class="viz-dot s-net" hidden></span>
+                    <span class="viz-dot s-ares" hidden></span>
+                    <div class="viz-tip" role="status" aria-live="polite" hidden>
+                      <p class="viz-tip-h"></p>
+                      <p class="viz-tip-r"><span class="viz-key s-net"></span><b></b><em>Default NET</em></p>
+                      <p class="viz-tip-r"><span class="viz-key s-ares"></span><b></b><em>Fixed 7.8¢</em></p>
+                      <p class="viz-tip-d"></p>
+                    </div>
+                  </div>
+                  <div class="viz-xaxis">
+                    <span class="viz-xt" style="left:0.00%">Jan&nbsp;2024</span>
+                    <span class="viz-xt is-dense" style="left:10.34%">Apr</span>
+                    <span class="viz-xt" style="left:20.69%">Jul&nbsp;2024</span>
+                    <span class="viz-xt is-dense" style="left:31.03%">Oct</span>
+                    <span class="viz-xt" style="left:41.38%">Jan&nbsp;2025</span>
+                    <span class="viz-xt is-dense" style="left:51.72%">Apr</span>
+                    <span class="viz-xt" style="left:62.07%">Jul&nbsp;2025</span>
+                    <span class="viz-xt is-dense" style="left:72.41%">Oct</span>
+                    <span class="viz-xt" style="left:82.76%">Jan&nbsp;2026</span>
+                    <span class="viz-xt is-dense" style="left:93.10%">Apr</span>
+                  </div>
+                  <p class="viz-xtitle">Month</p>
+                </div>
+                <details class="viz-data">
+                  <summary>View data table</summary>
+                  <div class="viz-data-wrap">
+                    <table>
+                      <thead><tr><th>Month</th><th>Default NET (¢)</th><th>Fixed ARES (¢)</th><th>Δ</th></tr></thead>
+                      <tbody>
+                        <tr><td>01-2024</td><td>6.796</td><td>7.800</td><td>−1.004</td></tr>
+                        <tr><td>02-2024</td><td>7.147</td><td>7.800</td><td>−0.653</td></tr>
+                        <tr><td>03-2024</td><td>6.665</td><td>7.800</td><td>−1.135</td></tr>
+                        <tr><td>04-2024</td><td>6.461</td><td>7.800</td><td>−1.339</td></tr>
+                        <tr><td>05-2024</td><td>8.028</td><td>7.800</td><td>+0.228</td></tr>
+                        <tr><td>06-2024</td><td>6.867</td><td>7.800</td><td>−0.933</td></tr>
+                        <tr><td>07-2024</td><td>6.711</td><td>7.800</td><td>−1.089</td></tr>
+                        <tr><td>08-2024</td><td>6.838</td><td>7.800</td><td>−0.962</td></tr>
+                        <tr><td>09-2024</td><td>6.632</td><td>7.800</td><td>−1.168</td></tr>
+                        <tr><td>10-2024</td><td>4.765</td><td>7.800</td><td>−3.035</td></tr>
+                        <tr><td>11-2024</td><td>5.756</td><td>7.800</td><td>−2.044</td></tr>
+                        <tr><td>12-2024</td><td>5.740</td><td>7.800</td><td>−2.060</td></tr>
+                        <tr><td>01-2025</td><td>6.082</td><td>7.800</td><td>−1.718</td></tr>
+                        <tr><td>02-2025</td><td>6.535</td><td>7.800</td><td>−1.265</td></tr>
+                        <tr><td>03-2025</td><td>6.655</td><td>7.800</td><td>−1.145</td></tr>
+                        <tr><td>04-2025</td><td>6.289</td><td>7.800</td><td>−1.511</td></tr>
+                        <tr><td>05-2025</td><td>8.589</td><td>7.800</td><td>+0.789</td></tr>
+                        <tr><td>06-2025</td><td>10.700</td><td>7.800</td><td>+2.900</td></tr>
+                        <tr><td>07-2025</td><td>9.727</td><td>7.800</td><td>+1.927</td></tr>
+                        <tr><td>08-2025</td><td>10.144</td><td>7.800</td><td>+2.344</td></tr>
+                        <tr><td>09-2025</td><td>10.195</td><td>7.800</td><td>+2.395</td></tr>
+                        <tr><td>10-2025</td><td>8.282</td><td>7.800</td><td>+0.482</td></tr>
+                        <tr><td>11-2025</td><td>8.030</td><td>7.800</td><td>+0.230</td></tr>
+                        <tr><td>12-2025</td><td>8.902</td><td>7.800</td><td>+1.102</td></tr>
+                        <tr><td>01-2026</td><td>10.061</td><td>7.800</td><td>+2.261</td></tr>
+                        <tr><td>02-2026</td><td>10.593</td><td>7.800</td><td>+2.793</td></tr>
+                        <tr><td>03-2026</td><td>9.553</td><td>7.800</td><td>+1.753</td></tr>
+                        <tr><td>04-2026</td><td>10.863</td><td>7.800</td><td>+3.063</td></tr>
+                        <tr><td>05-2026</td><td>17.870</td><td>7.800</td><td>+10.070</td></tr>
+                        <tr><td>06-2026</td><td>10.743</td><td>7.800</td><td>+2.943</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </details>
+              </div>
+        </div>
+        <div class="chart-copy reveal">
+          <p>Through 2024 the default benchmark averaged <strong>6.534¢</strong> and rose above
+             7.8¢ in exactly one month — so a customer on a 7.8¢ fixed contract paid more than
+             default service in the other eleven. In May 2025 the lines crossed again, and
+             default service has stayed above the contract every month since.</p>
+          <p>The 2026 numbers are a different regime again: the default benchmark has averaged
+             <strong>11.614¢</strong> year to date, with a single month at 17.870¢ — a month in
+             which the adjustment alone added 8.166¢ on top of a 9.704¢ Price to Compare.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- The dollars -->
+    <section class="section chart-section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">What that meant in dollars</p>
+          <h2>The same contract, month by month.</h2>
+          <p>One scenario, held constant throughout: a commercial account using
+             <strong>30,000 kWh a month</strong> on a <strong>7.8¢/kWh fixed</strong> retail
+             contract, compared against what default service would have cost in the same month.</p>
+        </div>
+        <div class="reveal">
+          <div class="viz" id="viz-monthly">
+                <div class="viz-head">
+                  <div>
+                    <p class="viz-title">Monthly savings / (cost) against the 7.8¢ contract</p>
+                    <p class="viz-sub">30,000 kWh per month · positive means the fixed contract came in cheaper than default service</p>
+                  </div>
+                  <ul class="viz-legend">
+                    <li><span class="viz-key s-pos"></span>Savings</li>
+                    <li><span class="viz-key s-neg"></span>Cost</li>
+                  </ul>
+                </div>
+                <div class="viz-body">
+                  <div class="viz-yaxis">
+                    <span class="viz-yt" style="top:8.16%">$3,000</span>
+                    <span class="viz-yt" style="top:28.57%">$2,000</span>
+                    <span class="viz-yt" style="top:48.98%">$1,000</span>
+                    <span class="viz-yt" style="top:69.39%">0</span>
+                    <span class="viz-yt" style="top:89.80%">−$1,000</span>
+                  </div>
+                  <div class="viz-plot is-bars" tabindex="0" role="img" data-viz="{&quot;lo&quot;:-1500,&quot;hi&quot;:3400,&quot;u&quot;:&quot;$&quot;,&quot;a&quot;:[-301.20000000000005,-195.9000000000001,-340.5,-401.70000000000005,68.40000000000009,-279.9000000000001,-326.70000000000005,-288.5999999999999,-350.4000000000001,-910.5,-613.2,-618,-515.4000000000001,-379.5,-343.5,-453.29999999999995,236.69999999999982,870,578.0999999999999,703.1999999999998,718.5,144.5999999999999,68.99999999999955,330.5999999999999,678.3000000000002,837.9000000000001,525.9000000000001,918.9000000000001,3021,882.9000000000001]}"
+                       aria-label="Column chart: monthly dollar savings or cost of a 7.8 cent fixed retail contract against ComEd default service, at 30,000 kilowatt-hours per month, January 2024 to June 2026. Bars below the zero line are months the contract cost more; bars above are months it saved. Nearly every month of 2024 sits below the line, 2025 turns positive from May onward, and all six months of 2026 are positive, peaking at 3,021 dollars in May 2026. Use the arrow keys to read each month; the full table is below the chart.">
+                    <span class="viz-band" style="left:80.00%;width:20.00%"></span>
+                    <span class="viz-gl" style="top:8.16%"></span>
+                    <span class="viz-gl" style="top:28.57%"></span>
+                    <span class="viz-gl" style="top:48.98%"></span>
+                    <span class="viz-gl" style="top:89.80%"></span>
+                    <span class="viz-zero" style="top:69.39%"></span>
+                    <span class="viz-bar is-neg" style="left:1.667%;top:69.39%;height:6.14%"></span>
+                    <span class="viz-bar is-neg" style="left:5.000%;top:69.39%;height:4.00%"></span>
+                    <span class="viz-bar is-neg" style="left:8.333%;top:69.39%;height:6.95%"></span>
+                    <span class="viz-bar is-neg" style="left:11.667%;top:69.39%;height:8.20%"></span>
+                    <span class="viz-bar is-pos" style="left:15.000%;top:67.99%;height:1.40%"></span>
+                    <span class="viz-bar is-neg" style="left:18.333%;top:69.39%;height:5.71%"></span>
+                    <span class="viz-bar is-neg" style="left:21.667%;top:69.39%;height:6.67%"></span>
+                    <span class="viz-bar is-neg" style="left:25.000%;top:69.39%;height:5.89%"></span>
+                    <span class="viz-bar is-neg" style="left:28.333%;top:69.39%;height:7.15%"></span>
+                    <span class="viz-bar is-neg" style="left:31.667%;top:69.39%;height:18.58%"></span>
+                    <span class="viz-bar is-neg" style="left:35.000%;top:69.39%;height:12.51%"></span>
+                    <span class="viz-bar is-neg" style="left:38.333%;top:69.39%;height:12.61%"></span>
+                    <span class="viz-bar is-neg" style="left:41.667%;top:69.39%;height:10.52%"></span>
+                    <span class="viz-bar is-neg" style="left:45.000%;top:69.39%;height:7.74%"></span>
+                    <span class="viz-bar is-neg" style="left:48.333%;top:69.39%;height:7.01%"></span>
+                    <span class="viz-bar is-neg" style="left:51.667%;top:69.39%;height:9.25%"></span>
+                    <span class="viz-bar is-pos" style="left:55.000%;top:64.56%;height:4.83%"></span>
+                    <span class="viz-bar is-pos" style="left:58.333%;top:51.63%;height:17.76%"></span>
+                    <span class="viz-bar is-pos" style="left:61.667%;top:57.59%;height:11.80%"></span>
+                    <span class="viz-bar is-pos" style="left:65.000%;top:55.04%;height:14.35%"></span>
+                    <span class="viz-bar is-pos" style="left:68.333%;top:54.72%;height:14.67%"></span>
+                    <span class="viz-bar is-pos" style="left:71.667%;top:66.44%;height:2.95%"></span>
+                    <span class="viz-bar is-pos" style="left:75.000%;top:67.98%;height:1.41%"></span>
+                    <span class="viz-bar is-pos" style="left:78.333%;top:62.64%;height:6.75%"></span>
+                    <span class="viz-bar is-pos" style="left:81.667%;top:55.54%;height:13.85%"></span>
+                    <span class="viz-bar is-pos" style="left:85.000%;top:52.29%;height:17.10%"></span>
+                    <span class="viz-bar is-pos" style="left:88.333%;top:58.66%;height:10.73%"></span>
+                    <span class="viz-bar is-pos" style="left:91.667%;top:50.63%;height:18.76%"></span>
+                    <span class="viz-bar is-pos" style="left:95.000%;top:7.73%;height:61.66%"></span>
+                    <span class="viz-bar is-pos" style="left:98.333%;top:51.37%;height:18.02%"></span>
+                    <span class="viz-peak s-pos is-left" style="left:95.00%;top:7.73%"><span class="viz-peak-t"><b>+$3,021</b></span></span>
+                    <span class="viz-peak s-neg is-below" style="left:31.67%;top:87.97%"><span class="viz-peak-t"><b>($911)</b></span></span>
+                    <span class="viz-bandlabel" style="left:80.00%">2026 YTD</span>
+                    <span class="viz-cross" hidden></span>
+                    <span class="viz-dot s-bar" hidden></span>
+                    <div class="viz-tip" role="status" aria-live="polite" hidden>
+                      <p class="viz-tip-h"></p>
+                      <p class="viz-tip-r"><span class="viz-key s-bar"></span><b></b><em>vs. default</em></p>
+                      <p class="viz-tip-d"></p>
+                    </div>
+                  </div>
+                  <div class="viz-xaxis">
+                    <span class="viz-xt" style="left:0.00%">Jan&nbsp;2024</span>
+                    <span class="viz-xt is-dense" style="left:10.34%">Apr</span>
+                    <span class="viz-xt" style="left:20.69%">Jul&nbsp;2024</span>
+                    <span class="viz-xt is-dense" style="left:31.03%">Oct</span>
+                    <span class="viz-xt" style="left:41.38%">Jan&nbsp;2025</span>
+                    <span class="viz-xt is-dense" style="left:51.72%">Apr</span>
+                    <span class="viz-xt" style="left:62.07%">Jul&nbsp;2025</span>
+                    <span class="viz-xt is-dense" style="left:72.41%">Oct</span>
+                    <span class="viz-xt" style="left:82.76%">Jan&nbsp;2026</span>
+                    <span class="viz-xt is-dense" style="left:93.10%">Apr</span>
+                  </div>
+                  <p class="viz-xtitle">Month</p>
+                </div>
+                <details class="viz-data">
+                  <summary>View data table</summary>
+                  <div class="viz-data-wrap">
+                    <table>
+                      <thead><tr><th>Month</th><th>Default ($)</th><th>ARES ($)</th><th>Savings / (Cost)</th></tr></thead>
+                      <tbody>
+                        <tr><td>01-2024</td><td>$2,038.80</td><td>$2,340.00</td><td>($301.20)</td></tr>
+                        <tr><td>02-2024</td><td>$2,144.10</td><td>$2,340.00</td><td>($195.90)</td></tr>
+                        <tr><td>03-2024</td><td>$1,999.50</td><td>$2,340.00</td><td>($340.50)</td></tr>
+                        <tr><td>04-2024</td><td>$1,938.30</td><td>$2,340.00</td><td>($401.70)</td></tr>
+                        <tr><td>05-2024</td><td>$2,408.40</td><td>$2,340.00</td><td>$68.40</td></tr>
+                        <tr><td>06-2024</td><td>$2,060.10</td><td>$2,340.00</td><td>($279.90)</td></tr>
+                        <tr><td>07-2024</td><td>$2,013.30</td><td>$2,340.00</td><td>($326.70)</td></tr>
+                        <tr><td>08-2024</td><td>$2,051.40</td><td>$2,340.00</td><td>($288.60)</td></tr>
+                        <tr><td>09-2024</td><td>$1,989.60</td><td>$2,340.00</td><td>($350.40)</td></tr>
+                        <tr><td>10-2024</td><td>$1,429.50</td><td>$2,340.00</td><td>($910.50)</td></tr>
+                        <tr><td>11-2024</td><td>$1,726.80</td><td>$2,340.00</td><td>($613.20)</td></tr>
+                        <tr><td>12-2024</td><td>$1,722.00</td><td>$2,340.00</td><td>($618.00)</td></tr>
+                        <tr><td>01-2025</td><td>$1,824.60</td><td>$2,340.00</td><td>($515.40)</td></tr>
+                        <tr><td>02-2025</td><td>$1,960.50</td><td>$2,340.00</td><td>($379.50)</td></tr>
+                        <tr><td>03-2025</td><td>$1,996.50</td><td>$2,340.00</td><td>($343.50)</td></tr>
+                        <tr><td>04-2025</td><td>$1,886.70</td><td>$2,340.00</td><td>($453.30)</td></tr>
+                        <tr><td>05-2025</td><td>$2,576.70</td><td>$2,340.00</td><td>$236.70</td></tr>
+                        <tr><td>06-2025</td><td>$3,210.00</td><td>$2,340.00</td><td>$870.00</td></tr>
+                        <tr><td>07-2025</td><td>$2,918.10</td><td>$2,340.00</td><td>$578.10</td></tr>
+                        <tr><td>08-2025</td><td>$3,043.20</td><td>$2,340.00</td><td>$703.20</td></tr>
+                        <tr><td>09-2025</td><td>$3,058.50</td><td>$2,340.00</td><td>$718.50</td></tr>
+                        <tr><td>10-2025</td><td>$2,484.60</td><td>$2,340.00</td><td>$144.60</td></tr>
+                        <tr><td>11-2025</td><td>$2,409.00</td><td>$2,340.00</td><td>$69.00</td></tr>
+                        <tr><td>12-2025</td><td>$2,670.60</td><td>$2,340.00</td><td>$330.60</td></tr>
+                        <tr><td>01-2026</td><td>$3,018.30</td><td>$2,340.00</td><td>$678.30</td></tr>
+                        <tr><td>02-2026</td><td>$3,177.90</td><td>$2,340.00</td><td>$837.90</td></tr>
+                        <tr><td>03-2026</td><td>$2,865.90</td><td>$2,340.00</td><td>$525.90</td></tr>
+                        <tr><td>04-2026</td><td>$3,258.90</td><td>$2,340.00</td><td>$918.90</td></tr>
+                        <tr><td>05-2026</td><td>$5,361.00</td><td>$2,340.00</td><td>$3,021.00</td></tr>
+                        <tr><td>06-2026</td><td>$3,222.90</td><td>$2,340.00</td><td>$882.90</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </details>
+              </div>
+        </div>
+        <div class="tally reveal">
+          <div class="tally-item">
+            <p class="tally-k">2024</p>
+            <p class="tally-v is-neg">($4,558.20)</p>
+            <p class="tally-n">Default $23,521.80 · contract $28,080.00</p>
+          </div>
+          <div class="tally-item">
+            <p class="tally-k">2025</p>
+            <p class="tally-v is-pos">$1,959.00</p>
+            <p class="tally-n">Default $30,039.00 · contract $28,080.00</p>
+          </div>
+          <div class="tally-item">
+            <p class="tally-k">24-month result</p>
+            <p class="tally-v is-neg">($2,599.20)</p>
+            <p class="tally-n">Default $53,560.80 · contract $56,160.00</p>
+          </div>
+        </div>
+        <div class="chart-copy reveal">
+          <p>Over the two years the brief covers, <strong>the fixed contract lost money</strong>.
+             2025 recovered a good part of 2024's gap, but not all of it. That is the honest
+             result, and it is the reason the useful number is not any single quoted rate but
+             the <strong>break-even rate</strong>: across those 24 months, a fixed contract at
+             <strong>7.439¢</strong> would have exactly matched default service. Below that you
+             were ahead; above it you were behind.</p>
+        </div>
+        <div class="extension reveal">
+          <p class="extension-k">Beyond the brief · EZ NRG</p>
+          <p>The brief's scenario tables stop at the end of 2025. Running <strong>the same
+             method</strong> against the 2026 rates in its own appendix: six months of default
+             service cost <strong>$20,904.90</strong> against <strong>$14,040.00</strong> on the
+             7.8¢ contract — <strong>$6,864.90 ahead</strong> in half a year, more than double
+             what the contract gave up across the previous two combined.</p>
+          <p>That is not a claim that fixed contracts win. It is the same arithmetic pointed at
+             more recent data, and it is why the break-even benchmark matters more than the
+             quote: the rate that looked expensive in 2024 is the rate that is winning now.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Brief -->
+    <section class="section paper-section">
+      <div class="container">
+        <div class="paper-card reveal">
+          <div>
+            <p class="eyebrow">Illinois ratepayer brief</p>
+            <h2>Price to Compare</h2>
+            <p>How ComEd default service and retail supply actually stack up. The brief walks
+               through what is measured, how a bill decomposes into supply, delivery, and
+               adjustment lines, what switching suppliers does and does not change, and what
+               thirty months of published rates show — with every scenario and its assumptions
+               written out.</p>
+            <p class="paper-meta">
+              <span>9 sections</span><span>30 months of rates</span><span>8 rate scenarios</span>
+            </p>
+          </div>
+          <a class="button button-primary" href="/commercial/whitepaper">Read the brief
+            <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>
           </a>
         </div>
       </div>
@@ -74,7 +987,7 @@
             </span>
             <div>
               <h3>Telegram</h3>
-              <p>Fast market notes and launch updates for commercial operators.</p>
+              <p>Fast market notes and rate updates for commercial operators.</p>
             </div>
             <!-- TELEGRAM_CHANNEL_URL — replace href with the real Telegram channel link -->
             <a class="button button-primary channel-action" href="#REPLACE_ME_TELEGRAM" target="_blank" rel="noopener">Join Telegram
@@ -106,5 +1019,7 @@
   </footer>
 
   <script src="/static/reveal.js"></script>
+
+  <script src="/static/rate-charts.js"></script>
 </body>
 </html>

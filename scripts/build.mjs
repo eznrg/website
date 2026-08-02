@@ -37,8 +37,11 @@ await cp(join(root, "src/main.js"), join(dist, "assets/main.js"));
 //
 // The copy is recursive, so nested pages (e.g. hospitality/whitepaper/) come along
 // with no build change. Source-only files are filtered out of the deploy.
+// Markdown under static/ is source, never output: the folder READMEs and the
+// commercial brief's source document both live beside the pages they describe,
+// and neither should be reachable on the deployed site.
 const standalonePages = ["hospitality", "residential", "commercial"];
-const isSourceOnly = (src) => src.endsWith("README.md") || src.endsWith(".DS_Store");
+const isSourceOnly = (src) => src.endsWith(".md") || src.endsWith(".DS_Store");
 
 await cp(join(root, "static/shared"), join(dist, "static"), {
   recursive: true,
