@@ -497,31 +497,6 @@ function storageSection() {
           home.storage.offer,
         )} ${icon("arrow")}</a>
       </div>
-      <div class="storage-visual-card reveal" aria-label="110 kW battery value stack">
-        <div class="storage-visual-topline">
-          <span>110 kW battery</span>
-          <strong>On site</strong>
-        </div>
-        <div class="battery-stack" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div class="storage-meter-list">
-          <div>
-            <span>Demand charges</span>
-            <i style="--fill: 82%"></i>
-          </div>
-          <div>
-            <span>Capacity</span>
-            <i style="--fill: 68%"></i>
-          </div>
-          <div>
-            <span>VPPs</span>
-            <i style="--fill: 74%"></i>
-          </div>
-        </div>
-      </div>
     </div>
     <div class="container storage-card-grid">
       ${cards}

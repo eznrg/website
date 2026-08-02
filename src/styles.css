@@ -532,7 +532,6 @@ h3 {
 .watch-card,
 .channel-card,
 .storage-card,
-.storage-visual-card,
 .founder-card,
 .upload-panel {
   position: relative;
@@ -545,7 +544,6 @@ h3 {
 .watch-card::before,
 .channel-card::before,
 .storage-card::before,
-.storage-visual-card::before,
 .founder-card::before,
 .upload-panel::before {
   position: absolute;
@@ -564,7 +562,6 @@ h3 {
 .watch-card > *,
 .channel-card > *,
 .storage-card > *,
-.storage-visual-card > *,
 .founder-card > *,
 .upload-panel > * {
   position: relative;
@@ -581,7 +578,6 @@ h3 {
 .watch-card:hover,
 .channel-card:hover,
 .storage-card:hover,
-.storage-visual-card:hover,
 .founder-card:hover,
 .upload-panel:hover {
   transform: translateY(-6px);
@@ -594,7 +590,6 @@ h3 {
 .watch-card:hover::before,
 .channel-card:hover::before,
 .storage-card:hover::before,
-.storage-visual-card:hover::before,
 .founder-card:hover::before,
 .upload-panel:hover::before {
   opacity: 1;
@@ -645,7 +640,6 @@ h3 {
 
 .storage-grid {
   display: grid;
-  grid-template-columns: minmax(0, 0.86fr) minmax(360px, 0.62fr);
   gap: 58px;
   align-items: center;
   margin-bottom: 18px;
@@ -688,7 +682,6 @@ h3 {
   margin-top: 30px;
 }
 
-.storage-visual-card,
 .storage-card {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -698,99 +691,7 @@ h3 {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
 }
 
-.storage-visual-card {
-  min-height: 422px;
-  padding: 28px;
-}
-
-.storage-visual-topline {
-  display: flex;
-  justify-content: space-between;
-  gap: 18px;
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.storage-visual-topline strong {
-  color: var(--green);
-  font-weight: 600;
-}
-
-.battery-stack {
-  position: relative;
-  display: grid;
-  gap: 12px;
-  margin: 34px 0 28px;
-}
-
-.battery-stack::before {
-  position: absolute;
-  inset: -18px 24px auto;
-  height: 1px;
-  content: "";
-  background: linear-gradient(90deg, rgba(139, 216, 166, 0), var(--cyan), var(--amber), rgba(139, 216, 166, 0));
-  opacity: 0.72;
-  animation: pulse 4s ease-in-out infinite;
-}
-
-.battery-stack span {
-  position: relative;
-  height: 62px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-lg);
-  background:
-    linear-gradient(90deg, rgba(139, 216, 166, 0.18), rgba(139, 216, 166, 0.16)) 0 0 / var(--fill) 100% no-repeat,
-    rgba(16, 19, 18, 0.46);
-}
-
 /* The third and last 1px grid overlay. Removed with the other two. */
-.battery-stack span::after {
-  position: absolute;
-  inset: 0 0 0 var(--fill);
-  content: "";
-  background: linear-gradient(90deg, rgba(11, 14, 13, 0.34), rgba(11, 14, 13, 0));
-}
-
-.battery-stack span:nth-child(1) {
-  --fill: 82%;
-}
-
-.battery-stack span:nth-child(2) {
-  --fill: 68%;
-}
-
-.battery-stack span:nth-child(3) {
-  --fill: 74%;
-}
-
-.storage-meter-list {
-  display: grid;
-  gap: 14px;
-}
-
-.storage-meter-list div {
-  display: grid;
-  grid-template-columns: minmax(150px, 0.94fr) minmax(90px, 1fr);
-  gap: 14px;
-  align-items: center;
-  color: var(--text);
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.storage-meter-list i {
-  height: 8px;
-  border-radius: 999px;
-  background:
-    linear-gradient(90deg, var(--teal), var(--amber)) 0 0 / var(--fill) 100% no-repeat,
-    rgba(255, 255, 255, 0.08);
-}
-
 .storage-card-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1687,7 +1588,7 @@ h3 {
 
 .proof-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 22px;
 }
 
@@ -1863,18 +1764,6 @@ h3 {
   }
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 0.55;
-    transform: scaleX(0.86);
-  }
-  50% {
-    opacity: 1;
-    transform: scaleX(1);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1957,11 +1846,6 @@ h3 {
     grid-template-columns: 1fr;
   }
 
-  .proof-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px 22px;
-  }
-
   .cta-copy {
     position: static;
   }
@@ -1984,6 +1868,11 @@ h3 {
 
   .curve-readout {
     grid-template-columns: 1fr;
+  }
+
+  .proof-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
   .contract-shell {
@@ -2042,15 +1931,9 @@ h3 {
 
   .primer-panel,
   .channel-card,
-  .storage-visual-card,
-  .storage-card,
+    .storage-card,
   .upload-panel {
     padding: 20px;
-  }
-
-  .storage-meter-list div {
-    grid-template-columns: 1fr;
-    gap: 8px;
   }
 
   .storage-proof li,
