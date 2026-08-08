@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 96" width="88" height="96" fill="none" role="img" aria-labelledby="ezmark-title">
+  <title id="ezmark-title">EZ NRG</title>
+  <!--
+    Official EZ NRG brand mark, hand-authored vector.
+
+    Traced from the source artwork (Canva export) rather than embedded: every
+    supplied .svg was a base64 bitmap in an SVG wrapper, so none were usable as
+    vector. Geometry comes from a marching-squares trace of the artwork alpha
+    thresholded at 180, which drops the source glow in favour of hard edges so
+    the mark stays crisp at favicon sizes.
+
+    Two subpaths, not one: the notch in the upper-right rim leaves the right
+    edge as a separate connected component. That break is in the artwork.
+
+    The fill is a literal, not a CSS custom property: this file is served
+    standalone via an img tag and cannot read the page's variables. #8EFED0 is
+    the brand aqua-mint, and is deliberately NOT the mint of the `primary` token
+    (#8bd8a6) in src/styles.css. Change here only if the artwork changes.
+
+    Note for editors: keep double hyphens out of this comment. They are illegal
+    in XML comments and silently break the whole file - the browser then decodes
+    nothing and the mark renders at zero width.
+  -->
+  <path fill="#8EFED0" d="M0.58 24.42L41.5 0.45L42.27 0.45L43.94 1.35L45.6 0.45L46.37 0.45L78.24 18.83L78.36 19.47L74.38 19.6L56.01 19.34L43.81 12.53L14.39 29.49L13.94 30.07L13.94 43.05L14.27 43.37L42.91 43.37L45.15 43.69L45.02 44.21L36.23 52.88L14.01 53.01L13.94 65.67L14.65 66.51L43.94 83.47L55.76 76.79L73.74 76.53L77.72 76.66L78.17 77.11L47.02 95.16L45.99 95.55L43.68 94.65L41.89 95.55L1.03 71.9L0.45 70.81Z"/>
+  <path fill="#8EFED0" d="M21 33.67L32.5 24.87L79.01 24.74L79.2 31.87L78.68 32.64L50.04 62.07L73.87 62.14L74.06 43.18L83.12 33.22L83.44 33.67L83.5 37.08L87.36 33.35L87.55 71.45L81.45 71.78L30.96 71.39L30.9 64.13L31.28 63.61L59.42 34.31L21.07 34.12Z"/>
+</svg>

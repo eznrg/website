@@ -112,8 +112,11 @@ preview.
   offering is ready.
 - **Landing-page figures:** every number in a hero stat band comes from that
   section's white paper. If a figure changes there, change it here too.
-- Assets like `/logo.svg` come from `public/` (already deployed with the main
-  site). These pages ship no images of their own.
+- Assets like `/logo-mark.svg` and `/logo-wordmark.svg` come from `public/`
+  (already deployed with the main site). These pages ship no images of their own.
+  The brand lockup is those two files side by side, sized by the `.brand-mark` /
+  `.brand-wordmark` rules in `shared/theme.css` — the white papers override those
+  heights locally because they render the lockup smaller.
 
 ## The hospitality white paper
 
