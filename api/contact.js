@@ -91,6 +91,7 @@ function buildEmail({
   name,
   phone,
   role,
+  telegram,
   utility,
 }) {
   const label = formLabel(formType);
@@ -102,6 +103,7 @@ function buildEmail({
     ["Company", company],
     ["Role or title", role],
     ["Phone", phone],
+    ["Telegram", telegram],
     ["Facility or service address", facility],
     ["Utility / market", utility],
     ["Current load, demand, or bill context", loadContext],
@@ -233,6 +235,7 @@ export default {
     const company = sanitize(payload.company, 180);
     const role = sanitize(payload.role, 180);
     const phone = sanitize(payload.phone, 80);
+    const telegram = sanitize(payload.telegram, 80);
     const facility = sanitize(payload.facility, 300);
     const utility = sanitize(payload.utility, 180);
     const loadContext = sanitize(payload.loadContext, 2000);
@@ -240,22 +243,20 @@ export default {
     const message = sanitize(payload.message, 2000);
     const isEnrollment = formType === "enrollment";
 
+    // Enrollment needs a name and a valid email. Phone and Telegram are both
+    // optional there. Other forms additionally require company and message.
     const missingRequired = isEnrollment
-      ? !name || !phone
+      ? !name || !email
       : !name || !email || !company || !message;
 
-    // Enrollment only needs a name and phone. Email is optional there, but if
-    // one is provided it still has to be valid. Other forms require a valid email.
-    const emailInvalid = isEnrollment
-      ? Boolean(email) && !isEmail(email)
-      : !isEmail(email);
+    const emailInvalid = !isEmail(email);
 
     if (missingRequired || emailInvalid) {
       let error = "Please complete the form with a valid email address.";
       if (isEnrollment) {
         error = missingRequired
-          ? "Please add your name and a phone number."
-          : "That email address doesn't look right — or just leave it blank.";
+          ? "Please add your name and email."
+          : "That email address doesn't look right.";
       }
 
       return json({ error }, { status: 400 });
@@ -272,6 +273,7 @@ export default {
       name,
       phone,
       role,
+      telegram,
       utility,
     });
 

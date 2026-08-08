@@ -115,23 +115,6 @@ export const enrollment = {
   submitLabel: "Reserve my spot",
   successMessage:
     "You're on the list. We'll text you within 24 hours to coordinate a call — no payment is collected here.",
-  assurances: [
-    {
-      title: "Fully refundable",
-      body:
-        "The $500 deposit is returned in full if you decide not to move forward, for any reason.",
-    },
-    {
-      title: "A real person, within 24 hours",
-      body:
-        "We call or text to confirm your details and walk you through next steps — no long forms.",
-    },
-    {
-      title: "Nothing to pay here",
-      body:
-        "No payment is collected on this site. Reserving your spot simply starts the conversation.",
-    },
-  ],
 };
 
 export const about = {
@@ -398,12 +381,19 @@ export const contactFields = [
 
 export const enrollmentFields = [
   { name: "name", label: "Name", type: "text", autocomplete: "name" },
-  { name: "phone", label: "Phone number", type: "tel", autocomplete: "tel" },
+  { name: "email", label: "Email", type: "email", autocomplete: "email" },
   {
-    name: "email",
-    label: "Email (optional)",
-    type: "email",
-    autocomplete: "email",
+    name: "telegram",
+    label: "Telegram username (optional)",
+    type: "text",
+    autocomplete: "off",
+    required: false,
+  },
+  {
+    name: "phone",
+    label: "Cell phone (optional)",
+    type: "tel",
+    autocomplete: "tel",
     required: false,
   },
 ];

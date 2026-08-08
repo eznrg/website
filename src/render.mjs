@@ -482,22 +482,6 @@ function channelCards() {
     .join("");
 }
 
-function enrollAssurances(items) {
-  return `<ul class="enroll-assurances">
-    ${items
-      .map(
-        (item) => `<li class="reveal">
-          <span class="enroll-check">${icon("check")}</span>
-          <div>
-            <h3>${escapeHtml(item.title)}</h3>
-            <p>${escapeHtml(item.body)}</p>
-          </div>
-        </li>`,
-      )
-      .join("")}
-  </ul>`;
-}
-
 /*
   Same empty-href convention as channelCards(): until a real invite link is
   pasted into home.finalCta.joinHref, the CTA degrades to a disabled button
@@ -583,7 +567,6 @@ export function renderGetStarted() {
           "enrollment",
           { hideOnSuccess: true },
         )}
-        ${enrollAssurances(enrollment.assurances)}
       </div>
     </section>`,
   );
