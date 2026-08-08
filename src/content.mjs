@@ -115,23 +115,6 @@ export const enrollment = {
   submitLabel: "Reserve my spot",
   successMessage:
     "You're on the list. We'll text you within 24 hours to coordinate a call — no payment is collected here.",
-  assurances: [
-    {
-      title: "Fully refundable",
-      body:
-        "The $500 deposit is returned in full if you decide not to move forward, for any reason.",
-    },
-    {
-      title: "A real person, within 24 hours",
-      body:
-        "We call or text to confirm your details and walk you through next steps — no long forms.",
-    },
-    {
-      title: "Nothing to pay here",
-      body:
-        "No payment is collected on this site. Reserving your spot simply starts the conversation.",
-    },
-  ],
 };
 
 export const about = {
@@ -339,32 +322,11 @@ export const learn = {
 
 export const contact = {
   eyebrow: "Contact",
-  title: "Start a real conversation.",
-  body:
-    "Sizing up a supplier offer, weighing storage, or ready to argue with something you read here — either way, we'll answer.",
-  points: [
-    {
-      title: "Customers",
-      body:
-        "Send your interval data and we'll tell you what your load costs to serve.",
-    },
-    {
-      title: "Investors and advisors",
-      body:
-        "Ask about the portfolio model, the underwriting, or the settlement layer.",
-    },
-    {
-      title: "Partners",
-      body:
-        "Asset owners, installers, and market participants — there's room to build here.",
-    },
-  ],
-  formEyebrow: "Early access",
-  formTitle: "Tell us about your site.",
-  earlyAccess:
-    "A few lines about your organization and what you're trying to figure out is plenty to start.",
-  submitLabel: "Send message",
-  successMessage: "Thanks — we've got it and will reach out shortly.",
+  title: "Contact us on Telegram directly for any inquiries whatsoever.",
+  cta: "Message us on Telegram",
+  // Paste the Telegram contact link here. Empty renders a disabled "link
+  // coming soon" state -- same convention as home.finalCta.joinHref.
+  href: "",
 };
 
 export const earlyBirdFields = [
@@ -384,26 +346,21 @@ export const earlyBirdFields = [
   },
 ];
 
-export const contactFields = [
+export const enrollmentFields = [
   { name: "name", label: "Name", type: "text", autocomplete: "name" },
   { name: "email", label: "Email", type: "email", autocomplete: "email" },
   {
-    name: "company",
-    label: "Company",
+    name: "telegram",
+    label: "Telegram username (optional)",
     type: "text",
-    autocomplete: "organization",
+    autocomplete: "off",
+    required: false,
   },
-  { name: "message", label: "Message", type: "textarea", autocomplete: "off" },
-];
-
-export const enrollmentFields = [
-  { name: "name", label: "Name", type: "text", autocomplete: "name" },
-  { name: "phone", label: "Phone number", type: "tel", autocomplete: "tel" },
   {
-    name: "email",
-    label: "Email (optional)",
-    type: "email",
-    autocomplete: "email",
+    name: "phone",
+    label: "Cell phone (optional)",
+    type: "tel",
+    autocomplete: "tel",
     required: false,
   },
 ];
