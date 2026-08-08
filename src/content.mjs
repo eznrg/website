@@ -56,41 +56,43 @@ export const home = {
     ],
   },
   proof: [
-    { value: "$500", label: "Deposit, refundable in full for any reason" },
-    { value: "24 hours", label: "A real person calls you back" },
-    { value: "Price match", label: "Backed by a money-back guarantee" },
+    { value: "$0 to start", label: "No hidden fees" },
+    {
+      value: "10–15%",
+      label: "Minimum savings, or we refund the difference",
+    },
+    { value: "Satisfaction guarantee", label: "Backed by a money-back guarantee" },
   ],
   how: {
     eyebrow: "How it works",
-    title: "Three steps. No sales pitch required.",
+    title: "Three simple steps.",
     steps: [
       {
         index: "01",
-        title: "Send us your interval data",
+        title: "We'll analyze your interval data",
         body:
-          "Twelve months of usage, hour by hour. Most utilities export it in a click — we'll show you where.",
+          "Your energy usage, hour by hour. Utilities export it upon formal request.",
       },
       {
         index: "02",
-        title: "We price your shape, honestly",
-        body:
-          "We model what your specific load costs to serve. If you're better off staying with your utility, that's what we tell you.",
+        title: "We price the exposure",
+        body: "Our risk team analyzes the data.",
       },
       {
         index: "03",
-        title: "We back the price with capital",
+        title: "We back it with our capital",
         body:
-          "Accepted sites get a price match and a money-back guarantee. The spread between your price and our cost goes back into your site.",
+          "If accepted, you get a guarantee we save you money. We win, you win. We lose, you still win.",
       },
     ],
   },
   contract: {
     eyebrow: "The contract",
-    title: "Read the contract. That's the whole pitch.",
+    title: "Our contract is the pitch.",
     body:
-      "No teaser rate, no auto-renewal trap, no clause you need a lawyer to decode. Ours is double-sided — the obligations run both ways — and it's free to try.",
-    cta: "Start enrollment",
-    ctaHref: "/get-started",
+      "No teaser rate, no auto-renewal trap, no clause you need a lawyer to decode. Ours is double-sided — the obligations run both ways — and it's free to try if qualified.",
+    cta: "Learn more",
+    ctaHref: "/learn",
   },
   finalCta: {
     eyebrow: "Stay in the loop",
