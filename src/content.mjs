@@ -65,25 +65,24 @@ export const home = {
   ],
   how: {
     eyebrow: "How it works",
-    title: "Three steps. No sales pitch required.",
+    title: "Three simple steps.",
     steps: [
       {
         index: "01",
-        title: "Send us your interval data",
+        title: "We'll analyze your interval data",
         body:
-          "Twelve months of usage, hour by hour. Most utilities export it in a click — we'll show you where.",
+          "Your energy usage, hour by hour. Utilities export it upon formal request.",
       },
       {
         index: "02",
-        title: "We price your shape, honestly",
-        body:
-          "We model what your specific load costs to serve. If you're better off staying with your utility, that's what we tell you.",
+        title: "We price the exposure",
+        body: "Our risk team analyzes the data.",
       },
       {
         index: "03",
-        title: "We back the price with capital",
+        title: "We back it with our capital",
         body:
-          "Accepted sites get a price match and a money-back guarantee. The spread between your price and our cost goes back into your site.",
+          "If accepted, you get a guarantee we save you money. We win, you win. We lose, you still win.",
       },
     ],
   },
