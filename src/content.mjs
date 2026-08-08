@@ -88,11 +88,11 @@ export const home = {
   },
   contract: {
     eyebrow: "The contract",
-    title: "Read the contract. That's the whole pitch.",
+    title: "Our contract is the pitch.",
     body:
-      "No teaser rate, no auto-renewal trap, no clause you need a lawyer to decode. Ours is double-sided — the obligations run both ways — and it's free to try.",
-    cta: "Start enrollment",
-    ctaHref: "/get-started",
+      "No teaser rate, no auto-renewal trap, no clause you need a lawyer to decode. Ours is double-sided — the obligations run both ways — and it's free to try if qualified.",
+    cta: "Learn more",
+    ctaHref: "/learn",
   },
   finalCta: {
     eyebrow: "Stay in the loop",
