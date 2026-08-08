@@ -535,22 +535,6 @@ export function renderHome() {
       </div>
     </section>
     ${proofStrip()}
-    <section class="section" id="shift">
-      <div class="container split-intro">
-        <div class="reveal">
-          <p class="eyebrow">${escapeHtml(home.shape.eyebrow)}</p>
-          <h2>${escapeHtml(home.shape.title)}</h2>
-        </div>
-        <div class="reveal">
-          <p class="section-body">${escapeHtml(home.shape.body)}</p>
-          <ul class="point-list">
-            ${home.shape.points
-              .map((point) => `<li>${icon("check")}<span>${escapeHtml(point)}</span></li>`)
-              .join("")}
-          </ul>
-        </div>
-      </div>
-    </section>
     <section class="section how-section" id="how">
       <div class="container">
         <div class="section-heading reveal">

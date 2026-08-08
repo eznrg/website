@@ -27,9 +27,9 @@ export const ui = {
 export const home = {
   hero: {
     eyebrow: "Customer-first energy strategy",
-    title: "Your bill shows a month. Your cost is an hour.",
+    title: "We're changing the way energy works.",
     body:
-      "We read your interval data before we quote a price, then back that price with our own capital.",
+      "And we put our money where our mouth is. We see you as a partner, not an account number — and we'd be happy to show you how.",
     primaryCta: "Enroll now",
     primaryHref: "/get-started",
     secondaryCta: "See how it works",
@@ -60,17 +60,6 @@ export const home = {
     { value: "24 hours", label: "A real person calls you back" },
     { value: "Price match", label: "Backed by a money-back guarantee" },
   ],
-  shape: {
-    eyebrow: "Why the hour matters",
-    title: "Two sites. Same monthly total. Very different bills.",
-    body:
-      "Your bill reports one number for the month. The market prices every hour. When you use energy decides what it costs — and almost nobody shows you that.",
-    points: [
-      "Demand charges are set by your worst few hours, not your average.",
-      "The cheapest headline rate is often the most expensive contract.",
-      "Once we can see your shape, we can price it — or tell you not to bother.",
-    ],
-  },
   how: {
     eyebrow: "How it works",
     title: "Three steps. No sales pitch required.",
