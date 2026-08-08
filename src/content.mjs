@@ -56,9 +56,12 @@ export const home = {
     ],
   },
   proof: [
-    { value: "$500", label: "Deposit, refundable in full for any reason" },
-    { value: "24 hours", label: "A real person calls you back" },
-    { value: "Price match", label: "Backed by a money-back guarantee" },
+    { value: "$0 to start", label: "No hidden fees" },
+    {
+      value: "10–15%",
+      label: "Minimum savings, or we refund the difference",
+    },
+    { value: "Satisfaction guarantee", label: "Backed by a money-back guarantee" },
   ],
   how: {
     eyebrow: "How it works",
