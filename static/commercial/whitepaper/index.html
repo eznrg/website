@@ -9,7 +9,7 @@
 
   <title>Price to Compare — An Illinois Ratepayer Brief — EZ NRG</title>
   <meta name="description" content="How ComEd default service and retail supply actually stack up, in plain English.">
-  <link rel="icon" href="/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="/logo-mark.svg" type="image/svg+xml">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -94,7 +94,9 @@
       min-height: 68px;
       gap: 20px;
     }
-    .brand img { width: 152px; height: auto; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; }
+    .brand-mark { width: auto; height: 36px; }
+    .brand-wordmark { width: auto; height: 21px; }
     .header-back {
       display: inline-flex;
       align-items: center;
@@ -1042,7 +1044,8 @@
   <header class="site-header">
     <div class="container header-shell">
       <a class="brand" href="https://eznrg.ai/" aria-label="EZ NRG home">
-        <img src="/logo.svg" alt="EZ NRG" width="152" height="38">
+        <img class="brand-mark" src="/logo-mark.svg" alt="" width="44" height="48">
+        <img class="brand-wordmark" src="/logo-wordmark.svg" alt="EZ NRG" width="88" height="25">
       </a>
       <a class="header-back" href="/commercial"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"/></svg>Back to commercial</a>
     </div>

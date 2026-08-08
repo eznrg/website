@@ -61,7 +61,10 @@ p { margin-top: 0; }
   min-height: 76px;
   gap: 24px;
 }
-.brand img { width: 176px; height: auto; }
+/* Lockup is two files; size both off height. Mirrors src/styles.css .brand. */
+.brand { display: inline-flex; align-items: center; gap: 12px; }
+.brand-mark { width: auto; height: 42px; }
+.brand-wordmark { width: auto; height: 24px; }
 .header-tag {
   color: var(--muted);
   font-family: var(--font-mono);

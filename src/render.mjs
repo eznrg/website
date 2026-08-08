@@ -78,6 +78,24 @@ function icon(name) {
   return icons[name] ?? "";
 }
 
+/*
+  The brand lockup is two images, not one: /logo-mark.svg (the hex EZ monogram)
+  and /logo-wordmark.svg (the EZNRG lettering). Both are hand-authored vectors
+  traced from the supplied artwork - see the comments inside each file. They are
+  sized by .brand-mark / .brand-wordmark in styles.css, which key off height.
+
+  The mark carries alt="" because it is decorative here: the wordmark already
+  supplies the accessible name, and the anchor has its own aria-label.
+*/
+function brandLockup(extraClass = "") {
+  return `<a class="brand${
+    extraClass ? ` ${extraClass}` : ""
+  }" href="/" aria-label="EZ NRG home">
+      <img class="brand-mark" src="/logo-mark.svg" alt="" width="44" height="48">
+      <img class="brand-wordmark" src="/logo-wordmark.svg" alt="EZ NRG" width="88" height="25">
+    </a>`;
+}
+
 function header(path) {
   const links = nav
     .map((item) => {
@@ -93,9 +111,7 @@ function header(path) {
   return `<header class="site-header" data-menu>
   <a class="skip-link" href="#main">${escapeHtml(ui.skipLink)}</a>
   <div class="container header-shell">
-    <a class="brand" href="/" aria-label="EZ NRG home">
-      <img src="/logo.svg" alt="EZ NRG" width="176" height="44">
-    </a>
+    ${brandLockup()}
     <button class="menu-button" type="button" data-menu-toggle aria-expanded="false" aria-controls="primary-navigation">
       <span class="sr-only">${escapeHtml(ui.menuLabel)}</span>
       ${icon("menu")}
@@ -114,9 +130,7 @@ function footer() {
   return `<footer class="site-footer">
   <div class="container footer-grid">
     <div>
-      <a class="brand footer-brand" href="/" aria-label="EZ NRG home">
-        <img src="/logo.svg" alt="EZ NRG" width="176" height="44">
-      </a>
+      ${brandLockup("footer-brand")}
       <p>${escapeHtml(ui.footerTagline)}</p>
     </div>
     <div class="footer-links">
@@ -146,7 +160,7 @@ function layout(path, content) {
   <meta property="og:url" content="${attr(canonical)}">
   <meta name="theme-color" content="#0b0e0d">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="icon" href="/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="/logo-mark.svg" type="image/svg+xml">
   <script>document.documentElement.classList.add("is-enhanced");</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

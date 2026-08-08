@@ -4,6 +4,11 @@
   "description": "Customer-first energy strategy for the decentralized energy future.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#07111F",
-  "theme_color": "#07111F"
+  "background_color": "#101312",
+  "theme_color": "#0b0e0d",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/logo-mark.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
 }
