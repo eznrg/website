@@ -27,9 +27,9 @@ export const ui = {
 export const home = {
   hero: {
     eyebrow: "Customer-first energy strategy",
-    title: "Your bill shows a month. Your cost is an hour.",
+    title: "We're changing the way energy works.",
     body:
-      "We read your interval data before we quote a price, then back that price with our own capital.",
+      "And we put our money where our mouth is. We see you as a partner, not an account number — and we'd be happy to show you how.",
     primaryCta: "Enroll now",
     primaryHref: "/get-started",
     secondaryCta: "See how it works",
@@ -60,17 +60,6 @@ export const home = {
     { value: "24 hours", label: "A real person calls you back" },
     { value: "Price match", label: "Backed by a money-back guarantee" },
   ],
-  shape: {
-    eyebrow: "Why the hour matters",
-    title: "Two sites. Same monthly total. Very different bills.",
-    body:
-      "Your bill reports one number for the month. The market prices every hour. When you use energy decides what it costs — and almost nobody shows you that.",
-    points: [
-      "Demand charges are set by your worst few hours, not your average.",
-      "The cheapest headline rate is often the most expensive contract.",
-      "Once we can see your shape, we can price it — or tell you not to bother.",
-    ],
-  },
   how: {
     eyebrow: "How it works",
     title: "Three steps. No sales pitch required.",
@@ -103,42 +92,16 @@ export const home = {
     cta: "Start enrollment",
     ctaHref: "/get-started",
   },
-  storage: {
-    eyebrow: "Storage",
-    title: "Flexibility is the product. You're the driver.",
-    body:
-      "A battery on site turns your peak hours into something you control: lower demand charges now, and a seat at capacity and VPP markets as they open.",
-    offer: "See what your flexibility is worth",
-    proof: [
-      "Cut demand charges by managing your own peaks.",
-      "Keep capacity options open instead of locking them away.",
-      "VPP-ready, on terms where you keep control.",
-    ],
-    cards: [
-      {
-        title: "Peak management",
-        body:
-          "Dispatch storage against your worst hours and see what your flexibility is worth before you sign anything.",
-      },
-      {
-        title: "Capacity optionality",
-        body:
-          "Hold your position for future capacity value instead of trading it away in a long contract.",
-      },
-      {
-        title: "VPP pathway",
-        body:
-          "A participation model that grows as programs, tariffs, and controls mature — without handing over control today.",
-      },
-    ],
-  },
   finalCta: {
-    eyebrow: "Early access",
-    title: "Find out what your hours are worth.",
+    eyebrow: "Stay in the loop",
+    title: "See what we're all about.",
     body:
-      "Tell us about your site. We'll come back with what your load actually costs to serve — and whether we're the right fit.",
-    submitLabel: "Request a read",
-    successMessage: "Got it. We'll be in touch within 24 hours with next steps.",
+      "Join our group for weekly updates on what's changing in the energy industry — and why we're doing what we're doing.",
+    joinLabel: "Join our Telegram channel",
+    // Paste the Telegram invite link here. While it stays empty the button
+    // renders as a disabled "link coming soon" state, the same convention the
+    // /learn channel cards use (see channelCards in render.mjs).
+    joinHref: "",
   },
 };
 
