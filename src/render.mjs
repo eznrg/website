@@ -1,7 +1,6 @@
 import {
   about,
   contact,
-  contactFields,
   enrollment,
   enrollmentFields,
   home,
@@ -29,8 +28,7 @@ const pageMeta = {
   },
   "/contact": {
     title: "Contact EZ NRG",
-    description:
-      "Customers, investors, advisors, partners — start a real conversation with EZ NRG.",
+    description: "Contact EZ NRG on Telegram directly for any inquiries.",
   },
   "/get-started": {
     title: "Enroll | EZ NRG",
@@ -326,26 +324,6 @@ function howSteps() {
   </ol>`;
 }
 
-function cardGrid(items, className = "") {
-  return `<div class="card-grid ${className}">
-    ${items
-      .map(
-        (item) => {
-          const body = item.body
-            ? `<p>${escapeHtml(item.body)}</p>`
-            : "";
-
-          return `<article class="info-card reveal">
-          <span class="card-icon">${icon("spark")}</span>
-          <h3>${escapeHtml(item.title)}</h3>
-          ${body}
-        </article>`;
-        },
-      )
-      .join("")}
-  </div>`;
-}
-
 function form(fields, submitLabel, successMessage, formName, options = {}) {
   const successRedirect = options.successRedirect
     ? ` data-success-redirect="${attr(options.successRedirect)}"`
@@ -484,21 +462,19 @@ function channelCards() {
 
 /*
   Same empty-href convention as channelCards(): until a real invite link is
-  pasted into home.finalCta.joinHref, the CTA degrades to a disabled button
-  rather than shipping a dead link.
+  pasted in, the CTA degrades to a disabled button rather than shipping a
+  dead link. Shared by the homepage closer and the contact page.
 */
-function joinAction() {
-  const { joinHref, joinLabel } = home.finalCta;
-
-  if (!joinHref) {
+function telegramCta(href, label) {
+  if (!href) {
     return `<span class="button button-secondary join-button is-disabled" aria-disabled="true">${escapeHtml(
-      joinLabel,
+      label,
     )} — link coming soon</span>`;
   }
 
   return `<a class="button button-primary join-button" href="${attr(
-    joinHref,
-  )}" target="_blank" rel="noreferrer">${escapeHtml(joinLabel)} ${icon("arrow")}</a>`;
+    href,
+  )}" target="_blank" rel="noreferrer">${escapeHtml(label)} ${icon("arrow")}</a>`;
 }
 
 export function renderHome() {
@@ -542,7 +518,7 @@ export function renderHome() {
         <p class="eyebrow">${escapeHtml(home.finalCta.eyebrow)}</p>
         <h2>${escapeHtml(home.finalCta.title)}</h2>
         <p class="join-body">${escapeHtml(home.finalCta.body)}</p>
-        ${joinAction()}
+        ${telegramCta(home.finalCta.joinHref, home.finalCta.joinLabel)}
       </div>
     </section>`,
   );
@@ -706,31 +682,12 @@ export function renderLearn() {
 export function renderContact() {
   return layout(
     "/contact",
-    `<section class="page-hero section">
-      <div class="container narrow reveal">
+    `<section class="section cta-section">
+      <div class="container join-cta reveal">
+        <span class="join-icon">${icon("telegram")}</span>
         <p class="eyebrow">${escapeHtml(contact.eyebrow)}</p>
         <h1>${escapeHtml(contact.title)}</h1>
-        <p>${escapeHtml(contact.body)}</p>
-      </div>
-    </section>
-    <section class="section contact-points-section">
-      <div class="container">
-        ${cardGrid(contact.points, "contact-point-grid")}
-      </div>
-    </section>
-    <section class="section contact-section">
-      <div class="container cta-grid">
-        <div class="cta-copy reveal">
-          <p class="eyebrow">${escapeHtml(contact.formEyebrow)}</p>
-          <h2>${escapeHtml(contact.formTitle)}</h2>
-          <p>${escapeHtml(contact.earlyAccess)}</p>
-        </div>
-        ${form(
-          contactFields,
-          contact.submitLabel,
-          contact.successMessage,
-          "contact",
-        )}
+        ${telegramCta(contact.href, contact.cta)}
       </div>
     </section>`,
   );

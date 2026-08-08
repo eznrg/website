@@ -322,32 +322,11 @@ export const learn = {
 
 export const contact = {
   eyebrow: "Contact",
-  title: "Start a real conversation.",
-  body:
-    "Sizing up a supplier offer, weighing storage, or ready to argue with something you read here — either way, we'll answer.",
-  points: [
-    {
-      title: "Customers",
-      body:
-        "Send your interval data and we'll tell you what your load costs to serve.",
-    },
-    {
-      title: "Investors and advisors",
-      body:
-        "Ask about the portfolio model, the underwriting, or the settlement layer.",
-    },
-    {
-      title: "Partners",
-      body:
-        "Asset owners, installers, and market participants — there's room to build here.",
-    },
-  ],
-  formEyebrow: "Early access",
-  formTitle: "Tell us about your site.",
-  earlyAccess:
-    "A few lines about your organization and what you're trying to figure out is plenty to start.",
-  submitLabel: "Send message",
-  successMessage: "Thanks — we've got it and will reach out shortly.",
+  title: "Contact us on Telegram directly for any inquiries whatsoever.",
+  cta: "Message us on Telegram",
+  // Paste the Telegram contact link here. Empty renders a disabled "link
+  // coming soon" state -- same convention as home.finalCta.joinHref.
+  href: "",
 };
 
 export const earlyBirdFields = [
@@ -365,18 +344,6 @@ export const earlyBirdFields = [
     type: "textarea",
     autocomplete: "off",
   },
-];
-
-export const contactFields = [
-  { name: "name", label: "Name", type: "text", autocomplete: "name" },
-  { name: "email", label: "Email", type: "email", autocomplete: "email" },
-  {
-    name: "company",
-    label: "Company",
-    type: "text",
-    autocomplete: "organization",
-  },
-  { name: "message", label: "Message", type: "textarea", autocomplete: "off" },
 ];
 
 export const enrollmentFields = [

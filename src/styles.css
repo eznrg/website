@@ -517,21 +517,12 @@ h3 {
 .section-body,
 .split-intro p,
 .page-hero p,
-.cta-copy p,
-.info-card p,
 .founder-card p,
 .site-footer p,
 .coming-soon {
   color: var(--muted);
 }
 
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.info-card,
 .founder-card,
 .form-panel {
   border: 1px solid var(--border);
@@ -542,7 +533,6 @@ h3 {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
 }
 
-.info-card,
 .learn-summary-card,
 .watch-card,
 .channel-card,
@@ -553,7 +543,6 @@ h3 {
   transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
-.info-card::before,
 .learn-summary-card::before,
 .watch-card::before,
 .channel-card::before,
@@ -570,7 +559,6 @@ h3 {
   transition: opacity 180ms ease;
 }
 
-.info-card > *,
 .learn-summary-card > *,
 .watch-card > *,
 .channel-card > *,
@@ -580,12 +568,6 @@ h3 {
   z-index: 1;
 }
 
-.info-card {
-  min-height: 260px;
-  padding: 26px;
-}
-
-.info-card:hover,
 .learn-summary-card:hover,
 .watch-card:hover,
 .channel-card:hover,
@@ -596,7 +578,6 @@ h3 {
   box-shadow: 0 26px 76px rgba(0, 0, 0, 0.26), 0 0 44px rgba(139, 216, 166, 0.08);
 }
 
-.info-card:hover::before,
 .learn-summary-card:hover::before,
 .watch-card:hover::before,
 .channel-card:hover::before,
@@ -623,28 +604,11 @@ h3 {
   height: 20px;
 }
 
-.info-card:hover .card-icon,
 .watch-card:hover .card-icon {
   color: var(--primary-foreground);
   background: linear-gradient(135deg, var(--amber), var(--cyan));
   border-color: transparent;
   transform: translateY(-2px) rotate(-4deg);
-}
-
-.cta-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(360px, 0.72fr);
-  gap: 64px;
-  align-items: start;
-}
-
-.cta-copy {
-  position: sticky;
-  top: 112px;
-}
-
-.cta-copy p {
-  font-size: 1.08rem;
 }
 
 .enroll-hero .eyebrow,
@@ -660,9 +624,8 @@ h3 {
 }
 
 /*
-  The homepage closer is a single centred column, not the two-column
-  copy-plus-form split the contact page still uses. Everything here is scoped
-  to .join-* so .cta-grid / .cta-copy keep their contact-page behaviour.
+  Single centred column, shared by the homepage closer and the contact
+  page -- both are a Telegram CTA and nothing else.
 */
 .join-cta {
   display: grid;
@@ -688,6 +651,7 @@ h3 {
   height: 26px;
 }
 
+.join-cta h1,
 .join-cta h2 {
   max-width: 620px;
 }
@@ -1624,10 +1588,6 @@ h3 {
   margin-top: 34px;
 }
 
-.contact-points-section {
-  padding-top: 0;
-}
-
 .how-section .eyebrow,
 .learn-hero .eyebrow {
   color: var(--primary);
@@ -1715,7 +1675,6 @@ h3 {
 
   .hero-grid,
   .split-intro,
-  .cta-grid,
   .primer-shell,
   .channel-grid,
   .upload-grid {
@@ -1737,13 +1696,8 @@ h3 {
     min-height: auto;
   }
 
-  .card-grid,
   .step-list {
     grid-template-columns: 1fr;
-  }
-
-  .cta-copy {
-    position: static;
   }
 }
 
