@@ -2,7 +2,6 @@ import {
   about,
   contact,
   contactFields,
-  earlyBirdFields,
   enrollment,
   enrollmentFields,
   home,
@@ -483,41 +482,6 @@ function channelCards() {
     .join("");
 }
 
-function storageSection() {
-  const proof = home.storage.proof
-    .map((item) => `<li>${icon("check")}<span>${escapeHtml(item)}</span></li>`)
-    .join("");
-
-  const cards = home.storage.cards
-    .map(
-      (item) => `<article class="storage-card reveal">
-        <span class="card-icon">${icon("spark")}</span>
-        <h3>${escapeHtml(item.title)}</h3>
-        <p>${escapeHtml(item.body)}</p>
-      </article>`,
-    )
-    .join("");
-
-  return `<section class="section storage-section" id="storage-batteries">
-    <div class="container storage-grid">
-      <div class="storage-copy reveal">
-        <p class="eyebrow">${escapeHtml(home.storage.eyebrow)}</p>
-        <h2>${escapeHtml(home.storage.title)}</h2>
-        <p>${escapeHtml(home.storage.body)}</p>
-        <ul class="storage-proof">
-          ${proof}
-        </ul>
-        <a class="button button-primary storage-offer" href="#early-bird">${escapeHtml(
-          home.storage.offer,
-        )} ${icon("arrow")}</a>
-      </div>
-    </div>
-    <div class="container storage-card-grid">
-      ${cards}
-    </div>
-  </section>`;
-}
-
 function enrollAssurances(items) {
   return `<ul class="enroll-assurances">
     ${items
@@ -532,6 +496,25 @@ function enrollAssurances(items) {
       )
       .join("")}
   </ul>`;
+}
+
+/*
+  Same empty-href convention as channelCards(): until a real invite link is
+  pasted into home.finalCta.joinHref, the CTA degrades to a disabled button
+  rather than shipping a dead link.
+*/
+function joinAction() {
+  const { joinHref, joinLabel } = home.finalCta;
+
+  if (!joinHref) {
+    return `<span class="button button-secondary join-button is-disabled" aria-disabled="true">${escapeHtml(
+      joinLabel,
+    )} — link coming soon</span>`;
+  }
+
+  return `<a class="button button-primary join-button" href="${attr(
+    joinHref,
+  )}" target="_blank" rel="noreferrer">${escapeHtml(joinLabel)} ${icon("arrow")}</a>`;
 }
 
 export function renderHome() {
@@ -585,20 +568,13 @@ export function renderHome() {
         ${buttonLink(home.contract.ctaHref, home.contract.cta)}
       </div>
     </section>
-    ${storageSection()}
     <section class="section cta-section" id="early-bird">
-      <div class="container cta-grid">
-        <div class="cta-copy reveal">
-          <p class="eyebrow">${escapeHtml(home.finalCta.eyebrow)}</p>
-          <h2>${escapeHtml(home.finalCta.title)}</h2>
-          <p>${escapeHtml(home.finalCta.body)}</p>
-        </div>
-        ${form(
-          earlyBirdFields,
-          home.finalCta.submitLabel,
-          home.finalCta.successMessage,
-          "early-bird",
-        )}
+      <div class="container join-cta reveal">
+        <span class="join-icon">${icon("telegram")}</span>
+        <p class="eyebrow">${escapeHtml(home.finalCta.eyebrow)}</p>
+        <h2>${escapeHtml(home.finalCta.title)}</h2>
+        <p class="join-body">${escapeHtml(home.finalCta.body)}</p>
+        ${joinAction()}
       </div>
     </section>`,
   );

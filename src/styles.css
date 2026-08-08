@@ -518,9 +518,7 @@ h3 {
 .split-intro p,
 .page-hero p,
 .cta-copy p,
-.storage-copy p,
 .info-card p,
-.storage-card p,
 .founder-card p,
 .site-footer p,
 .coming-soon {
@@ -548,7 +546,6 @@ h3 {
 .learn-summary-card,
 .watch-card,
 .channel-card,
-.storage-card,
 .founder-card,
 .upload-panel {
   position: relative;
@@ -560,7 +557,6 @@ h3 {
 .learn-summary-card::before,
 .watch-card::before,
 .channel-card::before,
-.storage-card::before,
 .founder-card::before,
 .upload-panel::before {
   position: absolute;
@@ -578,7 +574,6 @@ h3 {
 .learn-summary-card > *,
 .watch-card > *,
 .channel-card > *,
-.storage-card > *,
 .founder-card > *,
 .upload-panel > * {
   position: relative;
@@ -594,7 +589,6 @@ h3 {
 .learn-summary-card:hover,
 .watch-card:hover,
 .channel-card:hover,
-.storage-card:hover,
 .founder-card:hover,
 .upload-panel:hover {
   transform: translateY(-6px);
@@ -606,7 +600,6 @@ h3 {
 .learn-summary-card:hover::before,
 .watch-card:hover::before,
 .channel-card:hover::before,
-.storage-card:hover::before,
 .founder-card:hover::before,
 .upload-panel:hover::before {
   opacity: 1;
@@ -631,94 +624,11 @@ h3 {
 }
 
 .info-card:hover .card-icon,
-.watch-card:hover .card-icon,
-.storage-card:hover .card-icon {
+.watch-card:hover .card-icon {
   color: var(--primary-foreground);
   background: linear-gradient(135deg, var(--amber), var(--cyan));
   border-color: transparent;
   transform: translateY(-2px) rotate(-4deg);
-}
-
-/*
-  A section wash has to start AND end at zero alpha, or its first pixel is a
-  visible edge. The old rule opened at 0.08 mint directly under a hard 1px
-  #2b312d border -- the most literal black-line-then-green moment on the site.
-*/
-.storage-section {
-  background:
-    radial-gradient(120% 78% at 14% 0%, rgba(139, 216, 166, 0.07), rgba(139, 216, 166, 0) 60%),
-    linear-gradient(
-      180deg,
-      rgba(139, 216, 166, 0) 0%,
-      rgba(139, 216, 166, 0.045) 28%,
-      rgba(139, 216, 166, 0) 84%
-    );
-}
-
-.storage-grid {
-  display: grid;
-  gap: 58px;
-  align-items: center;
-  margin-bottom: 18px;
-}
-
-.storage-copy h2 {
-  max-width: 820px;
-}
-
-.storage-copy > p:not(.eyebrow) {
-  max-width: 760px;
-  font-size: 1.08rem;
-}
-
-.storage-proof {
-  display: grid;
-  gap: 12px;
-  max-width: 740px;
-  margin: 28px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.storage-proof li {
-  display: grid;
-  grid-template-columns: 28px minmax(0, 1fr);
-  gap: 12px;
-  align-items: start;
-  color: var(--text);
-  font-weight: 700;
-}
-
-.storage-proof svg {
-  width: 22px;
-  height: 22px;
-  color: var(--green);
-}
-
-.storage-offer {
-  margin-top: 30px;
-}
-
-.storage-card {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 34%),
-    rgba(23, 27, 25, 0.78);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
-}
-
-/* The third and last 1px grid overlay. Removed with the other two. */
-.storage-card-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 18px;
-}
-
-.storage-card {
-  min-height: 250px;
-  padding: 26px;
 }
 
 .cta-grid {
@@ -738,7 +648,6 @@ h3 {
 }
 
 #shift .eyebrow,
-#storage-batteries .eyebrow,
 .enroll-hero .eyebrow,
 #early-bird .eyebrow {
   color: var(--primary);
@@ -751,8 +660,47 @@ h3 {
   transform: none;
 }
 
-#early-bird .cta-copy p:not(.eyebrow) {
-  color: var(--primary);
+/*
+  The homepage closer is a single centred column, not the two-column
+  copy-plus-form split the contact page still uses. Everything here is scoped
+  to .join-* so .cta-grid / .cta-copy keep their contact-page behaviour.
+*/
+.join-cta {
+  display: grid;
+  justify-items: center;
+  max-width: 720px;
+  text-align: center;
+}
+
+.join-icon {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 22px;
+  place-items: center;
+  color: var(--mint);
+  background: rgba(139, 216, 166, 0.1);
+  border: 1px solid rgba(139, 216, 166, 0.22);
+  border-radius: var(--radius-lg);
+}
+
+.join-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.join-cta h2 {
+  max-width: 620px;
+}
+
+.join-body {
+  max-width: 580px;
+  color: var(--muted);
+  font-size: 1.08rem;
+}
+
+.join-button {
+  margin-top: 30px;
 }
 
 .form-panel {
@@ -1835,7 +1783,6 @@ h3 {
   .hero-grid,
   .split-intro,
   .cta-grid,
-  .storage-grid,
   .primer-shell,
   .channel-grid,
   .upload-grid {
@@ -1845,7 +1792,6 @@ h3 {
 
   .learn-summary-grid,
   .watch-grid,
-  .storage-card-grid,
   .channel-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1951,7 +1897,6 @@ h3 {
   .founder-grid,
   .learn-summary-grid,
   .watch-grid,
-  .storage-card-grid,
   .channel-card-grid,
   .footer-grid {
     grid-template-columns: 1fr;
@@ -1960,12 +1905,10 @@ h3 {
 
   .primer-panel,
   .channel-card,
-    .storage-card,
   .upload-panel {
     padding: 20px;
   }
 
-  .storage-proof li,
   .primer-panel li {
     grid-template-columns: 22px minmax(0, 1fr);
     gap: 10px;

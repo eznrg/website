@@ -55,7 +55,7 @@ if (revealElements.length) {
 if (!reducedMotionQuery.matches && precisePointerQuery.matches) {
   document
     .querySelectorAll(
-      ".info-card, .learn-summary-card, .watch-card, .channel-card, .storage-card, .founder-card, .upload-panel",
+      ".info-card, .learn-summary-card, .watch-card, .channel-card, .founder-card, .upload-panel",
     )
     .forEach((card) => {
       card.addEventListener("pointermove", (event) => {
