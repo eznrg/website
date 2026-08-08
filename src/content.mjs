@@ -20,7 +20,7 @@ export const ui = {
   skipLink: "Skip to content",
   menuLabel: "Toggle navigation",
   headerCta: "Enroll now",
-  footerTagline: "Energy priced by the hour, not the month.",
+  footerTagline: "Energy priced the way it should be.",
   formError: "Something went wrong. Please try again in a moment.",
 };
 
