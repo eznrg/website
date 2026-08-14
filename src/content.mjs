@@ -14,6 +14,14 @@ export const nav = [
   { label: "Contact", href: "/contact" },
 ];
 
+// Footer-only links. Deliberately NOT in `nav`, which drives the header too --
+// legal pages belong in the footer, not the primary navigation. They are still
+// public and indexed, so they do appear in public/sitemap.xml.
+export const legalNav = [
+  { label: "Terms of Service", href: "/terms" },
+  { label: "Privacy Policy", href: "/privacy" },
+];
+
 // Shared UI strings. These used to be hardcoded in render.mjs, which broke the
 // content/presentation split — copy edits belong in this file.
 export const ui = {
@@ -21,6 +29,8 @@ export const ui = {
   menuLabel: "Toggle navigation",
   headerCta: "Enroll now",
   footerTagline: "Energy priced the way it should be.",
+  // The year is stamped at build time; this is the rest of the line.
+  footerCopyright: "EZ NRG. All rights reserved.",
   formError: "Something went wrong. Please try again in a moment.",
 };
 
@@ -70,8 +80,7 @@ export const home = {
       {
         index: "01",
         title: "We'll analyze your interval data",
-        body:
-          "Your energy usage, hour by hour. Utilities export it upon formal request.",
+        body: "Your energy usage, hour by hour.",
       },
       {
         index: "02",
@@ -81,8 +90,7 @@ export const home = {
       {
         index: "03",
         title: "We back it with our capital",
-        body:
-          "If accepted, you get a guarantee we save you money. We win, you win. We lose, you still win.",
+        body: "We win, you win. We lose, you still win.",
       },
     ],
   },
@@ -109,9 +117,9 @@ export const home = {
 
 export const enrollment = {
   eyebrow: "Get started",
-  title: "Start with a refundable $500 deposit.",
+  title: "Find out if you qualify.",
   body:
-    "No payment today — just leave your name and number. We'll reach out within 24 hours to walk you through the deposit and your next steps. If you ever decide not to move forward, the full $500 is returned.",
+    "No payment today — just leave your name and number. We'll reach out within 24 hours to walk you through your next steps, including the refundable $500 deposit. If you ever decide not to move forward, the full $500 is returned.",
   submitLabel: "Reserve my spot",
   successMessage:
     "You're on the list. We'll text you within 24 hours to coordinate a call — no payment is collected here.",
@@ -158,12 +166,6 @@ export const about = {
         "Decentralization means open networks and open standards. On-chain settlement holds every party — including us — to what they agreed.",
       ],
     },
-  ],
-  foundersEyebrow: "Co-founders",
-  foundersTitle: "Ask us anything — including the hard questions.",
-  founders: [
-    { name: "Rishi Patel", role: "Co-founder" },
-    { name: "Deepak Sai Pendyala", role: "Co-founder" },
   ],
   note: "Doubt a claim on this site? Put it to us directly. We'd rather answer it now.",
   cta: "Get in touch",

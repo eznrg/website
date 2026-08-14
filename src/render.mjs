@@ -5,10 +5,12 @@ import {
   enrollmentFields,
   home,
   learn,
+  legalNav,
   nav,
   site,
   ui,
 } from "./content.mjs";
+import { privacy, terms } from "./legal.mjs";
 
 const pageMeta = {
   "/": {
@@ -33,7 +35,17 @@ const pageMeta = {
   "/get-started": {
     title: "Enroll | EZ NRG",
     description:
-      "Reserve your spot with EZ NRG. Leave your name and number and we'll reach out within 24 hours about the refundable $500 deposit.",
+      "Find out if your site qualifies. Leave your name and number and EZ NRG will reach out within 24 hours to walk you through the next steps.",
+  },
+  "/terms": {
+    title: "Terms of Service | EZ NRG",
+    description:
+      "The terms that govern your use of eznrg.ai, including what the site is, what it isn't, and how it relates to a signed services agreement.",
+  },
+  "/privacy": {
+    title: "Privacy Policy | EZ NRG",
+    description:
+      "What EZ NRG collects, why, who we share it with, and how to ask for a copy of your interval data or have it erased.",
   },
 };
 
@@ -132,6 +144,14 @@ function footer() {
     </div>
     <div class="footer-links">
       ${nav
+        .map((item) => `<a href="${attr(item.href)}">${escapeHtml(item.label)}</a>`)
+        .join("")}
+    </div>
+  </div>
+  <div class="container footer-legal">
+    <p>&copy; ${new Date().getFullYear()} ${escapeHtml(ui.footerCopyright)}</p>
+    <div class="footer-legal-links">
+      ${legalNav
         .map((item) => `<a href="${attr(item.href)}">${escapeHtml(item.label)}</a>`)
         .join("")}
     </div>
@@ -578,28 +598,8 @@ export function renderAbout() {
           .join("")}
       </div>
     </section>
-    <section class="section founders-section">
+    <section class="section about-close-section">
       <div class="container">
-        <div class="section-heading reveal">
-          <p class="eyebrow">${escapeHtml(about.foundersEyebrow)}</p>
-          <h2>${escapeHtml(about.foundersTitle)}</h2>
-        </div>
-        <div class="founder-grid">
-          ${about.founders
-            .map(
-              (founder) => `<article class="founder-card reveal">
-                <span class="founder-mark">${escapeHtml(
-                  founder.name
-                    .split(" ")
-                    .map((part) => part[0])
-                    .join(""),
-                )}</span>
-                <h3>${escapeHtml(founder.name)}</h3>
-                <p>${escapeHtml(founder.role)}</p>
-              </article>`,
-            )
-            .join("")}
-        </div>
         <p class="coming-soon reveal">${escapeHtml(about.note)}</p>
         <div class="about-cta reveal">${buttonLink(about.ctaHref, about.cta)}</div>
       </div>
@@ -691,4 +691,49 @@ export function renderContact() {
       </div>
     </section>`,
   );
+}
+
+/*
+  Terms and Privacy share one shape (see src/legal.mjs), so they share one
+  renderer. Sections carry `paragraphs`, an optional `bullets` list, and
+  optional `trailing` paragraphs that land after the bullets.
+*/
+function renderLegalDoc(path, doc) {
+  const section = (item) => `<section class="legal-section reveal">
+        <h2>${escapeHtml(item.heading)}</h2>
+        ${(item.paragraphs ?? []).map((text) => `<p>${escapeHtml(text)}</p>`).join("")}
+        ${
+          item.bullets
+            ? `<ul>${item.bullets
+                .map((text) => `<li>${escapeHtml(text)}</li>`)
+                .join("")}</ul>`
+            : ""
+        }
+        ${(item.trailing ?? []).map((text) => `<p>${escapeHtml(text)}</p>`).join("")}
+      </section>`;
+
+  return layout(
+    path,
+    `<section class="page-hero legal-hero section">
+      <div class="container narrow reveal">
+        <p class="eyebrow">${escapeHtml(doc.eyebrow)}</p>
+        <h1>${escapeHtml(doc.title)}</h1>
+        <p class="legal-effective">${escapeHtml(doc.effective)}</p>
+        ${doc.intro.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+      </div>
+    </section>
+    <section class="section legal-section-wrap">
+      <div class="container narrow legal-body">
+        ${doc.sections.map(section).join("")}
+      </div>
+    </section>`,
+  );
+}
+
+export function renderTerms() {
+  return renderLegalDoc("/terms", terms);
+}
+
+export function renderPrivacy() {
+  return renderLegalDoc("/privacy", privacy);
 }
