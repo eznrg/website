@@ -517,13 +517,11 @@ h3 {
 .section-body,
 .split-intro p,
 .page-hero p,
-.founder-card p,
 .site-footer p,
 .coming-soon {
   color: var(--muted);
 }
 
-.founder-card,
 .form-panel {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -536,7 +534,6 @@ h3 {
 .learn-summary-card,
 .watch-card,
 .channel-card,
-.founder-card,
 .upload-panel {
   position: relative;
   overflow: hidden;
@@ -546,7 +543,6 @@ h3 {
 .learn-summary-card::before,
 .watch-card::before,
 .channel-card::before,
-.founder-card::before,
 .upload-panel::before {
   position: absolute;
   inset: 0;
@@ -562,7 +558,6 @@ h3 {
 .learn-summary-card > *,
 .watch-card > *,
 .channel-card > *,
-.founder-card > *,
 .upload-panel > * {
   position: relative;
   z-index: 1;
@@ -571,7 +566,6 @@ h3 {
 .learn-summary-card:hover,
 .watch-card:hover,
 .channel-card:hover,
-.founder-card:hover,
 .upload-panel:hover {
   transform: translateY(-6px);
   border-color: rgba(139, 216, 166, 0.34);
@@ -581,7 +575,6 @@ h3 {
 .learn-summary-card:hover::before,
 .watch-card:hover::before,
 .channel-card:hover::before,
-.founder-card:hover::before,
 .upload-panel:hover::before {
   opacity: 1;
 }
@@ -1120,28 +1113,6 @@ h3 {
   margin-bottom: 32px;
 }
 
-.founder-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.founder-card {
-  padding: 28px;
-}
-
-.founder-mark {
-  display: grid;
-  width: 56px;
-  height: 56px;
-  margin-bottom: 24px;
-  place-items: center;
-  color: var(--primary-foreground);
-  background: linear-gradient(135deg, var(--cyan), var(--amber));
-  border-radius: var(--radius-lg);
-  font-weight: 700;
-}
-
 .pillars-list {
   display: grid;
   gap: 20px;
@@ -1222,9 +1193,14 @@ h3 {
   }
 }
 
+/*
+  The About page's closing note. It used to sit below the founder cards and
+  carried its own hairline seam to separate itself from them. With the cards
+  gone it is the first thing in the section, so that seam would land a hair
+  under .about-close-section::after and read as a doubled rule.
+*/
 .coming-soon {
-  margin: 28px 0 0;
-  padding-top: 24px;
+  margin: 0;
 }
 
 /*
@@ -1237,9 +1213,8 @@ h3 {
 .primer-section::after,
 .channel-section::after,
 .pillars-section::after,
-.founders-section::after,
-.site-footer::after,
-.coming-soon::after {
+.about-close-section::after,
+.site-footer::after {
   position: absolute;
   inset: 0 0 auto;
   height: 1px;
@@ -1253,8 +1228,7 @@ h3 {
   );
 }
 
-.site-footer,
-.coming-soon {
+.site-footer {
   position: relative;
 }
 
@@ -1288,6 +1262,55 @@ h3 {
 
 .footer-links a:hover,
 .footer-links a:focus-visible {
+  color: var(--text);
+}
+
+/*
+  The legal row. Separated from the row above by the same fading hairline the
+  section seams use -- a flat border-top here would reintroduce exactly the
+  hard line the seam motif exists to avoid.
+*/
+.footer-legal {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  margin-top: 32px;
+  padding-top: 22px;
+  font-size: 0.86rem;
+}
+
+.footer-legal::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  content: "";
+  background: linear-gradient(
+    90deg,
+    rgba(139, 216, 166, 0) 0%,
+    rgba(139, 216, 166, 0.18) 20%,
+    rgba(139, 216, 166, 0.18) 80%,
+    rgba(139, 216, 166, 0) 100%
+  );
+}
+
+.footer-legal p {
+  margin: 0;
+}
+
+.footer-legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+
+.footer-legal-links a {
+  color: var(--muted);
+}
+
+.footer-legal-links a:hover,
+.footer-legal-links a:focus-visible {
   color: var(--text);
 }
 
@@ -1588,6 +1611,72 @@ h3 {
   margin-top: 34px;
 }
 
+/* ==========================================================================
+   Terms and Privacy
+
+   Reading documents, not marketing pages. The global h2 scale (up to 3rem) is
+   built for section headers with one line of text each -- at a dozen headings
+   down a page it reads as shouting, so it steps down here. Measure is capped
+   at 68ch: the .narrow container is sized for 1.12rem hero copy, which is
+   wider than comfortable for a long body of 1rem text.
+   ========================================================================== */
+
+.legal-hero h1 {
+  margin-bottom: 12px;
+}
+
+.legal-effective {
+  margin-bottom: 24px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+.legal-section-wrap {
+  padding-top: 0;
+}
+
+.legal-body {
+  max-width: 68ch;
+}
+
+.legal-section + .legal-section {
+  margin-top: 40px;
+}
+
+.legal-body h2 {
+  max-width: none;
+  margin-bottom: 14px;
+  font-size: clamp(1.25rem, 1.9vw, 1.5rem);
+}
+
+.legal-body p {
+  margin: 0 0 14px;
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.legal-body p:last-child {
+  margin-bottom: 0;
+}
+
+.legal-body ul {
+  margin: 0 0 14px;
+  padding-left: 20px;
+  color: var(--muted);
+  line-height: 1.72;
+  list-style: disc;
+}
+
+.legal-body li {
+  margin-bottom: 8px;
+}
+
+.legal-body li::marker {
+  color: var(--primary);
+}
+
 .how-section .eyebrow,
 .learn-hero .eyebrow {
   color: var(--primary);
@@ -1781,7 +1870,6 @@ h3 {
 
 
 
-  .founder-grid,
   .learn-summary-grid,
   .watch-grid,
   .channel-card-grid,
@@ -1811,5 +1899,10 @@ h3 {
 
   .footer-links {
     justify-content: flex-start;
+  }
+
+  .footer-legal {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

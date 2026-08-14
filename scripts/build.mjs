@@ -7,6 +7,8 @@ import {
   renderGetStarted,
   renderHome,
   renderLearn,
+  renderPrivacy,
+  renderTerms,
 } from "../src/render.mjs";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -18,6 +20,8 @@ const pages = [
   { path: "learn/index.html", html: renderLearn() },
   { path: "contact/index.html", html: renderContact() },
   { path: "get-started/index.html", html: renderGetStarted() },
+  { path: "terms/index.html", html: renderTerms() },
+  { path: "privacy/index.html", html: renderPrivacy() },
 ];
 
 await rm(dist, { recursive: true, force: true });
