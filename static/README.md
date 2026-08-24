@@ -27,7 +27,6 @@ These pages are deliberately kept **separate from the generated site**:
 - All of them carry `<meta name="robots" content="noindex">` so search engines
   skip them.
 - Anyone with the URL can view them — share by direct link, email, or QR code.
-  ⚠️ See "Password gate" below: this is not currently true in production.
 
 ## The shared layer
 
@@ -90,15 +89,6 @@ folder.
 2. Add `"<name>"` to the `standalonePages` array in `scripts/build.mjs`.
 3. Do **not** touch the `nav` array in `src/content.mjs`, `public/sitemap.xml`,
    `src/render.mjs`, or the `pages[]` array — that is what keeps it unlisted.
-
-## Password gate
-
-⚠️ `middleware.js` matches `/(.*)` with no exclusions, so when `SITE_PASSWORD` is
-set in Vercel **every page here is behind the password gate**, including
-`/hospitality`. These pages were designed to be shareable by direct link; if that
-is the intent, the middleware matcher needs to exclude them. Locally `dev.mjs`
-skips the gate when `SITE_PASSWORD` is unset, which is why they open freely in
-preview.
 
 ## Editing
 

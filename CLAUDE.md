@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-The EZ NRG marketing site for [eznrg.ai](https://eznrg.ai): a hand-rolled static-site generator (no framework) deployed on Vercel, behind an Edge-middleware password gate, with one serverless function for form email.
+The EZ NRG marketing site for [eznrg.ai](https://eznrg.ai): a hand-rolled static-site generator (no framework) deployed on Vercel, publicly accessible, with one serverless function for form email.
 
 ## Commands
 
@@ -11,7 +11,7 @@ npm run build   # render src/ -> dist/ (the only correctness gate; there are no 
 npm run dev     # rebuild + serve dist/ and the /api/contact function at http://localhost:4173
 ```
 
-There is **no test suite and no linter/formatter configured**. After any change under `src/`, `scripts/`, or `static/`, run `npm run build` and confirm it succeeds before considering the change done. Local dev is unlocked unless you set `SITE_PASSWORD` in `.env` (copy `.env.example`).
+There is **no test suite and no linter/formatter configured**. After any change under `src/`, `scripts/`, or `static/`, run `npm run build` and confirm it succeeds before considering the change done.
 
 ## Architecture
 
@@ -36,7 +36,7 @@ Self-contained, **unlisted, `noindex`** pages served at `/hospitality` (plus `/h
 The pages share `/static/tokens.css` (the `:root` palette — linked by all four, the single place these tokens live) and `/static/theme.css` (the component layer — linked by the three landing pages only; **requires `tokens.css` first**). Both only *mirror* the mint theme; neither imports `src/styles.css`, so a main-site theme change cannot break them. Page-specific CSS stays inline in that page's `<style>`. The white paper links `tokens.css` but **not** `theme.css` — it is a reading document with its own denser typography, sticky header, TOC rail, and print styles; that divergence is intentional. `/residential` and `/commercial` are coming-soon placeholders with no CSS of their own. See `static/README.md`.
 
 ### Auth gate (`middleware.js` + `src/auth.mjs`)
-`middleware.js` is a Vercel Edge middleware matching every route (`/(.*)`). It password-protects the whole site: it renders a password page, handles `/auth/login` and `/auth/logout`, and checks a signed cookie via helpers in `src/auth.mjs`. **Fail-closed on Vercel**: if `SITE_PASSWORD` is unset, the site refuses to serve rather than exposing content (locally it stays open for convenience). Changes here or in `src/auth.mjs` affect access to the entire site — treat them as security-sensitive.
+The site is public. There is no middleware and no auth layer — the password gate (`middleware.js` + `src/auth.mjs`) was removed once the site went live, along with the `SITE_PASSWORD` / `AUTH_SECRET` env vars. If access control is ever needed again, note that the previous matcher was `/(.*)` with no exclusions, which also gated the unlisted landing pages under `static/`.
 
 ### Contact/enrollment email (`api/contact.js`)
 A serverless function (also mounted locally by `scripts/dev.mjs`) that validates a posted form and sends email via **Resend** (`fetch` to `api.resend.com`). It routes by `formType`; enrollment additionally triggers a welcome email. Founder recipients come from env `F1`/`F2`; `RESEND_API_KEY` and `RESEND_FROM_EMAIL` configure delivery. User input is escaped with the in-file `escapeHtml`/`sanitize` before it reaches email HTML.
@@ -45,4 +45,4 @@ A serverless function (also mounted locally by `scripts/dev.mjs`) that validates
 The visual system is driven by CSS custom properties in `:root`: a mint-on-dark palette (`--primary: #8bd8a6`, `--bg: #101312`, …), a three-role type system (`--font-display` Space Grotesk, `--font-body` Inter, `--font-mono` IBM Plex Mono), and `--radius`/`--radius-lg`. Per an in-file note, structural corners use the radius tokens while decorative shapes (pill badges `999px`, dots/circles `50%`) keep their own literals. The Google Fonts request in `render.mjs`'s `layout()` must stay in sync with the weights these tokens actually use. `static/shared/tokens.css` mirrors these tokens independently for the standalone pages.
 
 ## Deploy (Vercel)
-`vercel.json` sets `buildCommand: npm run build`, `outputDirectory: dist`, `cleanUrls: true`, `trailingSlash: false`. Because of `cleanUrls`, `dist/<x>/index.html` serves at `/<x>` (e.g. `dist/hospitality/index.html` → `/hospitality`). Env vars (`SITE_PASSWORD`, `AUTH_SECRET`, `RESEND_API_KEY`, `F1`, `F2`, `RESEND_FROM_EMAIL`) are set in Vercel; `.env*` is gitignored except `.env.example`.
+`vercel.json` sets `buildCommand: npm run build`, `outputDirectory: dist`, `cleanUrls: true`, `trailingSlash: false`. Because of `cleanUrls`, `dist/<x>/index.html` serves at `/<x>` (e.g. `dist/hospitality/index.html` → `/hospitality`). Env vars (`RESEND_API_KEY`, `F1`, `F2`, `RESEND_FROM_EMAIL`) are set in Vercel; `.env*` is gitignored except `.env.example`.

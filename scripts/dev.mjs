@@ -3,16 +3,6 @@ import { readFile, stat } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 import contactHandler from "../api/contact.js";
-import {
-  authCookie,
-  clearAuthCookie,
-  getSitePassword,
-  isAuthenticated,
-  isPasswordValid,
-  nextPathFromLoginUrl,
-  nextPathFromRequest,
-  renderPasswordPage,
-} from "../src/auth.mjs";
 import "./build.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
@@ -137,77 +127,6 @@ function methodNotAllowed() {
   });
 }
 
-async function handleLogin(request, url) {
-  const nextPath = nextPathFromLoginUrl(url);
-
-  if (request.method === "GET") {
-    return renderPasswordPage({ nextPath, status: 200 });
-  }
-
-  if (request.method !== "POST") {
-    return methodNotAllowed();
-  }
-
-  let password = "";
-  try {
-    const formData = await request.formData();
-    password = formData.get("password");
-  } catch {
-    return renderPasswordPage({
-      error: "Could not read the password. Try again.",
-      nextPath,
-      status: 400,
-    });
-  }
-
-  if (!(await isPasswordValid(password))) {
-    return renderPasswordPage({
-      error: "Password did not match.",
-      nextPath,
-      status: 401,
-    });
-  }
-
-  return redirect(nextPath, {
-    "Set-Cookie": await authCookie(request),
-  });
-}
-
-async function handleAuth(request, url) {
-  if (!getSitePassword()) {
-    // Local preview intentionally skips password protection when SITE_PASSWORD is not set.
-    // if (url.pathname.startsWith("/api/")) {
-    //   return json({ error: "SITE_PASSWORD is not configured." }, 503);
-    // }
-    //
-    // return renderPasswordPage({ setupMissing: true, status: 503 });
-    return null;
-  }
-
-  if (url.pathname === "/auth/login") {
-    return handleLogin(request, url);
-  }
-
-  if (url.pathname === "/auth/logout") {
-    return redirect("/", {
-      "Set-Cookie": clearAuthCookie(request),
-    });
-  }
-
-  if (await isAuthenticated(request)) {
-    return null;
-  }
-
-  if (url.pathname.startsWith("/api/")) {
-    return json({ error: "Password required." }, 401);
-  }
-
-  return renderPasswordPage({
-    nextPath: nextPathFromRequest(request),
-    status: 401,
-  });
-}
-
 function send(res, response) {
   res.statusCode = response.status;
   response.headers.forEach((value, key) => res.setHeader(key, value));
@@ -221,12 +140,6 @@ const server = createServer(async (req, res) => {
   try {
     const url = new URL(req.url || "/", `http://${req.headers.host}`);
     const request = await toWebRequest(req, url);
-    const authResponse = await handleAuth(request, url);
-
-    if (authResponse) {
-      send(res, authResponse);
-      return;
-    }
 
     const response =
       url.pathname === "/api/contact"

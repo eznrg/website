@@ -176,7 +176,7 @@ export const privacy = {
     {
       heading: "Cookies",
       paragraphs: [
-        "The Site sets one cookie, named eznrg_auth. It records that you entered the site access password so you are not asked again on every page. It is HttpOnly, uses SameSite=Lax, expires after seven days, and holds no personal information.",
+        "The Site does not set cookies of its own.",
         "We do not use advertising cookies, cross-site tracking cookies, or third-party marketing pixels.",
       ],
     },
