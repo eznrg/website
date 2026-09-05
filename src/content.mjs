@@ -93,8 +93,33 @@ export const home = {
       { title: "A strategy that fits", body: "We assess your site and back agreed pricing with our own capital. Pricing guarantees apply to these arrangements, with terms agreed individually." },
     ],
   },
+  manifesto: {
+    eyebrow: "04 / Our manifesto",
+    title: "A customer-led energy future.",
+    intro: "Decentralization will work at scale only when customers have real choices, clear information, and a fair share of the value they help create.",
+    chapters: [
+      {
+        index: "01",
+        title: "Optionality starts with transparency.",
+        paragraphs: [
+          "Energy offerings are too often buried in complexity, bait-and-switch tactics, aggressive sales, or layers of third-party sellers. The answer is radical transparency.",
+          "We coordinate customers, asset owners, and market partners so savings, flexibility value, and program revenue are shared clearly. Incentives must be aligned. Flexible load, battery storage, and future virtual power plant participation should all serve a strategy in which customer outcomes drive every decision.",
+        ],
+      },
+      {
+        index: "02",
+        title: "Open by design. Accountable by default.",
+        philosophy: "If our team fails to drive value for our stakeholders, we should not be in business.",
+        paragraphs: [
+          "That philosophy shapes how we handle information. Every customer has open access to the information we hold about their property. At any time, you can request that property-specific data—including your load profile—and ask us to erase it from our records.",
+          "Decentralization requires open networks and open standards. Our on-chain strategy is designed to keep us—and our partners—accountable to the people we promise to serve. Smart contracts and other Web3 technologies can encode obligations transparently and make performance verifiable.",
+          "Ultimately, we are building toward stakeholder-led energy. We believe the fastest and most impactful way to grow distributed energy resources is behind the meter, close to the load, where less energy is lost in transmission and distribution. At a minimum, the value created there should be shared with the early adopters who make that future possible.",
+        ],
+      },
+    ],
+  },
   services: {
-    eyebrow: "04 / Energy services",
+    eyebrow: "05 / Energy services",
     title: "Strategy beyond\nthe bill.",
     body: "We connect procurement, market exposure, and site operations into one energy strategy.",
     items: [
