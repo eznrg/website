@@ -34,23 +34,30 @@ export const audit = {
 export const home = {
   hero: {
     eyebrow: "Energy intelligence. Working for your business.",
-    title: ["Your electricity bill.", "Checked.", "Without the extra work."],
+    title: ["Your utility bills.", "Verified.", "Without the extra work."],
     body: "Upload one bill. We handle the audit and recovery process. No upfront cost—if we recover money, you keep 50%. If we recover nothing, you pay nothing.",
     secondaryCta: "See how it works",
-    reassurances: ["Keep your existing broker", "Ongoing auditing is optional"],
   },
   evidence: {
     label: "A real customer outcome",
     customer: "Property owner",
-    summaryTitle: "A closer look. A clearer bill.",
-    refundValue: "$248",
+    summaryTitle: "Minor Utility Bill Errors May be Costing You",
+    refundValue: "$5,000+",
     refundLabel: "in eligible refunds identified",
     timeValue: "~2 hours",
     timeLabel: "saved each month on reporting",
     status: "Audit findings",
-    note: "One customer's experience. Eligible refunds identified, not a confirmed recovery. Results vary by business.",
-    quote: "Out of all my years in business, I've been pitched energy services many times and nobody has ever made it as simple as they did. Plus, I get a dashboard if I ever want to sign in, and I get monthly emails reporting on my energy strategy",
-    caption: "After a utility bill audit and a solution that reduced manual reporting. Shared anonymously with permission.",
+    note: "Results vary by individual, property, and other factors.",
+  },
+  mission: {
+    eyebrow: "Our mission",
+    title: "Build the future of energy with the customer at the center.",
+    paragraphs: [
+      "Providing an energy audit at no cost is just the starting point of our mission. EZNRG exists to make energy solutions simpler and more aligned with the customer.",
+      "Today, much of the energy industry operates under a zero-sum-game mentality, where sellers and buyers fight over who captures the surplus created by government incentives and subsidies. We believe the only way to scale distributed energy resources sustainably is to start with the customer and work backward into the technology.",
+      "The easiest way to demonstrate our commitment is to begin with an energy audit of past utility bills. Come join us as we build the future of energy.",
+    ],
+    attribution: "— Founding Team",
   },
   how: {
     eyebrow: "01 / How it works",
@@ -79,18 +86,17 @@ export const home = {
   strategy: {
     eyebrow: "03 / Why EZNRG",
     title: "An energy partner.\nAlready on your side.",
-    body: "EZNRG is an energy technology and strategy company. The audit is a practical place to start. For qualified businesses, the next step can be a long-term strategy built around how your site actually uses power.",
+    body: "EZNRG AI, INC. was made to revolutionize how ratepayers interact with energy. That means a provider who acts as a partner that shares upside and protects downside risk.",
     pillars: [
-      { title: "Your broker stays", body: "You don't need to replace a relationship you trust. We work with brokers across the United States to enhance their offerings without disrupting their operations." },
+      { title: "Our Energy Platform", body: "we help coordinate smarter energy decisions among end-users and energy companies with our users at the center with full transparency" },
       { title: "Analysis you can follow", body: "We connect billing information, usage patterns, and energy costs so you can understand our findings and the reasons behind our recommendations." },
-      { title: "A strategy that fits", body: "Long-term partnerships require qualification. We assess your site and back agreed pricing with our own capital. Pricing guarantees apply to these arrangements, with terms agreed individually." },
+      { title: "A strategy that fits", body: "We assess your site and back agreed pricing with our own capital. Pricing guarantees apply to these arrangements, with terms agreed individually." },
     ],
-    note: "An audit does not commit you to ongoing auditing or a long-term energy partnership.",
   },
   services: {
     eyebrow: "04 / Energy services",
     title: "Strategy beyond\nthe bill.",
-    body: "For businesses that want broader support, we connect procurement, market exposure, and site operations into one energy strategy. This service set will continue to expand as the offering is finalized.",
+    body: "We connect procurement, market exposure, and site operations into one energy strategy.",
     items: [
       { index: "01", title: "Procurement", body: "Evaluate supply options and structure a purchasing approach around your operating needs, risk tolerance, and timing." },
       { index: "02", title: "Demand response", body: "Identify where flexible load may create value by responding to grid or market conditions." },
@@ -100,8 +106,13 @@ export const home = {
     ],
     note: "Specific services, eligibility, and commercial terms are defined with each business.",
   },
+  intelligence: {
+    eyebrow: "06 / Intelligence",
+    title: "Intelligence",
+    body: "we market fundamentals and use data to drive smarter deployment strategies.",
+  },
   faq: {
-    eyebrow: "05 / A few good questions",
+    eyebrow: "07 / A few good questions",
     title: "Clear answers.\nBefore you start.",
     items: [
       { question: "What does the audit cost?", answer: "There is no upfront cost. If we recover money, you keep 50% and EZNRG receives 50%. The fee is based on money actually recovered, not simply on errors or eligible refunds identified." },
@@ -114,7 +125,7 @@ export const home = {
     ],
   },
   closing: {
-    eyebrow: "06 / One bill is all it takes to begin",
+    eyebrow: "08 / One bill is all it takes to begin",
     title: "Let us take a look.\nYou get back to business.",
     body: "No upfront cost. You keep 50% of money recovered. Nothing recovered, nothing to pay.",
   },

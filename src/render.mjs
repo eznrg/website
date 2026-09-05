@@ -255,7 +255,7 @@ function form(fields, submitLabel, successMessage, formName, options = {}) {
 }
 
 export function renderHome() {
-  const { hero, evidence, how, after, strategy, services, faq, closing } = home;
+  const { hero, evidence, mission, how, after, strategy, services, intelligence, faq, closing } = home;
   return layout("/", `
     <section class="section audit-hero">
       <div class="container audit-hero-grid">
@@ -264,16 +264,17 @@ export function renderHome() {
           <h1>${hero.title.map((line, i) => `<span${i === 1 ? ' class="mint-text"' : ""}>${escapeHtml(line)}</span>`).join("")}</h1>
           <p class="audit-intro">${escapeHtml(hero.body)}</p>
           <div class="audit-hero-actions">${auditButton("hero")}${buttonLink("#how", hero.secondaryCta, "secondary")}</div>
-          <ul class="audit-reassurances">${hero.reassurances.map(text => `<li>${icon("check")}${escapeHtml(text)}</li>`).join("")}</ul>
         </div>
         <div class="audit-visual"><span class="visual-label">${escapeHtml(evidence.label)}</span>${auditSummary()}</div>
       </div>
     </section>
-    <section class="customer-story" aria-label="Customer experience">
-      <figure class="container customer-quote">
-        <span class="quote-mark" aria-hidden="true">“</span>
-        <blockquote><p>“${escapeHtml(evidence.quote)}.”</p></blockquote><figcaption><strong>${escapeHtml(evidence.customer)}</strong><span>${escapeHtml(evidence.caption)}</span></figcaption>
-      </figure>
+    <section class="mission-story" aria-labelledby="mission-title">
+      <div class="container mission-content">
+        <p class="eyebrow">${escapeHtml(mission.eyebrow)}</p>
+        <h2 id="mission-title">${escapeHtml(mission.title)}</h2>
+        <div class="mission-body">${mission.paragraphs.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join("")}</div>
+        <p class="mission-attribution">${escapeHtml(mission.attribution)}</p>
+      </div>
     </section>
     <section class="section audit-how" id="how">
       <div class="container">
@@ -292,7 +293,6 @@ export function renderHome() {
     <section class="section audit-strategy" id="why-eznrg">
       <div class="container"><div class="audit-section-heading"><div><p class="eyebrow">${escapeHtml(strategy.eyebrow)}</p><h2>${sectionTitle(strategy.title)}</h2></div><p>${escapeHtml(strategy.body)}</p></div>
         <div class="strategy-pillars">${strategy.pillars.map((item,i) => `<article><span class="strategy-icon">${icon(["key","file","spark"][i])}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.body)}</p></article>`).join("")}</div>
-        <p class="strategy-note">${icon("check")}${escapeHtml(strategy.note)}</p>
       </div>
     </section>
     <section class="section energy-services" id="energy-services">
@@ -301,6 +301,9 @@ export function renderHome() {
         <div class="service-grid">${services.items.map(item => `<article><span class="service-number">${escapeHtml(item.index)}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.body)}</p></article>`).join("")}</div>
         <p class="service-note">${escapeHtml(services.note)}</p>
       </div>
+    </section>
+    <section class="section audit-intelligence">
+      <div class="container audit-section-heading"><div><p class="eyebrow">${escapeHtml(intelligence.eyebrow)}</p><h2>${sectionTitle(intelligence.title)}</h2></div><p>${escapeHtml(intelligence.body)}</p></div>
     </section>
     <section class="section audit-faq" id="faq">
       <div class="container faq-grid"><div><p class="eyebrow">${escapeHtml(faq.eyebrow)}</p><h2>${sectionTitle(faq.title)}</h2></div><div class="faq-list">${faq.items.map(item => `<details><summary>${escapeHtml(item.question)}<span aria-hidden="true" class="faq-plus">+</span></summary><p>${escapeHtml(item.answer)}</p></details>`).join("")}</div></div>

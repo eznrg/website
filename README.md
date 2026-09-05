@@ -52,7 +52,7 @@ Unlisted campaign pages and whitepapers remain unchanged and reachable by direct
 link. Their service claims are outside this landing-page revision.
 
 The hospitality testimonial was supplied by the owner with permission for
-anonymous publication. Its $248 figure represents eligible refunds identified,
+anonymous publication. Its $5,000+ figure represents eligible refunds identified,
 not a confirmed recovery. The approximately two hours saved per month describes
 that customer's reporting solution, not a universal audit outcome.
 
