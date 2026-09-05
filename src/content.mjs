@@ -8,6 +8,7 @@ export const site = {
 export const nav = [
   { label: "How it works", href: "/#how" },
   { label: "Why EZNRG", href: "/#why-eznrg" },
+  { label: "Services", href: "/#energy-services" },
   { label: "FAQ", href: "/#faq" },
 ];
 export const legalNav = [
@@ -38,17 +39,9 @@ export const home = {
     secondaryCta: "See how it works",
     reassurances: ["Keep your existing broker", "Ongoing auditing is optional"],
   },
-  coverage: {
-    label: "Auditing businesses across",
-    territories: [
-      { state: "Illinois", utilities: "ComEd & Ameren" },
-      { state: "Indiana", utilities: "NIPSCO" },
-      { state: "Ohio", utilities: "All electric utilities" },
-    ],
-  },
   evidence: {
     label: "A real customer outcome",
-    customer: "Hospitality owner",
+    customer: "Property owner",
     summaryTitle: "A closer look. A clearer bill.",
     refundValue: "$248",
     refundLabel: "in eligible refunds identified",
@@ -56,7 +49,7 @@ export const home = {
     timeLabel: "saved each month on reporting",
     status: "Audit findings",
     note: "One customer's experience. Eligible refunds identified, not a confirmed recovery. Results vary by business.",
-    quote: "Out of all my years in business, I've been pitched energy services many times and nobody has ever made it as simple as they did",
+    quote: "Out of all my years in business, I've been pitched energy services many times and nobody has ever made it as simple as they did. Plus, I get a dashboard if I ever want to sign in, and I get monthly emails reporting on my energy strategy",
     caption: "After a utility bill audit and a solution that reduced manual reporting. Shared anonymously with permission.",
   },
   how: {
@@ -80,7 +73,7 @@ export const home = {
     options: [
       { title: "No upfront cost", body: "We do the audit and pursue eligible refunds. Our fee comes from recoveries, so you don't pay just to find out whether something is wrong." },
       { title: "Continued checks, by choice", body: "Choose Continuous EZNRG Auditing if you want future bills checked too. It is completely optional, with no automatic enrollment and the same 50/50 recovery split." },
-      { title: "Less time on reporting", body: "For the hospitality owner featured above, a reporting solution saved about two hours each month. We look for ways to reduce the energy admin in your business, too." },
+      { title: "Less time on reporting", body: "For the property owner featured above, a reporting solution saved about two hours each month. We look for ways to reduce the energy admin in your business, too." },
     ],
   },
   strategy: {
@@ -94,21 +87,34 @@ export const home = {
     ],
     note: "An audit does not commit you to ongoing auditing or a long-term energy partnership.",
   },
+  services: {
+    eyebrow: "04 / Energy services",
+    title: "Strategy beyond\nthe bill.",
+    body: "For businesses that want broader support, we connect procurement, market exposure, and site operations into one energy strategy. This service set will continue to expand as the offering is finalized.",
+    items: [
+      { index: "01", title: "Procurement", body: "Evaluate supply options and structure a purchasing approach around your operating needs, risk tolerance, and timing." },
+      { index: "02", title: "Demand response", body: "Identify where flexible load may create value by responding to grid or market conditions." },
+      { index: "03", title: "Load shifting", body: "Find practical opportunities to move energy use away from higher-cost periods without disrupting the business." },
+      { index: "04", title: "Laddered procurement", body: "Stage purchases across multiple dates and market conditions instead of concentrating every decision at one moment." },
+      { index: "05", title: "Hedging", body: "Assess tools that can reduce exposure to energy-price volatility while preserving the flexibility the business needs." },
+    ],
+    note: "Specific services, eligibility, and commercial terms are defined with each business.",
+  },
   faq: {
-    eyebrow: "04 / A few good questions",
+    eyebrow: "05 / A few good questions",
     title: "Clear answers.\nBefore you start.",
     items: [
       { question: "What does the audit cost?", answer: "There is no upfront cost. If we recover money, you keep 50% and EZNRG receives 50%. The fee is based on money actually recovered, not simply on errors or eligible refunds identified." },
       { question: "What if you don't recover any money?", answer: "You pay nothing. An audit may find that your bill is correct, and finding an eligible refund does not itself mean a recovery has been completed." },
       { question: "What do I have to do?", answer: "Upload your latest electricity bill to begin. We handle the checking, explain the findings, and manage the recovery process. If we need further information or authorization, we'll explain what's needed." },
       { question: "Which businesses can you audit?", answer: "We audit electricity bills for businesses and property owners served by ComEd or Ameren in Illinois, NIPSCO in Indiana, and all electric utilities in Ohio." },
-      { question: "Can I keep my existing broker?", answer: "Yes. We work alongside existing brokers. We also work with brokers across the United States to enhance their offerings without disrupting their operations; our current audit service territories are listed above." },
+      { question: "Can I keep my existing broker?", answer: "Yes. We work alongside existing brokers. We also work with brokers across the United States to enhance their offerings without disrupting their operations. Current audit eligibility is covered in the service-territory answer above." },
       { question: "Am I signing up for ongoing auditing?", answer: "No. The initial audit stands on its own. Continuous EZNRG Auditing is completely optional, with no automatic enrollment. If you choose it, future recoveries follow the same 50/50 split." },
       { question: "Is the audit the same as your energy-strategy service?", answer: "No. The audit checks your bills and pursues eligible refunds. A long-term energy partnership is a separate, optional next step for qualified businesses. Pricing guarantees belong to those arrangements, with terms agreed individually; they do not promise that every audit produces a refund." },
     ],
   },
   closing: {
-    eyebrow: "One bill is all it takes to begin",
+    eyebrow: "06 / One bill is all it takes to begin",
     title: "Let us take a look.\nYou get back to business.",
     body: "No upfront cost. You keep 50% of money recovered. Nothing recovered, nothing to pay.",
   },
