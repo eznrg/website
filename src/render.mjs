@@ -255,7 +255,7 @@ function form(fields, submitLabel, successMessage, formName, options = {}) {
 }
 
 export function renderHome() {
-  const { hero, evidence, coverage, how, after, strategy, faq, closing } = home;
+  const { hero, evidence, how, after, strategy, services, faq, closing } = home;
   return layout("/", `
     <section class="section audit-hero">
       <div class="container audit-hero-grid">
@@ -268,7 +268,6 @@ export function renderHome() {
         </div>
         <div class="audit-visual"><span class="visual-label">${escapeHtml(evidence.label)}</span>${auditSummary()}</div>
       </div>
-      <div class="container coverage-strip"><p>${escapeHtml(coverage.label)}</p><ul>${coverage.territories.map(t => `<li><strong>${escapeHtml(t.state)}</strong><span>${escapeHtml(t.utilities)}</span></li>`).join("")}</ul></div>
     </section>
     <section class="customer-story" aria-label="Customer experience">
       <figure class="container customer-quote">
@@ -294,6 +293,13 @@ export function renderHome() {
       <div class="container"><div class="audit-section-heading"><div><p class="eyebrow">${escapeHtml(strategy.eyebrow)}</p><h2>${sectionTitle(strategy.title)}</h2></div><p>${escapeHtml(strategy.body)}</p></div>
         <div class="strategy-pillars">${strategy.pillars.map((item,i) => `<article><span class="strategy-icon">${icon(["key","file","spark"][i])}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.body)}</p></article>`).join("")}</div>
         <p class="strategy-note">${icon("check")}${escapeHtml(strategy.note)}</p>
+      </div>
+    </section>
+    <section class="section energy-services" id="energy-services">
+      <div class="container">
+        <div class="audit-section-heading"><div><p class="eyebrow">${escapeHtml(services.eyebrow)}</p><h2>${sectionTitle(services.title)}</h2></div><p>${escapeHtml(services.body)}</p></div>
+        <div class="service-grid">${services.items.map(item => `<article><span class="service-number">${escapeHtml(item.index)}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.body)}</p></article>`).join("")}</div>
+        <p class="service-note">${escapeHtml(services.note)}</p>
       </div>
     </section>
     <section class="section audit-faq" id="faq">
