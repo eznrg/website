@@ -3,454 +3,389 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <!-- Unlisted landing page: keep OUT of search results. Do not remove. -->
   <meta name="robots" content="noindex">
-
   <title>EZ NRG for Hospitality</title>
-  <meta name="description" content="Customer-first energy strategy for hospitality operators.">
+  <meta name="description" content="A high-level energy strategy for hotels: understand the load, protect the guest experience, and make better energy decisions.">
   <link rel="icon" href="/logo-mark.svg" type="image/svg+xml">
-
-  <!--
-    Business-channel links. Replace the two href values below with the real
-    Telegram and WhatsApp channel URLs. They are the only things to change here.
-    TELEGRAM_CHANNEL_URL  -> the Telegram <a> href in the channels section
-    WHATSAPP_CHANNEL_URL  -> the WhatsApp <a> href in the channels section
-  -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&family=Inter:wght@400;700;800&family=IBM+Plex+Mono:wght@600&display=swap" rel="stylesheet">
-
-  <!-- Shared with the other standalone pages under static/. tokens.css must
-       come first: theme.css consumes its custom properties. -->
   <link rel="stylesheet" href="/static/tokens.css">
   <link rel="stylesheet" href="/static/theme.css">
 
   <style>
-    /*
-      Page-specific styles for the hospitality landing page.
+    html { scroll-behavior: smooth; }
 
-      The palette, base typography, header, buttons, hero, cards, channels,
-      footer, and reveal animation all live in the shared /static/theme.css.
-      What stays here is only what this page alone uses: the hero stat band,
-      the load-shape explainer, the load-profile charts, the sequence steps,
-      and the white-paper CTA.
-    */
-
-    /* Stat band --------------------------------------------------- */
-    .stat-band {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 64px;
-      padding-top: 40px;
-      border-top: 1px solid var(--border);
+    /* Hero -------------------------------------------------------- */
+    .hospitality-hero {
+      position: relative;
+      isolation: isolate;
+      padding-top: clamp(88px, 12vw, 144px);
+      padding-bottom: clamp(80px, 10vw, 120px);
+      overflow: hidden;
     }
-    .stat-item .stat-icon {
-      display: grid;
-      width: 34px;
-      height: 34px;
-      margin-bottom: 16px;
-      place-items: center;
-      color: var(--primary);
-      background: rgba(139, 216, 166, 0.1);
-      border: 1px solid rgba(139, 216, 166, 0.22);
-      border-radius: 9px;
-    }
-    .stat-item .stat-icon .ic { width: 17px; height: 17px; }
-    .stat-value {
-      margin: 0 0 6px;
-      font-family: var(--font-mono);
-      font-size: clamp(1.7rem, 3.2vw, 2.2rem);
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
-    }
-    .stat-label { margin: 0; max-width: 24ch; color: var(--muted); font-size: 0.9rem; line-height: 1.45; }
-    .stat-source {
-      margin: 26px 0 0;
-      color: var(--muted);
-      font-size: 0.82rem;
-      opacity: 0.85;
-    }
-    .stat-source a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
-
-    /* Load-shape explainer ---------------------------------------- */
-    .shape-section { border-top: 1px solid var(--border); }
-    .shape-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-      gap: 40px;
-      align-items: center;
-    }
-    .shape-figure { margin: 0; }
-    /* Load-profile chart ------------------------------------------- */
-    .viz {
-      --viz-surface: #151917;
-      --viz-grid: #262c28;
-      --viz-ink: #f4f1ea;
-      --viz-ink-2: #9aa39c;
-      --viz-sum: #46a26d;
-      --viz-win: #8f83e8;
-      margin: 0;
-      padding: 16px 20px 10px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: var(--viz-surface);
-    }
-    /* Inside a card that already draws the surface, the chart brings no chrome
-       of its own — but keeps --viz-surface so marker rings punch out cleanly. */
-    .viz-bare { padding: 0; border: 0; background: none; }
-    .viz-head {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 6px 18px;
-      margin-bottom: 14px;
-    }
-    .viz-title {
-      margin: 0 !important;
-      max-width: none !important;
-      color: var(--viz-ink) !important;
-      font-family: var(--font-display);
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-    }
-    .viz-sub {
-      margin: 2px 0 0 !important;
-      max-width: none !important;
-      color: var(--viz-ink-2) !important;
-      font-size: 0.74rem;
-      line-height: 1.4;
-    }
-    .viz-legend {
-      display: flex;
-      gap: 16px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      color: var(--viz-ink-2);
-      font-size: 0.74rem;
-    }
-    .viz-legend li { display: flex; align-items: center; gap: 7px; }
-    .viz-key {
-      display: inline-block;
-      flex: none;
-      width: 15px;
-      height: 2px;
-      border-radius: 1px;
-      background: currentColor;
-    }
-    .s-sum { color: var(--viz-sum); }
-    .s-win { color: var(--viz-win); }
-
-    .viz-body {
-      display: grid;
-      grid-template-columns: 30px minmax(0, 1fr);
-      grid-template-areas: "yaxis plot" ". xaxis" ". xtitle";
-      column-gap: 8px;
-    }
-    .viz-yaxis { grid-area: yaxis; position: relative; }
-    .viz-yt {
+    .hospitality-hero::after {
       position: absolute;
-      right: 0;
-      transform: translateY(-50%);
-      color: var(--viz-ink-2);
+      z-index: -1;
+      top: 50%;
+      right: max(20px, calc((100vw - var(--max)) / 2));
+      content: "24/7";
+      transform: translateY(-52%);
+      color: var(--primary);
       font-family: var(--font-mono);
-      font-size: 0.66rem;
-      font-variant-numeric: tabular-nums;
+      font-size: clamp(8rem, 19vw, 17rem);
+      font-weight: 600;
+      letter-spacing: -0.08em;
+      line-height: 0.8;
+      opacity: 0.045;
+      pointer-events: none;
       white-space: nowrap;
     }
-    .viz-plot {
-      grid-area: plot;
+    .hospitality-hero h1 {
+      max-width: 14ch;
+      margin-bottom: 26px;
+      font-size: clamp(3rem, 7vw, 5.8rem);
+      letter-spacing: -0.045em;
+      line-height: 0.96;
+    }
+    .hospitality-hero .hero-body {
+      max-width: 670px;
+      margin-bottom: 32px;
+      font-size: clamp(1.08rem, 2vw, 1.28rem);
+      line-height: 1.65;
+    }
+    .hospitality-hero .hero-body strong { color: var(--text); font-weight: 700; }
+
+    /* Why hotels are different ----------------------------------- */
+    .difference-section { border-top: 1px solid var(--border); }
+    .difference-intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+      gap: 56px;
+      align-items: end;
+      margin-bottom: 38px;
+    }
+    .difference-intro .section-heading { margin-bottom: 0; }
+    .difference-context {
+      margin: 0;
+      padding: 0 0 4px 22px;
+      border-left: 1px solid rgba(139, 216, 166, 0.35);
+      color: var(--muted);
+      font-size: 0.96rem;
+      line-height: 1.65;
+    }
+    .difference-context strong { color: var(--primary); font-family: var(--font-mono); }
+    .difference-source {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.72rem;
+      line-height: 1.5;
+    }
+    .difference-source a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
+    .difference-grid .info-card { min-height: 220px; }
+    .difference-grid .info-card p { line-height: 1.65; }
+
+    /* Evidence teaser -------------------------------------------- */
+    .evidence-section {
+      border-top: 1px solid var(--border);
+      background: rgba(7, 12, 9, 0.18);
+    }
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1.25fr);
+      gap: clamp(42px, 7vw, 86px);
+      align-items: center;
+    }
+    .evidence-copy h2 {
+      margin-bottom: 20px;
+      font-size: clamp(2.2rem, 4.5vw, 3.7rem);
+    }
+    .evidence-copy > p:not(.eyebrow) {
+      margin-bottom: 20px;
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.7;
+    }
+    .evidence-result {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin: 30px 0 22px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .evidence-result strong {
+      flex: none;
+      color: var(--primary);
+      font-family: var(--font-mono);
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 600;
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+    .evidence-result span {
+      max-width: 18ch;
+      color: var(--text);
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .text-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+      font-family: var(--font-display);
+      font-size: 0.94rem;
+      font-weight: 600;
+    }
+    .text-link .ic { width: 16px; height: 16px; transition: transform 180ms ease; }
+    .text-link:hover .ic, .text-link:focus-visible .ic { transform: translateX(3px); }
+
+    .load-figure { margin: 0; }
+    .load-card {
+      padding: clamp(22px, 4vw, 34px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(145deg, rgba(139, 216, 166, 0.06), transparent 42%),
+        #151917;
+      box-shadow: 0 26px 76px rgba(0, 0, 0, 0.3);
+    }
+    .load-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px 24px;
+      margin-bottom: 28px;
+    }
+    .load-kicker {
+      margin: 0 0 5px;
+      color: var(--primary);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+    .load-title {
+      margin: 0;
+      color: var(--text);
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .load-legend {
+      display: flex;
+      gap: 16px;
+      margin: 1px 0 0;
+      padding: 0;
+      list-style: none;
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+    .load-legend li { display: flex; align-items: center; gap: 7px; }
+    .load-key { width: 16px; height: 2px; border-radius: 2px; }
+    .load-key-summer { background: #46a26d; }
+    .load-key-winter { background: #8f83e8; }
+    .load-plot {
       position: relative;
-      height: clamp(170px, 26vw, 230px);
-      outline: none;
+      height: clamp(210px, 31vw, 290px);
+      border-bottom: 1px solid #343a36;
+      background-image: linear-gradient(to bottom, #262c28 1px, transparent 1px);
+      background-size: 100% 33.333%;
     }
-    .viz-plot:focus-visible {
-      outline: 2px solid var(--primary);
-      outline-offset: 6px;
-      border-radius: 3px;
-    }
-    /* Hairline gridlines, solid, one step off the surface. */
-    .viz-gl {
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: var(--viz-grid);
-    }
-    .viz-svg {
+    .load-plot svg {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       overflow: visible;
-      pointer-events: none;
     }
-    .viz-line {
+    .load-line {
       fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
+      stroke-width: 2.5;
       stroke-linecap: round;
       stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
     }
-
-    /* Direct labels — one per series, on its own peak. The marker sits exactly
-       on the data point; the value rides beside it. */
-    .viz-peak { position: absolute; width: 0; height: 0; pointer-events: none; }
-    .viz-peak-dot {
-      position: absolute;
-      left: -4.5px;
-      top: -4.5px;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: currentColor;
-      box-shadow: 0 0 0 2px var(--viz-surface);
-    }
-    .viz-peak-t {
-      position: absolute;
-      left: 10px;
-      top: -19px;
-      color: var(--viz-ink);
-      font-family: var(--font-mono);
-      font-size: 0.66rem;
-      white-space: nowrap;
-      /* keeps the value legible where it passes over a line */
-      text-shadow: 0 0 5px var(--viz-surface), 0 0 3px var(--viz-surface);
-    }
-    .viz-peak.is-below .viz-peak-t { top: 6px; }
-    .viz-peak.is-left .viz-peak-t { left: auto; right: 10px; }
-    .viz-peak-t b { font-weight: 600; }
-
-    /* Hover / focus layer */
-    .viz-cross {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      margin-left: -0.5px;
-      background: rgba(244, 241, 234, 0.28);
-      pointer-events: none;
-    }
-    .viz-dot {
-      position: absolute;
-      width: 9px;
-      height: 9px;
-      margin: -4.5px 0 0 -4.5px;
-      border-radius: 50%;
-      background: currentColor;
-      box-shadow: 0 0 0 2px var(--viz-surface);
-      pointer-events: none;
-    }
-    .viz-tip {
-      position: absolute;
-      z-index: 2;
-      min-width: 132px;
-      padding: 8px 10px 7px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--surface-2);
-      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
-      pointer-events: none;
-    }
-    .viz-tip p { margin: 0 !important; max-width: none !important; }
-    .viz-tip-h {
-      margin-bottom: 5px !important;
-      color: var(--viz-ink-2) !important;
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .viz-tip-r {
+    .load-line-summer { stroke: #46a26d; }
+    .load-line-winter { stroke: #8f83e8; }
+    .load-dot { vector-effect: non-scaling-stroke; stroke: #151917; stroke-width: 5; }
+    .load-hours {
       display: flex;
-      align-items: center;
-      gap: 7px;
-      color: var(--viz-ink) !important;
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      line-height: 1.55;
-    }
-    .viz-tip-r b { font-weight: 600; font-variant-numeric: tabular-nums; }
-    .viz-tip-r em {
-      margin-left: auto;
-      padding-left: 10px;
-      color: var(--viz-ink-2);
-      font-size: 0.68rem;
-      font-style: normal;
-    }
-    .viz-tip-d {
-      margin-top: 4px !important;
-      padding-top: 4px;
-      border-top: 1px solid var(--border);
-      color: var(--viz-ink-2) !important;
-      font-family: var(--font-mono);
-      font-size: 0.66rem;
-    }
-
-    .viz-xaxis { grid-area: xaxis; position: relative; height: 16px; }
-    .viz-xt {
-      position: absolute;
-      top: 4px;
-      transform: translateX(-50%);
-      color: var(--viz-ink-2);
-      font-family: var(--font-mono);
-      font-size: 0.66rem;
-      font-variant-numeric: tabular-nums;
-    }
-    .viz-xtitle {
-      grid-area: xtitle;
-      margin: 2px 0 0 !important;
-      max-width: none !important;
-      color: var(--viz-ink-2) !important;
-      font-size: 0.66rem;
-      text-align: center;
-    }
-
-    /* Table view — every value stays reachable without hovering. */
-    .viz-data { margin-top: 10px; border-top: 1px solid var(--border); }
-    .viz-data > summary {
-      padding: 8px 2px 2px;
-      color: var(--viz-ink-2);
-      cursor: pointer;
-      font-size: 0.72rem;
-      list-style-position: inside;
-    }
-    .viz-data > summary:hover { color: var(--viz-ink); }
-    .viz-data-wrap { max-height: 290px; overflow: auto; margin-bottom: 8px; }
-    .viz-data table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-variant-numeric: tabular-nums;
-    }
-    .viz-data th, .viz-data td {
-      padding: 4px 8px;
-      border-bottom: 1px solid rgba(43, 49, 45, 0.55);
-      text-align: right;
-    }
-    .viz-data th:first-child, .viz-data td:first-child { text-align: left; }
-    .viz-data thead th {
-      position: sticky;
-      top: 0;
-      background: var(--viz-surface);
-      color: var(--viz-ink-2);
-      font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .viz-data td { color: var(--viz-ink-2); }
-    .viz-data td:first-child { color: var(--viz-ink); }
-
-    @media (max-width: 560px) {
-      .viz { padding: 14px 14px 8px; }
-      .viz-xt.is-dense { display: none; }
-      .viz-body { grid-template-columns: 26px minmax(0, 1fr); }
-    }
-    .shape-figure figcaption {
-      margin-top: 12px;
+      justify-content: space-between;
+      margin-top: 9px;
       color: var(--muted);
-      font-size: 0.84rem;
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+    }
+    .load-note {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin: 24px 0 0;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.78rem;
       line-height: 1.5;
     }
-    .shape-copy p { color: var(--muted); margin-bottom: 18px; }
-    .shape-copy p strong { color: var(--text); font-weight: 700; }
-    .shape-copy p:last-child { margin-bottom: 0; }
+    .load-note strong { color: var(--text); }
+    .load-figure figcaption {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
 
-    /* Sequence steps ---------------------------------------------- */
-    .steps {
+    /* Five-step strategy ----------------------------------------- */
+    .strategy-section { border-top: 1px solid var(--border); }
+    .strategy-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 28px;
+      margin-bottom: 36px;
+    }
+    .strategy-heading .section-heading { margin-bottom: 0; }
+    .strategy-principle {
+      max-width: 39ch;
+      margin: 0 0 3px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+    .strategy-steps {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 14px;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      list-style: none;
     }
-    .step {
-      padding: 24px 22px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: rgba(23, 27, 25, 0.62);
+    .strategy-step {
+      position: relative;
+      padding: 26px 20px 28px;
+      border-left: 1px solid var(--border);
     }
-    .step-n {
-      margin: 0 0 16px;
-      color: rgba(139, 216, 166, 0.6);
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-    }
-    .step .card-icon { width: 36px; height: 36px; margin-bottom: 16px; }
-    .step .card-icon svg { width: 18px; height: 18px; }
-    .step h3 { margin-bottom: 8px; font-size: 1.05rem; }
-    .step p { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
-
-    /* White-paper CTA --------------------------------------------- */
-    .paper-section { border-top: 1px solid var(--border); }
-    .paper-card {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 36px;
-      align-items: center;
-      padding: 44px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background:
-        linear-gradient(145deg, rgba(139, 216, 166, 0.08), transparent 44%),
-        rgba(23, 27, 25, 0.82);
-      box-shadow: 0 26px 76px rgba(0, 0, 0, 0.28);
-    }
-    .paper-card h2 { margin-bottom: 14px; font-size: clamp(1.7rem, 3.2vw, 2.4rem); }
-    .paper-card > div > p { margin: 0 0 8px; color: var(--muted); font-size: 1.02rem; max-width: 60ch; }
-    .paper-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 18px;
-      margin-top: 20px !important;
-      color: var(--muted);
+    .strategy-step:first-child { border-left: 0; }
+    .strategy-number {
+      display: block;
+      margin-bottom: 14px;
+      color: rgba(139, 216, 166, 0.62);
       font-family: var(--font-mono);
       font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.12em;
-      text-transform: uppercase;
+    }
+    .strategy-step strong {
+      display: block;
+      margin-bottom: 7px;
+      font-family: var(--font-display);
+      font-size: 1.03rem;
+    }
+    .strategy-step span:last-child {
+      display: block;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.5;
     }
 
-    /* Responsive overrides for this page's own sections. The shared
-       breakpoints for .card-grid, .channel-grid, .section, .container,
-       .header-tag, .hero-actions and .button live in /static/theme.css. */
-    @media (max-width: 1000px) {
-      .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .shape-grid { grid-template-columns: 1fr; gap: 30px; }
-      .paper-card { grid-template-columns: 1fr; gap: 26px; padding: 34px; }
+    /* White-paper close ------------------------------------------ */
+    .paper-section { padding-top: 38px; border-top: 1px solid var(--border); }
+    .paper-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 44px;
+      align-items: center;
+      padding: clamp(32px, 6vw, 58px);
+      border: 1px solid rgba(139, 216, 166, 0.24);
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(circle at 95% 20%, rgba(139, 216, 166, 0.13), transparent 32%),
+        linear-gradient(145deg, rgba(139, 216, 166, 0.08), transparent 46%),
+        rgba(23, 27, 25, 0.86);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.3);
     }
+    .paper-card h2 { margin-bottom: 14px; font-size: clamp(2rem, 4vw, 3.2rem); }
+    .paper-description {
+      max-width: 62ch;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.65;
+    }
+    .paper-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin: 0;
+      padding: 0;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      list-style: none;
+      text-transform: uppercase;
+    }
+    .paper-meta li { display: flex; align-items: center; gap: 8px; }
+    .paper-meta li::before {
+      width: 4px;
+      height: 4px;
+      content: "";
+      background: var(--primary);
+      border-radius: 50%;
+    }
+    .paper-actions { display: flex; flex-direction: column; gap: 12px; }
+
+    /* Add the live Telegram channel link here as a secondary .button when it
+       is ready. Until then, no placeholder or disabled action is rendered. */
+
     @media (max-width: 900px) {
-      .stat-band { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; }
+      .difference-intro, .evidence-grid { grid-template-columns: 1fr; }
+      .difference-intro { gap: 24px; }
+      .evidence-grid { gap: 42px; }
+      .strategy-heading { display: block; }
+      .strategy-principle { margin-top: 20px; }
+      .strategy-steps { grid-template-columns: repeat(5, minmax(142px, 1fr)); overflow-x: auto; }
+      .paper-card { grid-template-columns: 1fr; gap: 28px; }
+      .paper-actions { align-items: flex-start; }
     }
     @media (max-width: 640px) {
-      .steps { grid-template-columns: 1fr; }
-      .stat-band { grid-template-columns: 1fr; }
-      .paper-card { padding: 26px 22px; }
+      .hospitality-hero::after { top: 21%; right: 12px; font-size: 8.5rem; }
+      .hospitality-hero h1 { font-size: clamp(2.7rem, 13vw, 4rem); }
+      .difference-context { padding-left: 18px; }
+      .load-card { padding: 20px 16px; }
+      .load-plot { height: 210px; }
+      .load-note { display: grid; gap: 8px; }
+      .strategy-steps { grid-template-columns: 1fr; overflow: visible; }
+      .strategy-step {
+        display: grid;
+        grid-template-columns: 42px 100px 1fr;
+        gap: 12px;
+        align-items: baseline;
+        padding: 18px 4px;
+        border-left: 0;
+        border-top: 1px solid var(--border);
+      }
+      .strategy-step:first-child { border-top: 0; }
+      .strategy-number, .strategy-step strong { margin: 0; }
+      .paper-actions, .paper-actions .button { width: 100%; }
     }
   </style>
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <defs>
-      <symbol id="i-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></symbol>
-      <symbol id="i-brain" viewBox="0 0 24 24"><path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></symbol>
-      <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/></symbol>
-      <symbol id="i-dollar" viewBox="0 0 24 24"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></symbol>
-      <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></symbol>
-      <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
-      <symbol id="i-thermometer" viewBox="0 0 24 24"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></symbol>
-      <symbol id="i-percent" viewBox="0 0 24 24"><line x1="19" x2="5" y1="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
-      <symbol id="i-trending-up" viewBox="0 0 24 24"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></symbol>
       <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
       <symbol id="i-building" viewBox="0 0 24 24"><path d="M12 16h.01"/><path d="M16 16h.01"/><path d="M3 19a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5a.5.5 0 0 0-.769-.422l-4.462 2.844A.5.5 0 0 1 15 10.5v-2a.5.5 0 0 0-.769-.422L9.77 10.922A.5.5 0 0 1 9 10.5V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/><path d="M8 16h.01"/></symbol>
+      <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
       <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
     </defs>
   </svg>
@@ -466,313 +401,141 @@
   </header>
 
   <main id="main">
-    <!-- Hero -->
-    <section class="section hero">
+    <section class="hospitality-hero hero">
       <div class="container reveal">
         <p class="eyebrow">Hospitality energy strategy</p>
-        <h1>Your hotel is already a grid asset.</h1>
+        <h1>A hotel is a distinct energy system.</h1>
         <p class="hero-body">
-          A hotel is not an office building with beds — it is a 24/7 service factory that
-          converts energy into hot showers, clean linens, and comfort. The goal is not simply
-          to use less energy. It is to use the right energy, at the right time, in ways guests
-          never notice. We turn your property's load shape into a lower, more predictable
-          cost basis.
+          A hotel is not an office building with beds. It is a 24/7 service factory that
+          turns energy into hot showers, clean linens, comfortable rooms, and time together.
+          A durable strategy is not simply about using less. It is about using the
+          <strong>right energy, at the right time, in ways guests never notice.</strong>
         </p>
         <div class="hero-actions">
           <a class="button button-primary" href="/hospitality/whitepaper">Read the white paper
             <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>
           </a>
-          <a class="button button-secondary" href="#channels">Join our operator channels</a>
         </div>
-
-        <!-- Headline figures, all sourced from the white paper -->
-        <div class="stat-band">
-          <div class="stat-item">
-            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-activity"/></svg></span>
-            <p class="stat-value">5.1x</p>
-            <p class="stat-label">Peak-to-average ratio on a metered property</p>
-          </div>
-          <div class="stat-item">
-            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-thermometer"/></svg></span>
-            <p class="stat-value">2.5x+</p>
-            <p class="stat-label">Winter peak vs. summer peak demand</p>
-          </div>
-          <div class="stat-item">
-            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-percent"/></svg></span>
-            <p class="stat-value">21.7%</p>
-            <p class="stat-label">Utilities as a share of GOP, 2025</p>
-          </div>
-          <div class="stat-item">
-            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-trending-up"/></svg></span>
-            <p class="stat-value">$625K</p>
-            <p class="stat-label">Asset value per $50K of annual savings</p>
-          </div>
-        </div>
-        <p class="stat-source">
-          Figures drawn from metered ComEd-territory lodging properties and one Chicago-area
-          operator's financials. <a href="/hospitality/whitepaper">See the full white paper</a>
-          for methodology, assumptions, and sources.
-        </p>
       </div>
     </section>
 
-    <!-- Why hotels are different -->
-    <section class="section">
+    <section class="section difference-section">
       <div class="container">
-        <div class="section-heading reveal">
-          <p class="eyebrow">Why hotels are different</p>
-          <h2>A hotel is a distinct energy system.</h2>
-          <p>Lodging is 3% of U.S. commercial buildings but 9% of fuels consumption — and water
-             heating and space heating alone account for almost 40% of that usage. The load
-             behaves unlike any other commercial property.</p>
+        <div class="difference-intro">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Why hotels are different</p>
+            <h2>Energy is part of the guest experience.</h2>
+          </div>
+          <p class="difference-context reveal">
+            U.S. lodging represents just <strong>3%</strong> of commercial buildings but
+            <strong>9%</strong> of fuels consumption. Water heating and space heating alone
+            account for nearly <strong>40%</strong> of hotel energy use.
+            <span class="difference-source">Sources: U.S. DOE Better Buildings and EIA 2018 CBECS. <a href="/hospitality/whitepaper#sources">See citations 1–2.</a></span>
+          </p>
         </div>
-        <div class="card-grid">
+
+        <div class="card-grid difference-grid">
           <article class="info-card reveal">
             <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-building"/></svg></span>
             <h3>Energy is a product input</h3>
-            <p>Your property converts energy into a continuous guest experience — conditioned
-               rooms, hot water, laundry, food service, amenity availability. That makes energy
-               a cost center and an input to the product at the same time.</p>
+            <p>Conditioned rooms, hot water, laundry, food service, and amenities all turn energy into the experience a guest buys.</p>
           </article>
           <article class="info-card reveal">
-            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-thermometer"/></svg></span>
-            <h3>Occupancy alone doesn't explain it</h3>
-            <p>Load is driven by occupancy, weather, and service intensity together. Two nights
-               with the same room count can produce very different energy outcomes depending on
-               temperature, events, and laundry timing.</p>
+            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-activity"/></svg></span>
+            <h3>Occupancy is not the whole story</h3>
+            <p>Weather, service intensity, equipment schedules, and operating choices can make two equally occupied nights look entirely different.</p>
           </article>
           <article class="info-card reveal">
             <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-database"/></svg></span>
             <h3>The monthly bill hides the answer</h3>
-            <p>A bill shows how much you consumed — not when you created cost, where you had
-               flexibility, or which subsystem drove the deviation. Interval data, weather, and
-               occupancy context are what make those questions answerable.</p>
+            <p>A bill shows how much was used—not when cost was created, where flexibility exists, or which system drove the change.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Load shape explainer -->
-    <section class="section shape-section">
-      <div class="container">
-        <div class="section-heading reveal">
-          <p class="eyebrow">The load shape is the asset</p>
-          <h2>Your peaks don't line up with the grid's.</h2>
-          <p>Across four metered ComEd-territory properties, every meter set its annual peak in
-             January — and every peak landed in a morning or evening ramp hour. None peaked on a
-             summer afternoon.</p>
-        </div>
-        <div class="shape-grid reveal">
-          <figure class="shape-figure">
-            <div class="viz" id="viz-lp-780">
-              <div class="viz-head">
-                <div>
-                  <p class="viz-title">Customer 1 · Meter 780</p>
-                  <p class="viz-sub">Average load (kW) by hour of day — summer days vs. winter days</p>
-                </div>
-                <ul class="viz-legend">
-                  <li><span class="viz-key s-sum"></span>Summer</li>
-                  <li><span class="viz-key s-win"></span>Winter</li>
-                </ul>
-              </div>
-              <div class="viz-body">
-                <div class="viz-yaxis">
-                  <span class="viz-yt" style="top:100.00%">5</span>
-                  <span class="viz-yt" style="top:66.67%">10</span>
-                  <span class="viz-yt" style="top:33.33%">15</span>
-                  <span class="viz-yt" style="top:0.00%">20</span>
-                </div>
-                <div class="viz-plot" tabindex="0" role="img" data-viz="{&quot;lo&quot;:5,&quot;hi&quot;:20,&quot;s&quot;:[10.6,9.9,9.2,8.6,8.2,7.8,7.8,8.8,9.8,11,11.6,11.7,12,11.9,12.2,12.9,13.8,14.5,14.3,13.5,12.8,12.6,12.4,11.4],&quot;w&quot;:[18.5,18.4,18.5,18.6,18.7,19.2,19.8,19.8,18.9,18.3,18,17.7,17.3,16.8,16.4,16.6,17.3,18.4,19.1,19.4,19.5,19.4,19.2,18.9]}"
-                     aria-label="Line chart: average hourly load in kW for a metered lodging property, summer days versus winter days. Winter load runs higher all day and peaks in the evening ramp. Use the arrow keys to read each hour; the full table is below the chart.">
-                  <span class="viz-gl" style="top:100.00%"></span>
-                  <span class="viz-gl" style="top:66.67%"></span>
-                  <span class="viz-gl" style="top:33.33%"></span>
-                  <span class="viz-gl" style="top:0.00%"></span>
-                  <svg class="viz-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-                    <path class="viz-line s-sum" d="M0.0 626.7 L43.5 673.3 L87.0 720.0 L130.4 760.0 L173.9 786.7 L217.4 813.3 L260.9 813.3 L304.3 746.7 L347.8 680.0 L391.3 600.0 L434.8 560.0 L478.3 553.3 L521.7 533.3 L565.2 540.0 L608.7 520.0 L652.2 473.3 L695.7 413.3 L739.1 366.7 L782.6 380.0 L826.1 433.3 L869.6 480.0 L913.0 493.3 L956.5 506.7 L1000.0 573.3" vector-effect="non-scaling-stroke"/>
-                    <path class="viz-line s-win" d="M0.0 100.0 L43.5 106.7 L87.0 100.0 L130.4 93.3 L173.9 86.7 L217.4 53.3 L260.9 13.3 L304.3 13.3 L347.8 73.3 L391.3 113.3 L434.8 133.3 L478.3 153.3 L521.7 180.0 L565.2 213.3 L608.7 240.0 L652.2 226.7 L695.7 180.0 L739.1 106.7 L782.6 60.0 L826.1 40.0 L869.6 33.3 L913.0 40.0 L956.5 53.3 L1000.0 73.3" vector-effect="non-scaling-stroke"/>
-                  </svg>
-                  <span class="viz-peak s-sum is-left" style="left:73.91%;top:36.67%"><i class="viz-peak-dot"></i><span class="viz-peak-t"><b>14.5</b> kW</span></span>
-                  <span class="viz-peak s-win is-below" style="left:26.09%;top:1.33%"><i class="viz-peak-dot"></i><span class="viz-peak-t"><b>19.8</b> kW</span></span>
-                  <span class="viz-cross" hidden></span>
-                  <span class="viz-dot s-sum" hidden></span>
-                  <span class="viz-dot s-win" hidden></span>
-                  <div class="viz-tip" role="status" aria-live="polite" hidden>
-                    <p class="viz-tip-h"></p>
-                    <p class="viz-tip-r"><span class="viz-key s-sum"></span><b></b> kW<em>Summer</em></p>
-                    <p class="viz-tip-r"><span class="viz-key s-win"></span><b></b> kW<em>Winter</em></p>
-                    <p class="viz-tip-d"></p>
-                  </div>
-                </div>
-                <div class="viz-xaxis">
-                  <span class="viz-xt" style="left:0.00%">0</span>
-                  <span class="viz-xt is-dense" style="left:13.04%">3</span>
-                  <span class="viz-xt" style="left:26.09%">6</span>
-                  <span class="viz-xt is-dense" style="left:39.13%">9</span>
-                  <span class="viz-xt" style="left:52.17%">12</span>
-                  <span class="viz-xt is-dense" style="left:65.22%">15</span>
-                  <span class="viz-xt" style="left:78.26%">18</span>
-                  <span class="viz-xt is-dense" style="left:91.30%">21</span>
-                </div>
-                <p class="viz-xtitle">Hour of day</p>
-              </div>
-              <details class="viz-data">
-                <summary>View data table</summary>
-                <div class="viz-data-wrap">
-                  <table>
-                    <thead><tr><th>Hour</th><th>Summer</th><th>Winter</th><th>Δ</th></tr></thead>
-                    <tbody>
-                      <tr><td>00:00</td><td>10.6</td><td>18.5</td><td>+7.9</td></tr>
-                      <tr><td>01:00</td><td>9.9</td><td>18.4</td><td>+8.5</td></tr>
-                      <tr><td>02:00</td><td>9.2</td><td>18.5</td><td>+9.3</td></tr>
-                      <tr><td>03:00</td><td>8.6</td><td>18.6</td><td>+10.0</td></tr>
-                      <tr><td>04:00</td><td>8.2</td><td>18.7</td><td>+10.5</td></tr>
-                      <tr><td>05:00</td><td>7.8</td><td>19.2</td><td>+11.4</td></tr>
-                      <tr><td>06:00</td><td>7.8</td><td>19.8</td><td>+12.0</td></tr>
-                      <tr><td>07:00</td><td>8.8</td><td>19.8</td><td>+11.0</td></tr>
-                      <tr><td>08:00</td><td>9.8</td><td>18.9</td><td>+9.1</td></tr>
-                      <tr><td>09:00</td><td>11.0</td><td>18.3</td><td>+7.3</td></tr>
-                      <tr><td>10:00</td><td>11.6</td><td>18.0</td><td>+6.4</td></tr>
-                      <tr><td>11:00</td><td>11.7</td><td>17.7</td><td>+6.0</td></tr>
-                      <tr><td>12:00</td><td>12.0</td><td>17.3</td><td>+5.3</td></tr>
-                      <tr><td>13:00</td><td>11.9</td><td>16.8</td><td>+4.9</td></tr>
-                      <tr><td>14:00</td><td>12.2</td><td>16.4</td><td>+4.2</td></tr>
-                      <tr><td>15:00</td><td>12.9</td><td>16.6</td><td>+3.7</td></tr>
-                      <tr><td>16:00</td><td>13.8</td><td>17.3</td><td>+3.5</td></tr>
-                      <tr><td>17:00</td><td>14.5</td><td>18.4</td><td>+3.9</td></tr>
-                      <tr><td>18:00</td><td>14.3</td><td>19.1</td><td>+4.8</td></tr>
-                      <tr><td>19:00</td><td>13.5</td><td>19.4</td><td>+5.9</td></tr>
-                      <tr><td>20:00</td><td>12.8</td><td>19.5</td><td>+6.7</td></tr>
-                      <tr><td>21:00</td><td>12.6</td><td>19.4</td><td>+6.8</td></tr>
-                      <tr><td>22:00</td><td>12.4</td><td>19.2</td><td>+6.8</td></tr>
-                      <tr><td>23:00</td><td>11.4</td><td>18.9</td><td>+7.5</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </details>
-            </div>
-            <figcaption>Average hourly load, summer days vs. winter days — one metered property
-              (Customer 1 · Meter 780). Annual peak: 101.62 kW on Jan 14, 2024 at 17:00, against
-              a 19.9 kW average.</figcaption>
-          </figure>
-          <div class="shape-copy">
-            <p>PJM's system and capacity peaks fall on <strong>hot summer afternoons</strong>. These
-               properties run near their seasonal minimum in exactly those hours — and hit their own
-               peaks when the wider grid is calm.</p>
-            <p>That inversion is an advantage. Billing-month peak demand runs <strong>127 kW in
-               January</strong> but collapses to <strong>46–47 kW across June, July, and
-               August</strong>. Because delivery charges are set by each month's highest kW interval,
-               the heaviest demand-charge burden lands in winter, not summer.</p>
-            <p>A load that spikes far above its own baseline for a handful of ramp hours is, by
-               definition, a load with a large controllable slice — the raw material for
-               demand-charge management, demand response, and storage dispatch.</p>
+    <section class="section evidence-section">
+      <div class="container evidence-grid">
+        <div class="evidence-copy reveal">
+          <p class="eyebrow">Regional evidence · ComEd territory</p>
+          <h2>The load shape tells the story.</h2>
+          <p>Across four metered lodging properties, every annual peak arrived in January—during a morning or evening ramp hour, not a summer afternoon.</p>
+          <p>That pattern is not a national benchmark. It is a clear example of why a hotel should be understood on its own terms before anyone prescribes equipment or promises savings.</p>
+          <div class="evidence-result">
+            <strong>4 of 4</strong>
+            <span>metered properties peaked in January</span>
           </div>
+          <a class="text-link" href="/hospitality/whitepaper">See the evidence and methodology
+            <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </a>
         </div>
+
+        <figure class="load-figure reveal">
+          <div class="load-card" role="img" aria-labelledby="load-title load-description">
+            <div class="load-head">
+              <div>
+                <p class="load-kicker">One metered property</p>
+                <p class="load-title" id="load-title">Average hourly load by season</p>
+              </div>
+              <ul class="load-legend" aria-hidden="true">
+                <li><span class="load-key load-key-summer"></span>Summer</li>
+                <li><span class="load-key load-key-winter"></span>Winter</li>
+              </ul>
+            </div>
+            <p id="load-description" hidden>Line chart comparing average hourly summer and winter electricity load for Customer 1, Meter 780. Winter load stays higher throughout the day and reaches its average high in the morning; summer load reaches its average high in the late afternoon.</p>
+            <div class="load-plot" aria-hidden="true">
+              <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" focusable="false">
+                <path class="load-line load-line-summer" d="M0.0 626.7 L43.5 673.3 L87.0 720.0 L130.4 760.0 L173.9 786.7 L217.4 813.3 L260.9 813.3 L304.3 746.7 L347.8 680.0 L391.3 600.0 L434.8 560.0 L478.3 553.3 L521.7 533.3 L565.2 540.0 L608.7 520.0 L652.2 473.3 L695.7 413.3 L739.1 366.7 L782.6 380.0 L826.1 433.3 L869.6 480.0 L913.0 493.3 L956.5 506.7 L1000.0 573.3"/>
+                <path class="load-line load-line-winter" d="M0.0 100.0 L43.5 106.7 L87.0 100.0 L130.4 93.3 L173.9 86.7 L217.4 53.3 L260.9 13.3 L304.3 13.3 L347.8 73.3 L391.3 113.3 L434.8 133.3 L478.3 153.3 L521.7 180.0 L565.2 213.3 L608.7 240.0 L652.2 226.7 L695.7 180.0 L739.1 106.7 L782.6 60.0 L826.1 40.0 L869.6 33.3 L913.0 40.0 L956.5 53.3 L1000.0 73.3"/>
+                <circle class="load-dot" cx="739.1" cy="366.7" r="9" fill="#46a26d"/>
+                <circle class="load-dot" cx="260.9" cy="13.3" r="9" fill="#8f83e8"/>
+              </svg>
+            </div>
+            <div class="load-hours" aria-hidden="true"><span>12am</span><span>6am</span><span>12pm</span><span>6pm</span><span>11pm</span></div>
+            <p class="load-note"><span><strong>Summer high</strong> · 14.5 kW at 5pm</span><span><strong>Winter high</strong> · 19.8 kW at 6–7am</span></p>
+          </div>
+          <figcaption>Customer 1 · Meter 780. Average hourly summer and winter load; the full interval analysis appears in the white paper.</figcaption>
+        </figure>
       </div>
     </section>
 
-    <!-- Sequence -->
-    <section class="section">
+    <section class="section strategy-section">
       <div class="container">
-        <div class="section-heading reveal">
-          <p class="eyebrow">How we work</p>
-          <h2>Five steps, in this order.</h2>
-          <p>Machine learning is useful when it improves a decision that already has economic
-             value. Capital comes last — only after the first four steps establish what the load
-             is actually worth.</p>
+        <div class="strategy-heading reveal">
+          <div class="section-heading">
+            <p class="eyebrow">A disciplined sequence</p>
+            <h2>Five steps, in this order.</h2>
+          </div>
+          <p class="strategy-principle">Capital comes last—after the property has established how its load behaves and where flexibility has real economic value.</p>
         </div>
-        <div class="steps">
-          <article class="step reveal">
-            <p class="step-n">01</p>
-            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-gauge"/></svg></span>
-            <h3>Measure</h3>
-            <p>Normalize interval, weather &amp; occupancy data.</p>
-          </article>
-          <article class="step reveal">
-            <p class="step-n">02</p>
-            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-brain"/></svg></span>
-            <h3>Model</h3>
-            <p>Forecast load and flag anomalies.</p>
-          </article>
-          <article class="step reveal">
-            <p class="step-n">03</p>
-            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-sliders"/></svg></span>
-            <h3>Control</h3>
-            <p>Act within guardrails — comfort first.</p>
-          </article>
-          <article class="step reveal">
-            <p class="step-n">04</p>
-            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-dollar"/></svg></span>
-            <h3>Monetize</h3>
-            <p>Procurement, peak &amp; demand-response value.</p>
-          </article>
-          <article class="step reveal">
-            <p class="step-n">05</p>
-            <span class="card-icon"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg></span>
-            <h3>Build</h3>
-            <p>Size solar, storage &amp; CHP last.</p>
-          </article>
-        </div>
+        <ol class="strategy-steps reveal">
+          <li class="strategy-step"><span class="strategy-number">01</span><strong>Measure</strong><span>Combine interval, weather, and occupancy data.</span></li>
+          <li class="strategy-step"><span class="strategy-number">02</span><strong>Model</strong><span>Forecast load and identify anomalies.</span></li>
+          <li class="strategy-step"><span class="strategy-number">03</span><strong>Control</strong><span>Act within guest-comfort guardrails.</span></li>
+          <li class="strategy-step"><span class="strategy-number">04</span><strong>Monetize</strong><span>Capture procurement, peak, and grid value.</span></li>
+          <li class="strategy-step"><span class="strategy-number">05</span><strong>Build</strong><span>Size physical assets only after the value is clear.</span></li>
+        </ol>
       </div>
     </section>
 
-    <!-- White paper -->
     <section class="section paper-section">
       <div class="container">
         <div class="paper-card reveal">
           <div>
             <p class="eyebrow">Energy strategy white paper</p>
             <h2>The Flexible Hotel, a Grid Asset</h2>
-            <p>Turning occupancy, timing, and machine learning into economic value — for hotel
-               owners in ComEd/PJM. Covers market structure, the load-shape evidence, procurement,
-               demand response, and behind-the-meter sequencing, with per-property load profiles
-               and a monthly cost proxy in the appendix.</p>
-            <p class="paper-meta">
-              <span>10 sections</span><span>4 metered properties</span><span>27 sources</span>
-            </p>
+            <p class="paper-description">A practical argument for turning occupancy, timing, and machine learning into economic value—without losing sight of the guest experience.</p>
+            <ul class="paper-meta" aria-label="White paper details">
+              <li>10 sections</li>
+              <li>4 metered properties</li>
+              <li>33 sources</li>
+            </ul>
           </div>
-          <a class="button button-primary" href="/hospitality/whitepaper">Read the white paper
-            <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Channels -->
-    <section class="section channel-section" id="channels">
-      <div class="container">
-        <div class="section-heading reveal">
-          <p class="eyebrow">Stay in the loop</p>
-          <h2>Join our operator channels.</h2>
-          <p>Get practical energy-market updates and talk to our team directly on Telegram and WhatsApp.</p>
-        </div>
-        <div class="channel-grid">
-          <article class="channel-card reveal">
-            <span class="channel-icon">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m20.2 4.6-3 15.2c-.2 1-1.1 1.3-1.9.8l-4.5-3.4-2.2 2.1c-.2.2-.4.4-.9.4l.3-4.8L16.8 7c.4-.3-.1-.5-.5-.2L5.4 13.7.8 12.2c-1-.3-1-.9.2-1.4L19 3.8c.8-.3 1.5.2 1.2.8Z" fill="currentColor"/></svg>
-            </span>
-            <div>
-              <h3>Telegram</h3>
-              <p>Fast market notes and launch updates for hospitality operators.</p>
-            </div>
-            <!-- TELEGRAM_CHANNEL_URL — replace href with the real Telegram channel link -->
-            <a class="button button-primary channel-action" href="#REPLACE_ME_TELEGRAM" target="_blank" rel="noopener">Join Telegram
-              <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10h10.4M10.9 5.8 15.2 10l-4.3 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="paper-actions">
+            <a class="button button-primary" href="/hospitality/whitepaper">Read the white paper
+              <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>
             </a>
-          </article>
-          <article class="channel-card reveal">
-            <span class="channel-icon">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19.1 6 15.5a7.4 7.4 0 1 1 2.9 2.8L5 19.1Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.2 8.8c.2-.5.4-.5.8-.5h.5c.2 0 .4.1.5.4l.7 1.7c.1.3 0 .5-.2.7l-.4.5c-.1.1-.2.3-.1.5.4.8 1.2 1.6 2.1 2.1.2.1.4.1.5-.1l.6-.7c.2-.2.4-.2.7-.1l1.6.8c.3.1.4.3.4.6 0 .6-.4 1.5-1 1.7-.7.3-2 .1-3.6-.8-2.2-1.2-3.6-3.1-4.1-4.6-.4-1-.3-1.8.1-2.2Z" fill="currentColor"/></svg>
-            </span>
-            <div>
-              <h3>WhatsApp</h3>
-              <p>Mobile-friendly reminders and a direct line to our team.</p>
-            </div>
-            <!-- WHATSAPP_CHANNEL_URL — replace href with the real WhatsApp channel link -->
-            <a class="button button-secondary channel-action" href="#REPLACE_ME_WHATSAPP" target="_blank" rel="noopener">Join WhatsApp
-              <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10h10.4M10.9 5.8 15.2 10l-4.3 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-          </article>
+          </div>
         </div>
       </div>
     </section>
@@ -785,100 +548,5 @@
   </footer>
 
   <script src="/static/reveal.js"></script>
-
-  <script>
-    /* Load-profile charts: crosshair + readout on hover, tap and keyboard.
-       Purely additive — the plotted lines, labels, axes and data table all
-       render without this script. */
-    (function () {
-      var charts = document.querySelectorAll(".viz-plot[data-viz]");
-      if (!charts.length) return;
-
-      Array.prototype.forEach.call(charts, function (plot) {
-        var d;
-        try { d = JSON.parse(plot.getAttribute("data-viz")); } catch (e) { return; }
-        var n = d.s.length;
-        var span = d.hi - d.lo;
-        var cross = plot.querySelector(".viz-cross");
-        var dots = plot.querySelectorAll(".viz-dot");
-        var tip = plot.querySelector(".viz-tip");
-        var head = tip.querySelector(".viz-tip-h");
-        var vals = tip.querySelectorAll(".viz-tip-r b");
-        var delta = tip.querySelector(".viz-tip-d");
-        var cur = -1;
-
-        function pct(v) { return ((d.hi - v) / span) * 100; }
-        function f1(v) { return (Math.round(v * 10) / 10).toFixed(1); }
-
-        function show(i) {
-          if (i === cur) return;
-          cur = i;
-          var x = (i / (n - 1)) * 100;
-          var ys = pct(d.s[i]);
-          var yw = pct(d.w[i]);
-
-          cross.style.left = x + "%";
-          dots[0].style.left = x + "%"; dots[0].style.top = ys + "%";
-          dots[1].style.left = x + "%"; dots[1].style.top = yw + "%";
-
-          head.textContent = (i < 10 ? "0" + i : i) + ":00";
-          vals[0].textContent = f1(d.s[i]);
-          vals[1].textContent = f1(d.w[i]);
-          /* derived from the displayed values, so the readout is self-consistent */
-          var diff = Math.round((Math.round(d.w[i] * 10) - Math.round(d.s[i] * 10))) / 10;
-          delta.textContent = diff === 0
-            ? "Winter and summer are level"
-            : "Winter " + (diff > 0 ? "+" : "\u2212") + f1(Math.abs(diff)) + " kW vs. summer";
-
-          cross.hidden = dots[0].hidden = dots[1].hidden = tip.hidden = false;
-
-          /* Keep the readout inside the plot, and clear of the two markers. */
-          var w = plot.clientWidth, h = plot.clientHeight;
-          var tw = tip.offsetWidth, th = tip.offsetHeight;
-          var left = Math.min(Math.max((x / 100) * w - tw / 2, 0), Math.max(w - tw, 0));
-          tip.style.left = left + "px";
-          tip.style.top = (Math.min(ys, yw) < 45 ? h - th : 0) + "px";
-        }
-
-        function hide() {
-          cur = -1;
-          cross.hidden = dots[0].hidden = dots[1].hidden = tip.hidden = true;
-        }
-
-        function at(clientX) {
-          var r = plot.getBoundingClientRect();
-          if (!r.width) return 0;
-          var i = Math.round(((clientX - r.left) / r.width) * (n - 1));
-          return Math.max(0, Math.min(n - 1, i));
-        }
-
-        plot.addEventListener("pointermove", function (e) { show(at(e.clientX)); });
-        plot.addEventListener("pointerdown", function (e) { show(at(e.clientX)); });
-        plot.addEventListener("pointerleave", function (e) {
-          if (e.pointerType !== "touch") hide();
-        });
-        plot.addEventListener("focus", function () { if (cur < 0) show(12); });
-        plot.addEventListener("blur", hide);
-        /* The readout is placed in pixels, so re-place it when the plot resizes. */
-        window.addEventListener("resize", function () {
-          if (cur < 0) return;
-          var i = cur;
-          cur = -1;
-          show(i);
-        });
-        plot.addEventListener("keydown", function (e) {
-          var k = e.key, i = cur < 0 ? 12 : cur;
-          if (k === "ArrowRight") i = Math.min(n - 1, i + 1);
-          else if (k === "ArrowLeft") i = Math.max(0, i - 1);
-          else if (k === "Home") i = 0;
-          else if (k === "End") i = n - 1;
-          else if (k === "Escape") { hide(); return; }
-          else return;
-          e.preventDefault();
-          show(i);
-        });
-      });
-    })();
-  </script>
 </body>
 </html>

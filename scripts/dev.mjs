@@ -8,6 +8,7 @@ import "./build.mjs";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const dist = join(root, "dist");
 const port = Number(process.env.PORT || 4173);
+const hostingConfig = JSON.parse(await readFile(join(root, "vercel.json"), "utf8"));
 
 await loadLocalEnv();
 
@@ -139,6 +140,11 @@ function send(res, response) {
 const server = createServer(async (req, res) => {
   try {
     const url = new URL(req.url || "/", `http://${req.headers.host}`);
+    const retiredPage = hostingConfig.redirects.find(item => item.source === url.pathname.replace(/\/$/, ""));
+    if (retiredPage) {
+      send(res, new Response(null, { status: 308, headers: { Location: retiredPage.destination } }));
+      return;
+    }
     const request = await toWebRequest(req, url);
 
     const response =

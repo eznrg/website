@@ -838,6 +838,17 @@
 
     /* Sources --------------------------------------------------------- */
     .source-list { margin: 0; padding: 0; list-style: none; }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
     .source-list li {
       display: grid;
       grid-template-columns: 38px 1fr;
@@ -987,16 +998,15 @@
       <p class="rail-title">Contents</p>
       <ol>
         <li><a href="#exec-summary"><span>01</span><span>Executive Summary</span></a></li>
-        <li><a href="#what-we-do"><span>02</span><span>What We Do</span></a></li>
-        <li><a href="#distinct-system"><span>03</span><span>Why Hotels Are a Distinct Energy System</span></a></li>
-        <li><a href="#load-shape"><span>04</span><span>The Load Shape Is the Asset</span></a></li>
-        <li><a href="#adopt-strategy"><span>05</span><span>Why Hotels Need to Adopt an Energy Strategy</span></a></li>
-        <li><a href="#market-context"><span>06</span><span>Market Context: Illinois, ComEd &amp; PJM</span></a></li>
-        <li><a href="#intelligence-stack"><span>07</span><span>Solution: The Hotel Energy Intelligence Stack</span></a></li>
-        <li><a href="#immediate-savings"><span>08</span><span>Driving Immediate Savings</span></a></li>
-        <li><a href="#long-term-economics"><span>09</span><span>Long-Term Economics</span></a></li>
-        <li><a href="#btm-storage"><span>10</span><span>Behind-the-Meter Generation &amp; Storage</span></a></li>
-        <li><a href="#appendix-a"><span>A</span><span>Appendix: Property Load Profiles</span></a></li>
+        <li><a href="#distinct-system"><span>02</span><span>Why Hotels Are a Distinct Energy System</span></a></li>
+        <li><a href="#load-shape"><span>03</span><span>Load Shape Considerations</span></a></li>
+        <li><a href="#expert-strategy"><span>04</span><span>Hotels Need an Expert-Led Energy Strategy</span></a></li>
+        <li><a href="#market-context"><span>05</span><span>Market Context: Illinois, ComEd &amp; PJM</span></a></li>
+        <li><a href="#intelligence-stack"><span>06</span><span>The Hotel Energy Intelligence Stack</span></a></li>
+        <li><a href="#immediate-savings"><span>07</span><span>Driving Immediate Savings</span></a></li>
+        <li><a href="#btm-storage"><span>08</span><span>BTM Generation &amp; Storage</span></a></li>
+        <li><a href="#conclusion"><span>09</span><span>Conclusion</span></a></li>
+        <li><a href="#appendix-a"><span>10</span><span>Appendix</span></a></li>
         <li><a href="#sources"><span>B</span><span>Sources</span></a></li>
       </ol>
     </nav>
@@ -1010,19 +1020,19 @@
         <p class="cover-sub">Turning occupancy, timing, and machine learning into economic value — for hotel owners in ComEd/PJM.</p>
         <div class="stat-grid">
           <div class="stat">
-            <p class="stat-label">Target Bill Reduction</p>
-            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-trending-down"/></svg></span>
-            <p class="stat-value">90–100%</p>
+            <p class="stat-label">Illustrative Meters</p>
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-gauge"/></svg></span>
+            <p class="stat-value">4</p>
           </div>
           <div class="stat">
-            <p class="stat-label">Owner Capital Required</p>
-            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-dollar"/></svg></span>
-            <p class="stat-value">$0 down</p>
+            <p class="stat-label">Strategy Sequence</p>
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg></span>
+            <p class="stat-value">5 steps</p>
           </div>
           <div class="stat">
-            <p class="stat-label">Asset-Value Lever</p>
-            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-trending-up"/></svg></span>
-            <p class="stat-value">$625K</p>
+            <p class="stat-label">Primary Sources</p>
+            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-gauge"/></svg></span>
+            <p class="stat-value">33</p>
           </div>
         </div>
         <p class="cover-byline">Prepared by EZ NRG&nbsp; ·&nbsp; For hotel owners &amp; general managers evaluating an energy strategy partner</p>
@@ -1034,16 +1044,15 @@
         <h2>Table of Contents</h2>
         <ol>
           <li><a href="#exec-summary"><span class="toc-n">01</span><span>Executive Summary</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
-          <li><a href="#what-we-do"><span class="toc-n">02</span><span>What We Do</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
-          <li><a href="#distinct-system"><span class="toc-n">03</span><span>Why Hotels Are a Distinct Energy System</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
-          <li><a href="#load-shape"><span class="toc-n">04</span><span>The Load Shape Is the Asset</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
-          <li><a href="#adopt-strategy"><span class="toc-n">05</span><span>Why Hotels Need to Adopt an Energy Strategy</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
-          <li><a href="#market-context"><span class="toc-n">06</span><span>Market Context: Illinois, ComEd &amp; PJM</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
-          <li><a href="#intelligence-stack"><span class="toc-n">07</span><span>Solution: The Hotel Energy Intelligence Stack</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
-          <li><a href="#immediate-savings"><span class="toc-n">08</span><span>Driving Immediate Savings</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
-          <li><a href="#long-term-economics"><span class="toc-n">09</span><span>Long-Term Economics</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
-          <li><a href="#btm-storage"><span class="toc-n">10</span><span>Behind-the-Meter Generation &amp; Storage</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
-          <li><a href="#appendix-a"><span class="toc-n">A</span><span>Appendix: Property Load Profiles</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#distinct-system"><span class="toc-n">02</span><span>Why Hotels Are a Distinct Energy System</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#load-shape"><span class="toc-n">03</span><span>Load Shape Considerations</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#expert-strategy"><span class="toc-n">04</span><span>Hotels Need an Expert-Led Energy Strategy</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#market-context"><span class="toc-n">05</span><span>Market Context: Illinois, ComEd &amp; PJM</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#intelligence-stack"><span class="toc-n">06</span><span>The Hotel Energy Intelligence Stack</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#immediate-savings"><span class="toc-n">07</span><span>Driving Immediate Savings</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#btm-storage"><span class="toc-n">08</span><span>BTM Generation &amp; Storage</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#conclusion"><span class="toc-n">09</span><span>Conclusion</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
+          <li><a href="#appendix-a"><span class="toc-n">10</span><span>Appendix</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
           <li><a href="#sources"><span class="toc-n">B</span><span>Sources</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></li>
         </ol>
       </section>
@@ -1052,8 +1061,8 @@
       <section id="exec-summary">
         <div class="sec-marker"><span class="sec-num">01</span><span class="sec-rule"></span></div>
         <h2>Executive Summary</h2>
-        <p>A hotel is not an office building with beds. It is a 24/7 service factory where electricity, gas, and water are converted into sleep quality, hot showers, clean linens, food service, comfort, and brand consistency. That makes energy both a cost center and a product input. The goal is not simply to use less energy — it is to use the right energy, at the right time, in ways guests never notice, all in the effort to increase Net Operating Income (NOI). Because a hotel trades on its NOI, every dollar of energy cost removed raises not just profit but the property’s underlying asset value. EZ NRG is built to deliver that value on an aligned model: we own the enabling asset, the owner saves, with $0 down.</p>
-        <p>In ComEd/PJM, the value of energy management is increasingly determined not only by annual kWh savings, but by when load occurs, how much flexibility exists, and whether performance can be verified. This white paper argues that machine learning should not be treated as a stand-alone product or an “AI layer.” Its practical role is to coordinate decisions that already have economic value: forecasting load, identifying peak-risk windows, estimating controllable flexibility, detecting waste, improving procurement decisions, and preparing hotels for future demand response, storage, and virtual-power-plant participation. Regulatory reform — including FERC Order 2222 and Illinois storage/VPP policy — creates upside, but the near-term business case rests on existing operational savings, better procurement, and management. The recommended strategy is staged in five steps:</p>
+        <p>A hotel is not an office building with beds. It is a 24/7 service factory where electricity, gas, and water are converted into sleep quality, hot showers, clean linens, food service, comfort, and brand consistency. Energy is both a cost center and a product input. The objective is not simply to use less energy; it is to use the right energy, at the right time, without affecting the guest experience. Every recurring operating-cost reduction can improve NOI and, subject to prevailing valuation assumptions, a property’s value.</p>
+        <p>In ComEd/PJM, energy value is increasingly shaped by timing, flexibility, and verifiability as well as annual kWh. Machine learning is useful here only when it improves a decision with existing economic value: forecasting load, identifying peak-risk windows, estimating controllable flexibility, detecting anomalies, and preparing a property for demand response or storage. The near-term case rests on operational savings, bill validation, and procurement discipline; regulatory change is potential upside, not a prerequisite.</p>
         <div class="steps">
           <div class="step"><span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-gauge"/></svg></span><p class="step-name">Measure</p><p class="step-desc">Normalize interval, weather &amp; occupancy data</p></div>
           <div class="step"><span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-brain"/></svg></span><p class="step-name">Model</p><p class="step-desc">Forecast load &amp; flag anomalies</p></div>
@@ -1063,20 +1072,13 @@
         </div>
         <h3>24/7 Buildings</h3>
         <p>Hotel energy use is materially influenced by occupancy, but not linearly determined by it. The highest-value forecasting variables are occupancy, weather, service intensity, equipment schedules, and operating constraints. As utility rates become more dynamic (Time-of-Use) and market access grows, this opens the door to a unique opportunity. DOE’s Better Buildings hospitality sector notes that hotels are among the higher energy and water consumers per square foot because they operate continuously, and EIA’s 2018 CBECS lodging data shows that lodging represented 3% of U.S. commercial buildings, 9% of fuels consumption, and 8% of fuels expenditures — while water heating and space heating alone accounted for almost 40% of energy usage.<a class="cite" href="#src-1">[1]</a><a class="cite" href="#src-2">[2]</a></p>
-        <h3>Bridging the Value Gap Through Expertise</h3>
-        <p>Hotel owners are entering a period where energy value is increasingly determined by timing, flexibility, and verifiability rather than only annual kWh savings or supplier contract price. PJM capacity-market volatility has moved from an abstract wholesale issue into a retail procurement issue: the 2025/2026 Base Residual Auction produced a $14.7 billion total cost to load, the 2026/2027 BRA cleared at the $329.17/MW-day UCAP cap, and the 2027/2028 BRA cleared at the temporary $333.44/MW-day UCAP cap while procuring less capacity than the RTO Reliability Requirement. These outcomes don’t flow through identically to every hotel — exposure depends on supplier contract structure, utility treatment, hedging, and rate design — but they make the same point: load shape, peak contribution, and contract structure now matter more than they did in a low-capacity-price environment.</p>
+        <h3>Forward-Looking Context</h3>
+        <p>PJM capacity-market volatility has moved from an abstract wholesale issue into a retail-procurement consideration: the 2025/2026 Base Residual Auction produced a $14.7 billion total cost to load, the 2026/2027 BRA cleared at its $329.17/MW-day UCAP cap, and the 2027/2028 BRA cleared at its temporary $333.44/MW-day UCAP cap while procuring less capacity than the RTO Reliability Requirement.<a class="cite" href="#src-22">[22]</a><a class="cite" href="#src-23">[23]</a><a class="cite" href="#src-28">[28]</a> These results do not flow through identically to every hotel; exposure depends on contract structure, utility treatment, hedging, and rate design. They do underscore why load shape and contract terms deserve close attention.</p>
       </section>
 
       <!-- 02 --------------------------------------------------------- -->
-      <section id="what-we-do">
-        <div class="sec-marker"><span class="sec-num">02</span><span class="sec-rule"></span></div>
-        <h2>What We Do</h2>
-        <p>We help hotel owners lower electricity cost and reduce market exposure using procurement, bill analysis, interval-data intelligence, and operational peak management — without disrupting guest experience.</p>
-      </section>
-
-      <!-- 03 --------------------------------------------------------- -->
       <section id="distinct-system">
-        <div class="sec-marker"><span class="sec-num">03</span><span class="sec-rule"></span></div>
+        <div class="sec-marker"><span class="sec-num">02</span><span class="sec-rule"></span></div>
         <h2>Why Hotels Are a Distinct Energy System</h2>
         <h3>A hotel is a service platform, not a generic commercial building.</h3>
         <p>Unlike many commercial properties, a hotel does not simply consume energy to keep a space open during business hours — it converts energy into a continuous guest experience: conditioned rooms, hot water, clean linens, food service, lighting, ventilation, elevators, technology access, common-area comfort, and brand-required amenity availability. Energy is therefore not just a utility expense; it is an input into the hotel’s core product. DOE and ENERGY STAR hospitality resources identify operations and controls as key energy-management themes for lodging facilities.<a class="cite" href="#src-1">[1]</a><a class="cite" href="#src-3">[3]</a> Hotels also carry a mix of fixed, variable, and schedulable loads: common-area lighting, ventilation, refrigeration, IT systems, pumps, elevators, and baseline HVAC are always present, while occupancy, weather, housekeeping, food service, laundry volume, and event schedules drive the rest. A limited-service roadside hotel, a full-service urban hotel, and a resort property may all be classified as “lodging,” but their energy profiles behave very differently.</p>
@@ -1086,10 +1088,10 @@
         <p>A monthly bill shows how much energy was consumed, but not when the hotel created cost, when it had flexibility, or which subsystem caused the deviation. The required foundation is therefore high-resolution interval data, weather, occupancy proxies, and operational context — together, they let a hotel move from reactive bill review to predictive energy management. The question changes from “how much did we spend last month?” to “which hours are likely to create avoidable costs, which systems are driving that risk, and what can we safely do about it without compromising the guest experience?” This is also why an intelligence layer becomes more valuable across a portfolio: one hotel’s interval data can identify local waste and peak-risk patterns, but many similar hotels in the same region reveal stronger ones — how comparable properties respond to weather, how occupancy translates into load, and which interventions are most effective.<a class="cite" href="#src-6">[6]</a><a class="cite" href="#src-7">[7]</a> Hotels are not merely buildings to be benchmarked; they are operating systems with measurable demand, controllable flexibility, and repeatable patterns.</p>
       </section>
 
-      <!-- 04 --------------------------------------------------------- -->
+      <!-- 03 --------------------------------------------------------- -->
       <section id="load-shape">
-        <div class="sec-marker"><span class="sec-num">04</span><span class="sec-rule"></span></div>
-        <h2>The Load Shape Is the Asset</h2>
+        <div class="sec-marker"><span class="sec-num">03</span><span class="sec-rule"></span></div>
+        <h2>Load Shape Considerations</h2>
         <p>If a hotel’s energy strategy has a single foundation, it is the shape of its load — not the total kilowatt-hours it consumes, but when those kilowatts arrive. Across four metered lodging properties in the ComEd territory, that shape is strikingly consistent, and it points the same direction.</p>
         <p>Every one of the four meters set its annual peak in January, and every peak landed in a morning or evening ramp hour — 07:00 and 09:00 on one side of the day, 17:00 and 19:00 on the other<a class="meter-ref" href="#prop-780" title="See Appendix A · Meter 780">780</a><a class="meter-ref" href="#prop-781" title="See Appendix A · Meter 781">781</a>. None peaked on a summer afternoon. That single fact matters because PJM’s system and capacity peaks fall on hot summer afternoons<a class="cite" href="#src-8">[8]</a> — the hotel’s load is inverted relative to the grid it buys from. When the grid is most stressed and capacity is most expensive, these properties run near their seasonal minimum; when they hit their own peaks, the wider grid is calm.</p>
         <p>The monthly record makes the inversion concrete. For the combined meters detailed in <a href="#appendix-a5">Appendix A5</a>, billing-month peak demand runs 127 kW in January and 98 kW in December but collapses to 46–47 kW across June, July, and August — a winter peak more than 2.5× the summer one. Because delivery (demand) charges are set by each month’s highest kW interval, the property carries its heaviest demand-charge burden in winter, not summer.</p>
@@ -1115,23 +1117,22 @@
         <p>The load shape is not a liability to be minimized; it is an asset to be understood and then monetized — through procurement structured around the real profile, demand-charge reduction targeted at the winter ramp hours, and, eventually, storage sized to the specific hours that carry the cost.</p>
       </section>
 
-      <!-- 05 --------------------------------------------------------- -->
-      <section id="adopt-strategy">
-        <div class="sec-marker"><span class="sec-num">05</span><span class="sec-rule"></span></div>
-        <h2>Why Hotels Need to Adopt an Energy Strategy</h2>
-        <p>From 2023 to 2025, one Chicago-area property saw considerable operating improvements — but energy tells a more complicated story than the topline growth suggests.</p>
+      <!-- 04 --------------------------------------------------------- -->
+      <section id="expert-strategy">
+        <div class="sec-marker"><span class="sec-num">04</span><span class="sec-rule"></span></div>
+        <h2>Hotels Need an Expert-Led Energy Strategy</h2>
+        <p>Owners must protect service quality, manage brand standards, execute property-improvement plans, and improve bookings and RevPAR. Energy strategy should support those priorities through a clear operating process rather than add a competing management burden. The anonymized Chicago-area example below shows why a disciplined view of utilities still matters.</p>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Year</th><th>OCU</th><th>Revenue</th><th>ADR</th><th>RevPAR</th><th>GOP</th><th>Net Income</th></tr></thead>
             <tbody>
-              <tr><td>2023</td><td>52.5%</td><td>$3.2M</td><td>$106</td><td>$55.80</td><td>$574,643</td><td>($406,347)</td></tr>
               <tr><td>2024</td><td>56.4%</td><td>$3.7M</td><td>$112</td><td>$63.10</td><td>$634,240</td><td>($578,020)</td></tr>
               <tr><td>2025</td><td>63.2%</td><td>$4.3M</td><td>$119</td><td>$75.30</td><td>$1,076,857</td><td>($189,548)</td></tr>
             </tbody>
           </table>
         </div>
         <p class="table-note">OCU = occupancy · TR = total revenue · ADR = average daily rate · RevPAR = revenue per available room · GOP = gross operating profit. Net income shown in parentheses where negative.</p>
-        <p>This Chicago-North hotel improved materially from 2023 to 2025. However, the core finding with respect to energy is that utilities remained highly significant to profitability: in 2025, utilities still represented 21.7% of GOP. The stronger thesis is not simply that hotels should use less energy and “save more money” — it is that hotels need to know which loads are fixed, which are variable, which are weather-driven, which are schedulable, and which are controllable without affecting guest experience.</p>
+        <p>Revenue grew 16.2% and GOP grew 69.8% from 2024 to 2025, while electricity grew 7.0% and total utilities grew 13.3%. Utility expense therefore grew more slowly than revenue, but it remained material: total utilities were 21.7% of 2025 GOP. The practical question is not merely how to consume less, but which loads are fixed, variable, weather-driven, schedulable, and controllable without affecting guests.</p>
         <h3>Financial Implications &amp; Scenarios</h3>
         <div class="table-wrap">
           <table>
@@ -1145,29 +1146,13 @@
           </table>
         </div>
         <p class="table-note">Electricity, natural gas, and water/sewer are distinct utility line items and are never averaged together.</p>
-        <p>Because utilities scale against a much smaller profit base than revenue, even a partial reduction moves GOP materially. A full elimination of the electricity line would have moved GOP by double digits in either year:</p>
-        <div class="stat-grid">
-          <div class="stat">
-            <p class="stat-label">2024 Electricity as % of GOP</p>
-            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-percent"/></svg></span>
-            <p class="stat-value">22.8%</p>
-          </div>
-          <div class="stat">
-            <p class="stat-label">2025 Electricity as % of GOP</p>
-            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-percent"/></svg></span>
-            <p class="stat-value">14.4%</p>
-          </div>
-        </div>
         <h3>Energy Cost Is an Asset-Value Lever, Not Just a Line Item</h3>
         <p>Because hotels trade as income-producing assets, these utility figures matter well beyond the income statement. Every recurring dollar removed from operating expense flows directly into Net Operating Income, and stabilized NOI capitalized at the prevailing market cap rate is a primary determinant of a hotel’s value.<a class="cite" href="#src-9">[9]</a><a class="cite" href="#src-10">[10]</a> The arithmetic is direct: at an illustrative 8.0% cap rate, a $50,000 reduction in annual utility expense is not merely a $50,000 saving — it represents roughly $625,000 in incremental asset value ($50,000 ÷ 0.08). Energy strategy is not a cost-cutting exercise; it is a balance-sheet lever, and the payoff scales with the property’s valuation multiple.</p>
-        <blockquote class="pullquote">
-          <p>At EZ NRG, our strategy targets 90–100% reductions to a client’s electricity bill — without the owner taking out loans, and with $0 down. We own the asset. You save.</p>
-        </blockquote>
       </section>
 
-      <!-- 06 --------------------------------------------------------- -->
+      <!-- 05 --------------------------------------------------------- -->
       <section id="market-context">
-        <div class="sec-marker"><span class="sec-num">06</span><span class="sec-rule"></span></div>
+        <div class="sec-marker"><span class="sec-num">05</span><span class="sec-rule"></span></div>
         <h2>Market Context: Illinois, ComEd &amp; PJM</h2>
         <h3>Market Structure</h3>
         <p>Founded in 1927, PJM is the regional grid operator responsible for coordinating the movement of wholesale electricity across a large multi-state region that includes northern Illinois and the ComEd service territory. PJM doesn’t own power plants, local distribution wires, or customer meters — instead, it acts as the independent system operator and market administrator that balances electricity supply and demand in real time, manages transmission-grid reliability, and runs wholesale markets for energy, capacity, and ancillary services.</p>
@@ -1189,13 +1174,13 @@
           <li><span class="ladder-n">4</span><div><p class="ladder-title">Behind-the-Meter Asset Optimization</p><p class="ladder-desc">Battery storage, solar, CHP, and thermal storage are valuable not because they store electricity, but because they store it at one moment and deploy it at another — which is why operational intelligence must precede capital deployment.</p></div></li>
         </ol>
         <h3>Retail Choice &amp; Illinois Energy Policy</h3>
-        <p>Illinois has retail electric choice in the major investor-owned utility territories, including ComEd, Ameren Illinois, and MidAmerican — customers can choose who supplies the electricity-supply portion of their service while the local utility remains responsible for delivery, reliability, outage response, and metering.<a class="cite" href="#src-15">[15]</a> For hotel owners, retail choice should be viewed as a strategic procurement tool rather than a simple rate-shopping exercise: a fixed-price product provides budget certainty but can embed supplier risk premiums, while an indexed or pass-through product exposes the customer more directly to wholesale movement, capacity costs, or other non-energy components. The best product depends on the hotel’s actual operating profile, not only the lowest quoted cents-per-kWh rate.<a class="cite" href="#src-16">[16]</a> The Clean and Reliable Grid Affordability Act (CRGA, Public Act 104-0458, 2025) creates a policy pathway for energy storage procurement, a Storage for All evaluation, and customer-sited flexibility programs — all directly relevant to hotel earnings. In PJM, DER aggregation for energy and ancillary services is scheduled for February 1, 2028, with capacity-market implementation tied to the 2028/2029 capacity year. A hotel platform that can already measure, forecast, verify, and safely control load will be better positioned as these markets become accessible.</p>
+        <p>Illinois has retail electric choice in the major investor-owned utility territories, including ComEd, Ameren Illinois, and MidAmerican — customers can choose the electricity-supply portion of service while the local utility remains responsible for delivery, reliability, outage response, and metering.<a class="cite" href="#src-15">[15]</a> The appropriate product depends on the property’s load and risk tolerance, not simply the lowest quoted cents-per-kWh rate.<a class="cite" href="#src-16">[16]</a> Public Act 104-0458 establishes new Illinois policy work related to storage and customer-sited flexibility.<a class="cite" href="#src-29">[29]</a> PJM states that its full DER energy and ancillary-services model is expected in February 2028 and capacity participation begins with the 2028/2029 BRA.<a class="cite" href="#src-12">[12]</a></p>
       </section>
 
-      <!-- 07 --------------------------------------------------------- -->
+      <!-- 06 --------------------------------------------------------- -->
       <section id="intelligence-stack">
-        <div class="sec-marker"><span class="sec-num">07</span><span class="sec-rule"></span></div>
-        <h2>Solution: The Hotel Energy Intelligence Stack</h2>
+        <div class="sec-marker"><span class="sec-num">06</span><span class="sec-rule"></span></div>
+        <h2>The Hotel Energy Intelligence Stack</h2>
         <p>Machine learning is useful when it improves a decision that already has economic value. For hotels, the useful decisions are load forecasting, block sizing, peak-risk alerts, controllable-load estimation, anomaly detection, demand response execution, and behind-the-meter dispatch — an established research area, and NREL’s Wattile project illustrates probabilistic building load forecasting using historical weather and occupancy indicator streams.<a class="cite" href="#src-17">[17]</a> The four layers below map directly onto the five-step sequence introduced earlier: Data and Intelligence are where the property measures and models; Control is where it acts; Market is where verified performance is monetized. Behind-the-meter assets come last, and only after the first four layers have established what the load is worth.</p>
         <div class="layers">
           <div class="layer">
@@ -1229,65 +1214,33 @@
         </div>
         <h3>Baselines</h3>
         <p>The baseline is the foundation of the entire strategy. A useful baseline can’t rely only on last year’s bills or average monthly usage — it must use interval data, weather, occupancy proxies, and operational context to estimate what load would have been under comparable conditions. A 90%-occupancy day in July should not be compared directly to a 45%-occupancy day in April.</p>
+        <h3>HVAC &amp; Hot Water Analysis</h3>
+        <p>HVAC and domestic hot water are priority end uses to measure because they are closely coupled to weather, occupancy, equipment schedules, and guest comfort. The useful first step is property-specific submetering and operating-context review; portfolio benchmarks can identify a question, but they do not determine the right control sequence for an individual hotel.</p>
         <h3>Forecast Accuracy</h3>
         <p>A model may show acceptable average error across the month but still fail during the highest-value hours, so it should measure peak-hour error and confidence-band performance — and know when operator review is required. Accuracy should improve as more interval, occupancy, weather, and event data accumulate.</p>
       </section>
 
-      <!-- 08 --------------------------------------------------------- -->
+      <!-- 07 --------------------------------------------------------- -->
       <section id="immediate-savings">
-        <div class="sec-marker"><span class="sec-num">08</span><span class="sec-rule"></span></div>
+        <div class="sec-marker"><span class="sec-num">07</span><span class="sec-rule"></span></div>
         <h2>Driving Immediate Savings</h2>
         <h3>Electricity Procurement</h3>
-        <p>Retail electricity choice has been a contentious topic in states across the United States, with critics questioning its effectiveness — often due to the conflict of interest a broker has in serving their clients. EZ NRG aligns those interests in a verifiable, autonomous manner, so our incentive remains to serve you.</p>
-        <h3>Real-Time Pricing</h3>
-        <p>Electricity procurement deals with securing forward contracts for future usage. Pre-existing structures also combine a fixed procurement with a real-time balancing mechanism — complex and costly enough that they’re typically reserved for industrial-scale customers. But these structures would be especially beneficial to hospitality owners given the nature of their load shape: because hospitality load runs inverted relative to grid-wide usage — peaking during morning and evening ramp hours rather than summer afternoons<a class="meter-ref" href="#prop-780" title="See Appendix A · Meter 780">780</a><a class="meter-ref" href="#prop-781" title="See Appendix A · Meter 781">781</a> — hospitality properties have a real opportunity to leverage this fact. By aggregating properties, EZ NRG can act as the aggregator, adding value to hospitality owners through futures hedging, options contracts, and more.</p>
-        <p>We analyzed over 25,000 days of data from hotel owners in the Chicagoland region and correlated their interval usage with ComEd real-time pricing data. We found their average price could have been $2.96 per kWh (before capacity and transmission fees) had an energy strategy partner helped them confidently enroll in the program. Real-time pricing does carry downsides — severe peaks during grid-stressed events and added billing complexity from settling interval data against real-time prices — but not leveraging the real-time market, or at least negotiating smarter procurement contracts, is money left on the table for property owners.</p>
-        <div class="stat-grid is-single">
-          <div class="stat">
-            <p class="stat-label">Modeled Average Price</p>
-            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-line-chart"/></svg></span>
-            <p class="stat-value">$2.96/kWh</p>
-          </div>
-        </div>
-        <p class="table-note">Before capacity &amp; transmission fees · 25,000+ property-days analyzed, Chicagoland region</p>
+        <p>Procurement should begin with interval data, tariff review, contract terms, and a clearly stated risk tolerance. Fixed, indexed, and pass-through structures solve different problems; a rate quote alone does not show how a property will perform.</p>
+        <h3>ComEd BESH Hourly Pricing</h3>
+        <p>ComEd’s Basic Electric Service–Hourly Pricing (BESH) is an hourly-priced supply option. The energy price varies with the hourly market price, so shifting use can help in some hours and expose a customer to higher costs in others. ComEd states that individual bills and savings vary with weather, market conditions, and usage; savings are not guaranteed.<a class="cite" href="#src-30">[30]</a><a class="cite" href="#src-31">[31]</a> The cold-weather evidence in <a href="#appendix-a6">Appendix A6</a> is regional context, not a modeled all-in bill or an enrollment recommendation.</p>
+        <h3>Bill Validation</h3>
+        <p>A concise bill-validation review reconciles interval data, billed demand, supply and delivery components, applicable riders, and supplier pass-throughs against the governing tariff and contract. It helps establish a trustworthy baseline before a pricing or control decision is made.</p>
+        <h3>Futures &amp; Risk Management</h3>
+        <p>Financial hedges can be used to manage defined exposures, but they introduce basis, volume, liquidity, credit, and governance risks. Nodal Exchange lists hourly power futures and options products; whether any product is appropriate depends on the property’s contractual exposure and qualified risk-management process.<a class="cite" href="#src-32">[32]</a></p>
       </section>
 
-      <!-- 09 --------------------------------------------------------- -->
-      <section id="long-term-economics">
-        <div class="sec-marker"><span class="sec-num">09</span><span class="sec-rule"></span></div>
-        <h2>Long-Term Economics</h2>
-        <h3>A Waterfall of Value Creation That Compounds</h3>
-        <p>Because of our vision for a stakeholder-led, decentralized energy business model, the economic benefits for our clients compound over time with each partner and with growth. The initial phase is designed to reduce upfront owner risk by focusing first on data access, bill analysis, interval-load review, and low-risk operational recommendations before any capital deployment or market obligation.<a class="cite" href="#src-22">[22]</a><a class="cite" href="#src-23">[23]</a><a class="cite" href="#src-20">[20]</a><a class="cite" href="#src-24">[24]</a><a class="cite" href="#src-25">[25]</a></p>
-        <h3>Potential Economic Benefits</h3>
-        <p>The future is hard to predict, and the following is for illustrative purposes only. If a hotel owner were to install a 100 kW battery and offer it as a demand response product to PJM, at the most recent price of $333.44/MW-day, the gross contracted earnings would look like this:</p>
-        <div class="stat-grid">
-          <div class="stat">
-            <p class="stat-label">Daily Gross Capacity Revenue</p>
-            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg></span>
-            <p class="stat-value">$30.68</p>
-          </div>
-          <div class="stat">
-            <p class="stat-label">Annual Gross Capacity Revenue</p>
-            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-dollar"/></svg></span>
-            <p class="stat-value">$11,196.92</p>
-          </div>
-          <div class="stat">
-            <p class="stat-label">Demand Charge Reduction</p>
-            <span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-trending-down"/></svg></span>
-            <p class="stat-value">$9,600/yr</p>
-          </div>
-        </div>
-        <p class="table-note">Demand charge reduction assumes 40 kW shaved per month at $20/kW.</p>
-        <p>While these figures may not seem significant on their own, this roughly $20,000 per year could instead fund sales-agency spend for additional bookings — and it doesn’t account for other market revenues (ancillary, energy, arbitrage). As rates continue to rise, this becomes a real profit lever for increasing income and asset value.</p>
-      </section>
-
-      <!-- 10 --------------------------------------------------------- -->
+      <!-- 08 --------------------------------------------------------- -->
       <section id="btm-storage">
-        <div class="sec-marker"><span class="sec-num">10</span><span class="sec-rule"></span></div>
-        <h2>Behind-the-Meter Generation &amp; Storage: Sequence Matters</h2>
+        <div class="sec-marker"><span class="sec-num">08</span><span class="sec-rule"></span></div>
+        <h2>BTM Generation &amp; Storage</h2>
         <p>Behind-the-meter assets should be sized after the load is understood. Their financial value depends on when output or discharge coincides with avoided energy costs, demand charges, capacity exposure, DR events, tariff rules, interconnection limits, and emissions goals.<a class="cite" href="#src-17">[17]</a><a class="cite" href="#src-21">[21]</a><a class="cite" href="#src-25">[25]</a><a class="cite" href="#src-27">[27]</a></p>
         <h3>Solar Considerations</h3>
-        <p>Solar is not automatically a peak hedge. DOE’s discussion of the duck curve explains that high solar production can reduce net load during the day while demand ramps in the evening after solar falls off — a reason to analyze timing before maximizing system size.<a class="cite" href="#src-26">[26]</a></p>
+        <p>Solar is not automatically a peak hedge. DOE’s discussion of the duck curve illustrates why production timing and net-load timing should be analyzed before a system is sized.<a class="cite" href="#src-26">[26]</a> Interconnection, tariff treatment, and available credits must be confirmed for the specific project and jurisdiction.</p>
         <h3>Storage Considerations</h3>
         <p>Battery value is primarily a timing problem. NREL research identifies demand charges as a key predictor of financial performance for behind-the-meter battery storage, and EIA explains that battery arbitrage means charging when prices are low and discharging when prices are high.<a class="cite" href="#src-25">[25]</a><a class="cite" href="#src-27">[27]</a> In hotels, the same asset may support peak management, DR performance, solar self-consumption, resilience planning, and tariff optimization — but those use cases must be stacked carefully. Given the unique load shapes of hotel properties<a class="meter-ref" href="#prop-780" title="See Appendix A · Meter 780">780</a><a class="meter-ref" href="#prop-781" title="See Appendix A · Meter 781">781</a>, storage offers owners unusual flexibility in reducing demand charges while using headroom that sits unused much of the year.</p>
         <h3>Recommended Sequencing</h3>
@@ -1299,17 +1252,21 @@
           <li><span class="ladder-n">5</span><div><p class="ladder-title">Build</p><p class="ladder-desc">Size storage and other strategies only after the first four steps establish the value stack.</p></div></li>
         </ol>
         <h3>Considerations</h3>
-        <p>The evolution of electricity markets has never been instantaneous. Regulatory frameworks develop through a deliberate process involving utilities, regulators, grid operators, consumer advocates, market participants, and policymakers — and while that can slow implementation, the process exists to preserve reliability, ensure fair competition, and avoid unintended consequences. FERC Order 2222 was issued in September 2020, and regional market operators have begun implementing compliance frameworks, but full market participation for aggregated distributed energy resources remains a multi-year undertaking; in PJM, implementation continues in phases, with current timelines extending into 2028 for full functionality. We acknowledge the uncertainty in timing, market design, participation requirements, and the economic value ultimately available to our stakeholders.</p>
-        <blockquote class="pullquote">
-          <p>We don’t try to time the market. We become the market by serving our customers.</p>
-        </blockquote>
-        <p>We believe uncertainty should be acknowledged rather than ignored. As stewards of our stakeholders’ capital, we view regulatory developments as opportunities, not assumptions — so we proceed cautiously, focusing on strategies that generate measurable value under today’s market structure while maintaining optionality for future participation. Our business model does not depend on the successful implementation of any single regulatory initiative: the core economics come from improving energy procurement, reducing operating expenses, forecasting load more accurately, optimizing consumption patterns, and identifying operational inefficiencies — benefits that can be realized immediately, under existing market rules. Should Order 2222 and similar reforms unlock additional opportunities for distributed energy resources, demand flexibility, virtual power plants, or wholesale market participation, our platform is designed to capture them. If timelines shift or market structures evolve differently than anticipated, the underlying value proposition is unchanged: lower energy costs, reduced volatility, improved operational intelligence, and stronger asset performance. Regulatory change represents upside, not a prerequisite.</p>
+        <p>Market rules, participation requirements, tariffs, and economics can change. Assets should therefore be evaluated first against value that can be verified under current conditions, with future DER participation treated as optional upside.<a class="cite" href="#src-12">[12]</a></p>
+      </section>
+
+      <!-- 09 --------------------------------------------------------- -->
+      <section id="conclusion">
+        <div class="sec-marker"><span class="sec-num">09</span><span class="sec-rule"></span></div>
+        <h2>Conclusion</h2>
+        <p>A hotel’s energy strategy should begin with the operating reality: energy supports a continuous guest experience, and its cost depends on timing as well as volume. The practical sequence is to measure, model, control, monetize, and then build. That sequence gives owners a defensible baseline, protects comfort and equipment, and makes future procurement or asset decisions easier to evaluate.</p>
+        <p>The four illustrative meter profiles in this paper are regional evidence, not a universal forecast. They support a broader hospitality thesis: an owner who understands the property’s actual load, constraints, and bill structure is better equipped to reduce avoidable cost and assess future flexibility opportunities.</p>
       </section>
 
       <!-- Appendix A ------------------------------------------------- -->
       <section id="appendix-a">
-        <div class="sec-marker"><span class="sec-num">A</span><span class="sec-rule"></span></div>
-        <h2>Appendix: Property Load Profiles</h2>
+        <div class="sec-marker"><span class="sec-num">10</span><span class="sec-rule"></span></div>
+        <h2>Appendix</h2>
         <p>Four meters, four ComEd-territory lodging properties — all showing the same shape: a January peak, a summer trough, and ramp-hour spikes rather than summer-afternoon ones. Each chart plots average hourly load across summer days versus winter days.</p>
         <div class="chart-grid">
           <div class="chart-card" id="prop-780">
@@ -1702,6 +1659,33 @@
             </tbody>
           </table>
         </div>
+        <h3 id="appendix-a6">Appendix A6 — Cold-Weather Price &amp; Demand Evidence</h3>
+        <p class="table-note">Regional evidence only. Daily lows are Chicago O’Hare observations; prices are ComEd BESH real-time energy prices, not an all-in retail bill. Demand is the combined hourly load of Meters 780 and 781, in kW. Prices exclude delivery, capacity, transmission, taxes, riders, and supplier-specific pass-throughs.</p>
+        <h4>2024 cold-weather dates</h4>
+        <div class="table-wrap"><table><caption class="sr-only">2024 cold-weather price summary</caption><thead><tr><th>Date</th><th>Daily low (°F)</th><th>Average price (¢/kWh)</th><th>Maximum price (¢/kWh)</th></tr></thead><tbody>
+          <tr><td>Jan. 14, 2024</td><td>−10</td><td>4.24</td><td>9.35</td></tr><tr><td>Jan. 15, 2024</td><td>−10</td><td>9.27</td><td>16.62</td></tr><tr><td>Jan. 16, 2024</td><td>−7</td><td>8.63</td><td>21.32</td></tr><tr><td>Jan. 17, 2024</td><td>2</td><td>5.69</td><td>14.53</td></tr><tr><td>Jan. 21, 2024</td><td>2</td><td>2.94</td><td>5.42</td></tr>
+        </tbody></table></div>
+        <h4>2024 combined hotel demand (kW)</h4>
+        <div class="table-wrap"><table><thead><tr><th>Date / hour ending</th><th>00</th><th>01</th><th>02</th><th>03</th><th>04</th><th>05</th><th>06</th><th>07</th><th>08</th><th>09</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th></tr></thead><tbody>
+          <tr><td>Jan. 14</td><td>110</td><td>112</td><td>111</td><td>109</td><td>111</td><td>113</td><td>114</td><td>120</td><td>120</td><td>117</td><td>116</td><td>114</td><td>108</td><td>108</td><td>109</td><td>113</td><td>119</td><td>123</td><td>120</td><td>112</td><td>110</td><td>105</td><td>108</td><td>105</td></tr>
+          <tr><td>Jan. 15</td><td>107</td><td>106</td><td>110</td><td>111</td><td>107</td><td>113</td><td>117</td><td>110</td><td>112</td><td>109</td><td>108</td><td>99</td><td>93</td><td>94</td><td>98</td><td>105</td><td>107</td><td>106</td><td>109</td><td>110</td><td>106</td><td>99</td><td>97</td><td>96</td></tr>
+          <tr><td>Jan. 16</td><td>101</td><td>107</td><td>108</td><td>108</td><td>109</td><td>107</td><td>107</td><td>109</td><td>97</td><td>93</td><td>92</td><td>93</td><td>89</td><td>90</td><td>92</td><td>95</td><td>91</td><td>91</td><td>96</td><td>100</td><td>99</td><td>97</td><td>87</td><td>81</td></tr>
+          <tr><td>Jan. 17</td><td>87</td><td>82</td><td>85</td><td>83</td><td>80</td><td>78</td><td>80</td><td>86</td><td>88</td><td>86</td><td>79</td><td>78</td><td>74</td><td>78</td><td>68</td><td>63</td><td>69</td><td>74</td><td>72</td><td>78</td><td>70</td><td>69</td><td>63</td><td>61</td></tr>
+          <tr><td>Jan. 21</td><td>80</td><td>80</td><td>80</td><td>82</td><td>82</td><td>83</td><td>83</td><td>88</td><td>79</td><td>71</td><td>66</td><td>68</td><td>71</td><td>62</td><td>57</td><td>52</td><td>56</td><td>58</td><td>64</td><td>65</td><td>62</td><td>60</td><td>58</td><td>52</td></tr>
+        </tbody></table></div>
+        <h4>2025 cold-weather dates</h4>
+        <div class="table-wrap"><table><caption class="sr-only">2025 cold-weather price summary</caption><thead><tr><th>Date</th><th>Daily low (°F)</th><th>Average price (¢/kWh)</th><th>Maximum price (¢/kWh)</th></tr></thead><tbody>
+          <tr><td>Jan. 19, 2025</td><td>1</td><td>1.67</td><td>5.87</td></tr><tr><td>Jan. 20, 2025</td><td>−2</td><td>5.04</td><td>13.78</td></tr><tr><td>Jan. 21, 2025</td><td>−8</td><td>11.57</td><td>29.84</td></tr><tr><td>Jan. 22, 2025</td><td>0</td><td>1.87</td><td>5.72</td></tr><tr><td>Jan. 24, 2025</td><td>2</td><td>8.07</td><td>14.53</td></tr>
+        </tbody></table></div>
+        <h4>2025 combined hotel demand (kW)</h4>
+        <div class="table-wrap"><table><thead><tr><th>Date / hour ending</th><th>00</th><th>01</th><th>02</th><th>03</th><th>04</th><th>05</th><th>06</th><th>07</th><th>08</th><th>09</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th></tr></thead><tbody>
+          <tr><td>Jan. 19</td><td>58</td><td>57</td><td>55</td><td>61</td><td>58</td><td>62</td><td>69</td><td>74</td><td>75</td><td>72</td><td>75</td><td>76</td><td>85</td><td>83</td><td>81</td><td>80</td><td>80</td><td>83</td><td>84</td><td>87</td><td>90</td><td>89</td><td>88</td><td>81</td></tr>
+          <tr><td>Jan. 20</td><td>82</td><td>81</td><td>81</td><td>80</td><td>81</td><td>79</td><td>85</td><td>86</td><td>84</td><td>75</td><td>80</td><td>76</td><td>78</td><td>74</td><td>74</td><td>70</td><td>72</td><td>79</td><td>86</td><td>85</td><td>93</td><td>96</td><td>94</td><td>95</td></tr>
+          <tr><td>Jan. 21</td><td>95</td><td>96</td><td>97</td><td>101</td><td>100</td><td>101</td><td>102</td><td>105</td><td>97</td><td>94</td><td>102</td><td>106</td><td>108</td><td>103</td><td>98</td><td>92</td><td>93</td><td>96</td><td>101</td><td>101</td><td>100</td><td>99</td><td>96</td><td>97</td></tr>
+          <tr><td>Jan. 22</td><td>94</td><td>91</td><td>88</td><td>84</td><td>84</td><td>83</td><td>87</td><td>92</td><td>88</td><td>84</td><td>78</td><td>71</td><td>75</td><td>72</td><td>70</td><td>66</td><td>61</td><td>61</td><td>61</td><td>63</td><td>59</td><td>60</td><td>60</td><td>59</td></tr>
+          <tr><td>Jan. 24</td><td>78</td><td>80</td><td>80</td><td>82</td><td>82</td><td>83</td><td>83</td><td>88</td><td>79</td><td>71</td><td>66</td><td>68</td><td>71</td><td>62</td><td>57</td><td>52</td><td>56</td><td>58</td><td>64</td><td>65</td><td>62</td><td>60</td><td>58</td><td>52</td></tr>
+        </tbody></table></div>
+        <p class="table-note">Sources and limits: ComEd Rate BESH price lookup and NOAA/NCEI daily O’Hare observations.<a class="cite" href="#src-31">[31]</a><a class="cite" href="#src-33">[33]</a> Meter data are authorized, anonymized property data. This small set of dates is descriptive; it does not estimate savings, predict future prices, or establish causality.</p>
       </section>
 
       <!-- Appendix B ------------------------------------------------- -->
@@ -1737,15 +1721,15 @@
           <li id="src-25"><span class="n">[25]</span><span>NREL, “Identifying Potential Markets for Behind-the-Meter Battery Energy Storage: A Survey of U.S. Demand Charges.”</span></li>
           <li id="src-26"><span class="n">[26]</span><span>U.S. Department of Energy, “Confronting the Duck Curve: How to Address Over-Generation of Solar Energy.”</span></li>
           <li id="src-27"><span class="n">[27]</span><span>U.S. Energy Information Administration, “Utility-Scale Batteries Are More Commonly Used for Price Arbitrage.”</span></li>
+          <li id="src-28"><span class="n">[28]</span><span><a href="https://www.pjm.com/-/media/markets-ops/rpm/rpm-auction-info/2027-2028-base-residual-auction-report.ashx" target="_blank" rel="noopener">PJM, “2027/2028 Base Residual Auction Report.”</a></span></li>
+          <li id="src-29"><span class="n">[29]</span><span><a href="https://www.ilga.gov/Documents/Legislation/PublicActs/104/PDF/104-0458.pdf" target="_blank" rel="noopener">Illinois General Assembly, Public Act 104-0458.</a></span></li>
+          <li id="src-30"><span class="n">[30]</span><span><a href="https://hourlypricing.comed.com/about/" target="_blank" rel="noopener">ComEd, “Hourly Pricing Overview” (Rate BESH).</a></span></li>
+          <li id="src-31"><span class="n">[31]</span><span><a href="https://secure.comed.com/MyAccount/MyBillUsage/Pages/RatesPricing.aspx" target="_blank" rel="noopener">ComEd, “Find Rate BES-H Pricing.”</a></span></li>
+          <li id="src-32"><span class="n">[32]</span><span><a href="https://www.nodalexchange.com/products-services/power/" target="_blank" rel="noopener">Nodal Exchange, “Power Products.”</a></span></li>
+          <li id="src-33"><span class="n">[33]</span><span><a href="https://www.ncei.noaa.gov/cdo-web/" target="_blank" rel="noopener">NOAA National Centers for Environmental Information, Climate Data Online: Chicago O’Hare daily observations.</a></span></li>
         </ol>
       </section>
 
-      <!-- CTA -------------------------------------------------------- -->
-      <aside class="doc-cta">
-        <h2>Want this run against your property?</h2>
-        <p>We start with your interval data and your bills — no capital, no disruption to the guest experience. Join our operator channels and we'll take it from there.</p>
-        <a class="button" href="/hospitality#channels">Talk to our team<svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
-      </aside>
     </article>
   </main>
 

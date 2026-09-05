@@ -23,10 +23,23 @@ Content and presentation are deliberately split:
 - **`src/legal.mjs`** — the one exception to the above: the Terms of Service and Privacy Policy prose. Long-form legal text that changes rarely and needs legal review; keeping it out of `content.mjs` stops it from swamping the marketing microcopy. Both documents share one shape, so `renderLegalDoc()` serves both. It carries `[CONFIRM]` markers for the entity name, mailing address, governing-law state, and effective date.
 - **`src/render.mjs`** — HTML templates: a shared `layout(path, content)` (builds `<head>`, header, footer, Google Fonts link), an inline-SVG `icon()` helper, and one `renderX()` per page. These import data from `content.mjs`.
 
-**Adding a public page touches five places** — a new `renderX()` in `render.mjs`, its data export in `content.mjs`, an entry in the `pages[]` array in `build.mjs`, an entry in the `nav` array, and a `<url>` in `public/sitemap.xml`. Missing any of these ships a broken or invisible page.
+### Main landing page and navigation
 
-### The `nav` array is the source of truth for what's "listed"
-`nav` in `content.mjs` drives **both** the header and footer (`render.mjs` maps over it in two places). A page is "unlisted" simply by **not** being in `nav`. A second array, `legalNav`, is footer-only — it feeds the `.footer-legal` row (`/terms`, `/privacy`) and is deliberately absent from the header; those pages *are* public and indexed, so they still belong in `sitemap.xml`. `public/sitemap.xml` is maintained by hand and should list only public, listed pages. Two pages are intentionally unlisted (rendered/reachable but absent from `nav` and `sitemap.xml`): `/get-started` (the enrollment flow, `renderGetStarted`) and everything under `static/` — `/hospitality`, `/hospitality/whitepaper`, `/residential`, `/commercial` (see below).
+The main marketing site is a single audit-focused landing page. `nav` in
+`content.mjs` drives homepage section links in both header and footer. `legalNav`
+provides footer-only links to Terms and Privacy. `audit.href` is the one
+configurable signup destination; when empty, `auditButton()` renders an actually
+disabled button and an Available soon label in every placement.
+
+`vercel.json` owns permanent redirects from `/about`, `/learn`, and `/contact`
+to homepage sections. The local dev server reads those same redirects. Those
+retired pages are no longer generated. `public/sitemap.xml` lists only the
+homepage and legal pages.
+
+`/get-started` is still built, unlisted, and isolated for the deferred onboarding
+phase. It retains the old deposit-based intake and welcome email flow; never
+link the new audit CTA to it. See README for the pre-launch checklist. The
+current landing-page revision is a local preview, not a production launch.
 
 ### `static/` — isolated standalone pages (do not integrate)
 Self-contained, **unlisted, `noindex`** pages served at `/hospitality` (plus `/hospitality/whitepaper`), `/residential`, and `/commercial`. They are intentionally kept **out** of the render pipeline, the `nav` array, and the sitemap, and **must not be linked from the main site**.

@@ -2,5 +2,22 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/about",
+      "destination": "/#why-eznrg",
+      "permanent": true
+    },
+    {
+      "source": "/learn",
+      "destination": "/#how",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/#start",
+      "permanent": true
+    }
+  ]
 }
