@@ -2010,6 +2010,124 @@ h3 {
 .strategy-icon svg { width: 24px; height: 24px; }
 .strategy-note { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: .78rem; margin: 36px 0 0; }
 .strategy-note svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--mint); }
+.manifesto-section {
+  padding-top: 28px;
+  background: radial-gradient(ellipse at 50% 45%, rgba(242, 166, 90, 0.055), rgba(242, 166, 90, 0) 68%);
+}
+.manifesto-frame {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(34px, 5vw, 64px);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background:
+    linear-gradient(135deg, #1d1d19, var(--surface) 42%, #121715) padding-box,
+    linear-gradient(135deg, rgba(242, 166, 90, 0.48), rgba(242, 166, 90, 0.08) 42%, rgba(139, 216, 166, 0.1) 70%, rgba(242, 166, 90, 0.3)) border-box;
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.26), inset 0 0 0 1px rgba(242, 166, 90, 0.025);
+}
+.manifesto-frame::before,
+.manifesto-frame::after {
+  position: absolute;
+  z-index: 2;
+  width: 56px;
+  height: 56px;
+  pointer-events: none;
+  content: "";
+}
+.manifesto-frame::before {
+  top: 10px;
+  left: 10px;
+  border-top: 2px solid rgba(242, 166, 90, 0.42);
+  border-left: 2px solid rgba(242, 166, 90, 0.42);
+}
+.manifesto-frame::after {
+  right: 10px;
+  bottom: 10px;
+  border-right: 2px solid rgba(242, 166, 90, 0.34);
+  border-bottom: 2px solid rgba(242, 166, 90, 0.34);
+}
+.manifesto-heading {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: 70px;
+  margin-bottom: 50px;
+}
+.manifesto-heading .eyebrow { color: var(--ember); }
+.manifesto-heading h2 { max-width: 13ch; margin-bottom: 0; }
+.manifesto-heading > p {
+  max-width: 50ch;
+  margin: 0;
+  color: #d5d0c7;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  font-weight: 600;
+  line-height: 1.55;
+}
+.manifesto-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid rgba(242, 166, 90, 0.45);
+}
+.manifesto-chapter { padding: 36px 38px 0 0; }
+.manifesto-chapter + .manifesto-chapter {
+  padding-right: 0;
+  padding-left: 38px;
+  border-left: 1px solid rgba(242, 166, 90, 0.28);
+}
+.manifesto-index {
+  display: block;
+  margin-bottom: 18px;
+  color: var(--ember);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+}
+.manifesto-chapter h3 { max-width: 22ch; margin-bottom: 22px; }
+.manifesto-copy p {
+  margin: 0 0 18px;
+  color: #bfc5c0;
+  font-size: 0.91rem;
+  line-height: 1.85;
+}
+.manifesto-copy p:last-child { margin-bottom: 0; }
+.manifesto-chapter blockquote {
+  position: relative;
+  margin: 0 0 26px;
+  padding: 21px 22px 19px;
+  border: 1px solid var(--ember);
+  background: rgba(242, 166, 90, 0.07);
+}
+.manifesto-chapter blockquote::before {
+  position: absolute;
+  top: -16px;
+  left: 15px;
+  padding: 0 7px;
+  color: var(--ember);
+  background: var(--surface);
+  content: "\201C";
+  font-family: Georgia, serif;
+  font-size: 2rem;
+  line-height: 1;
+}
+.manifesto-chapter blockquote p {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.48;
+  letter-spacing: -0.02em;
+}
+.manifesto-chapter blockquote footer {
+  margin-top: 12px;
+  color: var(--ember);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
 .energy-services { border-top: 1px solid var(--border); background: linear-gradient(145deg, #f2a65a05, transparent 54%); }
 .service-grid { display: grid; grid-template-columns: repeat(6, 1fr); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
 .service-grid article { grid-column: span 2; min-height: 245px; padding: 30px; background: linear-gradient(150deg, #ffffff02, transparent); }
@@ -2036,11 +2154,11 @@ h3 {
 @media (max-width: 1050px) {
   .audit-hero-grid { gap: 36px; }
   .audit-hero h1 { font-size: 3.4rem; }
-  .after-grid, .audit-section-heading, .faq-grid { gap: 45px; }
+  .after-grid, .audit-section-heading, .manifesto-heading, .faq-grid { gap: 45px; }
 }
 @media (max-width: 760px) {
   .audit-hero { padding-top: 48px; }
-  .audit-hero-grid, .after-grid, .audit-section-heading, .faq-grid { grid-template-columns: 1fr; gap: 36px; }
+  .audit-hero-grid, .after-grid, .audit-section-heading, .manifesto-heading, .faq-grid { grid-template-columns: 1fr; gap: 36px; }
   .audit-hero h1 { font-size: clamp(2.6rem, 8vw, 3.8rem); max-width: 19ch; }
   .audit-visual { max-width: 510px; width: 100%; margin-inline: auto; }
   .audit-intro { max-width: 56ch; }
@@ -2053,6 +2171,16 @@ h3 {
   .audit-section-heading > p { max-width: 60ch; }
   .nav .audit-action { margin: 8px 0 0; }
   .strategy-pillars { gap: 28px; }
+  .manifesto-section { padding-top: 10px; }
+  .manifesto-heading { margin-bottom: 36px; }
+  .manifesto-grid { grid-template-columns: 1fr; }
+  .manifesto-chapter { padding: 30px 0 0; }
+  .manifesto-chapter + .manifesto-chapter {
+    margin-top: 32px;
+    padding: 32px 0 0;
+    border-top: 1px solid rgba(242, 166, 90, 0.28);
+    border-left: 0;
+  }
   .service-grid { grid-template-columns: 1fr; }
   .service-grid article,
   .service-grid article:nth-child(4),
@@ -2068,4 +2196,6 @@ h3 {
   .audit-summary-top { padding: 16px 20px; gap: 8px; }
   .audit-summary-body { padding: 26px; }
   .audit-summary-note { padding: 16px 26px; }
+  .manifesto-frame { padding: 30px 24px; }
+  .manifesto-chapter blockquote { padding: 20px 18px 18px; }
 }

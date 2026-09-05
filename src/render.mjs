@@ -255,7 +255,7 @@ function form(fields, submitLabel, successMessage, formName, options = {}) {
 }
 
 export function renderHome() {
-  const { hero, evidence, mission, how, after, strategy, services, intelligence, faq, closing } = home;
+  const { hero, evidence, mission, how, after, strategy, manifesto, services, intelligence, faq, closing } = home;
   return layout("/", `
     <section class="section audit-hero">
       <div class="container audit-hero-grid">
@@ -293,6 +293,17 @@ export function renderHome() {
     <section class="section audit-strategy" id="why-eznrg">
       <div class="container"><div class="audit-section-heading"><div><p class="eyebrow">${escapeHtml(strategy.eyebrow)}</p><h2>${sectionTitle(strategy.title)}</h2></div><p>${escapeHtml(strategy.body)}</p></div>
         <div class="strategy-pillars">${strategy.pillars.map((item,i) => `<article><span class="strategy-icon">${icon(["key","file","spark"][i])}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.body)}</p></article>`).join("")}</div>
+      </div>
+    </section>
+    <section class="section manifesto-section" id="manifesto" aria-labelledby="manifesto-title">
+      <div class="container">
+        <div class="manifesto-frame reveal">
+          <div class="manifesto-heading">
+            <div><p class="eyebrow">${escapeHtml(manifesto.eyebrow)}</p><h2 id="manifesto-title">${escapeHtml(manifesto.title)}</h2></div>
+            <p>${escapeHtml(manifesto.intro)}</p>
+          </div>
+          <div class="manifesto-grid">${manifesto.chapters.map((chapter) => `<article class="manifesto-chapter"><span class="manifesto-index">${escapeHtml(chapter.index)}</span><h3>${escapeHtml(chapter.title)}</h3>${chapter.philosophy ? `<blockquote><p>${escapeHtml(chapter.philosophy)}</p><footer>Our operating philosophy</footer></blockquote>` : ""}<div class="manifesto-copy">${chapter.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}</div></article>`).join("")}</div>
+        </div>
       </div>
     </section>
     <section class="section energy-services" id="energy-services">
