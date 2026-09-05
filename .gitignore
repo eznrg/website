@@ -7,3 +7,14 @@ dist
 a.env
 !.env.example
 *.log
+# npm cache
+.npm-cache/
+.npmrc
+
+# Playwright CLI artifacts
+.playwright-cli/
+.playwright/
+
+# Node dependencies and locks (if not needed)
+node_modules/
+package-lock.json
