@@ -1,0 +1,155 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "EZ NRG home" [ref=e4] [cursor=pointer]:
+        - /url: https://eznrg.ai/
+        - img "EZ NRG" [ref=e5]
+      - generic [ref=e6]: For hospitality operators
+  - main [ref=e7]:
+    - generic [ref=e9]:
+      - paragraph [ref=e10]: Hospitality energy strategy
+      - heading "Your hotel is already a grid asset." [level=1] [ref=e11]
+      - paragraph [ref=e12]: A hotel is not an office building with beds — it is a 24/7 service factory that converts energy into hot showers, clean linens, and comfort. The goal is not simply to use less energy. It is to use the right energy, at the right time, in ways guests never notice. We turn your property's load shape into a lower, more predictable cost basis.
+      - generic [ref=e13]:
+        - link "Read the white paper" [ref=e14] [cursor=pointer]:
+          - /url: /hospitality/whitepaper
+        - link "Join our operator channels" [ref=e17] [cursor=pointer]:
+          - /url: "#channels"
+      - generic [ref=e18]:
+        - generic [ref=e19]:
+          - paragraph [ref=e23]: 5.1x
+          - paragraph [ref=e24]: Peak-to-average ratio on a metered property
+        - generic [ref=e25]:
+          - paragraph [ref=e29]: 2.5x+
+          - paragraph [ref=e30]: Winter peak vs. summer peak demand
+        - generic [ref=e31]:
+          - paragraph [ref=e35]: 21.7%
+          - paragraph [ref=e36]: Utilities as a share of GOP, 2025
+        - generic [ref=e37]:
+          - paragraph [ref=e41]: $625K
+          - paragraph [ref=e42]: Asset value per $50K of annual savings
+      - paragraph [ref=e43]:
+        - text: Figures drawn from metered ComEd-territory lodging properties and one Chicago-area operator's financials.
+        - link "See the full white paper" [ref=e44] [cursor=pointer]:
+          - /url: /hospitality/whitepaper
+        - text: for methodology, assumptions, and sources.
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - paragraph [ref=e48]: Why hotels are different
+        - heading "A hotel is a distinct energy system." [level=2] [ref=e49]
+        - paragraph [ref=e50]: Lodging is 3% of U.S. commercial buildings but 9% of fuels consumption — and water heating and space heating alone account for almost 40% of that usage. The load behaves unlike any other commercial property.
+      - generic [ref=e51]:
+        - article [ref=e52]:
+          - heading "Energy is a product input" [level=3] [ref=e56]
+          - paragraph [ref=e57]: Your property converts energy into a continuous guest experience — conditioned rooms, hot water, laundry, food service, amenity availability. That makes energy a cost center and an input to the product at the same time.
+        - article [ref=e58]:
+          - heading "Occupancy alone doesn't explain it" [level=3] [ref=e62]
+          - paragraph [ref=e63]: Load is driven by occupancy, weather, and service intensity together. Two nights with the same room count can produce very different energy outcomes depending on temperature, events, and laundry timing.
+        - article [ref=e64]:
+          - heading "The monthly bill hides the answer" [level=3] [ref=e68]
+          - paragraph [ref=e69]: A bill shows how much you consumed — not when you created cost, where you had flexibility, or which subsystem drove the deviation. Interval data, weather, and occupancy context are what make those questions answerable.
+    - generic [ref=e71]:
+      - generic [ref=e72]:
+        - paragraph [ref=e73]: The load shape is the asset
+        - heading "Your peaks don't line up with the grid's." [level=2] [ref=e74]
+        - paragraph [ref=e75]: Across four metered ComEd-territory properties, every meter set its annual peak in January — and every peak landed in a morning or evening ramp hour. None peaked on a summer afternoon.
+      - generic [ref=e76]:
+        - 'figure "Average hourly load, summer days vs. winter days — one metered property (Customer 1 · Meter 780). Annual peak: 101.62 kW on Jan 14, 2024 at 17:00, against a 19.9 kW average." [ref=e77]':
+          - generic [ref=e78]:
+            - generic [ref=e79]:
+              - generic [ref=e80]:
+                - paragraph [ref=e81]: Customer 1 · Meter 780
+                - paragraph [ref=e82]: Average load (kW) by hour of day — summer days vs. winter days
+              - list [ref=e83]:
+                - listitem [ref=e84]: Summer
+                - listitem [ref=e86]: Winter
+            - generic [ref=e88]:
+              - generic [ref=e89]:
+                - generic [ref=e90]: "5"
+                - generic [ref=e91]: "10"
+                - generic [ref=e92]: "15"
+                - generic [ref=e93]: "20"
+              - 'img "Line chart: average hourly load in kW for a metered lodging property, summer days versus winter days. Winter load runs higher all day and peaks in the evening ramp. Use the arrow keys to read each hour; the full table is below the chart." [ref=e94]':
+                - generic: 14.5 kW
+                - generic: 19.8 kW
+              - generic [ref=e99]:
+                - generic [ref=e100]: "0"
+                - generic [ref=e101]: "3"
+                - generic [ref=e102]: "6"
+                - generic [ref=e103]: "9"
+                - generic [ref=e104]: "12"
+                - generic [ref=e105]: "15"
+                - generic [ref=e106]: "18"
+                - generic [ref=e107]: "21"
+              - paragraph [ref=e108]: Hour of day
+            - group [ref=e109]:
+              - generic "View data table" [ref=e110] [cursor=pointer]
+        - generic [ref=e112]:
+          - paragraph [ref=e113]:
+            - text: PJM's system and capacity peaks fall on
+            - strong [ref=e114]: hot summer afternoons
+            - text: . These properties run near their seasonal minimum in exactly those hours — and hit their own peaks when the wider grid is calm.
+          - paragraph [ref=e115]:
+            - text: That inversion is an advantage. Billing-month peak demand runs
+            - strong [ref=e116]: 127 kW in January
+            - text: but collapses to
+            - strong [ref=e117]: 46–47 kW across June, July, and August
+            - text: . Because delivery charges are set by each month's highest kW interval, the heaviest demand-charge burden lands in winter, not summer.
+          - paragraph [ref=e118]: A load that spikes far above its own baseline for a handful of ramp hours is, by definition, a load with a large controllable slice — the raw material for demand-charge management, demand response, and storage dispatch.
+    - generic [ref=e120]:
+      - generic [ref=e121]:
+        - paragraph [ref=e122]: How we work
+        - heading "Five steps, in this order." [level=2] [ref=e123]
+        - paragraph [ref=e124]: Machine learning is useful when it improves a decision that already has economic value. Capital comes last — only after the first four steps establish what the load is actually worth.
+      - generic [ref=e125]:
+        - article [ref=e126]:
+          - paragraph [ref=e127]: "01"
+          - heading "Measure" [level=3] [ref=e131]
+          - paragraph [ref=e132]: Normalize interval, weather & occupancy data.
+        - article [ref=e133]:
+          - paragraph [ref=e134]: "02"
+          - heading "Model" [level=3] [ref=e138]
+          - paragraph [ref=e139]: Forecast load and flag anomalies.
+        - article [ref=e140]:
+          - paragraph [ref=e141]: "03"
+          - heading "Control" [level=3] [ref=e145]
+          - paragraph [ref=e146]: Act within guardrails — comfort first.
+        - article [ref=e147]:
+          - paragraph [ref=e148]: "04"
+          - heading "Monetize" [level=3] [ref=e152]
+          - paragraph [ref=e153]: Procurement, peak & demand-response value.
+        - article [ref=e154]:
+          - paragraph [ref=e155]: "05"
+          - heading "Build" [level=3] [ref=e159]
+          - paragraph [ref=e160]: Size solar, storage & CHP last.
+    - generic [ref=e163]:
+      - generic [ref=e164]:
+        - paragraph [ref=e165]: Energy strategy white paper
+        - heading "The Flexible Hotel, a Grid Asset" [level=2] [ref=e166]
+        - paragraph [ref=e167]: Turning occupancy, timing, and machine learning into economic value — for hotel owners in ComEd/PJM. Covers market structure, the load-shape evidence, procurement, demand response, and behind-the-meter sequencing, with per-property load profiles and a monthly cost proxy in the appendix.
+        - paragraph [ref=e168]:
+          - generic [ref=e169]: 10 sections
+          - generic [ref=e170]: 4 metered properties
+          - generic [ref=e171]: 27 sources
+      - link "Read the white paper" [ref=e172] [cursor=pointer]:
+        - /url: /hospitality/whitepaper
+    - generic [ref=e176]:
+      - generic [ref=e177]:
+        - paragraph [ref=e178]: Stay in the loop
+        - heading "Join our operator channels." [level=2] [ref=e179]
+        - paragraph [ref=e180]: Get practical energy-market updates and talk to our team directly on Telegram and WhatsApp.
+      - generic [ref=e181]:
+        - article [ref=e182]:
+          - generic [ref=e186]:
+            - heading "Telegram" [level=3] [ref=e187]
+            - paragraph [ref=e188]: Fast market notes and launch updates for hospitality operators.
+          - link "Join Telegram" [ref=e189] [cursor=pointer]:
+            - /url: "#REPLACE_ME_TELEGRAM"
+        - article [ref=e192]:
+          - generic [ref=e197]:
+            - heading "WhatsApp" [level=3] [ref=e198]
+            - paragraph [ref=e199]: Mobile-friendly reminders and a direct line to our team.
+          - link "Join WhatsApp" [ref=e200] [cursor=pointer]:
+            - /url: "#REPLACE_ME_WHATSAPP"
+  - contentinfo [ref=e203]:
+    - paragraph [ref=e205]: EZ NRG — customer-first energy strategy for the decentralized energy future.

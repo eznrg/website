@@ -2,11 +2,8 @@ import { cp, mkdir, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-  renderAbout,
-  renderContact,
   renderGetStarted,
   renderHome,
-  renderLearn,
   renderPrivacy,
   renderTerms,
 } from "../src/render.mjs";
@@ -16,9 +13,6 @@ const dist = join(root, "dist");
 
 const pages = [
   { path: "index.html", html: renderHome() },
-  { path: "about/index.html", html: renderAbout() },
-  { path: "learn/index.html", html: renderLearn() },
-  { path: "contact/index.html", html: renderContact() },
   { path: "get-started/index.html", html: renderGetStarted() },
   { path: "terms/index.html", html: renderTerms() },
   { path: "privacy/index.html", html: renderPrivacy() },

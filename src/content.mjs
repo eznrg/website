@@ -1,120 +1,120 @@
 export const site = {
-  name: "EZ NRG",
+  name: "EZNRG",
   domain: "eznrg.ai",
   url: "https://eznrg.ai",
-  description:
-    "EZ NRG reads how your site actually uses power, prices what that costs to serve, and backs the number with its own capital.",
-  tagline: "Energy priced by the hour, not the month.",
+  description: "Electricity bill auditing for businesses. Upload one bill. No upfront cost. If we recover money, you keep 50%. If we recover nothing, you pay nothing.",
 };
 
 export const nav = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Learn", href: "/learn" },
-  { label: "Contact", href: "/contact" },
+  { label: "How it works", href: "/#how" },
+  { label: "Why EZNRG", href: "/#why-eznrg" },
+  { label: "FAQ", href: "/#faq" },
 ];
-
-// Footer-only links. Deliberately NOT in `nav`, which drives the header too --
-// legal pages belong in the footer, not the primary navigation. They are still
-// public and indexed, so they do appear in public/sitemap.xml.
 export const legalNav = [
   { label: "Terms of Service", href: "/terms" },
   { label: "Privacy Policy", href: "/privacy" },
 ];
-
-// Shared UI strings. These used to be hardcoded in render.mjs, which broke the
-// content/presentation split — copy edits belong in this file.
 export const ui = {
   skipLink: "Skip to content",
   menuLabel: "Toggle navigation",
-  headerCta: "Enroll now",
-  footerTagline: "Energy priced the way it should be.",
-  // The year is stamped at build time; this is the rest of the line.
-  footerCopyright: "EZ NRG. All rights reserved.",
+  footerTagline: "Less energy admin. More room for your business.",
+  footerCopyright: "EZNRG. All rights reserved.",
   formError: "Something went wrong. Please try again in a moment.",
+};
+
+// One destination for every audit CTA. Keep empty until onboarding is ready.
+// Setting this alone is not launch approval; see README's release checklist.
+export const audit = {
+  href: "",
+  label: "Start my audit",
+  unavailable: "Available soon",
 };
 
 export const home = {
   hero: {
-    eyebrow: "Customer-first energy strategy",
-    title: "We're changing the way energy works.",
-    body:
-      "And we put our money where our mouth is. We see you as a partner, not an account number — and we'd be happy to show you how.",
-    primaryCta: "Enroll now",
-    primaryHref: "/get-started",
+    eyebrow: "Energy intelligence. Working for your business.",
+    title: ["Your electricity bill.", "Checked.", "Without the extra work."],
+    body: "Upload one bill. We handle the audit and recovery process. No upfront cost—if we recover money, you keep 50%. If we recover nothing, you pay nothing.",
     secondaryCta: "See how it works",
-    secondaryHref: "#how",
+    reassurances: ["Keep your existing broker", "Ongoing auditing is optional"],
   },
-  // The hero visual: a real 24-hour load shape. Values are a normalised curve
-  // (0-100), not a claim about any customer's site — the caption says so.
-  curve: {
-    title: "A typical weekday load shape",
-    caption: "Illustrative 24-hour profile. Every site's is different.",
-    offPeakLabel: "Off-peak",
-    peakLabel: "Peak window",
-    // Midnight -> 11pm, one value per hour.
-    values: [
-      28, 24, 22, 21, 21, 24, 32, 45, 58, 66, 71, 74, 78, 83, 90, 96, 99, 92,
-      78, 64, 54, 46, 38, 32,
-    ],
-    // Inclusive hour range shaded as the expensive window.
-    peakStart: 14,
-    peakEnd: 19,
-    readout: [
-      { label: "What your bill reports", value: "One monthly number" },
-      { label: "What actually sets your cost", value: "A few peak hours" },
+  coverage: {
+    label: "Auditing businesses across",
+    territories: [
+      { state: "Illinois", utilities: "ComEd & Ameren" },
+      { state: "Indiana", utilities: "NIPSCO" },
+      { state: "Ohio", utilities: "All electric utilities" },
     ],
   },
-  proof: [
-    { value: "$0 to start", label: "No hidden fees" },
-    {
-      value: "10–15%",
-      label: "Minimum savings, or we refund the difference",
-    },
-    { value: "Satisfaction guarantee", label: "Backed by a money-back guarantee" },
-  ],
+  evidence: {
+    label: "A real customer outcome",
+    customer: "Hospitality owner",
+    summaryTitle: "A closer look. A clearer bill.",
+    refundValue: "$248",
+    refundLabel: "in eligible refunds identified",
+    timeValue: "~2 hours",
+    timeLabel: "saved each month on reporting",
+    status: "Audit findings",
+    note: "One customer's experience. Eligible refunds identified, not a confirmed recovery. Results vary by business.",
+    quote: "Out of all my years in business, I've been pitched energy services many times and nobody has ever made it as simple as they did",
+    caption: "After a utility bill audit and a solution that reduced manual reporting. Shared anonymously with permission.",
+  },
   how: {
-    eyebrow: "How it works",
-    title: "Three simple steps.",
+    eyebrow: "01 / How it works",
+    title: "One bill from you.\nThe rest is on us.",
+    body: "You run your business. We do the checking, explain what we find, and handle the recovery process.",
     steps: [
-      {
-        index: "01",
-        title: "We'll analyze your interval data",
-        body: "Your energy usage, hour by hour.",
-      },
-      {
-        index: "02",
-        title: "We price the exposure",
-        body: "Our risk team analyzes the data.",
-      },
-      {
-        index: "03",
-        title: "We back it with our capital",
-        body: "We win, you win. We lose, you still win.",
-      },
+      { index: "01", title: "Upload one bill", body: "Your latest electricity bill is enough to begin. No stack of paperwork to pull together." },
+      { index: "02", title: "We check the charges", body: "We compare your billing information against applicable verified rates and charges to identify potential errors." },
+      { index: "03", title: "We handle recovery", body: "We explain the findings and pursue eligible refunds. You keep 50% of money actually recovered; EZNRG receives the other 50%." },
     ],
   },
-  contract: {
-    eyebrow: "The contract",
-    title: "Our contract is the pitch.",
-    body:
-      "No teaser rate, no auto-renewal trap, no clause you need a lawyer to decode. Ours is double-sided — the obligations run both ways — and it's free to try if qualified.",
-    cta: "Learn more",
-    ctaHref: "/learn",
+  after: {
+    eyebrow: "02 / What happens afterward",
+    title: "Start with an audit.\nStay only if you want to.",
+    body: "The first audit stands on its own. You choose whether ongoing support makes sense for your business.",
+    feeTitle: "Recovered money. Shared equally.",
+    yourShare: "50%", yourLabel: "You keep",
+    ourShare: "50%", ourLabel: "EZNRG receives",
+    feeNote: "Only on money actually recovered. Nothing recovered? Nothing to pay.",
+    options: [
+      { title: "No upfront cost", body: "We do the audit and pursue eligible refunds. Our fee comes from recoveries, so you don't pay just to find out whether something is wrong." },
+      { title: "Continued checks, by choice", body: "Choose Continuous EZNRG Auditing if you want future bills checked too. It is completely optional, with no automatic enrollment and the same 50/50 recovery split." },
+      { title: "Less time on reporting", body: "For the hospitality owner featured above, a reporting solution saved about two hours each month. We look for ways to reduce the energy admin in your business, too." },
+    ],
   },
-  finalCta: {
-    eyebrow: "Stay in the loop",
-    title: "See what we're all about.",
-    body:
-      "Join our group for weekly updates on what's changing in the energy industry — and why we're doing what we're doing.",
-    joinLabel: "Join our Telegram channel",
-    // Paste the Telegram invite link here. While it stays empty the button
-    // renders as a disabled "link coming soon" state, the same convention the
-    // /learn channel cards use (see channelCards in render.mjs).
-    joinHref: "",
+  strategy: {
+    eyebrow: "03 / Why EZNRG",
+    title: "An energy partner.\nAlready on your side.",
+    body: "EZNRG is an energy technology and strategy company. The audit is a practical place to start. For qualified businesses, the next step can be a long-term strategy built around how your site actually uses power.",
+    pillars: [
+      { title: "Your broker stays", body: "You don't need to replace a relationship you trust. We work with brokers across the United States to enhance their offerings without disrupting their operations." },
+      { title: "Analysis you can follow", body: "We connect billing information, usage patterns, and energy costs so you can understand our findings and the reasons behind our recommendations." },
+      { title: "A strategy that fits", body: "Long-term partnerships require qualification. We assess your site and back agreed pricing with our own capital. Pricing guarantees apply to these arrangements, with terms agreed individually." },
+    ],
+    note: "An audit does not commit you to ongoing auditing or a long-term energy partnership.",
+  },
+  faq: {
+    eyebrow: "04 / A few good questions",
+    title: "Clear answers.\nBefore you start.",
+    items: [
+      { question: "What does the audit cost?", answer: "There is no upfront cost. If we recover money, you keep 50% and EZNRG receives 50%. The fee is based on money actually recovered, not simply on errors or eligible refunds identified." },
+      { question: "What if you don't recover any money?", answer: "You pay nothing. An audit may find that your bill is correct, and finding an eligible refund does not itself mean a recovery has been completed." },
+      { question: "What do I have to do?", answer: "Upload your latest electricity bill to begin. We handle the checking, explain the findings, and manage the recovery process. If we need further information or authorization, we'll explain what's needed." },
+      { question: "Which businesses can you audit?", answer: "We audit electricity bills for businesses and property owners served by ComEd or Ameren in Illinois, NIPSCO in Indiana, and all electric utilities in Ohio." },
+      { question: "Can I keep my existing broker?", answer: "Yes. We work alongside existing brokers. We also work with brokers across the United States to enhance their offerings without disrupting their operations; our current audit service territories are listed above." },
+      { question: "Am I signing up for ongoing auditing?", answer: "No. The initial audit stands on its own. Continuous EZNRG Auditing is completely optional, with no automatic enrollment. If you choose it, future recoveries follow the same 50/50 split." },
+      { question: "Is the audit the same as your energy-strategy service?", answer: "No. The audit checks your bills and pursues eligible refunds. A long-term energy partnership is a separate, optional next step for qualified businesses. Pricing guarantees belong to those arrangements, with terms agreed individually; they do not promise that every audit produces a refund." },
+    ],
+  },
+  closing: {
+    eyebrow: "One bill is all it takes to begin",
+    title: "Let us take a look.\nYou get back to business.",
+    body: "No upfront cost. You keep 50% of money recovered. Nothing recovered, nothing to pay.",
   },
 };
 
+// Legacy intake is intentionally isolated until the onboarding phase.
 export const enrollment = {
   eyebrow: "Get started",
   title: "Find out if you qualify.",
@@ -124,229 +124,6 @@ export const enrollment = {
   successMessage:
     "You're on the list. We'll text you within 24 hours to coordinate a call — no payment is collected here.",
 };
-
-export const about = {
-  eyebrow: "Company",
-  title: "We price what we understand. Nothing else.",
-  intro: [
-    "EZ NRG is an energy strategy company. We read how a site actually uses power, price what that costs to serve, and back the number with our own capital.",
-    "The energy transition scales when customers have a reason to participate — and a partner who doesn't profit from their confusion.",
-  ],
-  pillars: [
-    {
-      index: "01",
-      id: "what",
-      eyebrow: "What we do",
-      title: "We understand your load shape before we quote a price.",
-      paragraphs: [
-        "An electric bill tells you how much you used last month. It doesn't tell you when — and when is what sets the cost.",
-        "So we start with your interval data: usage hour by hour, across a year. Then we model what that specific shape costs to serve.",
-        "If the math says you're better off staying with your utility, we say so. We don't quote sites we don't understand.",
-      ],
-    },
-    {
-      index: "02",
-      id: "how",
-      eyebrow: "How we do it",
-      title: "Quality of portfolio, not quantity of customers.",
-      paragraphs: [
-        "Our model isn't to pack in as many accounts as possible. Every site we accept changes the risk for every other site in the portfolio.",
-        "If continuing would hurt the customers already in it, we say so and part ways.",
-        "EzIntelligentNRG, our intelligence layer, keeps both sides of that equation honest.",
-      ],
-    },
-    {
-      index: "03",
-      id: "why",
-      eyebrow: "Why we do it",
-      title: "If we don't create value for our stakeholders, we shouldn't be in business.",
-      paragraphs: [
-        "We back our pricing with a money-back guarantee, no questions asked. That only works if we're right about your site.",
-        "Your load profile stays yours: request your data at any time, and ask us to erase it whenever you want.",
-        "Decentralization means open networks and open standards. On-chain settlement holds every party — including us — to what they agreed.",
-      ],
-    },
-  ],
-  note: "Doubt a claim on this site? Put it to us directly. We'd rather answer it now.",
-  cta: "Get in touch",
-  ctaHref: "/contact",
-};
-
-export const learn = {
-  eyebrow: "Primer",
-  title: "How the market got here — in about ninety seconds.",
-  body:
-    "Enough context to judge a supplier offer without taking anyone's word for it.",
-  summary: [
-    {
-      label: "Old model",
-      value: "Utility monopoly",
-      body:
-        "One company handled generation, wires, delivery, and billing under a regulated compact.",
-    },
-    {
-      label: "Retail choice",
-      value: "Supplier market",
-      body:
-        "In some states you choose who supplies the energy while the utility still delivers it.",
-    },
-    {
-      label: "Next market",
-      value: "Customer assets",
-      body:
-        "Flexible load, batteries, EVs, solar, and controls become part of the strategy.",
-    },
-  ],
-  primerEyebrow: "Interactive primer",
-  primerTitle: "From deregulation to customer-side markets.",
-  modules: [
-    {
-      id: "why",
-      label: "Why deregulation",
-      kicker: "The original idea",
-      title: "Deregulation split energy supply from the wires.",
-      body:
-        "Generators and suppliers were opened to competition. The wires stayed regulated.",
-      bullets: [
-        "The promise: more competition, more product choice, sharper price signals.",
-        "Wholesale competition grew around regional markets and open transmission access.",
-        "Retail choice added supplier contracts in states that adopted it.",
-      ],
-    },
-    {
-      id: "worked",
-      label: "What worked",
-      kicker: "The useful part",
-      title: "Choice created room for better procurement.",
-      body:
-        "For customers who can compare offers and manage risk, competitive supply pays off.",
-      bullets: [
-        "Large customers gained real ways to hedge, budget, and negotiate around usage shape.",
-        "Markets created clear signals for when energy is scarce, cheap, or congested.",
-        "Suppliers can design products around customer goals, not one default tariff.",
-      ],
-    },
-    {
-      id: "failed",
-      label: "Where it failed",
-      kicker: "The customer problem",
-      title: "The hard part was never picking a logo. It's the contract.",
-      body: "Choice without interpretation is just another layer of risk.",
-      bullets: [
-        "The cheapest headline rate can lose once usage bands, swing tolerances, and fees land.",
-        "Few customers get a plain answer on who owns which risk — supplier, utility, or them.",
-        "Teaser rates, auto-renewals, and termination clauses quietly change the economics.",
-      ],
-    },
-    {
-      id: "ferc",
-      label: "FERC 2222",
-      kicker: "The next shift",
-      title: "Markets are opening to customer-side resources.",
-      body:
-        "FERC Order 2222 lets aggregated customer assets bid into wholesale markets built for large generators.",
-      bullets: [
-        "In scope: storage, distributed generation, demand response, efficiency, EVs, and charging.",
-        "The value isn't automatic — tariffs, meter data, controls, and contract terms decide it.",
-        "The question shifts from what rate did I sign to how should my site participate.",
-      ],
-    },
-    {
-      id: "eznrg",
-      label: "Where EZ NRG fits",
-      kicker: "The strategy layer",
-      title: "We translate market complexity into a decision you can make.",
-      body:
-        "Contract terms, facility behavior, supplier economics, and utility rules — weighed before money is committed.",
-      bullets: [
-        "Explain the contract before it becomes a surprise on the bill.",
-        "Weigh fixed price against index exposure, flexibility, and operating limits.",
-        "Line up procurement, load strategy, and future participation behind one plan.",
-      ],
-    },
-  ],
-  watchEyebrow: "Contract watchlist",
-  watchTitle: "Four clauses that decide the real price.",
-  watchBody:
-    "Supplier contracts are where market design becomes your bill. These are the terms worth reading twice.",
-  watchlist: [
-    {
-      title: "Price structure",
-      body:
-        "Fixed, index, block, capacity, transmission, and pass-through language all move the real price.",
-    },
-    {
-      title: "Usage flexibility",
-      body:
-        "Bandwidth, swing, minimum usage, and material-change terms decide how much your operations can vary.",
-    },
-    {
-      title: "Exit rights",
-      body:
-        "Auto-renewal, notice windows, termination formulas, and assignment clauses matter before conditions change.",
-    },
-    {
-      title: "Future participation",
-      body:
-        "Solar, batteries, demand response, and EV charging can all conflict with supplier or utility terms.",
-    },
-  ],
-  upload: {
-    eyebrow: "Coming soon",
-    title: "Have a supplier contract? Soon you can drop it here.",
-    body:
-      "We're building an agent that reads third-party supplier contracts and flags hidden terms, tradeoffs, and negotiation points. Try the preview below.",
-    button: "Choose a contract PDF",
-    panelTitle: "Supplier agreement PDF",
-    emptyState: "No file selected.",
-    note: "Nothing is uploaded. The file never leaves your browser.",
-  },
-  channels: {
-    eyebrow: "Stay in the loop",
-    title: "Market updates, without the newsletter voice.",
-    body: "Short notes on market moves, product progress, and launch dates.",
-    items: [
-      {
-        label: "Join Telegram",
-        name: "Telegram",
-        href: "",
-        body: "Fast market notes and launch updates.",
-      },
-      {
-        label: "Join WhatsApp",
-        name: "WhatsApp",
-        href: "",
-        body: "Mobile reminders for milestones and market changes.",
-      },
-    ],
-  },
-};
-
-export const contact = {
-  eyebrow: "Contact",
-  title: "Contact us on Telegram directly for any inquiries whatsoever.",
-  cta: "Message us on Telegram",
-  // Paste the Telegram contact link here. Empty renders a disabled "link
-  // coming soon" state -- same convention as home.finalCta.joinHref.
-  href: "",
-};
-
-export const earlyBirdFields = [
-  { name: "name", label: "Name", type: "text", autocomplete: "name" },
-  { name: "email", label: "Email", type: "email", autocomplete: "email" },
-  {
-    name: "company",
-    label: "Company or property",
-    type: "text",
-    autocomplete: "organization",
-  },
-  {
-    name: "message",
-    label: "What you'd like to explore",
-    type: "textarea",
-    autocomplete: "off",
-  },
-];
 
 export const enrollmentFields = [
   { name: "name", label: "Name", type: "text", autocomplete: "name" },
