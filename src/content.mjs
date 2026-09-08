@@ -134,7 +134,8 @@ export const home = {
   intelligence: {
     eyebrow: "06 / Intelligence",
     title: "Intelligence",
-    body: "we market fundamentals and use data to drive smarter deployment strategies.",
+    body:
+      "Honestly, this is the easy button: verify your account, upload your latest electric bill, and our intelligence model can usually return your audit within 5 minutes. If you'd rather, just send it to us on Telegram by clicking below. Most recent bills do not flag much on delivery charges or taxes/fees, so a quick check is usually a no-brainer. If you're on hourly pricing, we can still run the audit, but it can take up to 48 hours because we need a little more information to verify the errors. Utilities generally allow billing-error reconciliation going back up to 24 months. The audit is free for everyone, and access to our official platform is reserved for selected early founding clients after a short selection process and an intro with our team.",
   },
   faq: {
     eyebrow: "07 / A few good questions",
