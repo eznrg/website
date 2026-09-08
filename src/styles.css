@@ -1925,6 +1925,8 @@ h3 {
   line-height: 1.08;
 }
 .landing-page h3 { font-size: 1.22rem; line-height: 1.25; letter-spacing: -0.025em; }
+.landing-page .title-line { display: block; text-wrap: balance; }
+.landing-page .section:not(.audit-hero):not(.manifesto-section) { padding-block: 80px; }
 .landing-page .eyebrow { font-size: .68rem; letter-spacing: .11em; }
 .audit-hero { padding: 88px 0 0; }
 .audit-hero-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 70px; align-items: center; }
@@ -1973,24 +1975,36 @@ h3 {
 .audit-amount-label { margin: 8px 0 30px; font-size: .9rem; color: #d0d9d3; }
 .audit-customer-context { margin: 0; font-size: .8rem; color: #b9c2bd; }
 .audit-summary-note { padding: 17px 32px; margin: 0; border-top: 1px solid #ffffff10; font-size: .66rem; line-height: 1.7; color: #acb8b0; background: #00000013; }
-.mission-story { margin-top: 64px; padding: 72px 0; border-block: 1px solid var(--border); background: #ffffff02; }
+.mission-story { margin-top: 32px; padding: 64px 0; border-block: 1px solid var(--border); background: #ffffff02; }
 .mission-content { max-width: 960px; }
-.mission-content h2 { max-width: 17ch; margin: 16px 0 30px; font-size: clamp(2rem, 4vw, 3.6rem); }
+.mission-content h2 { max-width: 24ch; margin: 16px 0 30px; font-size: clamp(2rem, 3.5vw, 3.1rem); text-wrap: balance; }
 .mission-body { max-width: 75ch; color: #b9c2bd; font-size: 1rem; line-height: 1.85; }
 .mission-body p { margin-bottom: 18px; }
 .mission-body p:last-child { margin-bottom: 0; }
 .mission-attribution { margin: 28px 0 0; color: var(--mint); font-family: var(--font-mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+.story-disclosure > summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 48px; padding-block: 12px; color: var(--mint-lift); font-size: .94rem; font-weight: 600; list-style: none; cursor: pointer; }
+.story-disclosure > summary::-webkit-details-marker { display: none; }
+.story-disclosure > summary:hover { color: var(--text); }
+.story-disclosure .disclosure-less { display: none; }
+.story-disclosure[open] > summary .disclosure-more { display: none; }
+.story-disclosure[open] > summary .disclosure-less { display: inline; }
+.disclosure-icon { flex-shrink: 0; font-size: 1.4rem; font-weight: 400; line-height: 1; }
+.story-disclosure[open] > summary .disclosure-icon { transform: rotate(45deg); }
+.manifesto-disclosure > summary { color: var(--ember); }
+.manifesto-disclosure[open] > summary { margin-bottom: 16px; }
+.mission-disclosure > summary { max-width: 75ch; border-top: 1px solid var(--border); }
+.mission-disclosure[open] > summary { margin-bottom: 20px; }
 .audit-section-heading { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 70px; margin-bottom: 42px; }
 .audit-section-heading h2 { margin-bottom: 0; }
-.audit-section-heading > p { max-width: 48ch; margin-bottom: 0; color: #b9c2bd; font-size: .97rem; line-height: 1.85; }
+.audit-section-heading > p { max-width: 48ch; margin-bottom: 0; color: #b9c2bd; font-size: 1rem; line-height: 1.75; }
 .audit-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
 .audit-steps li { padding: 32px; background: linear-gradient(150deg, #8bd8a608, #8bd8a601); }
 .audit-steps li + li { border-left: 1px solid var(--border); }
 .audit-step-number { display: block; font-family: var(--font-mono); font-size: .72rem; color: var(--mint); margin-bottom: 32px; }
-.audit-steps p, .after-options p, .strategy-pillars p { font-size: .9rem; line-height: 1.85; color: #b9c2bd; margin-bottom: 0; }
+.audit-steps p, .after-options p, .strategy-pillars p { font-size: 1rem; line-height: 1.75; color: #b9c2bd; margin-bottom: 0; }
 .audit-after { background: linear-gradient(125deg, #8bd8a606, #0b0e0d00 65%); border-block: 1px solid var(--border); }
 .after-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; }
-.audit-section-body { max-width: 45ch; font-size: .97rem; color: #b9c2bd; line-height: 1.85; }
+.audit-section-body { max-width: 45ch; font-size: 1rem; color: #b9c2bd; line-height: 1.75; }
 .recovery-card { border: 1px solid #3c5142; border-radius: 8px; padding: 28px; margin-top: 32px; background: #8bd8a605; }
 .recovery-card h3 { font-size: .85rem; font-weight: 600; }
 .recovery-split { display: grid; grid-template-columns: 1fr 1fr; margin-block: 24px; }
@@ -2129,14 +2143,15 @@ h3 {
   text-transform: uppercase;
 }
 .energy-services { border-top: 1px solid var(--border); background: linear-gradient(145deg, #f2a65a05, transparent 54%); }
-.service-grid { display: grid; grid-template-columns: repeat(6, 1fr); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-.service-grid article { grid-column: span 2; min-height: 245px; padding: 30px; background: linear-gradient(150deg, #ffffff02, transparent); }
+.service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.service-grid article { display: flex; flex-direction: column; padding: 30px; background: linear-gradient(150deg, #ffffff02, transparent); }
 .service-grid article + article { border-left: 1px solid var(--border); }
-.service-grid article:nth-child(4), .service-grid article:nth-child(5) { grid-column: span 3; border-top: 1px solid var(--border); }
-.service-grid article:nth-child(4) { border-left: 0; }
-.service-number { display: block; margin-bottom: 42px; color: var(--ember); font-family: var(--font-mono); font-size: .7rem; }
-.service-grid p { margin: 0; color: #b9c2bd; font-size: .9rem; line-height: 1.85; }
+.service-number { display: block; margin-bottom: 24px; color: var(--ember); font-family: var(--font-mono); font-size: .7rem; }
+.service-grid h3 { text-wrap: balance; }
+.service-grid p { margin: 0; color: #b9c2bd; font-size: 1rem; line-height: 1.75; }
+.service-grid .service-technical { margin-top: auto; padding-top: 24px; color: var(--ember); font-size: .78rem; line-height: 1.6; }
 .service-note { margin: 24px 0 0; color: var(--muted); font-size: .75rem; }
+.audit-intelligence .audit-section-heading { align-items: center; margin-bottom: 0; }
 .audit-faq { border-top: 1px solid var(--border); }
 .faq-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; }
 .faq-list { border-top: 1px solid var(--border); }
@@ -2146,7 +2161,7 @@ h3 {
 .faq-plus { color: var(--mint); font-size: 1.25rem; font-weight: 400; transition: transform 180ms ease; }
 .faq-list details[open] .faq-plus { transform: rotate(45deg); }
 .faq-list details[open] summary { color: var(--mint-lift); }
-.faq-list details > p { font-size: .9rem; color: #b9c2bd; max-width: 60ch; padding-right: 24px; margin: 0 0 24px; line-height: 1.85; }
+.faq-list details > p { font-size: 1rem; color: #b9c2bd; max-width: 60ch; padding-right: 24px; margin: 0 0 24px; line-height: 1.75; }
 .audit-closing { text-align: center; border-top: 1px solid #3a4b3e; background: radial-gradient(ellipse at 50% 100%, #8bd8a616, transparent 65%); }
 .audit-closing h2 { max-width: 24ch; margin-inline: auto; }
 .audit-closing p:not(.eyebrow) { color: #b9c2bd; font-size: .95rem; max-width: 49ch; margin: 0 auto 26px; }
@@ -2157,6 +2172,8 @@ h3 {
   .after-grid, .audit-section-heading, .manifesto-heading, .faq-grid { gap: 45px; }
 }
 @media (max-width: 760px) {
+  .landing-page .section:not(.audit-hero):not(.manifesto-section) { padding-block: 56px; }
+  .landing-page main > section:not(.audit-hero):not(.manifesto-section) > .container { width: calc(100% - 40px); }
   .audit-hero { padding-top: 48px; }
   .audit-hero-grid, .after-grid, .audit-section-heading, .manifesto-heading, .faq-grid { grid-template-columns: 1fr; gap: 36px; }
   .audit-hero h1 { font-size: clamp(2.6rem, 8vw, 3.8rem); max-width: 19ch; }
@@ -2182,11 +2199,7 @@ h3 {
     border-left: 0;
   }
   .service-grid { grid-template-columns: 1fr; }
-  .service-grid article,
-  .service-grid article:nth-child(4),
-  .service-grid article:nth-child(5) { grid-column: 1; min-height: 0; }
-  .service-grid article + article,
-  .service-grid article:nth-child(4) { border-left: 0; border-top: 1px solid var(--border); }
+  .service-grid article + article { border-left: 0; border-top: 1px solid var(--border); }
   .service-number { margin-bottom: 20px; }
 }
 @media (max-width: 420px) {
