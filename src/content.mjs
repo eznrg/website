@@ -7,7 +7,7 @@ export const site = {
 
 export const nav = [
   { label: "How it works", href: "/#how" },
-  { label: "Why EZNRG", href: "/#why-eznrg" },
+  { label: "About", href: "/#why-eznrg" },
   { label: "Services", href: "/#energy-services" },
   { label: "FAQ", href: "/#faq" },
 ];
@@ -27,7 +27,13 @@ export const ui = {
 // Setting this alone is not launch approval; see README's release checklist.
 export const audit = {
   href: "",
-  label: "Start my audit",
+  label: "Get Started",
+  unavailable: "Available soon",
+};
+
+export const login = {
+  href: "",
+  label: "Log In",
   unavailable: "Available soon",
 };
 
