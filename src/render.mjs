@@ -206,8 +206,7 @@ function auditSummary() {
       <p class="audit-summary-title">${escapeHtml(e.summaryTitle)}</p>
       <strong class="audit-amount">${escapeHtml(e.refundValue)}</strong>
       <p class="audit-amount-label">${escapeHtml(e.refundLabel)}</p>
-      <div class="audit-rule" aria-hidden="true"><span></span><i></i></div>
-      <div class="audit-time"><span class="audit-time-icon">${icon("check")}</span><div><strong>${escapeHtml(e.timeValue)}</strong><span>${escapeHtml(e.timeLabel)}</span></div></div>
+      <p class="audit-customer-context">${escapeHtml(e.context)}</p>
     </div>
     <p class="audit-summary-note">${escapeHtml(e.note)}</p>
   </figure>`;

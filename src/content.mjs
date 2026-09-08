@@ -34,20 +34,19 @@ export const audit = {
 export const home = {
   hero: {
     eyebrow: "Energy intelligence. Working for your business.",
-    title: ["Your utility bills.", "Verified.", "Without the extra work."],
-    body: "Upload one bill. We handle the audit and recovery process. No upfront cost—if we recover money, you keep 50%. If we recover nothing, you pay nothing.",
+    title: ["Your utility bills", "verified."],
+    body: "You pay your utility bills every month. But how do you know the charges are correct? We review the details, explain what we find, and identify billing errors that may qualify for a refund.",
     secondaryCta: "See how it works",
   },
   evidence: {
     label: "A real customer outcome",
     customer: "Property owner",
-    summaryTitle: "Minor Utility Bill Errors May be Costing You",
+    summaryTitle: "Small billing errors. Real financial impact.",
     refundValue: "$5,000+",
-    refundLabel: "in eligible refunds identified",
-    timeValue: "~2 hours",
-    timeLabel: "saved each month on reporting",
+    refundLabel: "in eligible utility refunds identified",
+    context: "For one property owner.",
     status: "Audit findings",
-    note: "Results vary by individual, property, and other factors.",
+    note: "Individual results vary.",
   },
   mission: {
     eyebrow: "Our mission",
