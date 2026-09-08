@@ -4,6 +4,7 @@ import {
   enrollmentFields,
   home,
   legalNav,
+  login,
   nav,
   site,
   ui,
@@ -110,7 +111,10 @@ function header(path) {
     </button>
     <nav class="nav" id="primary-navigation" aria-label="Primary navigation" data-nav>
       ${links}
-      ${auditButton("header")}
+      <div class="header-actions">
+        ${auditButton("header")}
+        ${loginButton()}
+      </div>
     </nav>
   </div>
 </header>`;
@@ -194,6 +198,14 @@ function auditButton(location) {
   </span>`;
 }
 
+function loginButton() {
+  if (login.href) return buttonLink(login.href, login.label, "secondary");
+  return `<span class="audit-action">
+    <button class="button button-secondary login-unavailable" type="button" disabled aria-describedby="login-status">${escapeHtml(login.label)}</button>
+    <span class="audit-status" id="login-status">${escapeHtml(login.unavailable)}</span>
+  </span>`;
+}
+
 function sectionTitle(title) {
   return title.split("\n").map(escapeHtml).join("<br>");
 }
@@ -267,14 +279,6 @@ export function renderHome() {
         <div class="audit-visual"><span class="visual-label">${escapeHtml(evidence.label)}</span>${auditSummary()}</div>
       </div>
     </section>
-    <section class="mission-story" aria-labelledby="mission-title">
-      <div class="container mission-content">
-        <p class="eyebrow">${escapeHtml(mission.eyebrow)}</p>
-        <h2 id="mission-title">${escapeHtml(mission.title)}</h2>
-        <div class="mission-body">${mission.paragraphs.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join("")}</div>
-        <p class="mission-attribution">${escapeHtml(mission.attribution)}</p>
-      </div>
-    </section>
     <section class="section audit-how" id="how">
       <div class="container">
         <div class="audit-section-heading"><div><p class="eyebrow">${escapeHtml(how.eyebrow)}</p><h2>${sectionTitle(how.title)}</h2></div><p>${escapeHtml(how.body)}</p></div>
@@ -317,6 +321,14 @@ export function renderHome() {
     </section>
     <section class="section audit-faq" id="faq">
       <div class="container faq-grid"><div><p class="eyebrow">${escapeHtml(faq.eyebrow)}</p><h2>${sectionTitle(faq.title)}</h2></div><div class="faq-list">${faq.items.map(item => `<details><summary>${escapeHtml(item.question)}<span aria-hidden="true" class="faq-plus">+</span></summary><p>${escapeHtml(item.answer)}</p></details>`).join("")}</div></div>
+    </section>
+    <section class="mission-story" aria-labelledby="mission-title">
+      <div class="container mission-content">
+        <p class="eyebrow">${escapeHtml(mission.eyebrow)}</p>
+        <h2 id="mission-title">${escapeHtml(mission.title)}</h2>
+        <div class="mission-body">${mission.paragraphs.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join("")}</div>
+        <p class="mission-attribution">${escapeHtml(mission.attribution)}</p>
+      </div>
     </section>
     <section class="section audit-closing" id="start"><div class="container"><p class="eyebrow">${escapeHtml(closing.eyebrow)}</p><h2>${sectionTitle(closing.title)}</h2><p>${escapeHtml(closing.body)}</p>${auditButton("closing")}</div></section>
   `);

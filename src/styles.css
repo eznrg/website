@@ -1750,6 +1750,9 @@ h3 {
     display: flex;
   }
 
+  .header-actions { margin: 8px 0 0; }
+  .header-actions > * { flex: 1; min-width: 0; }
+
   .nav-link,
   .nav .button {
     justify-content: flex-start;
@@ -1948,7 +1951,11 @@ h3 {
 }
 .audit-unavailable::after { display: none; }
 .audit-status { font-size: .7rem; color: var(--muted); line-height: 1.3; }
-.nav .audit-action { margin-left: 12px; gap: 4px; }
+.header-actions { display: flex; align-items: flex-start; gap: 10px; margin-left: 12px; }
+.nav .audit-action { gap: 4px; }
+.header-actions .button { min-height: 36px; font-size: .85rem; white-space: nowrap; border-radius: 6px; }
+.header-actions .login-unavailable { cursor: not-allowed; opacity: 1; }
+.login-unavailable::after { display: none; }
 .nav .audit-action .button { min-height: 36px; font-size: .85rem; }
 .nav .audit-status { font-size: .62rem; }
 .audit-hero-actions .button { border-radius: 6px; min-height: 50px; }
@@ -2162,7 +2169,7 @@ h3 {
   .mission-story { padding: 52px 0; }
   .audit-section-heading { margin-bottom: 28px; }
   .audit-section-heading > p { max-width: 60ch; }
-  .nav .audit-action { margin: 8px 0 0; }
+  .nav .audit-action { margin: 0; }
   .strategy-pillars { gap: 28px; }
   .manifesto-section { padding-top: 10px; }
   .manifesto-heading { margin-bottom: 36px; }
