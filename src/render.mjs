@@ -207,7 +207,7 @@ function loginButton() {
 }
 
 function sectionTitle(title) {
-  return title.split("\n").map(escapeHtml).join("<br>");
+  return title.split("\n").map(line => `<span class="title-line">${escapeHtml(line)}</span>`).join(" ");
 }
 
 function auditSummary() {
@@ -305,14 +305,17 @@ export function renderHome() {
             <div><p class="eyebrow">${escapeHtml(manifesto.eyebrow)}</p><h2 id="manifesto-title">${escapeHtml(manifesto.title)}</h2></div>
             <p>${escapeHtml(manifesto.intro)}</p>
           </div>
-          <div class="manifesto-grid">${manifesto.chapters.map((chapter) => `<article class="manifesto-chapter"><span class="manifesto-index">${escapeHtml(chapter.index)}</span><h3>${escapeHtml(chapter.title)}</h3>${chapter.philosophy ? `<blockquote><p>${escapeHtml(chapter.philosophy)}</p><footer>Our operating philosophy</footer></blockquote>` : ""}<div class="manifesto-copy">${chapter.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}</div></article>`).join("")}</div>
+          <details class="story-disclosure manifesto-disclosure">
+            <summary><span class="disclosure-more">Read our full manifesto</span><span class="disclosure-less">Close our manifesto</span><span class="disclosure-icon" aria-hidden="true">+</span></summary>
+            <div class="manifesto-grid">${manifesto.chapters.map((chapter) => `<article class="manifesto-chapter"><span class="manifesto-index">${escapeHtml(chapter.index)}</span><h3>${escapeHtml(chapter.title)}</h3>${chapter.philosophy ? `<blockquote><p>${escapeHtml(chapter.philosophy)}</p><footer>Our operating philosophy</footer></blockquote>` : ""}<div class="manifesto-copy">${chapter.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}</div></article>`).join("")}</div>
+          </details>
         </div>
       </div>
     </section>
     <section class="section energy-services" id="energy-services">
       <div class="container">
         <div class="audit-section-heading"><div><p class="eyebrow">${escapeHtml(services.eyebrow)}</p><h2>${sectionTitle(services.title)}</h2></div><p>${escapeHtml(services.body)}</p></div>
-        <div class="service-grid">${services.items.map(item => `<article><span class="service-number">${escapeHtml(item.index)}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.body)}</p></article>`).join("")}</div>
+        <div class="service-grid">${services.items.map(item => `<article><span class="service-number">${escapeHtml(item.index)}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.body)}</p><p class="service-technical">${escapeHtml(item.technical)}</p></article>`).join("")}</div>
         <p class="service-note">${escapeHtml(services.note)}</p>
       </div>
     </section>
@@ -326,8 +329,11 @@ export function renderHome() {
       <div class="container mission-content">
         <p class="eyebrow">${escapeHtml(mission.eyebrow)}</p>
         <h2 id="mission-title">${escapeHtml(mission.title)}</h2>
-        <div class="mission-body">${mission.paragraphs.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join("")}</div>
-        <p class="mission-attribution">${escapeHtml(mission.attribution)}</p>
+        <details class="story-disclosure mission-disclosure">
+          <summary><span class="disclosure-more">Read our full mission</span><span class="disclosure-less">Close our mission</span><span class="disclosure-icon" aria-hidden="true">+</span></summary>
+          <div class="mission-body">${mission.paragraphs.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join("")}</div>
+          <p class="mission-attribution">${escapeHtml(mission.attribution)}</p>
+        </details>
       </div>
     </section>
     <section class="section audit-closing" id="start"><div class="container"><p class="eyebrow">${escapeHtml(closing.eyebrow)}</p><h2>${sectionTitle(closing.title)}</h2><p>${escapeHtml(closing.body)}</p>${auditButton("closing")}</div></section>

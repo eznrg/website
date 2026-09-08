@@ -27,7 +27,7 @@ export const ui = {
 // Setting this alone is not launch approval; see README's release checklist.
 export const audit = {
   href: "",
-  label: "Get Started",
+  label: "Start Audit",
   unavailable: "Available soon",
 };
 
@@ -128,19 +128,16 @@ export const home = {
     title: "Strategy beyond\nthe bill.",
     body: "We connect procurement, market exposure, and site operations into one energy strategy.",
     items: [
-      { index: "01", title: "Procurement", body: "Evaluate supply options and structure a purchasing approach around your operating needs, risk tolerance, and timing." },
-      { index: "02", title: "Demand response", body: "Identify where flexible load may create value by responding to grid or market conditions." },
-      { index: "03", title: "Load shifting", body: "Find practical opportunities to move energy use away from higher-cost periods without disrupting the business." },
-      { index: "04", title: "Laddered procurement", body: "Stage purchases across multiple dates and market conditions instead of concentrating every decision at one moment." },
-      { index: "05", title: "Hedging", body: "Assess tools that can reduce exposure to energy-price volatility while preserving the flexibility the business needs." },
+      { index: "01", title: "Manage purchasing and price risk", body: "Compare supply options around your operating needs, risk tolerance, and timing. Spread purchases across market conditions and assess tools to reduce price volatility while preserving flexibility.", technical: "Procurement · Laddered procurement · Hedging" },
+      { index: "02", title: "Shift usage away from expensive periods", body: "Find practical opportunities to move energy use to lower-cost periods without disrupting your business.", technical: "Load shifting" },
+      { index: "03", title: "Earn value from operational flexibility", body: "Identify where adjusting flexible load in response to grid or market conditions may create value for your business.", technical: "Demand response" },
     ],
     note: "Specific services, eligibility, and commercial terms are defined with each business.",
   },
   intelligence: {
     eyebrow: "06 / Intelligence",
     title: "Intelligence",
-    body:
-      "Honestly, this is the easy button: verify your account, upload your latest electric bill, and our intelligence model can usually return your audit within 5 minutes. If you'd rather, just send it to us on Telegram by clicking below. Most recent bills do not flag much on delivery charges or taxes/fees, so a quick check is usually a no-brainer. If you're on hourly pricing, we can still run the audit, but it can take up to 48 hours because we need a little more information to verify the errors. Utilities generally allow billing-error reconciliation going back up to 24 months. The audit is free for everyone, and access to our official platform is reserved for selected early founding clients after a short selection process and an intro with our team.",
+    body: "Coming soon.",
   },
   faq: {
     eyebrow: "07 / A few good questions",
