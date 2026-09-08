@@ -1964,14 +1964,7 @@ h3 {
 .audit-summary-title { color: #c2cfc6; font-size: .85rem; margin-bottom: 20px; }
 .audit-amount { display: block; color: var(--mint-lift); font-family: var(--font-display); font-size: clamp(4rem, 6vw, 5.6rem); font-weight: 700; letter-spacing: -.065em; line-height: 1; }
 .audit-amount-label { margin: 8px 0 30px; font-size: .9rem; color: #d0d9d3; }
-.audit-rule { height: 1px; background: #405447; position: relative; margin-bottom: 25px; }
-.audit-rule span { position: absolute; width: 48px; height: 2px; background: var(--mint); }
-.audit-rule i { position: absolute; right: 0; width: 4px; height: 4px; top: -1px; background: var(--ember); }
-.audit-time { display: flex; align-items: center; gap: 16px; }
-.audit-time-icon { width: 36px; height: 36px; display: grid; place-items: center; background: #8bd8a610; border: 1px solid #8bd8a62a; border-radius: 6px; color: var(--mint); }
-.audit-time-icon svg { width: 20px; height: 20px; }
-.audit-time strong { display: block; font-family: var(--font-display); font-size: 1.55rem; letter-spacing: -.04em; line-height: 1.2; }
-.audit-time div > span { font-size: .75rem; color: #b9c2bd; }
+.audit-customer-context { margin: 0; font-size: .8rem; color: #b9c2bd; }
 .audit-summary-note { padding: 17px 32px; margin: 0; border-top: 1px solid #ffffff10; font-size: .66rem; line-height: 1.7; color: #acb8b0; background: #00000013; }
 .mission-story { margin-top: 64px; padding: 72px 0; border-block: 1px solid var(--border); background: #ffffff02; }
 .mission-content { max-width: 960px; }
