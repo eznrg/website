@@ -47,8 +47,8 @@ Two stylesheets, deliberately split:
 - **`rate-charts.js`** → `/static/rate-charts.js` — the hover / tap / keyboard
   readout for the rate charts, linked by **the two commercial pages only**.
   Purely additive: every chart renders complete without it. The hospitality
-  pages predate it and keep their own inline, load-profile-specific copy, so a
-  change here cannot reach them.
+  landing page uses `hospitality/load-chart.js`; its white paper keeps an inline
+  load-profile readout, so a change here cannot reach either page.
 
 A change to `theme.css` lands on `/hospitality`, `/residential`, and
 `/commercial` at once — check all three.
@@ -210,3 +210,16 @@ so axis text stays at real CSS pixels and strokes stay a true 2px at any width.
   re-run the validator rather than swapping hexes by eye.
 - **Data lives inline** in `data-viz` on each `.viz-plot` and again in the table
   body. Change one, change the other.
+
+## Hospitality load chart
+
+`hospitality/index.html` holds the static SVG, axis labels, seasonal highs, and
+`data-viz` hourly values. Keep those values and the SVG synchronized with
+Customer 1 / Meter 780 in `hospitality/whitepaper/index.html`.
+`hospitality/load-chart.js` adds a shared hourly readout for pointer hover, touch,
+and keyboard use (arrows, Home, End). The plot exposes the selected hour and both
+seasonal values to assistive technology. Without JavaScript, the chart, peak
+markers, seasonal highs, and supporting evidence link remain available.
+
+Check hover, touch, keyboard endpoints, narrow-screen overflow, and agreement
+with all 48 white-paper values when changing this chart.
