@@ -9,7 +9,7 @@
 | `hospitality/` | `/hospitality` | Landing page for hospitality operators |
 | `hospitality/whitepaper/` | `/hospitality/whitepaper` | Full white paper — *The Flexible Hotel, a Grid Asset* |
 | `commercial/` | `/commercial` | Landing page for Illinois commercial ratepayers |
-| `commercial/whitepaper/` | `/commercial/whitepaper` | Full brief — *Price to Compare* |
+| `commercial/brief/` | `/commercial/brief` | Full brief — *Price to Compare* |
 | `residential/` | `/residential` | **Placeholder** — coming-soon page for homeowners |
 | `shared/` | `/static/*` | Theme + scripts shared by the pages above |
 
@@ -74,7 +74,7 @@ is **recursive**, so nested pages like `hospitality/whitepaper/` come along with
 no build change. **All `.md` files and `.DS_Store` are filtered out of the
 deploy** — markdown under `static/` is source, never output. That covers this
 README and the commercial brief's source document, which lives beside the page
-built from it (`commercial/whitepaper/IL_RATEPAYER_BRIEF_DRAFT.docx.md`). Keep
+built from it (`commercial/brief/IL_RATEPAYER_BRIEF_DRAFT.docx.md`). Keep
 source documents as `.md` and they stay out of `dist/` automatically.
 
 With `cleanUrls: true` in `vercel.json`, `dist/<name>/index.html` is served at
@@ -131,7 +131,7 @@ Structure worth knowing:
 
 ## The commercial brief
 
-`commercial/whitepaper/index.html` renders *Price to Compare*, an Illinois
+`commercial/brief/index.html` renders *Price to Compare*, an Illinois
 ratepayer brief on ComEd default service versus retail (ARES) supply. Its source
 document sits beside it as `IL_RATEPAYER_BRIEF_DRAFT.docx.md` and is **not**
 deployed (see the build filter above).
@@ -223,3 +223,7 @@ markers, seasonal highs, and supporting evidence link remain available.
 
 Check hover, touch, keyboard endpoints, narrow-screen overflow, and agreement
 with all 48 white-paper values when changing this chart.
+
+### Commercial two-page reading flow
+
+`/commercial` is a 150–200 word teaser with no charts or statistics. All detailed analysis and existing data live at `/commercial/brief`. The former `/commercial/whitepaper` URL redirects permanently to the brief; it is not a third content page. CFRA is excluded from calculations because it applies across rate classes regardless of delivery classification; retain its historical values in the appendix. Contact channels are at `/commercial/brief#channels`.
