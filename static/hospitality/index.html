@@ -214,15 +214,32 @@
     }
     .load-line-summer { stroke: #46a26d; }
     .load-line-winter { stroke: #8f83e8; }
-    .load-dot { vector-effect: non-scaling-stroke; stroke: #151917; stroke-width: 5; }
-    .load-hours {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 9px;
-      color: var(--muted);
-      font-family: var(--font-mono);
-      font-size: 0.64rem;
-    }
+
+    .load-legend { color: #c1c9c3; font-size: 0.82rem; }
+    .load-key-winter { background: none; border-top: 2px dashed #afa1ff; }
+    .load-line-summer { stroke: #70cf95; }
+    .load-key-summer { background: #70cf95; }
+    .load-line-winter { stroke: #afa1ff; stroke-dasharray: 7 5; }
+    .load-axis-title, .load-help { color: #c1c9c3; font-size: 0.8rem; margin: 0 0 12px; }
+    .load-help { font-size: 0.75rem; margin: 8px 0 24px; }
+    .load-readout { display: flex; flex-wrap: wrap; gap: 5px 16px; font-size: 0.87rem; font-variant-numeric: tabular-nums; }
+    .load-readout[hidden], .load-guide[hidden] { display: none; }
+    .load-readout strong { min-width: 4.5em; }
+    .load-readout-summer { color: #70cf95; }
+    .load-readout-winter { color: #afa1ff; }
+    .load-chart-body { position: relative; padding-left: 30px; }
+    .load-scale { position: absolute; left: 0; top: 0; bottom: 30px; display: flex; flex-direction: column; justify-content: space-between; color: #c1c9c3; font: 0.75rem var(--font-mono); }
+    .load-scale span { line-height: 0; }
+    .load-plot[role="slider"] { cursor: crosshair; touch-action: pan-y; }
+    .load-plot:focus-visible { outline: 2px solid var(--primary); outline-offset: 7px; }
+    .load-guide { position: absolute; top: 0; bottom: 0; border-left: 1px solid #b6c0b9; pointer-events: none; }
+    .load-point { position: absolute; width: 8px; height: 8px; border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+    .load-point-summer { background: #70cf95; }
+    .load-point-winter { background: #afa1ff; }
+    .load-hours { position: relative; height: 30px; color: #c1c9c3; font: 0.72rem var(--font-mono); }
+    .load-hours span { position: absolute; top: 10px; transform: translateX(-50%); white-space: nowrap; }
+    .load-hours span:first-child { transform: none; }
+    .load-hours span:last-child { transform: translateX(-100%); }
     .load-note {
       display: flex;
       justify-content: space-between;
@@ -235,6 +252,7 @@
       line-height: 1.5;
     }
     .load-note strong { color: var(--text); }
+    .load-figure figcaption a { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
     .load-figure figcaption {
       margin-top: 12px;
       color: var(--muted);
@@ -471,30 +489,37 @@
         </div>
 
         <figure class="load-figure reveal">
-          <div class="load-card" role="img" aria-labelledby="load-title load-description">
+          <div class="load-card" role="group" aria-labelledby="load-title" aria-describedby="load-description">
             <div class="load-head">
               <div>
                 <p class="load-kicker">One metered property</p>
                 <p class="load-title" id="load-title">Average hourly load by season</p>
               </div>
-              <ul class="load-legend" aria-hidden="true">
+              <ul class="load-legend">
                 <li><span class="load-key load-key-summer"></span>Summer</li>
                 <li><span class="load-key load-key-winter"></span>Winter</li>
               </ul>
             </div>
             <p id="load-description" hidden>Line chart comparing average hourly summer and winter electricity load for Customer 1, Meter 780. Winter load stays higher throughout the day and reaches its average high in the morning; summer load reaches its average high in the late afternoon.</p>
-            <div class="load-plot" aria-hidden="true">
-              <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" focusable="false">
+            <p class="load-axis-title">Average load (kW)</p>
+            <div class="load-readout" id="load-readout" hidden></div>
+            <p class="load-help" id="load-help" hidden>Hover or tap to explore · Arrow keys change the hour</p>
+            <div class="load-chart-body">
+            <div class="load-scale" aria-hidden="true"><span>20</span><span>15</span><span>10</span><span>5</span></div>
+            <div class="load-plot" data-viz="{&quot;lo&quot;:5,&quot;hi&quot;:20,&quot;s&quot;:[10.6,9.9,9.2,8.6,8.2,7.8,7.8,8.8,9.8,11,11.6,11.7,12,11.9,12.2,12.9,13.8,14.5,14.3,13.5,12.8,12.6,12.4,11.4],&quot;w&quot;:[18.5,18.4,18.5,18.6,18.7,19.2,19.8,19.8,18.9,18.3,18,17.7,17.3,16.8,16.4,16.6,17.3,18.4,19.1,19.4,19.5,19.4,19.2,18.9]}">
+              <div class="load-guide" hidden></div>
+              <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" focusable="false" aria-hidden="true">
                 <path class="load-line load-line-summer" d="M0.0 626.7 L43.5 673.3 L87.0 720.0 L130.4 760.0 L173.9 786.7 L217.4 813.3 L260.9 813.3 L304.3 746.7 L347.8 680.0 L391.3 600.0 L434.8 560.0 L478.3 553.3 L521.7 533.3 L565.2 540.0 L608.7 520.0 L652.2 473.3 L695.7 413.3 L739.1 366.7 L782.6 380.0 L826.1 433.3 L869.6 480.0 L913.0 493.3 L956.5 506.7 L1000.0 573.3"/>
                 <path class="load-line load-line-winter" d="M0.0 100.0 L43.5 106.7 L87.0 100.0 L130.4 93.3 L173.9 86.7 L217.4 53.3 L260.9 13.3 L304.3 13.3 L347.8 73.3 L391.3 113.3 L434.8 133.3 L478.3 153.3 L521.7 180.0 L565.2 213.3 L608.7 240.0 L652.2 226.7 L695.7 180.0 L739.1 106.7 L782.6 60.0 L826.1 40.0 L869.6 33.3 L913.0 40.0 L956.5 53.3 L1000.0 73.3"/>
-                <circle class="load-dot" cx="739.1" cy="366.7" r="9" fill="#46a26d"/>
-                <circle class="load-dot" cx="260.9" cy="13.3" r="9" fill="#8f83e8"/>
               </svg>
+              <span class="load-point load-point-summer" style="left:73.913%;top:36.667%" aria-hidden="true"></span>
+              <span class="load-point load-point-winter" style="left:26.087%;top:1.333%" aria-hidden="true"></span>
             </div>
-            <div class="load-hours" aria-hidden="true"><span>12am</span><span>6am</span><span>12pm</span><span>6pm</span><span>11pm</span></div>
+            <div class="load-hours" aria-hidden="true"><span style="left:0">12am</span><span style="left:26.087%">6am</span><span style="left:52.174%">12pm</span><span style="left:78.261%">6pm</span><span style="left:100%">11pm</span></div>
+            </div>
             <p class="load-note"><span><strong>Summer high</strong> · 14.5 kW at 5pm</span><span><strong>Winter high</strong> · 19.8 kW at 6–7am</span></p>
           </div>
-          <figcaption>Customer 1 · Meter 780. Average hourly summer and winter load; the full interval analysis appears in the white paper.</figcaption>
+          <figcaption>Customer 1 · Meter 780. Seasonal averages for one meter, not the annual peaks of all four properties. <a href="/hospitality/whitepaper#prop-780">View this meter’s data and methodology →</a></figcaption>
         </figure>
       </div>
     </section>
@@ -547,6 +572,7 @@
     </div>
   </footer>
 
+  <script src="/hospitality/load-chart.js" defer></script>
   <script src="/static/reveal.js"></script>
 </body>
 </html>
