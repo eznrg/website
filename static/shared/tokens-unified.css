@@ -1,0 +1,218 @@
+/**
+ * Unified Design Tokens: Website + Platform
+ *
+ * This is the single source of truth for color, typography, and spacing
+ * across @eznrg/website and @eznrg/eznrg-platform.
+ *
+ * ARCHITECTURE:
+ * - Light mode (default) matches the platform's operational UI aesthetic
+ * - Dark mode (:root[data-theme="dark"]) preserves the website's mint theme
+ * - Both use the SAME semantic names, so either site can import this file
+ * - Chart series and status colors are validated for accessibility
+ *
+ * NAMING CONVENTION:
+ * - --color-*: semantic UI colors (accent, surfaces, text)
+ * - --text-*: font sizes and line heights
+ * - --font-*: font families
+ * - Legacy names (--primary, --bg) aliased for backward compatibility
+ *
+ * IMPORT:
+ * Website:  <link rel="stylesheet" href="/static/tokens-unified.css">
+ * Platform: @import "../../static/marketing/tokens-unified.css"; (in index.css)
+ */
+
+:root {
+  /* ================================================================
+     LIGHT MODE (default): Operational interface aesthetic
+     Matches eznrg-platform's primary interface
+     ================================================================ */
+
+  /* Surfaces & ink: neutral, readable on light backgrounds */
+  --color-ground: #f7f9fc;           /* Page background */
+  --color-surface: #ffffff;          /* Card, panel backgrounds */
+  --color-raised: #ffffff;           /* Overlay, modal backgrounds */
+  --color-sunk: #eef2f6;             /* Subtle surface variation */
+  --color-ink: #202a36;              /* Primary text */
+  --color-ink-mid: #475569;          /* Secondary text */
+  --color-ink-mute: #607084;         /* Tertiary text, disabled */
+  --color-hair: #e1e7ef;             /* Borders, dividers */
+  --color-hair-strong: #b7c3d2;      /* Stronger borders */
+
+  /* Brand accent: teal for actions and highlights */
+  --color-accent: #087c70;           /* Primary interactive color */
+  --color-accent-hover: #05665d;     /* Hover state */
+  --color-accent-soft: #def3ee;      /* Soft background for attention */
+  --color-brand-deep: #0b2523;       /* Deep brand color for emphasis */
+  --color-brand-deeper: #071b1a;     /* Darkest brand for typography overlays */
+  --color-brand-glow: #63d5bd;       /* Glowing/highlight state */
+  --color-on-accent: #ffffff;        /* Text on teal accent (light mode: white) */
+
+  /* Status colors: reserved semantics, never used for decoration */
+  --color-good: #17614a;             /* Success, approved state */
+  --color-good-soft: #dcefe6;        /* Success background */
+  --color-on-good: #ffffff;          /* Text on good state */
+  --color-warn: #7a5410;             /* Attention, warning state */
+  --color-warn-soft: #f8eeda;        /* Warning background */
+  --color-bad: #9d2b20;              /* Error, critical state */
+  --color-bad-soft: #f8e5e3;         /* Error background */
+
+  /* Chart series: validated for light surfaces, accessible to colorblind viewers */
+  --color-series-1: #00939f;         /* Teal/cyan line 1 */
+  --color-series-2: #cc5500;         /* Orange line 2 */
+  --color-series-3: #4c5fc7;         /* Blue line 3 */
+  --color-grid: #e4ebed;             /* Grid lines and faint rules */
+
+  /* Typography: consistent across both sites */
+  --font-serif: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Type scale: 16px base, nothing readable below 13px */
+  --text-micro: 0.8125rem;           /* 13px: labels, table headers, badges */
+  --text-small: 0.875rem;            /* 14px: secondary text, captions */
+  --text-base: 1rem;                 /* 16px: body copy, standard text */
+  --text-lead: 1.0625rem;            /* 17px: lead paragraphs, emphasis */
+
+  /* Structural tokens */
+  --radius: 6px;                     /* Small borders (buttons, inputs) */
+  --radius-lg: 10px;                 /* Large borders (cards, modals) */
+  --max: 1160px;                     /* Max content width */
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.5); /* Elevation shadow */
+
+  /* ================================================================
+     LEGACY WEBSITE NAMES: Aliased for backward compatibility
+     Allows static/shared/theme.css to continue working unchanged
+     ================================================================ */
+  --primary: var(--color-accent);
+  --primary-foreground: var(--color-on-accent);
+  --bg: var(--color-ground);
+  --surface: var(--color-surface);
+  --surface-2: var(--color-sunk);
+  --text: var(--color-ink);
+  --muted: var(--color-ink-mute);
+  --teal-deep: var(--color-brand-deep);
+  --border: var(--color-hair);
+}
+
+/* =====================================================================
+   DARK MODE: Website's mint aesthetic (for campaigns & landing pages)
+   Set data-theme="dark" on <html> to activate
+   ===================================================================== */
+:root[data-theme="dark"] {
+  /* Surfaces: dark with depth */
+  --color-ground: #111820;           /* Deep page background */
+  --color-surface: #18212c;          /* Card backgrounds */
+  --color-raised: #202c39;           /* Raised surfaces */
+  --color-sunk: #131c26;             /* Recessed surfaces */
+  --color-ink: #edf2f7;              /* Light text */
+  --color-ink-mid: #c3cedb;          /* Secondary text */
+  --color-ink-mute: #9aabbe;         /* Muted text */
+  --color-hair: #2b3848;             /* Borders */
+  --color-hair-strong: #52647a;      /* Stronger borders */
+
+  /* Brand accent: bright teal on dark (website's mint aesthetic) */
+  --color-accent: #62d1b8;           /* Light teal accent for dark mode */
+  --color-accent-hover: #7de0c8;     /* Lighter on hover */
+  --color-accent-soft: #123a32;      /* Dark teal background */
+  --color-brand-deep: #081a18;       /* Deepest teal */
+  --color-brand-deeper: #050e0d;     /* Near-black teal */
+  --color-brand-glow: #77e3c9;       /* Bright glow state */
+  --color-on-accent: #06201b;        /* Dark text on light teal (not white) */
+
+  /* Status colors: bright variants for dark surfaces */
+  --color-good: #5fbb8d;             /* Bright green on dark */
+  --color-good-soft: #10281e;        /* Dark green background */
+  --color-on-good: #061b15;          /* Text on dark green */
+  --color-warn: #d0a24d;             /* Bright amber on dark */
+  --color-warn-soft: #2c2210;        /* Dark amber background */
+  --color-bad: #e28170;              /* Bright red on dark */
+  --color-bad-soft: #311a16;         /* Dark red background */
+
+  /* Chart series: brighter on dark surfaces, validated for colorblind */
+  --color-series-1: #1fa3ae;         /* Bright teal */
+  --color-series-2: #d66c28;         /* Bright orange */
+  --color-series-3: #727cd6;         /* Bright blue */
+  --color-grid: #1e2c31;             /* Subtle grid on dark */
+
+  /* Typography stays the same */
+  /* (font tokens don't change between light/dark) */
+
+  /* Structural tokens stay the same */
+  /* (spacing and sizing don't change) */
+
+  /* Legacy aliases still work in dark mode */
+  --primary: var(--color-accent);
+  --primary-foreground: var(--color-on-accent);
+  --bg: var(--color-ground);
+  --surface: var(--color-surface);
+  --surface-2: var(--color-sunk);
+  --text: var(--color-ink);
+  --muted: var(--color-ink-mute);
+  --teal-deep: var(--color-brand-deep);
+  --border: var(--color-hair);
+}
+
+/* =====================================================================
+   RESET & BASE STYLES
+   ===================================================================== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 92px;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--color-ink);
+  background: var(--color-ground);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg {
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+input,
+textarea {
+  width: 100%;
+  color: var(--color-ink);
+}
+
+input[type="hidden"] {
+  display: none;
+}
+
+textarea {
+  min-height: 132px;
+  resize: vertical;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 25%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
