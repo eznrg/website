@@ -18,6 +18,11 @@
       "source": "/contact",
       "destination": "/#start",
       "permanent": true
+    },
+    {
+      "source": "/commercial/whitepaper",
+      "destination": "/commercial/brief",
+      "permanent": true
     }
   ]
 }

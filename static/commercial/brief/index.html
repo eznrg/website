@@ -7,7 +7,7 @@
   <!-- Unlisted document: keep OUT of search results. Do not remove. -->
   <meta name="robots" content="noindex">
 
-  <title>Price to Compare — An Illinois Ratepayer Brief — EZ NRG</title>
+  <title>Price to Compare | An Illinois Ratepayer Brief | EZ NRG</title>
   <meta name="description" content="How ComEd default service and retail supply actually stack up, in plain English.">
   <link rel="icon" href="/logo-mark.svg" type="image/svg+xml">
 
@@ -17,7 +17,7 @@
 
   <!-- Palette shared with the other standalone pages under static/. This page
        deliberately does NOT link theme.css: it shares the tokens but not the
-       component layer — it is a reading document with its own denser
+       component layer, it is a reading document with its own denser
        typography, sticky header, TOC rail, and print styles, all below. -->
   <link rel="stylesheet" href="/static/tokens.css">
 
@@ -318,7 +318,7 @@
       gap: 12px;
       margin: 0 0 32px;
     }
-    /* The five stages are a sequence — keep them on one row once they fit. */
+    /* The five stages are a sequence, keep them on one row once they fit. */
     @media (min-width: 900px) {
       .steps { grid-template-columns: repeat(5, minmax(0, 1fr)); }
     }
@@ -482,7 +482,7 @@
       background: var(--viz-surface);
     }
     /* Inside a card that already draws the surface, the chart brings no chrome
-       of its own — but keeps --viz-surface so marker rings punch out cleanly. */
+       of its own, but keeps --viz-surface so marker rings punch out cleanly. */
     .viz-bare { padding: 0; border: 0; background: none; }
     .viz-head {
       display: flex;
@@ -581,7 +581,7 @@
       stroke-linejoin: round;
     }
 
-    /* Direct labels — one per series, on its own peak. The marker sits exactly
+    /* Direct labels, one per series, on its own peak. The marker sits exactly
        on the data point; the value rides beside it. */
     .viz-peak { position: absolute; width: 0; height: 0; pointer-events: none; }
     .viz-peak-dot {
@@ -694,7 +694,7 @@
       text-align: center;
     }
 
-    /* Table view — every value stays reachable without hovering. */
+    /* Table view, every value stays reachable without hovering. */
     .viz-data { margin-top: 10px; border-top: 1px solid var(--border); }
     .viz-data > summary {
       padding: 8px 2px 2px;
@@ -804,9 +804,9 @@
        Colour follows the entity, so a series keeps its hue here and on
        /commercial. Validated with the data-viz validator against this
        component's own --viz-surface (#151917), dark mode:
-         net ↔ ares  CVD ΔE 18.4 · normal 24.4  — pass
-         net ↔ ptc   CVD ΔE 27.4 · normal 27.7  — pass
-         pos ↔ neg   CVD ΔE  7.4 · normal 28.7  — warn band, legal ONLY with a
+         net ↔ ares  CVD ΔE 18.4 · normal 24.4 , pass
+         net ↔ ptc   CVD ΔE 27.4 · normal 27.7 , pass
+         pos ↔ neg   CVD ΔE  7.4 · normal 28.7 , warn band, legal ONLY with a
        second channel. On both diverging charts that channel is bar direction
        about the zero line, plus accounting parentheses on every printed value,
        so the sign never rests on hue alone. Do not swap these by eye. */
@@ -825,7 +825,7 @@
     .s-bar { color: var(--viz-ink-2); }
     .viz { margin-bottom: 32px; }
 
-    /* Annotation — a labelled point that is not a series peak. */
+    /* Annotation, a labelled point that is not a series peak. */
     .viz-note { position: absolute; width: 0; height: 0; pointer-events: none; }
     .viz-note i {
       position: absolute;
@@ -960,8 +960,8 @@
     }
     /* The annotation's text is nowrap and sits inside the plot, so on a narrow
        screen it is the one thing that can push the page wider than the
-       viewport. It is emphasis, not information — the crossing is visible in
-       the line itself, stated in the prose, and in the data table — so it goes
+       viewport. It is emphasis, not information, the crossing is visible in
+       the line itself, stated in the prose, and in the data table, so it goes
        below 560px, the same width at which the dense x-ticks drop out. */
     @media (max-width: 560px) {
       .viz-note { display: none; }
@@ -1019,6 +1019,14 @@
       .chart-stat .v { color: #111 !important; }
       .chart-stat .k, .chart-stat .n { color: #555 !important; }
     }
+  
+    .channel-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .channel-card { padding: 24px; border: 1px solid var(--border); border-radius: 12px; }
+    .channel-icon svg { width: 28px; height: 28px; }
+    .channel-action svg { width: 18px; height: 18px; }
+    .channel-action[aria-disabled] { opacity: .65; cursor: default; }
+    #channels .container { width: 100%; padding: 0; }
+    @media (max-width: 640px) { .channel-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -1076,7 +1084,7 @@
         <!-- No brand mark here: the sticky site header already carries the logo. -->
         <p class="eyebrow">Illinois Ratepayer Brief</p>
         <h1>Price to Compare</h1>
-        <p class="cover-sub">How ComEd default service and retail supply actually stack up — and the benchmark to compare them against.</p>
+        <p class="cover-sub">How ComEd default service and retail supply actually stack up, and the benchmark to compare them against.</p>
         <div class="stat-grid">
           <div class="stat">
             <p class="stat-label">24-Month Break-Even Rate</p>
@@ -1117,16 +1125,10 @@
       </section>
 
       <!-- 01 --------------------------------------------------------- -->
-      <section id="exec-summary">
-        <div class="sec-marker"><span class="sec-num">01</span><span class="sec-rule"></span></div>
-        <h2>Executive Summary</h2>
-        <p>Every month, millions of Illinois residents and businesses open an electric bill, glance at the total, and move on. That is understandable. A hotel owner has guests to serve. A manufacturer has production to run. A property manager has tenants to answer. A homeowner has a life. But behind that one total is a surprisingly sophisticated system: wholesale markets, state procurement rules, utility delivery tariffs, monthly adjustment mechanisms, supplier contracts, capacity obligations, taxes, and riders. When I first entered the energy industry, I assumed electricity pricing was straightforward. It is not.</p>
-        <p>The deeper I dug, the clearer the real issue became: many customers are not ignoring the details because they are careless.</p>
-        <blockquote class="pullquote">
-          <p>They are ignoring them because no one has explained the system in plain English.</p>
-        </blockquote>
-        <p>The purpose of this brief is not to argue that ComEd default service is always better, or that retail supply is always worse. It is to explain how the system works so Illinois ratepayers can compare options with a better benchmark.</p>
-      </section>
+      <section id="exec-summary"><div class="sec-marker"><span class="sec-num">01</span><span class="sec-rule"></span></div><h2>Did your electricity supply contract actually save you money?</h2>
+<p>A hotel owner has guests to serve. A manufacturer has production to run. A property manager has tenants to answer. But the bill total does not explain whether your electricity supply arrangement is working for you. Neither does the advertised rate on its own.</p>
+<p>Think of the quoted rate as one line on a receipt. Some supply costs may be included; others may appear separately. This brief puts both options on the same basis: equivalent supply costs, the same electricity usage, and the same period.</p>
+<p>Start with the bill fundamentals, then follow the worked scenario. The charts, complete monthly results, sensitivity analysis, and historical rates provide the detail behind the comparison. The example uses ComEd-area commercial 0–100 kW rates and does not assume that default supply or a third-party supplier is always better.</p></section>
 
       <!-- 02 --------------------------------------------------------- -->
       <section id="fundamentals">
@@ -1142,13 +1144,21 @@
           <div class="step"><span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-cable"/></svg></span><p class="step-name">Distribution</p><p class="step-desc">ComEd delivers it locally</p></div>
           <div class="step"><span class="stat-icon"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg></span><p class="step-name">End User</p><p class="step-desc">The customer meters &amp; pays</p></div>
         </div>
-      </section>
+      <h3>The units: quantity × price = cost</h3>
+<ul>
+<li><strong>kWh (kilowatt-hour)</strong> measures how much electricity you use over a period. Think of it as the quantity purchased.</li>
+<li><strong>¢/kWh (cents per kilowatt-hour)</strong> is the price per unit of electricity.</li>
+<li><strong>Dollars</strong> are the resulting cost. To multiply a cents-per-kWh rate by usage, first divide the rate by 100 to convert cents to dollars.</li>
+<li><strong>kW (kilowatt)</strong> measures power demand, not total monthly energy use. The “0–100 kW” label identifies the delivery-class example; it is not the monthly usage figure.</li>
+</ul>
+<p>For example: <strong>30,000 kWh × 7.8¢/kWh ÷ 100 = $2,340.</strong> A bill may show the same rate as <strong>$0.078/kWh</strong>. These are two ways of writing the same unit price.</p>
+</section>
 
       <!-- 03 --------------------------------------------------------- -->
       <section id="bill-anatomy">
         <div class="sec-marker"><span class="sec-num">03</span><span class="sec-rule"></span></div>
         <h2>Bill Anatomy → Realized Supply Costs</h2>
-        <p><strong>Headline rate alone is not the benchmark.</strong> The published Price to Compare is not what a default-service customer actually pays: each month it is adjusted by the Purchased Electricity Adjustment, which can run either direction. The realized supply cost — the number worth comparing a retail quote against — is <strong>NET = PTC + PEA</strong>.</p>
+        <p><strong>Headline rate alone is not the benchmark.</strong> The published Price to Compare is not what a default-service customer actually pays: each month it is adjusted by the Purchased Electricity Adjustment, which can run either direction. The realized supply cost used in this comparison is <strong>NET = PTC + PEA</strong>.</p>
         <p>The table below sets the default-service supply lines against the ARES supply lines for the same month (May 2025), and states how each is treated in this analysis.</p>
         <div class="table-wrap">
           <table>
@@ -1161,8 +1171,8 @@
             </tbody>
           </table>
         </div>
-        <p class="table-note">ESC = Electricity Supply Charge; PEC = Purchased Electricity Charge. TSC = Transmission Services Charge; PSC = PJM Services Charge. CFRA applies under both options, so it falls out of a like-for-like supply comparison.</p>
-        <p>Plotted across the full period, the two lines below track each other closely for most of the record — and then separate sharply. In May 2026 the adjustment alone added <strong>8.166¢</strong> on top of a <strong>9.704¢</strong> Price to Compare, producing a realized rate of <strong>17.870¢</strong>. A customer comparing a retail quote against the headline number that month would have been comparing against the wrong figure by nearly half.</p>
+        <p class="table-note">ESC = Electricity Supply Charge; PEC = Purchased Electricity Charge. TSC = Transmission Services Charge; PSC = PJM Services Charge. CFRA is excluded from these calculations because it applies across all rate classes regardless of delivery classification. Its historical values remain in Appendix A for reference.</p>
+        <p>Plotted across the full period, the two lines below track each other closely for most of the record, and then separate sharply. In May 2026 the adjustment alone added <strong>8.166¢</strong> on top of a <strong>9.704¢</strong> Price to Compare, producing a realized rate of <strong>17.870¢</strong>. A customer comparing a retail quote against the headline number that month would have been comparing against the wrong figure by nearly half.</p>
         <div class="viz" id="viz-ptc">
           <div class="viz-head">
             <div>
@@ -1256,7 +1266,119 @@
             </div>
           </details>
         </div>
-      </section>
+      <h3>Default-service bill example: staying with ComEd</h3>
+<p>The following 0–100 kW delivery-class example shows the charges as bill line items. The rate column is in <strong>dollars per kWh</strong>: $0.05096 equals <strong>5.096¢/kWh</strong>, and $0.01528 equals <strong>1.528¢/kWh</strong>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+  <th>Line item</th>
+  <th>Usage</th>
+  <th>Rate</th>
+  <th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Electricity Supply Charge [1]</td>
+  <td>25,759 kWh</td>
+  <td>0.05096</td>
+  <td>$1,312.68</td>
+</tr>
+<tr>
+  <td>Transmission Services Charge [2]</td>
+  <td>25,759 kWh</td>
+  <td>0.01528</td>
+  <td>$393.60</td>
+</tr>
+<tr>
+  <td>Purchased Electricity Adjustment [3]</td>
+  <td>-</td>
+  <td>-</td>
+  <td>$506.16</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>How to read these lines:</strong> Items [1] and [2] supply the rate components used in the Price to Compare. Item [3] is an additional dollar adjustment on this bill. The PTC components can change at different times, and PEA changes must also be taken into account.</p>
+<p>For a bill-based calculation, add the relevant supply-related dollar charges and divide by that bill's kWh. For a historical rate-based calculation, use the applicable PTC and PEA rates for the period and multiply by the customer's usage. Both approaches aim to put the same cost components on a comparable basis; actual bills may also require billing-period proration and reconciliation of rounded amounts.</p>
+<p><strong>A simple rate example:</strong> In January 2024, the supplied historical table shows a PTC of 6.940¢/kWh and a PEA credit of 0.144¢/kWh:</p>
+<p><strong>6.940¢ + (−0.144¢) = 6.796¢/kWh.</strong></p>
+<p>This is the default supply rate used for that month in the scenario below. It is not the entire delivered electricity price.</p>
+<p>The PEA analysis after the two-year comparison examines why individual adjustments, and the period selected, can substantially affect averages. First, we need to calculate the supplier side on the same basis.</p>
+<h3>Calculate the supplier's effective supply rate</h3>
+<h3>ARES-service bill example: choosing a third-party supplier</h3>
+<p>Remember: <strong>ARES means the supplier</strong>, while a broker may help arrange the contract. “Current ENE” below is the bill's energy-charge label. Its $0.0675/kWh rate equals <strong>6.75¢/kWh</strong>, but the bill also lists transmission and capacity charges.</p>
+<p><strong>The question is not just “What is the energy rate?” It is “What did the relevant supply components cost together?”</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+  <th>Line item</th>
+  <th>Usage</th>
+  <th>Rate</th>
+  <th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Current ENE</td>
+  <td>24,071</td>
+  <td>0.0675</td>
+  <td>$1,625.50</td>
+</tr>
+<tr>
+  <td>Transmission charge</td>
+  <td>-</td>
+  <td>-</td>
+  <td>$191.34</td>
+</tr>
+<tr>
+  <td>Capacity charge</td>
+  <td>-</td>
+  <td>-</td>
+  <td>$58.99</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Turn separate dollar charges into one comparable rate</h3>
+<p>Different labels can make equivalent cost categories difficult to recognize:</p>
+<ul>
+<li><strong>Transmission</strong> may appear as “NITS,” meaning Network Integration Transmission Service. Check the contract to understand the exact coverage of the charge.</li>
+<li><strong>Capacity</strong> may appear as “Capacity charge” or “Capacity Adjustment.” The label alone does not establish whether it is fixed or variable.</li>
+</ul>
+<p>We add the supply components shown here because looking only at the energy line would leave out costs the customer also pays for this supply arrangement. We then divide by kWh because we need a unit price, not a dollar total that depends on how much electricity was used.</p>
+<p><strong>Effective supplier supply rate = relevant supplier supply charges ÷ usage for the same billing period.</strong></p>
+<p>For this bill, the relevant listed components are:</p>
+<ol>
+<li>ENERGY: $1,625.50</li>
+<li>TRANSMISSION: $191.34</li>
+<li>CAPACITY: $58.99</li>
+</ol>
+<p>SUM [1, 2, 3] = $1,875.83</p>
+<p>Divided by Usage [24,071] = 7.79 cents per kWh</p>
+<p>Written with the unit conversion shown: <strong>$1,875.83 ÷ 24,071 kWh = approximately $0.07793/kWh, or 7.79¢/kWh.</strong> The original 6.75¢ energy line was only one part of that supply cost.</p>
+<p>
+</p>
+<p><strong>This is the effective supply rate for this bill, not automatically a fixed rate for the entire contract.</strong> A fixed energy price can coexist with variable transmission, capacity, or other pass-through charges. Even a fixed dollar charge can produce a different effective cents-per-kWh rate when usage changes. Check the contract's pricing structure before assuming this rate will stay the same.</p>
+<p></p>
+<h3>Technical breakdown: where is capacity in the default rate?</h3>
+<p>A default-service bill may not show a separate line labeled “capacity.” That does not mean capacity is free or absent. Its cost may be included within the applicable supply charge. A supplier contract may bundle that cost or bill it separately.</p>
+<p><strong>The key principle: different packaging does not mean different underlying cost categories.</strong> Identify what each price includes before adding charges, so you neither omit a cost nor count it twice.</p>
+<p>Procurement terminology helps explain the packaging. A <strong>full-requirements product</strong> generally covers a defined customer's or portfolio's supply needs under specified terms. A <strong>block purchase</strong> covers a specified quantity and delivery period. Those terms should not be treated as interchangeable: a fixed-quantity block and an obligation to meet a customer's full requirements can allocate volume and price risk differently. The applicable procurement plan and tariffs determine how energy, capacity, and other obligations are obtained and recovered for a particular service class and period.</p>
+<p>Suppliers can use <strong>forwards</strong> and <strong>futures</strong>, contracts tied to future delivery or settlement, to manage exposure to wholesale prices. Other procurement arrangements may also hedge costs. Hedging can support pricing and risk management, but it does not guarantee lower customer bills. Load shape, timing, capacity obligations, transmission costs, credit, margins, and contract terms all affect the result.</p>
+<h3>Technical breakdown: competition, incentives, and commoditization</h3>
+<p>It is reasonable to ask: “ComEd serves so many customers, how could another company offer a better price?” Size alone does not settle the comparison. Regulated default supply operates under procurement and cost-recovery rules, rather than simply buying electricity and adding an unrestricted retail markup. Competitive suppliers structure offers around their procurement costs, risks, expenses, and margins. The applicable rules and contract terms matter more than a general assumption that either model must always be cheaper.</p>
+<p>Electricity is highly commoditized, but electricity contracts are not identical. Unlike choosing different grades of a physical fuel such as crude oil, choosing a supplier does not change the physical electrons delivered through the local grid. What can differ is <strong>when and where power is priced, the customer's consumption pattern, which risks are included in the price, and which costs can be passed through</strong>.</p>
+<p>Recurring demand for electricity creates a substantial ongoing market, but it does not eliminate commercial risk or guarantee customer savings. Competition and supplier optimization can create value; whether that value reaches a particular customer must be tested against the bill and contract.</p>
+<p><strong>Remember:</strong> You do not need to reconstruct wholesale trading to compare your options. You do need to understand what each retail price includes.</p>
+<h3>Bring both options onto the same basis</h3>
+<p>Here are the two calculations again, now with the purpose of each made explicit:</p>
+<ol>
+<li><strong>Default supply rate (“net-default rate”):</strong> Price to Compare + PEA, using the applicable rates for the month. This includes the adjustment that the starting benchmark leaves out.</li>
+<li><strong>Effective supplier supply rate (“comparison rate”):</strong> Sum the relevant supply-related dollar charges and divide by the same bill's kWh. Multiply by 100 to express dollars per kWh as cents per kWh. This combines separately listed costs into a comparable rate.</li>
+</ol>
+<p>The default rate can change because its base components and PEA change. The supplier's effective rate can also change unless the contract genuinely fixes the relevant components on a consistent per-kWh basis. “Fixed energy” and “fixed total supply cost per kWh” are not necessarily the same promise.</p>
+<p><strong>Do not compare the two sample bill totals directly.</strong> One uses 25,759 kWh and the other uses 24,071 kWh. They demonstrate how to read charges, not which arrangement saved money for the same customer in the same month.</p>
+<p>For a fair historical comparison, apply both options to <strong>the same customer usage, the same period, and equivalent cost components</strong>. The customer's applicable service class and contract determine the correct comparison.</p>
+</section>
 
       <!-- 04 --------------------------------------------------------- -->
       <section id="scenario">
@@ -1275,13 +1397,22 @@
         </div>
         <p class="table-note">Positive values are savings against default service; parentheses are additional cost.</p>
         <p>Over the two years, the fixed contract in this example <strong>cost the customer $2,599.20</strong>. 2025 recovered much of what 2024 gave up, but not all of it. That result is the reason this brief argues for a benchmark rather than a verdict: the same contract is a good deal or a bad one depending entirely on the period it is measured over.</p>
-      </section>
+      <h3>Work through January 2024 from start to finish</h3>
+<ol>
+<li><strong>Find the default starting rate.</strong> Appendix A shows a January PTC of <strong>6.940¢/kWh</strong>. Remember: PTC combines the supply and transmission rate components used here.</li>
+<li><strong>Include the monthly adjustment.</strong> January's PEA is a <strong>0.144¢/kWh credit</strong>, so <strong>6.940 − 0.144 = 6.796¢/kWh</strong>.</li>
+<li><strong>Convert the rate into a cost.</strong> <strong>30,000 kWh × 6.796 ÷ 100 = $2,038.80</strong>. We divide by 100 because the rate is written in cents and the bill total is in dollars.</li>
+<li><strong>Calculate the supplier cost using the same usage.</strong> <strong>30,000 kWh × 7.8 ÷ 100 = $2,340.00</strong>.</li>
+<li><strong>Subtract supplier cost from default cost.</strong> <strong>$2,038.80 − $2,340.00 = −$301.20</strong>. In plain language: the supplier option costs <strong>$301.20 more</strong> in January under these assumptions.</li>
+</ol>
+<p>We repeat this method for each month. The supplier cost stays fixed only because this scenario assumes both constant monthly usage and a fixed inclusive supply rate.</p>
+</section>
 
       <!-- 05 --------------------------------------------------------- -->
       <section id="month-to-month">
         <div class="sec-marker"><span class="sec-num">05</span><span class="sec-rule"></span></div>
         <h2>Month-to-Month Results</h2>
-        <p>The annual totals hide how uneven the monthly picture is. Every month below is the same comparison — that month's default-service cost against the fixed contract's $2,340.00 — with positive values showing where the contract came out ahead.</p>
+        <p>The annual totals hide how uneven the monthly picture is. Every month below is the same comparison, that month's default-service cost against the fixed contract's $2,340.00, with positive values showing where the contract came out ahead.</p>
         <div class="viz" id="viz-monthly">
           <div class="viz-head">
             <div>
@@ -1477,8 +1608,59 @@
           </table>
         </div>
         <p class="table-note">Bars run from the break-even line at centre; left is net cost, right is net savings. Every value is printed in the columns to the left, so the chart adds emphasis rather than information.</p>
-        <p>Note how steep the trade is. Half a cent on the contract rate moves the two-year outcome by exactly $3,600 on a 30,000 kWh account — which is why the comparison is worth doing carefully, and why a quote should be evaluated against the realized NET benchmark rather than against a headline rate.</p>
-      </section>
+        <p>Note how steep the trade is. Half a cent on the contract rate moves the two-year outcome by exactly $3,600 on a 30,000 kWh account, which is why the comparison is worth doing carefully, and why a quote should be evaluated against the realized NET benchmark rather than against a headline rate.</p>
+      <h3>Technical breakdown: why PEA averages need context</h3>
+<p>Recall that the <strong>Purchased Electricity Adjustment (PEA)</strong> can be either a charge or a credit. The detailed 30-month series in Appendix A extends from January 2024 through June 2026, beyond the two-year cost scenario above.</p>
+<p>Across those 30 supplied monthly observations, the simple average PEA is <strong>+0.1213¢/kWh</strong>. Excluding the highest observation, <strong>May 2026 at +8.166¢/kWh</strong>, the remaining 29-month average is <strong>−0.1561¢/kWh</strong>. The table below retains the full calculation breakdown.</p>
+<p><strong>Why show both?</strong> This is a sensitivity check: it shows how much one unusually large adjustment affects the average. It is not a reason to disregard an actual charge. If May 2026 falls within the customer's evaluated period, the applicable charge belongs in that customer's historical calculation.</p>
+<p>A simple monthly average gives every month equal weight. For a customer whose usage varies, calculate the PEA dollar impact month by month using the applicable usage. A usage-weighted average is <strong>the sum of monthly PEA rate × monthly kWh, divided by total kWh</strong>, with consistent rate units.</p>
+<p><strong>The practical lesson:</strong> A single PTC snapshot or a simple historical adjustment average is not a substitute for a period-matched comparison. The supplied series shows substantial variation, but claims about the cause of the May 2026 adjustment or a broader trend in volatility require supporting tariff and regulatory sources.</p>
+<h3>PEA average calculations</h3>
+<p>The table below uses <strong>30 distinct months</strong>, January 2024 through June 2026. Each calendar month appears once in Appendix A. “Sum of monthly PEA rates” adds the rate observations; it is not a customer's total dollar charge. “Average PEA” divides that sum by the number of months.</p>
+<p>For example, the full-period calculation is <strong>(−4.076 − 2.935 + 10.650) ÷ 30 = +0.1213¢/kWh</strong>. Excluding May 2026 gives <strong>(3.639 − 8.166) ÷ 29 = approximately −0.1561¢/kWh</strong>. See Section 6 for why exclusion is a sensitivity check, not a historical savings adjustment.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+  <th>Period</th>
+  <th>Months</th>
+  <th>Sum of monthly PEA rates (¢/kWh)</th>
+  <th>Average PEA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>2024</td>
+  <td>12</td>
+  <td>−4.076¢</td>
+  <td><strong>−0.3397¢/kWh</strong></td>
+</tr>
+<tr>
+  <td>2025</td>
+  <td>12</td>
+  <td>−2.935¢</td>
+  <td><strong>−0.2446¢/kWh</strong></td>
+</tr>
+<tr>
+  <td>January–June 2026</td>
+  <td>6</td>
+  <td>+10.650¢</td>
+  <td><strong>+1.7750¢/kWh</strong></td>
+</tr>
+<tr>
+  <td><strong>Full timeline</strong></td>
+  <td><strong>30</strong></td>
+  <td><strong>+3.639¢</strong></td>
+  <td><strong>+0.1213¢/kWh</strong></td>
+</tr>
+<tr>
+  <td>Full timeline excluding May 2026</td>
+  <td>29</td>
+  <td>−4.527¢</td>
+  <td><strong>−0.1561¢/kWh</strong></td>
+</tr>
+</tbody>
+</table></div>
+</section>
 
       <!-- 07 --------------------------------------------------------- -->
       <section id="what-changes">
@@ -1489,23 +1671,38 @@
           <table>
             <thead><tr><th>Bill section</th><th>Default service</th><th>ARES service</th><th>Analysis note</th></tr></thead>
             <tbody>
-              <tr><td>Energy (Supply)</td><td>Yes</td><td>ARES contract rate</td><td>—</td></tr>
+              <tr><td>Energy (Supply)</td><td>Yes</td><td>ARES contract rate</td><td>-</td></tr>
               <tr><td>Transmission (Supply)</td><td>Yes</td><td>Bundled or pass-through</td><td>Contract matters</td></tr>
-              <tr><td>PEA (Supply)</td><td>Yes</td><td>—</td><td>Variable</td></tr>
+              <tr><td>PEA (Supply)</td><td>Yes</td><td>-</td><td>Variable</td></tr>
               <tr><td>Capacity (Supply)</td><td>Embedded</td><td>Bundled or pass-through</td><td>Depends on PLC (PLC tag)</td></tr>
-              <tr><td>Delivery</td><td>ComEd delivery</td><td>ComEd delivery</td><td>—</td></tr>
-              <tr><td>CFRA</td><td>Taxes &amp; fees</td><td>Taxes &amp; fees</td><td>—</td></tr>
+              <tr><td>Delivery</td><td>ComEd delivery</td><td>ComEd delivery</td><td>-</td></tr>
+              <tr><td>CFRA</td><td>Taxes &amp; fees</td><td>Taxes &amp; fees</td><td>-</td></tr>
             </tbody>
           </table>
         </div>
         <p class="table-note"><strong>Terminology note.</strong> Pages in the prior draft labeled delivery class thresholds as kWh. For delivery class purposes, the relevant threshold is <strong>kW demand</strong>, not kWh energy usage.</p>
-      </section>
+      <h3>What to check on your own bill and contract</h3>
+<ul>
+<li><strong>Confirm the account's service class and pricing program.</strong> Use the default option that actually applies to the customer.</li>
+<li><strong>Match usage and dates.</strong> Gather the bills covering the period you want to evaluate, including any separate supplier invoices.</li>
+<li><strong>Identify the supply components.</strong> Determine whether energy, capacity, transmission, and other relevant costs are bundled or charged separately. Avoid double-counting.</li>
+<li><strong>Read the meaning of “fixed.”</strong> Check pass-through clauses, adjustments, fees, and how charges are allocated or recalculated.</li>
+<li><strong>Apply the default benchmark for each billing period.</strong> Include the applicable adjustments and account for tariff changes or proration where needed.</li>
+<li><strong>Reconcile excluded items.</strong> CFRA is excluded from this calculation across delivery classes. Confirm the treatment of delivery charges, taxes, and other riders for the account.</li>
+<li><strong>Add the full-period dollar results.</strong> Use actual usage, include both favorable and unfavorable months, and distinguish historical savings from forecasts.</li>
+</ul>
+<h3>How EZNRG approaches the problem</h3>
+<p>Our work starts with understanding the bill and the contract, not assuming a supplier switch is the answer. The aim is to make the comparison understandable and traceable, then identify where an account-specific review may reveal opportunities.</p>
+<p>EZNRG's preliminary internal review described in this brief covered <strong>more than 100 utility bills</strong>, with reported average annual energy spending of approximately <strong>$150,000</strong> for the reviewed customer sample. That observation motivates further account-level analysis; it is not, on its own, a representative market-wide savings finding. The sampling basis, number of distinct accounts, annualization method, and calculation of the average require documentation before this claim is used as a published statistic.</p>
+<p>EZNRG's broader approach combines first-principles analysis with close customer collaboration, aiming to identify short-term cost-saving opportunities and evaluate longer-term revenue opportunities where applicable. Those broader opportunities are distinct from the supply-price comparison taught here.</p>
+<p><strong>Start with your bills and supplier agreement.</strong> Together, they provide the foundation for answering the central question: what did you pay, what would the applicable alternative have cost, and why?</p>
+</section>
 
       <!-- 08 --------------------------------------------------------- -->
       <section id="historical">
         <div class="sec-marker"><span class="sec-num">08</span><span class="sec-rule"></span></div>
         <h2>Historical Context: 2024, 2025, 2026 (YTD)</h2>
-        <p><strong>The default benchmark changed materially in 2026.</strong> Comparing a fixed quote against a benchmark assumes the benchmark is reasonably stable. Over these thirty months it has not been — both the level and the spread have moved in the same direction.</p>
+        <p><strong>The default benchmark changed materially in 2026.</strong> Comparing a fixed quote against a benchmark assumes the benchmark is reasonably stable. Over these thirty months it has not been, both the level and the spread have moved in the same direction.</p>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Period</th><th>Average NET</th><th>Minimum</th><th>Maximum</th><th>Range</th></tr></thead>
@@ -1517,7 +1714,7 @@
           </table>
         </div>
         <p class="table-note">2026 covers January through June only. Range is maximum less minimum within the period.</p>
-        <p>The average rose by 78% from 2024 to 2026 year to date, and the range within a single year grew from 3.263¢ to 8.317¢. Against that record, the flat contract line below is the same 7.8¢ in every month — which is precisely what makes it easy to evaluate in hindsight and hard to evaluate in advance.</p>
+        <p>The average rose by 78% from 2024 to 2026 year to date, and the range within a single year grew from 3.263¢ to 8.317¢. Against that record, the flat contract line below is the same 7.8¢ in every month, which is precisely what makes it easy to evaluate in hindsight and hard to evaluate in advance.</p>
         <div class="viz" id="viz-rate">
           <div class="viz-head">
             <div>
@@ -1632,7 +1829,7 @@
           </table>
         </div>
         <p class="table-note">Same scenario throughout: 30,000 kWh per month at a 7.8¢/kWh fixed rate.</p>
-        <p>Six months of 2026 returned <strong>$6,864.90</strong> — more than double what the contract gave up across the two preceding years combined, and enough to turn the running 30-month result positive at <strong>$4,265.70</strong>. The break-even rate over the full thirty months rises to <strong>8.274¢</strong>, from 7.439¢ over 2024–2025 alone.</p>
+        <p>Six months of 2026 returned <strong>$6,864.90</strong>, more than double what the contract gave up across the two preceding years combined, and enough to turn the running 30-month result positive at <strong>$4,265.70</strong>. The break-even rate over the full thirty months rises to <strong>8.274¢</strong>, from 7.439¢ over 2024–2025 alone.</p>
         <p>None of this makes fixed contracts good or default service bad. It makes the same point the rest of the brief makes, with more recent data: the benchmark moves, so the quote has to be evaluated against the benchmark rather than against a memory of what electricity used to cost.</p>
       </section>
 
@@ -1640,7 +1837,7 @@
       <section id="appendix-a">
         <div class="sec-marker"><span class="sec-num">A</span><span class="sec-rule"></span></div>
         <h2>Appendix A: Historical Pricing Table</h2>
-        <p>ComEd 0–100 kW commercial default service inputs. Units: cents per kWh. Every figure elsewhere in this brief is computed from this table.</p>
+        <p>ComEd 0–100 kW commercial default service inputs. Units: cents per kWh. The historical scenario results and charts are computed from this table.</p>
         <p class="table-note"><strong>CFRA</strong> = Carbon-Free Energy Resource Adjustment · <strong>PEA</strong> = Purchased Electricity Adjustment · <strong>ESC/PEC</strong> = Electric Supply Charge / Purchased Electricity Charge · <strong>TSC</strong> = Transmission Services Charge · <strong>PTC</strong> = Price to Compare · <strong>NET</strong> = PTC + PEA. Values in parentheses are negative.</p>
         <div class="table-wrap">
           <table>
@@ -1685,7 +1882,7 @@
       <section id="sources">
         <div class="sec-marker"><span class="sec-num">B</span><span class="sec-rule"></span></div>
         <h2>Sources &amp; Method</h2>
-        <p>All rate inputs in this brief come from a single source: <strong>ComEd published default-service rates for the 0–100 kW commercial delivery class</strong>, January 2024 through June 2026, reproduced in full in <a href="#appendix-a">Appendix A</a>. No figure in this document is drawn from any other data set.</p>
+        <p>The historical rate series used in the charts and scenario tables is: <strong>ComEd published default-service rates for the 0–100 kW commercial delivery class</strong>, January 2024 through June 2026, reproduced in full in <a href="#appendix-a">Appendix A</a>. The supplemental bill examples and preliminary internal-review figures come from the supplied Ratepayer Brief. The historical inputs have not been independently verified in this revision.</p>
         <p>The method is deliberately simple, so that any reader can reproduce it from the appendix:</p>
         <div class="table-wrap">
           <table>
@@ -1700,21 +1897,59 @@
             </tbody>
           </table>
         </div>
-        <p><strong>Assumptions and limits.</strong> Consumption is held flat at 30,000 kWh every month, which no real account does; a customer whose usage is weighted toward high-rate months would see a wider gap, and one weighted toward low-rate months a narrower one. CFRA is excluded from NET because it applies under both supply options and therefore falls out of a like-for-like comparison. Delivery charges, taxes, and riders are excluded for the same reason. The 7.8¢ contract is treated as an all-in fixed supply rate with no pass-throughs; real ARES contracts vary on exactly this point, which is why <a href="#what-changes">section 07</a> matters as much as the arithmetic. This is a supply-side comparison for one delivery class in one territory, not a bill audit and not advice on any specific contract.</p>
+        <p><strong>Assumptions and limits.</strong> Consumption is held flat at 30,000 kWh every month, which no real account does; a customer whose usage is weighted toward high-rate months would see a wider gap, and one weighted toward low-rate months a narrower one. CFRA is excluded from NET because it applies across all rate classes regardless of delivery classification. Delivery charges, taxes, and other riders are also outside the scope of these supply-cost calculations. The 7.8¢ contract is treated as an all-in fixed supply rate with no pass-throughs; real ARES contracts vary on exactly this point, which is why <a href="#what-changes">section 07</a> matters as much as the arithmetic. This is a supply-side comparison for one delivery class in one territory, not a bill audit and not advice on any specific contract.</p>
       </section>
 
       <!-- CTA -------------------------------------------------------- -->
       <aside class="doc-cta">
         <h2>Want this run against your own bills?</h2>
-        <p>The same comparison against your actual usage and your actual contract — not a flat 30,000 kWh assumption. Join our channels and we'll take it from there.</p>
-        <a class="button" href="/commercial#channels">Talk to our team<svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        <p>The same comparison against your actual usage and your actual contract, not a flat 30,000 kWh assumption. Join our channels and we'll take it from there.</p>
+        <a class="button" href="#channels">Talk to our team<svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
       </aside>
+    <!-- Channels -->
+    <section class="section channel-section" id="channels">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Stay in the loop</p>
+          <h2>Be first to know.</h2>
+          <p>Get practical energy-market updates and talk to our team directly on Telegram and WhatsApp.</p>
+        </div>
+        <div class="channel-grid">
+          <article class="channel-card reveal">
+            <span class="channel-icon">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m20.2 4.6-3 15.2c-.2 1-1.1 1.3-1.9.8l-4.5-3.4-2.2 2.1c-.2.2-.4.4-.9.4l.3-4.8L16.8 7c.4-.3-.1-.5-.5-.2L5.4 13.7.8 12.2c-1-.3-1-.9.2-1.4L19 3.8c.8-.3 1.5.2 1.2.8Z" fill="currentColor"/></svg>
+            </span>
+            <div>
+              <h3>Telegram</h3>
+              <p>Fast market notes and rate updates for commercial operators.</p>
+            </div>
+            <!-- TELEGRAM_CHANNEL_URL, replace href with the real Telegram channel link -->
+            <a class="button button-primary channel-action" aria-disabled="true">Telegram: available soon
+              <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10h10.4M10.9 5.8 15.2 10l-4.3 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+          <article class="channel-card reveal">
+            <span class="channel-icon">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19.1 6 15.5a7.4 7.4 0 1 1 2.9 2.8L5 19.1Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.2 8.8c.2-.5.4-.5.8-.5h.5c.2 0 .4.1.5.4l.7 1.7c.1.3 0 .5-.2.7l-.4.5c-.1.1-.2.3-.1.5.4.8 1.2 1.6 2.1 2.1.2.1.4.1.5-.1l.6-.7c.2-.2.4-.2.7-.1l1.6.8c.3.1.4.3.4.6 0 .6-.4 1.5-1 1.7-.7.3-2 .1-3.6-.8-2.2-1.2-3.6-3.1-4.1-4.6-.4-1-.3-1.8.1-2.2Z" fill="currentColor"/></svg>
+            </span>
+            <div>
+              <h3>WhatsApp</h3>
+              <p>Mobile-friendly reminders and a direct line to our team.</p>
+            </div>
+            <!-- WHATSAPP_CHANNEL_URL, replace href with the real WhatsApp channel link -->
+            <a class="button button-secondary channel-action" aria-disabled="true">WhatsApp: available soon
+              <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10h10.4M10.9 5.8 15.2 10l-4.3 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
     </article>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>EZ NRG — customer-first energy strategy for the decentralized energy future.</p>
+      <p>EZ NRG: customer-first energy strategy for the decentralized energy future.</p>
     </div>
   </footer>
 
