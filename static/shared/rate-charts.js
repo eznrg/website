@@ -6,13 +6,13 @@
   bars, gridlines, axis ticks, direct labels and the <details> data table are
   all in the markup. This only adds the crosshair, the markers and the readout.
 
-  It is shared by the two commercial pages and linked by nothing else — the
+  It is shared by the two commercial pages and linked by nothing else: the
   hospitality pages keep their own inline copy of an earlier, load-profile
   specific version. Adding a chart here cannot affect them.
 
   Each plot carries its own data on `data-viz`:
     lo, hi  numeric axis bounds, matching the gridlines rendered in the markup
-    u       unit — "¢" (three decimals) or "$" (whole dollars, accounting style)
+    u       unit: "¢" (three decimals) or "$" (whole dollars, accounting style)
     a       first series (required)
     b       second series (optional; its absence means a single-series chart)
   Point 0 is January 2024 and each step is one month, which is how the readout

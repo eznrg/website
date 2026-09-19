@@ -1,5 +1,5 @@
 export const site = {
-  name: "EZNRG",
+  name: "EzNRG",
   domain: "eznrg.ai",
   url: "https://eznrg.ai",
   description: "Electricity bill auditing for businesses. Upload one bill. No upfront cost. If we recover money, you keep 50%. If we recover nothing, you pay nothing.",
@@ -19,20 +19,21 @@ export const ui = {
   skipLink: "Skip to content",
   menuLabel: "Toggle navigation",
   footerTagline: "Less energy admin. More room for your business.",
-  footerCopyright: "EZNRG. All rights reserved.",
+  footerCopyright: "EZNRG.AI Inc. All rights reserved.",
+  contactEmail: "founders@eznrg.ai",
   formError: "Something went wrong. Please try again in a moment.",
 };
 
-// One destination for every audit CTA. Keep empty until onboarding is ready.
-// Setting this alone is not launch approval; see README's release checklist.
+// Shared platform destinations. The production Django deployment serves these
+// routes on the same origin; the static preview can still render the links.
 export const audit = {
-  href: "",
+  href: "/get-started",
   label: "Start Audit",
   unavailable: "Available soon",
 };
 
 export const login = {
-  href: "",
+  href: "/app/signin",
   label: "Log In",
   unavailable: "Available soon",
 };
@@ -58,11 +59,11 @@ export const home = {
     eyebrow: "Our mission",
     title: "Build the future of energy with the customer at the center.",
     paragraphs: [
-      "Providing an energy audit at no cost is just the starting point of our mission. EZNRG exists to make energy solutions simpler and more aligned with the customer.",
+      "Providing an energy audit at no cost is just the starting point of our mission. EzNRG exists to make energy solutions simpler and more aligned with the customer.",
       "Today, much of the energy industry operates under a zero-sum-game mentality, where sellers and buyers fight over who captures the surplus created by government incentives and subsidies. We believe the only way to scale distributed energy resources sustainably is to start with the customer and work backward into the technology.",
       "The easiest way to demonstrate our commitment is to begin with an energy audit of past utility bills. Come join us as we build the future of energy.",
     ],
-    attribution: "— Founding Team",
+    attribution: "Founding Team",
   },
   how: {
     eyebrow: "01 / How it works",
@@ -71,7 +72,7 @@ export const home = {
     steps: [
       { index: "01", title: "Upload one bill", body: "Your latest electricity bill is enough to begin. No stack of paperwork to pull together." },
       { index: "02", title: "We check the charges", body: "We compare your billing information against applicable verified rates and charges to identify potential errors." },
-      { index: "03", title: "We handle recovery", body: "We explain the findings and pursue eligible refunds. You keep 50% of money actually recovered; EZNRG receives the other 50%." },
+      { index: "03", title: "We handle recovery", body: "We explain the findings and pursue eligible refunds. You keep 50% of money actually recovered; EzNRG receives the other 50%." },
     ],
   },
   after: {
@@ -80,18 +81,18 @@ export const home = {
     body: "The first audit stands on its own. You choose whether ongoing support makes sense for your business.",
     feeTitle: "Recovered money. Shared equally.",
     yourShare: "50%", yourLabel: "You keep",
-    ourShare: "50%", ourLabel: "EZNRG receives",
+    ourShare: "50%", ourLabel: "EzNRG receives",
     feeNote: "Only on money actually recovered. Nothing recovered? Nothing to pay.",
     options: [
       { title: "No upfront cost", body: "We do the audit and pursue eligible refunds. Our fee comes from recoveries, so you don't pay just to find out whether something is wrong." },
-      { title: "Continued checks, by choice", body: "Choose Continuous EZNRG Auditing if you want future bills checked too. It is completely optional, with no automatic enrollment and the same 50/50 recovery split." },
+      { title: "Continued checks, by choice", body: "Choose Continuous EzNRG Auditing if you want future bills checked too. It is completely optional, with no automatic enrollment and the same 50/50 recovery split." },
       { title: "Less time on reporting", body: "For the property owner featured above, a reporting solution saved about two hours each month. We look for ways to reduce the energy admin in your business, too." },
     ],
   },
   strategy: {
-    eyebrow: "03 / Why EZNRG",
+    eyebrow: "03 / Why EzNRG",
     title: "An energy partner.\nAlready on your side.",
-    body: "EZNRG AI, INC. was made to revolutionize how ratepayers interact with energy. That means a provider who acts as a partner that shares upside and protects downside risk.",
+    body: "EZNRG.AI Inc was made to revolutionize how ratepayers interact with energy. That means a provider who acts as a partner that shares upside and protects downside risk.",
     pillars: [
       { title: "Our Energy Platform", body: "we help coordinate smarter energy decisions among end-users and energy companies with our users at the center with full transparency" },
       { title: "Analysis you can follow", body: "We connect billing information, usage patterns, and energy costs so you can understand our findings and the reasons behind our recommendations." },
@@ -116,8 +117,8 @@ export const home = {
         title: "Open by design. Accountable by default.",
         philosophy: "If our team fails to drive value for our stakeholders, we should not be in business.",
         paragraphs: [
-          "That philosophy shapes how we handle information. Every customer has open access to the information we hold about their property. At any time, you can request that property-specific data—including your load profile—and ask us to erase it from our records.",
-          "Decentralization requires open networks and open standards. Our on-chain strategy is designed to keep us—and our partners—accountable to the people we promise to serve. Smart contracts and other Web3 technologies can encode obligations transparently and make performance verifiable.",
+          "That philosophy shapes how we handle information. Every customer has open access to the information we hold about their property. At any time, you can request that property-specific data, including your load profile, and ask us to erase it from our records.",
+          "Decentralization requires open networks and open standards. Our on-chain strategy is designed to keep us, and our partners, accountable to the people we promise to serve. Smart contracts and other Web3 technologies can encode obligations transparently and make performance verifiable.",
           "Ultimately, we are building toward stakeholder-led energy. We believe the fastest and most impactful way to grow distributed energy resources is behind the meter, close to the load, where less energy is lost in transmission and distribution. At a minimum, the value created there should be shared with the early adopters who make that future possible.",
         ],
       },
@@ -134,40 +135,37 @@ export const home = {
     ],
     note: "Specific services, eligibility, and commercial terms are defined with each business.",
   },
-  intelligence: {
-    eyebrow: "06 / Intelligence",
-    title: "Intelligence",
-    body: "Coming soon.",
-  },
+  // Unpublished until it has real content. A "Coming soon." section on the
+  // home page reads as an unfinished site; render.mjs skips it while null.
+  intelligence: null,
   faq: {
-    eyebrow: "07 / A few good questions",
+    eyebrow: "06 / A few good questions",
     title: "Clear answers.\nBefore you start.",
     items: [
-      { question: "What does the audit cost?", answer: "There is no upfront cost. If we recover money, you keep 50% and EZNRG receives 50%. The fee is based on money actually recovered, not simply on errors or eligible refunds identified." },
+      { question: "What does the audit cost?", answer: "There is no upfront cost. If we recover money, you keep 50% and EzNRG receives 50%. The fee is based on money actually recovered, not simply on errors or eligible refunds identified." },
       { question: "What if you don't recover any money?", answer: "You pay nothing. An audit may find that your bill is correct, and finding an eligible refund does not itself mean a recovery has been completed." },
       { question: "What do I have to do?", answer: "Upload your latest electricity bill to begin. We handle the checking, explain the findings, and manage the recovery process. If we need further information or authorization, we'll explain what's needed." },
       { question: "Which businesses can you audit?", answer: "We audit electricity bills for businesses and property owners served by ComEd or Ameren in Illinois, NIPSCO in Indiana, and all electric utilities in Ohio." },
       { question: "Can I keep my existing broker?", answer: "Yes. We work alongside existing brokers. We also work with brokers across the United States to enhance their offerings without disrupting their operations. Current audit eligibility is covered in the service-territory answer above." },
-      { question: "Am I signing up for ongoing auditing?", answer: "No. The initial audit stands on its own. Continuous EZNRG Auditing is completely optional, with no automatic enrollment. If you choose it, future recoveries follow the same 50/50 split." },
+      { question: "Am I signing up for ongoing auditing?", answer: "No. The initial audit stands on its own. Continuous EzNRG Auditing is completely optional, with no automatic enrollment. If you choose it, future recoveries follow the same 50/50 split." },
       { question: "Is the audit the same as your energy-strategy service?", answer: "No. The audit checks your bills and pursues eligible refunds. A long-term energy partnership is a separate, optional next step for qualified businesses. Pricing guarantees belong to those arrangements, with terms agreed individually; they do not promise that every audit produces a refund." },
     ],
   },
   closing: {
-    eyebrow: "08 / One bill is all it takes to begin",
+    eyebrow: "07 / One bill is all it takes to begin",
     title: "Let us take a look.\nYou get back to business.",
     body: "No upfront cost. You keep 50% of money recovered. Nothing recovered, nothing to pay.",
   },
 };
 
-// Legacy intake is intentionally isolated until the onboarding phase.
 export const enrollment = {
-  eyebrow: "Get started",
-  title: "Find out if you qualify.",
+  eyebrow: "Start your audit",
+  title: "Let us check your utility bills.",
   body:
-    "No payment today — just leave your name and number. We'll reach out within 24 hours to walk you through your next steps, including the refundable $500 deposit. If you ever decide not to move forward, the full $500 is returned.",
-  submitLabel: "Reserve my spot",
+    "Tell us about your business. We will create your secure workspace and guide you through the first bill upload.",
+  submitLabel: "Request my audit",
   successMessage:
-    "You're on the list. We'll text you within 24 hours to coordinate a call — no payment is collected here.",
+    "Thanks for your interest. We have it from here. Our team will review your details and get back to you with special offers and onboarding guidance.",
 };
 
 export const enrollmentFields = [

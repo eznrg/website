@@ -95,7 +95,7 @@ function buildEmail({
   utility,
 }) {
   const label = formLabel(formType);
-  const subject = `EZ NRG ${label}: ${name}`;
+  const subject = `EzNRG ${label}: ${name}`;
   const rows = [
     ["Form", label],
     ["Name", name],
@@ -134,7 +134,7 @@ function buildEmail({
 }
 
 function buildWelcomeEmail({ name }) {
-  const subject = "Welcome to EZ NRG";
+  const subject = "Welcome to EzNRG";
   const greetingName = name ? escapeHtml(name) : "there";
 
   const telegramLine = TELEGRAM_INVITE_URL
@@ -145,21 +145,21 @@ function buildWelcomeEmail({ name }) {
     : "Join our WhatsApp (link/channel account missing)";
 
   const html = `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#111827;max-width:640px;">
-    <h1 style="font-size:22px;margin:0 0 16px;">Welcome to EZ NRG, ${greetingName}.</h1>
+    <h1 style="font-size:22px;margin:0 0 16px;">Welcome to EzNRG, ${greetingName}.</h1>
     <p>Thanks for reserving your spot. You're now first in line as we build the customer-first energy platform for the decentralized energy future.</p>
-    <p>Here's what that means for you: EZ NRG is building the coordination, optimization, and settlement layer that turns energy complexity into confidence. Our DeFi-powered platform acts as a verification tool &mdash; a trust layer between customers, asset owners, and market partners &mdash; so savings, flexibility value, and program revenue are shared clearly and fairly. No bait-and-switch contracts or teaser rates you need a lawyer to decode. Just one straightforward, double-sided contract, built around what's best for you.</p>
-    <p>Your $500 deposit is fully refundable &mdash; if you ever decide not to move forward, you get it all back. No payment is being collected right now.</p>
+    <p>Here's what that means for you: EzNRG is building the coordination, optimization, and settlement layer that turns energy complexity into confidence. Our DeFi-powered platform acts as a verification tool, a trust layer between customers, asset owners, and market partners, so savings, flexibility value, and program revenue are shared clearly and fairly. No bait-and-switch contracts or teaser rates you need a lawyer to decode. Just one straightforward, double-sided contract, built around what's best for you.</p>
+    <p>Your $500 deposit is fully refundable. If you ever decide not to move forward, you get it all back. No payment is being collected right now.</p>
     <p>While you wait, join the conversation: ${telegramLine} &middot; ${whatsappLine}.</p>
     <p>We'll reach out within 24 hours via text message to coordinate and set up a call from there :)</p>
-    <p>Talk soon,<br>The EZ NRG Team</p>
+    <p>Talk soon,<br>The EzNRG Team</p>
   </div>`;
 
   const text = [
-    `Welcome to EZ NRG, ${name || "there"}.`,
+    `Welcome to EzNRG, ${name || "there"}.`,
     "",
     "Thanks for reserving your spot. You're now first in line as we build the customer-first energy platform for the decentralized energy future.",
     "",
-    "Here's what that means for you: EZ NRG is building the coordination, optimization, and settlement layer that turns energy complexity into confidence. Our DeFi-powered platform acts as a verification tool - a trust layer between customers, asset owners, and market partners - so savings, flexibility value, and program revenue are shared clearly and fairly. No bait-and-switch contracts or teaser rates you need a lawyer to decode. Just one straightforward, double-sided contract, built around what's best for you.",
+    "Here's what that means for you: EzNRG is building the coordination, optimization, and settlement layer that turns energy complexity into confidence. Our DeFi-powered platform acts as a verification tool, a trust layer between customers, asset owners, and market partners, so savings, flexibility value, and program revenue are shared clearly and fairly. No bait-and-switch contracts or teaser rates you need a lawyer to decode. Just one straightforward, double-sided contract, built around what's best for you.",
     "",
     "Your $500 deposit is fully refundable - if you ever decide not to move forward, you get it all back. No payment is being collected right now.",
     "",
@@ -168,7 +168,7 @@ function buildWelcomeEmail({ name }) {
     "We'll reach out within 24 hours via text message to coordinate and set up a call from there :)",
     "",
     "Talk soon,",
-    "The EZ NRG Team",
+    "The EzNRG Team",
   ].join("\n");
 
   return { html, subject, text };
@@ -277,7 +277,7 @@ export default {
       utility,
     });
 
-    const from = process.env.RESEND_FROM_EMAIL || `EZ NRG <${FOUNDERS_EMAIL}>`;
+    const from = process.env.RESEND_FROM_EMAIL || `EzNRG <${FOUNDERS_EMAIL}>`;
 
     const emailPayload = {
       from,

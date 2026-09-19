@@ -1,4 +1,4 @@
-# EZ NRG Website
+# EzNRG Website
 
 Static marketing site for [eznrg.ai](https://eznrg.ai).
 
@@ -38,12 +38,14 @@ RESEND_FROM_EMAIL=
 
 Most site copy and page structure lives in `src/content.mjs`.
 
-## Audit landing page preview
+## Audit landing page
 
 The main site is now one page, with section navigation. `src/content.mjs`
-contains the copy and the shared `audit.href` setting. An empty destination
-renders every audit action as a disabled button with an “Available soon” label.
-No bill upload, signup, or form submission is connected to these actions.
+contains the copy and the shared destinations. `audit.href` opens the platform
+enrollment flow and `login.href` opens the shared customer/staff sign-in page.
+The AWS/Django platform owns the connected Start Audit submission and account
+activation flow. The static preview renders the same visual shell but uses its
+own contact endpoint.
 
 `/about`, `/learn`, and `/contact` permanently redirect to the relevant homepage
 sections. `vercel.json` owns the redirects; the local preview server reads the
@@ -58,12 +60,9 @@ that customer's reporting solution, not a universal audit outcome.
 
 ### Before public launch
 
-This change is for local review; it has not been deployed. Before publishing:
+Before publishing:
 
-- Supply the real account/bill-upload destination in `audit.href` and verify it.
-- Replace or retire the legacy `/get-started` intake, which remains reachable by
-  direct URL but is not linked from the new main site. It still describes the
-  older deposit-based offer and must not be used for the audit journey.
+- Verify the platform-owned account/bill-upload destination before launch.
 - Align onboarding and welcome emails with recovery-based fees, optional
   continuation, and supported service territories.
 - Review the existing Terms and Privacy pages against the actual onboarding,

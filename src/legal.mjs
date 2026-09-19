@@ -12,8 +12,7 @@
     { eyebrow, title, effective, intro: [string], sections: [{ heading, paragraphs, bullets? }] }
 
   [CONFIRM] Four things need the founders' sign-off before launch:
-    1. The legal entity name -- "EZ NRG" below is the brand, not necessarily
-       the registered entity (e.g. "EZ NRG, Inc.").
+    1. The legal entity name is "EZNRG.AI Inc"; "EzNRG" is the brand.
     2. A mailing address, required for a complete privacy notice.
     3. The governing-law state in the Terms (marked below).
     4. The effective date, currently the date these pages were drafted.
@@ -30,7 +29,7 @@ export const terms = {
   title: "Terms of Service",
   effective: EFFECTIVE,
   intro: [
-    `These Terms of Service govern your use of eznrg.ai and any content, tools, or forms available on it (the "Site"), operated by EZ NRG ("EZ NRG," "we," "us").`,
+    `These Terms of Service govern your use of eznrg.ai and any content, tools, or forms available on it (the "Site"), operated by EZNRG.AI Inc ("EzNRG," "we," "us").`,
     "By using the Site you agree to these terms. If you do not agree, please do not use the Site.",
   ],
   sections: [
@@ -45,7 +44,7 @@ export const terms = {
       heading: "Nothing here is an offer, a quote, or advice",
       paragraphs: [
         "Statements on the Site about savings, guarantees, refunds, deposits, or pricing describe how our offering is intended to work. They are descriptions, not commitments. They are subject in every case to eligibility, to our review of your usage data, and to the terms of a signed agreement.",
-        "Nothing on the Site is financial, investment, tax, legal, or engineering advice, and nothing on it should be relied on as the sole basis for a procurement decision. Illustrative figures and charts — including any load shape shown on the Site — are examples, not projections for your facility.",
+        "Nothing on the Site is financial, investment, tax, legal, or engineering advice, and nothing on it should be relied on as the sole basis for a procurement decision. Illustrative figures and charts: including any load shape shown on the Site: are examples, not projections for your facility.",
       ],
     },
     {
@@ -74,8 +73,8 @@ export const terms = {
     {
       heading: "Intellectual property",
       paragraphs: [
-        "The Site's content, design, text, graphics, and code are owned by EZ NRG or its licensors and are protected by intellectual property law. You may view and share the Site for your own evaluation. You may not copy, republish, or create derivative works from it for commercial purposes without our written permission.",
-        `"EZ NRG" and our logos are our marks. Nothing on the Site grants you a license to use them.`,
+        "The Site's content, design, text, graphics, and code are owned by EZNRG.AI Inc or its licensors and are protected by intellectual property law. You may view and share the Site for your own evaluation. You may not copy, republish, or create derivative works from it for commercial purposes without our written permission.",
+        `"EzNRG" and our logos are our marks. Nothing on the Site grants you a license to use them.`,
       ],
     },
     {
@@ -99,14 +98,14 @@ export const terms = {
     {
       heading: "Limitation of liability",
       paragraphs: [
-        "TO THE MAXIMUM EXTENT PERMITTED BY LAW, EZ NRG AND ITS OFFICERS, EMPLOYEES, AND AGENTS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR FOR ANY LOST PROFITS, REVENUE, DATA, OR ENERGY COST SAVINGS, ARISING OUT OF YOUR USE OF THE SITE.",
+        "TO THE MAXIMUM EXTENT PERMITTED BY LAW, EZNRG.AI INC AND ITS OFFICERS, EMPLOYEES, AND AGENTS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR FOR ANY LOST PROFITS, REVENUE, DATA, OR ENERGY COST SAVINGS, ARISING OUT OF YOUR USE OF THE SITE.",
         "Our total liability for any claim arising out of the Site is limited to one hundred U.S. dollars ($100). Some jurisdictions do not allow these limitations, so they may not apply to you. This section does not limit liability under any separate signed services agreement, which has its own terms.",
       ],
     },
     {
       heading: "Indemnification",
       paragraphs: [
-        "You agree to indemnify and hold EZ NRG harmless from any claim, loss, or expense (including reasonable legal fees) arising out of your misuse of the Site, your violation of these terms, or your submission of information you did not have the right to share.",
+        "You agree to indemnify and hold EZNRG.AI Inc harmless from any claim, loss, or expense (including reasonable legal fees) arising out of your misuse of the Site, your violation of these terms, or your submission of information you did not have the right to share.",
       ],
     },
     {
@@ -138,14 +137,14 @@ export const privacy = {
   title: "Privacy Policy",
   effective: EFFECTIVE,
   intro: [
-    "This policy explains what EZ NRG collects when you use eznrg.ai, why we collect it, who we share it with, and what you can ask us to do with it.",
-    "The short version: we collect what you send us through a form, plus the usage data you authorize us to obtain from your utility. Your load profile stays yours — you can request it at any time and ask us to erase it whenever you want.",
+    "This policy explains what EzNRG collects when you use eznrg.ai, why we collect it, who we share it with, and what you can ask us to do with it.",
+    "The short version: we collect what you send us through a form, plus the usage data you authorize us to obtain from your utility. Your load profile stays yours: you can request it at any time and ask us to erase it whenever you want.",
   ],
   sections: [
     {
       heading: "Information you give us",
       paragraphs: [
-        "When you use a form on the Site — to enroll, to join a list, or to reach us — we collect the details you enter. Depending on the form, that can include:",
+        "When you use a form on the Site: to enroll, to join a list, or to reach us: we collect the details you enter. Depending on the form, that can include:",
       ],
       bullets: [
         "Your name and email address.",
@@ -158,7 +157,7 @@ export const privacy = {
     {
       heading: "Energy usage and interval data",
       paragraphs: [
-        "Assessing a site means reading how it actually uses power — usage hour by hour, typically across a year. We obtain that interval data from your utility only after you authorize the request, or you provide it to us directly.",
+        "Assessing a site means reading how it actually uses power: usage hour by hour, typically across a year. We obtain that interval data from your utility only after you authorize the request, or you provide it to us directly.",
         "We use it to model what serving your specific load shape costs, and for nothing else. We do not sell it, and we do not share it with other customers.",
         "You can ask us for a copy of the data we hold about your site at any time, and you can ask us to erase it. See Your choices below.",
       ],
@@ -169,7 +168,7 @@ export const privacy = {
         "Like most websites, we collect limited technical information when you visit:",
       ],
       bullets: [
-        "Aggregate visit analytics through Vercel Analytics — pages viewed, referring site, approximate region, and device type. It is aggregate and is not used to build a profile of you.",
+        "Aggregate visit analytics through Vercel Analytics: pages viewed, referring site, approximate region, and device type. It is aggregate and is not used to build a profile of you.",
         "Standard server logs, including IP address, browser user agent, and request time, kept for security and troubleshooting.",
       ],
     },
@@ -197,12 +196,12 @@ export const privacy = {
         "We do not sell your personal information, and we do not share it for cross-context behavioral advertising. We share it only with service providers that help us run the Site and our business, each of which is limited to that purpose:",
       ],
       bullets: [
-        "Resend — delivers the emails generated by our forms, including the message that reaches our team and the confirmation that reaches you.",
-        "Vercel — hosts the Site and provides the aggregate analytics described above.",
-        "Google Fonts — serves the Site's typefaces; loading a page requests those font files from Google's servers.",
+        "Resend: delivers the emails generated by our forms, including the message that reaches our team and the confirmation that reaches you.",
+        "Vercel: hosts the Site and provides the aggregate analytics described above.",
+        "Google Fonts: serves the Site's typefaces; loading a page requests those font files from Google's servers.",
       ],
       trailing: [
-        "We may also disclose information if the law requires it, to protect our rights or someone's safety, or in connection with a merger or acquisition — in which case this policy continues to apply to the information transferred.",
+        "We may also disclose information if the law requires it, to protect our rights or someone's safety, or in connection with a merger or acquisition: in which case this policy continues to apply to the information transferred.",
       ],
     },
     {
@@ -216,7 +215,7 @@ export const privacy = {
       heading: "Your choices and rights",
       paragraphs: [
         `You can ask us to access, correct, delete, or send you a copy of the personal information we hold about you, and you can withdraw consent for us to hold your interval data. Email ${CONTACT_EMAIL} and we will respond within the time your jurisdiction requires.`,
-        "Depending on where you live — for example California, Colorado, Connecticut, Virginia, or the EU/UK — you may have additional rights, including the right to opt out of sale or sharing (we do neither), the right to non-discrimination for exercising a right, and the right to appeal a decision we make about your request. We honor these rights for everyone who asks, regardless of location.",
+        "Depending on where you live: for example California, Colorado, Connecticut, Virginia, or the EU/UK: you may have additional rights, including the right to opt out of sale or sharing (we do neither), the right to non-discrimination for exercising a right, and the right to appeal a decision we make about your request. We honor these rights for everyone who asks, regardless of location.",
         "To stop receiving updates, use the unsubscribe link in any message or email us directly.",
       ],
     },

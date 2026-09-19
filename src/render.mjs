@@ -17,19 +17,19 @@ const pageMeta = {
     description: site.description,
   },
   "/get-started": {
-    title: "Enroll | EZ NRG",
+    title: "Enroll | EzNRG",
     description:
-      "Find out if your site qualifies. Leave your name and number and EZ NRG will reach out within 24 hours to walk you through the next steps.",
+      "Find out if your site qualifies. Leave your name and number and EzNRG will reach out within 24 hours to walk you through the next steps.",
   },
   "/terms": {
-    title: "Terms of Service | EZ NRG",
+    title: "Terms of Service | EzNRG",
     description:
       "The terms that govern your use of eznrg.ai, including what the site is, what it isn't, and how it relates to a signed services agreement.",
   },
   "/privacy": {
-    title: "Privacy Policy | EZ NRG",
+    title: "Privacy Policy | EzNRG",
     description:
-      "What EZ NRG collects, why, who we share it with, and how to ask for a copy of your interval data or have it erased.",
+      "What EzNRG collects, why, who we share it with, and how to ask for a copy of your interval data or have it erased.",
   },
 };
 
@@ -83,10 +83,21 @@ function icon(name) {
 function brandLockup(extraClass = "") {
   return `<a class="brand${
     extraClass ? ` ${extraClass}` : ""
-  }" href="/" aria-label="EZ NRG home">
+  }" href="/" aria-label="EzNRG home">
       <img class="brand-mark" src="/logo-mark.svg" alt="" width="44" height="48">
-      <img class="brand-wordmark" src="/logo-wordmark.svg" alt="EZ NRG" width="88" height="25">
+      <img class="brand-wordmark" src="/logo-wordmark.svg" alt="EzNRG" width="88" height="25">
     </a>`;
+}
+
+function appearanceControl() {
+  return `<label class="appearance-control">
+    <span class="sr-only">Appearance</span>
+    <select data-appearance aria-label="Appearance">
+      <option value="system">System</option>
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+  </label>`;
 }
 
 function header(path) {
@@ -126,6 +137,7 @@ function footer() {
     <div>
       ${brandLockup("footer-brand")}
       <p>${escapeHtml(ui.footerTagline)}</p>
+      <p>Questions? <a href="mailto:${attr(ui.contactEmail)}">${escapeHtml(ui.contactEmail)}</a></p>
     </div>
     <div class="footer-links">
       ${nav
@@ -136,6 +148,7 @@ function footer() {
   <div class="container footer-legal">
     <p>&copy; ${new Date().getFullYear()} ${escapeHtml(ui.footerCopyright)}</p>
     <div class="footer-legal-links">
+      ${appearanceControl()}
       ${legalNav
         .map((item) => `<a href="${attr(item.href)}">${escapeHtml(item.label)}</a>`)
         .join("")}
@@ -160,13 +173,14 @@ function layout(path, content) {
   <meta property="og:description" content="${attr(meta.description)}">
   <meta property="og:type" content="website">
   <meta property="og:url" content="${attr(canonical)}">
-  <meta name="theme-color" content="#0b0e0d">
+  <meta name="theme-color" content="#f7f9fc">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="icon" href="/logo-mark.svg" type="image/svg+xml">
   <script>document.documentElement.classList.add("is-enhanced");</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <script src="/assets/appearance.js"></script>
   <link rel="stylesheet" href="/assets/styles.css">
   <script src="/assets/main.js" defer></script>
   <script>
@@ -319,9 +333,9 @@ export function renderHome() {
         <p class="service-note">${escapeHtml(services.note)}</p>
       </div>
     </section>
-    <section class="section audit-intelligence">
+    ${intelligence ? `<section class="section audit-intelligence">
       <div class="container audit-section-heading"><div><p class="eyebrow">${escapeHtml(intelligence.eyebrow)}</p><h2>${sectionTitle(intelligence.title)}</h2></div><p>${escapeHtml(intelligence.body)}</p></div>
-    </section>
+    </section>` : ""}
     <section class="section audit-faq" id="faq">
       <div class="container faq-grid"><div><p class="eyebrow">${escapeHtml(faq.eyebrow)}</p><h2>${sectionTitle(faq.title)}</h2></div><div class="faq-list">${faq.items.map(item => `<details><summary>${escapeHtml(item.question)}<span aria-hidden="true" class="faq-plus">+</span></summary><p>${escapeHtml(item.answer)}</p></details>`).join("")}</div></div>
     </section>

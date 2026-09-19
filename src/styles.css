@@ -1,50 +1,40 @@
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  /* Depth. These are three distinct values, not one repeated: the background
-     needs somewhere to travel that isn't black. --ink-teal is the floor the
-     page settles into, --bg the mid-tone, --surface the card plane. */
-  --bg-deep: #0b0e0d;
-  --bg: #101312;
-  --ink-teal: #0e1a17;
-  --surface: #171b19;
-  --surface-2: #202521;
-  --muted-surface: #242926;
+  /* Shared with the product portal. One neutral family and one EzNRG accent. */
+  --bg-deep: #f7f9fc;
+  --bg: #f7f9fc;
+  --ink-teal: #e9f3f0;
+  --surface: #ffffff;
+  --surface-2: #eef2f6;
+  --muted-surface: #e6ebf0;
+  --footer-surface: #edf4f1;
 
-  --text: #f4f1ea;
-  --muted: #a8b0a9;
+  --text: #202a36;
+  --muted: #607084;
 
-  /* Two accents, and each one means something. Mint = off-peak, abundant,
-     what we give back. Ember = the peak window, what energy costs when
-     everyone wants it at once. Never swap them for decoration: the whole
-     product thesis is that those two states are different. */
-  --mint: #8bd8a6;
-  --mint-lift: #b9edcd;
-  --mint-deep: #6fc190;
-  --ember: #f2a65a;
-  --ember-deep: #d98940;
+  --mint: #087c70;
+  --mint-lift: #087c70;
+  --mint-deep: #05665d;
+  --ember: #087c70;
+  --ember-deep: #05665d;
+  --accent-rgb: 8, 124, 112;
+  --danger: #9d2b20;
+  --danger-soft: #f8e5e3;
 
   --primary: var(--mint);
-  --primary-foreground: #07120c;
+  --primary-foreground: #ffffff;
   --ring: var(--mint);
 
-  /* Legacy names kept as one-line aliases so the semantic pair above stays
-     the only place a hex is chosen. Previously all six were the same mint,
-     which silently flattened ~14 gradients into solid bars; they now span
-     mint-deep -> mint -> mint-lift, so those gradients actually travel.
-
-     Note none of them alias --ember. Every historic --amber site (card
-     icons, tab underlines, the skip link) is decorative, and ember is not a
-     decorative colour here -- it marks the peak window and what it costs.
-     Reach for --ember explicitly, or not at all. */
+  /* Compatibility aliases. They all resolve to the single brand accent. */
   --teal: var(--mint);
   --teal-deep: var(--mint-deep);
   --cyan: var(--mint-lift);
   --green: var(--mint);
   --amber: var(--mint-deep);
 
-  --border: #2b312d;
-  --shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+  --border: #e1e7ef;
+  --shadow: 0 24px 80px rgba(20, 52, 48, 0.12);
   --max: 1160px;
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -53,6 +43,30 @@
      circles/dots = 50%, the key-ghost glyph) keep their own literals. */
   --radius: 6px;
   --radius-lg: 10px;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-deep: #111820;
+  --bg: #111820;
+  --ink-teal: #123a32;
+  --surface: #18212c;
+  --surface-2: #202c39;
+  --muted-surface: #131c26;
+  --footer-surface: #0d1816;
+  --text: #edf2f7;
+  --muted: #9aabbe;
+  --mint: #62d1b8;
+  --mint-lift: #7de0c8;
+  --mint-deep: #4bb99f;
+  --ember: #62d1b8;
+  --ember-deep: #4bb99f;
+  --accent-rgb: 98, 209, 184;
+  --danger: #e28170;
+  --danger-soft: #311a16;
+  --primary-foreground: #06201b;
+  --border: #2b3848;
+  --shadow: 0 24px 80px rgba(2, 10, 13, 0.48);
 }
 
 * {
@@ -75,26 +89,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/*
-  The whole background lives here, on ONE viewport-fixed layer.
-
-  Three things were making it band and read as "black to green":
-
-  1. It was sized to the document box, so a 0.08-alpha ramp got stretched
-     over thousands of pixels. At 8-bit precision that is fewer than 20
-     distinct steps across the page -- textbook Mach banding.
-  2. Every stop ended at the keyword `transparent`, which is transparent
-     BLACK (rgba(0,0,0,0)). Mint -> transparent interpolates through grey,
-     so the ramp literally passed through black on its way out. Every stop
-     below ends at rgba() zero-alpha of its OWN hue.
-  3. There was a 72px grid of 1px white rules animating on top of it. Those
-     were the "visible lines". It is gone.
-
-  The last background layer is a tile of fractal noise at ~4%. That is the
-  standard fix for banding on dark gradients: it dithers the steps apart so
-  the eye integrates them instead of seeing edges. Section glows composite
-  on top of this at low alpha, so the grain survives through them too.
-*/
+/* One restrained page-level background in both themes. */
 body::before {
   position: fixed;
   inset: 0;
@@ -103,12 +98,11 @@ body::before {
   content: "";
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"),
-    radial-gradient(115% 70% at 6% -14%, rgba(139, 216, 166, 0.17), rgba(139, 216, 166, 0) 64%),
-    radial-gradient(85% 55% at 98% 2%, rgba(242, 166, 90, 0.06), rgba(242, 166, 90, 0) 60%),
-    radial-gradient(130% 100% at 50% 116%, rgba(14, 26, 23, 0.85), rgba(14, 26, 23, 0) 72%),
-    linear-gradient(178deg, #121715 0%, #0f1312 48%, var(--bg-deep) 100%);
-  background-size: 160px 160px, auto, auto, auto, auto;
-  background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+    radial-gradient(115% 70% at 6% -14%, rgba(var(--accent-rgb), 0.13), rgba(var(--accent-rgb), 0) 64%),
+    radial-gradient(100% 75% at 96% 2%, rgba(var(--accent-rgb), 0.06), rgba(var(--accent-rgb), 0) 62%),
+    linear-gradient(178deg, var(--surface) 0%, var(--bg) 48%, var(--bg-deep) 100%);
+  background-size: 160px 160px, auto, auto, auto;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
 }
 
 img,
@@ -173,15 +167,24 @@ textarea {
   top: 0;
   z-index: 10;
   border-bottom: 1px solid var(--border);
-  background: rgba(16, 19, 18, 0.84);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
   backdrop-filter: blur(18px);
   transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
 
+.header-sentinel {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
 .site-header.is-scrolled {
-  border-color: rgba(139, 216, 166, 0.14);
-  background: rgba(12, 15, 14, 0.92);
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.26);
+  border-color: rgba(var(--accent-rgb), 0.2);
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  box-shadow: 0 18px 50px rgba(20, 52, 48, 0.1);
 }
 
 .header-shell {
@@ -222,6 +225,15 @@ textarea {
   transition: height 220ms ease;
 }
 
+:root:not([data-theme="dark"]) .brand-wordmark {
+  filter: brightness(0);
+  opacity: 0.84;
+}
+
+:root:not([data-theme="dark"]) .brand-mark {
+  filter: brightness(0.58) saturate(1.15);
+}
+
 .site-header.is-scrolled .brand-mark {
   height: 38px;
 }
@@ -249,7 +261,7 @@ textarea {
 .nav-link:focus-visible,
 .nav-link.is-active {
   color: var(--text);
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--surface-2);
 }
 
 .menu-button {
@@ -258,7 +270,7 @@ textarea {
   height: 42px;
   place-items: center;
   color: var(--text);
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
@@ -344,8 +356,14 @@ textarea {
 
 .button-secondary {
   color: var(--text);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface);
   border-color: var(--border);
+}
+
+.button-secondary:hover,
+.button-secondary:focus-visible {
+  border-color: var(--mint);
+  background: var(--surface-2);
 }
 
 .button-small {
@@ -526,9 +544,9 @@ h3 {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0) 34%),
-    rgba(23, 27, 25, 0.78);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+    linear-gradient(145deg, rgba(var(--accent-rgb), 0.05), rgba(var(--accent-rgb), 0) 38%),
+    var(--surface);
+  box-shadow: var(--shadow);
 }
 
 .learn-summary-card,
@@ -675,9 +693,10 @@ h3 {
 
 .form-panel input,
 .form-panel textarea {
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: rgba(16, 19, 18, 0.72);
+  background: var(--bg);
   padding: 13px 14px;
   outline: none;
   transition: border-color 180ms ease, box-shadow 180ms ease;
@@ -685,8 +704,8 @@ h3 {
 
 .form-panel input:focus,
 .form-panel textarea:focus {
-  border-color: rgba(139, 216, 166, 0.72);
-  box-shadow: 0 0 0 4px rgba(139, 216, 166, 0.16);
+  border-color: var(--mint);
+  box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.14);
 }
 
 .form-panel button {
@@ -703,14 +722,14 @@ h3 {
 
 .form-success {
   color: var(--green);
-  background: rgba(139, 216, 166, 0.08);
-  border: 1px solid rgba(139, 216, 166, 0.22);
+  background: rgba(var(--accent-rgb), 0.08);
+  border: 1px solid rgba(var(--accent-rgb), 0.24);
 }
 
 .form-error {
-  color: #ffb4a8;
-  background: rgba(255, 120, 120, 0.08);
-  border: 1px solid rgba(255, 120, 120, 0.24);
+  color: var(--danger);
+  background: var(--danger-soft);
+  border: 1px solid color-mix(in srgb, var(--danger) 40%, transparent);
 }
 
 /* On confirmation, collapse the fields so only the success note remains. */
@@ -760,6 +779,27 @@ h3 {
 .enroll-shell .form-panel input {
   min-height: 52px;
   font-size: 1.02rem;
+}
+
+.appearance-control {
+  display: inline-flex;
+  align-items: center;
+}
+
+.appearance-control select {
+  min-height: 36px;
+  padding: 0 30px 0 12px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font: 600 0.82rem var(--font-body);
+  cursor: pointer;
+}
+
+.appearance-control select:hover,
+.appearance-control select:focus-visible {
+  border-color: var(--mint);
 }
 
 .learn-summary-section {
@@ -1234,7 +1274,7 @@ h3 {
 
 .site-footer {
   padding: 44px 0;
-  background: rgba(16, 19, 18, 0.36);
+  background: var(--footer-surface);
 }
 
 .footer-grid {
@@ -1301,8 +1341,14 @@ h3 {
 
 .footer-legal-links {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   gap: 8px 20px;
+}
+
+.site-footer .appearance-control select {
+  min-width: 112px;
+  min-height: 38px;
 }
 
 .footer-legal-links a {
@@ -1737,26 +1783,35 @@ h3 {
     right: 20px;
     left: 20px;
     display: none;
-    flex-direction: column;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: stretch;
+    gap: 8px;
     padding: 12px;
-    background: rgba(16, 19, 18, 0.98);
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow);
   }
 
   [data-menu].is-open .nav {
-    display: flex;
+    display: grid;
   }
 
-  .header-actions { margin: 8px 0 0; }
-  .header-actions > * { flex: 1; min-width: 0; }
+  .header-actions { display: contents; }
 
   .nav-link,
   .nav .button {
-    justify-content: flex-start;
-    width: 100%;
+    justify-content: center;
+    width: auto;
+    min-width: 0;
+    min-height: 44px;
+    padding-inline: 10px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+
+  .nav-link {
+    background: var(--surface-2);
   }
 
   .hero {
@@ -1910,6 +1965,209 @@ h3 {
   }
 }
 
+/* Platform-owned Start Audit page. The shell and tokens match the homepage. */
+.start-audit-page main {
+  min-height: calc(100dvh - 77px);
+}
+
+.audit-intake-section {
+  display: grid;
+  align-items: center;
+  min-height: calc(100dvh - 77px);
+  padding: 64px 0 84px;
+}
+
+.audit-intake-shell {
+  width: min(100% - 40px, 720px);
+  margin-inline: auto;
+}
+
+.audit-intake-heading {
+  max-width: 640px;
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+.audit-intake-heading .eyebrow {
+  margin-bottom: 12px;
+}
+
+.audit-intake-heading h1 {
+  max-width: 15ch;
+  margin: 0 auto 18px;
+  font-size: clamp(2.45rem, 5vw, 3.9rem);
+}
+
+.audit-intake-heading p {
+  max-width: 56ch;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.audit-request-form {
+  gap: 22px;
+  padding: clamp(24px, 5vw, 38px);
+}
+
+.audit-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.audit-request-form label {
+  display: grid;
+  gap: 8px;
+}
+
+.audit-request-form input {
+  min-height: 52px;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.audit-consent {
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  color: var(--muted);
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.audit-consent input {
+  width: 18px;
+  min-height: 18px;
+  margin-top: 3px;
+  accent-color: var(--mint);
+}
+
+.audit-consent a {
+  color: var(--mint);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.audit-form-feedback {
+  margin: 0;
+  padding: 13px 14px;
+  color: var(--danger);
+  background: var(--danger-soft);
+  border: 1px solid color-mix(in srgb, var(--danger) 40%, transparent);
+  border-radius: var(--radius);
+  font-weight: 650;
+}
+
+.audit-request-form[aria-busy="true"] {
+  opacity: 0.84;
+}
+
+.audit-request-form[hidden],
+.audit-intake-heading[hidden] {
+  display: none;
+}
+
+.audit-success-panel {
+  padding: clamp(34px, 7vw, 58px);
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(var(--accent-rgb), 0.13), rgba(var(--accent-rgb), 0) 48%),
+    var(--surface);
+  border: 1px solid rgba(var(--accent-rgb), 0.34);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.audit-success-panel[hidden] {
+  display: none;
+}
+
+.audit-success-panel h1 {
+  max-width: 14ch;
+  margin: 0 auto 18px;
+  font-size: clamp(2.35rem, 5vw, 3.65rem);
+}
+
+.audit-success-copy {
+  max-width: 57ch;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 1.08rem;
+}
+
+.audit-success-path {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 34px 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.audit-success-path li {
+  padding: 0 22px;
+}
+
+.audit-success-path li + li {
+  border-left: 1px solid var(--border);
+}
+
+.audit-success-path strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+}
+
+.audit-success-path span {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.audit-success-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .audit-intake-section {
+    align-items: start;
+    min-height: auto;
+    padding: 48px 0 64px;
+  }
+
+  .audit-intake-shell {
+    width: min(100% - 28px, 720px);
+  }
+
+  .audit-form-grid,
+  .audit-success-path {
+    grid-template-columns: 1fr;
+  }
+
+  .audit-success-path {
+    gap: 18px;
+  }
+
+  .audit-success-path li {
+    padding: 0;
+  }
+
+  .audit-success-path li + li {
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    border-left: 0;
+  }
+
+  .audit-success-actions {
+    display: grid;
+  }
+}
+
 /* Audit landing page. Campaign pages retain their independent stylesheets. */
 :focus-visible {
   outline: 2px solid var(--mint-lift);
@@ -1957,6 +2215,17 @@ h3 {
 .nav .audit-action { gap: 4px; }
 .header-actions .button { min-height: 36px; font-size: .85rem; white-space: nowrap; border-radius: 6px; }
 .header-actions .login-unavailable { cursor: not-allowed; opacity: 1; }
+@media (max-width: 920px) {
+  .header-actions { display: contents; }
+  .header-actions > :only-child { grid-column: 1 / -1; }
+}
+@media (max-width: 640px) {
+  .nav {
+    right: 12px;
+    left: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 .login-unavailable::after { display: none; }
 .nav .audit-action .button { min-height: 36px; font-size: .85rem; }
 .nav .audit-status { font-size: .62rem; }
@@ -2165,7 +2434,7 @@ h3 {
 .audit-closing { text-align: center; border-top: 1px solid #3a4b3e; background: radial-gradient(ellipse at 50% 100%, #8bd8a616, transparent 65%); }
 .audit-closing h2 { max-width: 24ch; margin-inline: auto; }
 .audit-closing p:not(.eyebrow) { color: #b9c2bd; font-size: .95rem; max-width: 49ch; margin: 0 auto 26px; }
-.landing-page .site-footer { background: #080c0980; }
+.landing-page .site-footer { background: var(--footer-surface); }
 @media (max-width: 1050px) {
   .audit-hero-grid { gap: 36px; }
   .audit-hero h1 { font-size: 3.4rem; }
@@ -2211,4 +2480,105 @@ h3 {
   .audit-summary-note { padding: 16px 26px; }
   .manifesto-frame { padding: 30px 24px; }
   .manifesto-chapter blockquote { padding: 20px 18px 18px; }
+}
+
+/* Theme parity and one-accent lock for the audit landing page. */
+.audit-intro,
+.audit-section-heading > p,
+.audit-steps p,
+.after-options p,
+.strategy-pillars p,
+.audit-section-body,
+.recovery-card > p,
+.mission-body,
+.service-grid p,
+.faq-list details > p,
+.audit-closing p:not(.eyebrow) {
+  color: var(--muted);
+}
+
+.audit-visual::before {
+  background: radial-gradient(ellipse at 60% 25%, rgba(var(--accent-rgb), 0.12), rgba(var(--accent-rgb), 0) 66%);
+}
+
+.audit-summary {
+  border-color: color-mix(in srgb, var(--mint) 38%, var(--border));
+  background: linear-gradient(145deg, rgba(var(--accent-rgb), 0.1), rgba(var(--accent-rgb), 0) 55%), var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.audit-summary-top,
+.audit-summary-note {
+  border-color: var(--border);
+}
+
+.audit-summary-top,
+.audit-summary-title,
+.audit-amount-label,
+.audit-customer-context,
+.audit-summary-note {
+  color: var(--muted);
+}
+
+.audit-tag {
+  color: var(--mint);
+  border-color: color-mix(in srgb, var(--mint) 34%, var(--border));
+}
+
+.audit-summary-note {
+  background: var(--surface-2);
+}
+
+.mission-story,
+.audit-after,
+.energy-services,
+.audit-closing {
+  background: rgba(var(--accent-rgb), 0.025);
+}
+
+.audit-closing {
+  border-color: var(--border);
+  background: radial-gradient(ellipse at 50% 100%, rgba(var(--accent-rgb), 0.11), rgba(var(--accent-rgb), 0) 68%);
+}
+
+.recovery-card {
+  border-color: color-mix(in srgb, var(--mint) 34%, var(--border));
+  background: rgba(var(--accent-rgb), 0.045);
+}
+
+.recovery-split > div + div {
+  border-color: var(--border);
+}
+
+.manifesto-section {
+  background: radial-gradient(ellipse at 50% 45%, rgba(var(--accent-rgb), 0.055), rgba(var(--accent-rgb), 0) 68%);
+}
+
+.manifesto-frame {
+  background:
+    linear-gradient(145deg, rgba(var(--accent-rgb), 0.07), rgba(var(--accent-rgb), 0) 48%) padding-box,
+    linear-gradient(135deg, rgba(var(--accent-rgb), 0.52), rgba(var(--accent-rgb), 0.08)) border-box,
+    var(--surface) padding-box;
+  box-shadow: var(--shadow);
+}
+
+.manifesto-frame::before,
+.manifesto-frame::after,
+.manifesto-grid,
+.manifesto-chapter + .manifesto-chapter {
+  border-color: rgba(var(--accent-rgb), 0.34);
+}
+
+.manifesto-heading > p,
+.manifesto-copy p {
+  color: var(--muted);
+}
+
+.manifesto-chapter blockquote {
+  background: rgba(var(--accent-rgb), 0.06);
+  border-color: var(--mint);
+}
+
+.service-grid article {
+  background: linear-gradient(150deg, rgba(var(--accent-rgb), 0.035), rgba(var(--accent-rgb), 0));
 }

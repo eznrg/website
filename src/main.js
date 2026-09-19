@@ -6,13 +6,16 @@ document.documentElement.classList.add("is-enhanced");
 
 const header = document.querySelector(".site-header");
 
-if (header) {
-  const updateHeaderState = () => {
-    header.classList.toggle("is-scrolled", window.scrollY > 12);
-  };
+if (header && "IntersectionObserver" in window) {
+  const sentinel = document.createElement("span");
+  sentinel.className = "header-sentinel";
+  sentinel.setAttribute("aria-hidden", "true");
+  header.before(sentinel);
 
-  updateHeaderState();
-  window.addEventListener("scroll", updateHeaderState, { passive: true });
+  const headerObserver = new IntersectionObserver(([entry]) => {
+    header.classList.toggle("is-scrolled", !entry.isIntersecting);
+  });
+  headerObserver.observe(sentinel);
 }
 
 const revealElements = Array.from(document.querySelectorAll(".reveal"));

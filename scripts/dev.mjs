@@ -160,5 +160,5 @@ const server = createServer(async (req, res) => {
 });
 
 server.listen(port, "127.0.0.1", () => {
-  console.log(`EZ NRG local preview running at http://localhost:${port}`);
+  console.log(`EzNRG local preview running at http://localhost:${port}`);
 });

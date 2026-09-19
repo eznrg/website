@@ -24,6 +24,7 @@ await mkdir(join(dist, "assets"), { recursive: true });
 await cp(join(root, "public"), dist, { recursive: true });
 await cp(join(root, "src/styles.css"), join(dist, "assets/styles.css"));
 await cp(join(root, "src/main.js"), join(dist, "assets/main.js"));
+await cp(join(root, "src/appearance.js"), join(dist, "assets/appearance.js"));
 
 // Standalone landing pages. Each `static/<name>/` is a self-contained, UNLISTED
 // page served at eznrg.ai/<name>. They are intentionally kept OUT of the render

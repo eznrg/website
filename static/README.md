@@ -151,7 +151,7 @@ Two things worth knowing before editing it:
   the landing page's stat band.
 - **Section 09 is not part of the source brief.** The source stops at the end of
   2025; section 09 applies its method to the 2026 rates in its own appendix. It
-  is wrapped in `.extension` and labelled "Beyond the brief · EZ NRG" so the
+  is wrapped in `.extension` and labelled "Beyond the brief · EzNRG" so the
   distinction survives a skim. Keep that labelling on any further extrapolation.
 - **There are no numbered citations.** The source document's Sources section was
   empty, so this page has a *Sources & Method* section that names the data

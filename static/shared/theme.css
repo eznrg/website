@@ -2,7 +2,7 @@
   Shared component layer for the standalone LANDING pages under `static/`:
   /hospitality, /residential, /commercial.
 
-  Requires tokens.css to be linked first — every color, font, and radius here is
+  Requires tokens.css to be linked first: every color, font, and radius here is
   a custom property defined there.
 
   The white paper (static/hospitality/whitepaper/) deliberately does NOT link
@@ -10,9 +10,9 @@
   document with a denser line-height, a sticky header, a TOC rail, and print
   styles, so it keeps its own component CSS inline.
 
-  A change here lands on all three landing pages at once. Page-specific CSS —
+  A change here lands on all three landing pages at once. Page-specific CSS,
   the hospitality stat band, load-profile charts, sequence steps, and white-paper
-  CTA — stays in that page's own inline <style> block.
+  CTA: stays in that page's own inline <style> block.
 */
 
 * { box-sizing: border-box; }

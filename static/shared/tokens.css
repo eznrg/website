@@ -2,12 +2,12 @@
   Design tokens for every standalone page under `static/`.
 
   These MIRROR the main site's mint theme but are intentionally copied, not
-  imported — nothing here depends on /src/styles.css, so a future theme change
+  imported: nothing here depends on /src/styles.css, so a future theme change
   on the main site can never alter or break these pages. When the main site's
   palette moves and you want these pages to follow, edit THIS file; it is the
   one place the tokens live now.
 
-  Linked by all four pages, including the white paper — which shares the palette
+  Linked by all four pages, including the white paper: which shares the palette
   but not the component layer in theme.css. Load this BEFORE theme.css: theme.css
   consumes these custom properties and renders unstyled without them.
 
