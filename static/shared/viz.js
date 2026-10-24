@@ -1,22 +1,24 @@
 /*
-  Hover / tap / keyboard readout for the rate charts on /commercial and
-  /commercial/whitepaper.
+  Hover / tap / keyboard readout for every `.viz` chart on the standalone
+  pages: the hospitality white paper's load profiles and the commercial rate
+  charts.
 
   PURELY ADDITIVE. Every chart renders complete without this file: the lines,
   bars, gridlines, axis ticks, direct labels and the <details> data table are
   all in the markup. This only adds the crosshair, the markers and the readout.
 
-  It is shared by the two commercial pages and linked by nothing else: the
-  hospitality pages keep their own inline copy of an earlier, load-profile
-  specific version. Adding a chart here cannot affect them.
+  The hospitality landing page's load chart is a different component (a slider,
+  see hospitality/load-chart.js) and does not use this file.
 
   Each plot carries its own data on `data-viz`:
     lo, hi  numeric axis bounds, matching the gridlines rendered in the markup
-    u       unit: "¢" (three decimals) or "$" (whole dollars, accounting style)
+    x       x-axis: "month" (default; point 0 is January 2024, one step per
+            month) or "hour" (point 0 is 00:00, one step per hour)
+    u       unit: "¢" (three decimals), "$" (whole dollars, accounting style)
+            or "kW" (one decimal; the markup prints the unit itself)
     a       first series (required)
     b       second series (optional; its absence means a single-series chart)
-  Point 0 is January 2024 and each step is one month, which is how the readout
-  labels the x position without shipping 30 date strings per chart.
+  Series names in the readout come from each row's <em> in the markup.
 */
 (function () {
   var charts = document.querySelectorAll(".viz-plot[data-viz]");
@@ -25,7 +27,8 @@
   var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-  function monthLabel(i) {
+  function xLabel(i, mode) {
+    if (mode === "hour") return (i < 10 ? "0" + i : i) + ":00";
     return MONTHS[i % 12] + " " + (2024 + Math.floor(i / 12));
   }
 
@@ -36,8 +39,33 @@
     return v < 0 ? "(" + s + ")" : s;
   }
 
+  function f1(v) { return (Math.round(v * 10) / 10).toFixed(1); }
+
   function fmt(v, unit) {
-    return unit === "$" ? money(v) : v.toFixed(3) + "¢";
+    if (unit === "$") return money(v);
+    if (unit === "kW") return f1(v);
+    return v.toFixed(3) + "¢";
+  }
+
+  function delta(series, i, unit, names) {
+    if (series.length > 1 && unit === "kW") {
+      /* Derived from the displayed values, so the readout is self-consistent. */
+      var kw = Math.round(Math.round(series[1][i] * 10) - Math.round(series[0][i] * 10)) / 10;
+      return kw === 0
+        ? names[1] + " and " + names[0].toLowerCase() + " are level"
+        : names[1] + " " + (kw > 0 ? "+" : "−") + f1(Math.abs(kw)) +
+          " kW vs. " + names[0].toLowerCase();
+    }
+    if (series.length > 1) {
+      var diff = series[0][i] - series[1][i];
+      return Math.abs(diff) < 0.0005
+        ? "Level"
+        : fmt(Math.abs(diff), unit) + (diff > 0 ? " above" : " below");
+    }
+    var v0 = series[0][i];
+    return v0 < 0
+      ? "The contract cost more this month"
+      : v0 > 0 ? "The contract saved this month" : "Level";
   }
 
   Array.prototype.forEach.call(charts, function (plot) {
@@ -49,13 +77,18 @@
     var n = d.a.length;
     var span = d.hi - d.lo;
     var unit = d.u || "";
+    var mode = d.x || "month";
+    var start = mode === "hour" ? Math.min(12, n - 1) : n - 1;
     var cross = plot.querySelector(".viz-cross");
     var dots = plot.querySelectorAll(".viz-dot");
     var tip = plot.querySelector(".viz-tip");
     if (!cross || !tip || !dots.length) return;
     var head = tip.querySelector(".viz-tip-h");
     var vals = tip.querySelectorAll(".viz-tip-r b");
-    var delta = tip.querySelector(".viz-tip-d");
+    var names = Array.prototype.map.call(tip.querySelectorAll(".viz-tip-r em"), function (em) {
+      return em.textContent;
+    });
+    var deltaEl = tip.querySelector(".viz-tip-d");
     var cur = -1;
 
     function pct(v) { return ((d.hi - v) / span) * 100; }
@@ -75,24 +108,11 @@
         dots[s].hidden = false;
       }
 
-      head.textContent = monthLabel(i);
+      head.textContent = xLabel(i, mode);
       for (var v = 0; v < vals.length && v < series.length; v++) {
         vals[v].textContent = fmt(series[v][i], unit);
       }
-
-      if (delta) {
-        if (series.length > 1) {
-          var diff = series[0][i] - series[1][i];
-          delta.textContent = Math.abs(diff) < 0.0005
-            ? "Level"
-            : fmt(Math.abs(diff), unit) + (diff > 0 ? " above" : " below");
-        } else {
-          var v0 = series[0][i];
-          delta.textContent = v0 < 0
-            ? "The contract cost more this month"
-            : v0 > 0 ? "The contract saved this month" : "Level";
-        }
-      }
+      if (deltaEl) deltaEl.textContent = delta(series, i, unit, names);
 
       cross.hidden = tip.hidden = false;
 
@@ -127,7 +147,7 @@
     plot.addEventListener("pointerleave", function (e) {
       if (e.pointerType !== "touch") hide();
     });
-    plot.addEventListener("focus", function () { if (cur < 0) show(n - 1); });
+    plot.addEventListener("focus", function () { if (cur < 0) show(start); });
     plot.addEventListener("blur", hide);
     window.addEventListener("resize", function () {
       if (cur < 0) return;
@@ -136,7 +156,7 @@
       show(i);
     });
     plot.addEventListener("keydown", function (e) {
-      var k = e.key, i = cur < 0 ? n - 1 : cur;
+      var k = e.key, i = cur < 0 ? start : cur;
       if (k === "ArrowRight") i = Math.min(n - 1, i + 1);
       else if (k === "ArrowLeft") i = Math.max(0, i - 1);
       else if (k === "Home") i = 0;

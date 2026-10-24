@@ -1,0 +1,397 @@
+/*
+  The `.viz` chart component, shared by every hand-built chart on the
+  standalone pages (white paper load profiles, commercial rate charts).
+
+  HTML draws the gridlines, ticks, legend, bars and direct labels; a
+  viewBox="0 0 1000 1000" preserveAspectRatio="none" SVG draws the lines only,
+  so axis text stays at real CSS pixels and strokes stay a true 2px at any
+  width. Everything renders with JavaScript off; /static/viz.js adds only the
+  crosshair, markers and readout. Every value is also in the <details> table.
+
+  Series colours follow the entity, not the chart, and are validated, not
+  eyeballed: see the notes on each token block. Re-run the validator before
+  swapping any of them.
+*/
+
+/* Chart shell -------------------------------------------------- */
+.viz {
+  --viz-surface: #151917;
+  --viz-grid: #262c28;
+  --viz-ink: #f4f1ea;
+  --viz-ink-2: #9aa39c;
+  --viz-sum: #46a26d;
+  --viz-win: #8f83e8;
+  margin: 0 0 32px;
+  padding: 16px 20px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--viz-surface);
+}
+/* Inside a card that already draws the surface, the chart brings no chrome
+   of its own: but keeps --viz-surface so marker rings punch out cleanly. */
+.viz-bare { margin: 0; padding: 0; border: 0; background: none; }
+.viz-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 18px;
+  margin-bottom: 14px;
+}
+.viz-title {
+  margin: 0 !important;
+  max-width: none !important;
+  color: var(--viz-ink) !important;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.viz-sub {
+  margin: 2px 0 0 !important;
+  max-width: none !important;
+  color: var(--viz-ink-2) !important;
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+.viz-legend {
+  display: flex;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--viz-ink-2);
+  font-size: 0.74rem;
+}
+.viz-legend li { display: flex; align-items: center; gap: 7px; }
+.viz-key {
+  display: inline-block;
+  flex: none;
+  width: 15px;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+}
+.s-sum { color: var(--viz-sum); }
+.s-win { color: var(--viz-win); }
+
+.viz-body {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  grid-template-areas: "yaxis plot" ". xaxis" ". xtitle";
+  column-gap: 8px;
+}
+.viz-yaxis { grid-area: yaxis; position: relative; }
+.viz-yt {
+  position: absolute;
+  right: 0;
+  transform: translateY(-50%);
+  color: var(--viz-ink-2);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.viz-plot {
+  grid-area: plot;
+  position: relative;
+  height: clamp(170px, 26vw, 230px);
+  outline: none;
+}
+.viz-plot:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 6px;
+  border-radius: 3px;
+}
+/* Hairline gridlines, solid, one step off the surface. */
+.viz-gl {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--viz-grid);
+}
+.viz-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.viz-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Direct labels: one per series, on its own peak. The marker sits exactly
+   on the data point; the value rides beside it. */
+.viz-peak { position: absolute; width: 0; height: 0; pointer-events: none; }
+.viz-peak-dot {
+  position: absolute;
+  left: -4.5px;
+  top: -4.5px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 2px var(--viz-surface);
+}
+.viz-peak-t {
+  position: absolute;
+  left: 10px;
+  top: -19px;
+  color: var(--viz-ink);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  white-space: nowrap;
+  /* keeps the value legible where it passes over a line */
+  text-shadow: 0 0 5px var(--viz-surface), 0 0 3px var(--viz-surface);
+}
+.viz-peak.is-below .viz-peak-t { top: 6px; }
+.viz-peak.is-left .viz-peak-t { left: auto; right: 10px; }
+.viz-peak-t b { font-weight: 600; }
+
+/* Hover / focus layer */
+.viz-cross {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  margin-left: -0.5px;
+  background: rgba(244, 241, 234, 0.28);
+  pointer-events: none;
+}
+.viz-dot {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 2px var(--viz-surface);
+  pointer-events: none;
+}
+.viz-tip {
+  position: absolute;
+  z-index: 2;
+  min-width: 132px;
+  padding: 8px 10px 7px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+.viz-tip p { margin: 0 !important; max-width: none !important; }
+.viz-tip-h {
+  margin-bottom: 5px !important;
+  color: var(--viz-ink-2) !important;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.viz-tip-r {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--viz-ink) !important;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+.viz-tip-r b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.viz-tip-r em {
+  margin-left: auto;
+  padding-left: 10px;
+  color: var(--viz-ink-2);
+  font-size: 0.68rem;
+  font-style: normal;
+}
+.viz-tip-d {
+  margin-top: 4px !important;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+  color: var(--viz-ink-2) !important;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+}
+
+.viz-xaxis { grid-area: xaxis; position: relative; height: 16px; }
+.viz-xt {
+  position: absolute;
+  top: 4px;
+  transform: translateX(-50%);
+  color: var(--viz-ink-2);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-variant-numeric: tabular-nums;
+}
+.viz-xtitle {
+  grid-area: xtitle;
+  margin: 2px 0 0 !important;
+  max-width: none !important;
+  color: var(--viz-ink-2) !important;
+  font-size: 0.66rem;
+  text-align: center;
+}
+
+/* Table view: every value stays reachable without hovering. */
+.viz-data { margin-top: 10px; border-top: 1px solid var(--border); }
+.viz-data > summary {
+  padding: 8px 2px 2px;
+  color: var(--viz-ink-2);
+  cursor: pointer;
+  font-size: 0.72rem;
+  list-style-position: inside;
+}
+.viz-data > summary:hover { color: var(--viz-ink); }
+.viz-data-wrap { max-height: 290px; overflow: auto; margin-bottom: 8px; }
+.viz-data table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+.viz-data th, .viz-data td {
+  padding: 4px 8px;
+  border-bottom: 1px solid rgba(43, 49, 45, 0.55);
+  text-align: right;
+}
+.viz-data th:first-child, .viz-data td:first-child { text-align: left; }
+.viz-data thead th {
+  position: sticky;
+  top: 0;
+  background: var(--viz-surface);
+  color: var(--viz-ink-2);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.viz-data td { color: var(--viz-ink-2); }
+.viz-data td:first-child { color: var(--viz-ink); }
+
+@media (max-width: 560px) {
+  .viz { padding: 14px 14px 8px; }
+  .viz-xt.is-dense { display: none; }
+  .viz-body { grid-template-columns: 26px minmax(0, 1fr); }
+}
+
+/* Rate-chart series tokens ------------------------------------------
+   Colour follows the entity, so a series keeps its hue here and on
+   /commercial. Validated with the data-viz validator against this
+   component's own --viz-surface (#151917), dark mode:
+     net ↔ ares  CVD ΔE 18.4 · normal 24.4 , pass
+     net ↔ ptc   CVD ΔE 27.4 · normal 27.7 , pass
+     pos ↔ neg   CVD ΔE  7.4 · normal 28.7 , warn band, legal ONLY with a
+   second channel. On both diverging charts that channel is bar direction
+   about the zero line, plus accounting parentheses on every printed value,
+   so the sign never rests on hue alone. Do not swap these by eye. */
+.viz {
+  --viz-net: #8f83e8;
+  --viz-ares: #46a26d;
+  --viz-ptc: #c98500;
+  --viz-pos: #46a26d;
+  --viz-neg: #d03b3b;
+}
+.s-net { color: var(--viz-net); }
+.s-ares { color: var(--viz-ares); }
+.s-ptc { color: var(--viz-ptc); }
+.s-pos, .viz-bar.is-pos { color: var(--viz-pos); }
+.s-neg, .viz-bar.is-neg { color: var(--viz-neg); }
+.s-bar { color: var(--viz-ink-2); }
+
+/* Annotation, a labelled point that is not a series peak. */
+.viz-note { position: absolute; width: 0; height: 0; pointer-events: none; }
+.viz-note i {
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--viz-ink-2);
+  border-radius: 50%;
+  background: var(--viz-surface);
+}
+.viz-note span {
+  position: absolute;
+  left: 12px;
+  top: -6px;
+  color: var(--viz-ink-2);
+  font-size: 0.68rem;
+  line-height: 1.35;
+  white-space: nowrap;
+  text-shadow: 0 0 5px var(--viz-surface), 0 0 3px var(--viz-surface);
+}
+
+/* Diverging columns --------------------------------------------
+   Bars cap at 24px and centre in their slot, so the leftover band
+   width stays as air rather than being filled. */
+.viz-plot.is-bars { height: clamp(200px, 30vw, 280px); }
+.viz-zero {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--viz-ink-2);
+  opacity: 0.5;
+}
+.viz-bar {
+  position: absolute;
+  width: min(calc(100% / 30 - 2px), 24px);
+  min-height: 1px;
+  transform: translateX(-50%);
+  background: currentColor;
+}
+.viz-bar.is-pos { border-radius: 4px 4px 0 0; }
+.viz-bar.is-neg { border-radius: 0 0 4px 4px; }
+.viz-band {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(244, 241, 234, 0.04);
+}
+.viz-bandlabel {
+  position: absolute;
+  top: 2px;
+  margin-left: 6px;
+  color: var(--viz-ink-2);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* The annotation's text is nowrap and sits inside the plot, so on a narrow
+   screen it is the one thing that can push the page wider than the
+   viewport. It is emphasis, not information, the crossing is visible in
+   the line itself, stated in the prose, and in the data table, so it goes
+   below 560px, the same width at which the dense x-ticks drop out. */
+@media (max-width: 560px) {
+  .viz-note { display: none; }
+}
+
+@media print {
+  .viz {
+    --viz-surface: #fff;
+    --viz-grid: #ddd;
+    --viz-ink: #111;
+    --viz-ink-2: #555;
+    background: #fff;
+    border-color: #ccc;
+    break-inside: avoid;
+  }
+  .viz-tip, .viz-cross, .viz-dot { display: none !important; }
+  /* A collapsed <details> prints as a dead "View data table" line; bands are
+     screen-only shading. */
+  .viz-data, .viz-band, .viz-bandlabel { display: none; }
+  .viz-title, .viz-peak-t { color: #111 !important; }
+  .viz-sub, .viz-yt, .viz-xt, .viz-xtitle, .viz-legend, .viz-note span { color: #555 !important; }
+}

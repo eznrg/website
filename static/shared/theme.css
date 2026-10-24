@@ -1,21 +1,19 @@
 /*
-  Shared component layer for the standalone LANDING pages under `static/`:
-  /hospitality, /residential, /commercial.
+  Shared base + component layer for EVERY standalone page under `static/`:
+  the landing pages (/hospitality, /residential, /commercial) and the two
+  reading documents (/hospitality/whitepaper, /commercial/brief).
 
   Requires tokens.css to be linked first: every color, font, and radius here is
   a custom property defined there.
 
-  The white paper (static/hospitality/whitepaper/) deliberately does NOT link
-  this file. It shares the palette but not the components: it is a reading
-  document with a denser line-height, a sticky header, a TOC rail, and print
-  styles, so it keeps its own component CSS inline.
-
-  A change here lands on all three landing pages at once. Page-specific CSS,
-  the hospitality stat band, load-profile charts, sequence steps, and white-paper
-  CTA: stays in that page's own inline <style> block.
+  The reading documents add /static/doc.css on top; any page with a chart adds
+  /static/viz.css. A change here lands on all five pages at once. Page-specific
+  CSS stays in that page's own inline <style> block, loaded last.
 */
 
 * { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -50,8 +48,11 @@ p { margin-top: 0; }
 
 /* Header ------------------------------------------------------ */
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
   border-bottom: 1px solid var(--border);
-  background: rgba(16, 19, 18, 0.84);
+  background: rgba(16, 19, 18, 0.88);
   backdrop-filter: blur(18px);
 }
 .header-shell {
@@ -73,6 +74,21 @@ p { margin-top: 0; }
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
+
+.header-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: color 180ms ease;
+}
+.header-back:hover, .header-back:focus-visible { color: var(--primary); }
+.header-back .ic { width: 14px; height: 14px; }
 
 /* Eyebrow ----------------------------------------------------- */
 .eyebrow {
@@ -230,6 +246,7 @@ p { margin-top: 0; }
 .channel-card h3 { font-size: 1.16rem; margin-bottom: 6px; }
 .channel-card p { margin: 0; color: var(--muted); }
 .channel-action { align-self: end; width: 100%; }
+.channel-action[aria-disabled] { opacity: 0.65; cursor: default; }
 
 /* Footer ------------------------------------------------------ */
 .site-footer {
@@ -238,6 +255,18 @@ p { margin-top: 0; }
   background: rgba(16, 19, 18, 0.36);
 }
 .site-footer p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 /* Reveal on scroll ------------------------------------------- */
 .reveal { opacity: 1; transform: none; }
@@ -260,6 +289,7 @@ p { margin-top: 0; }
   .button { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 1ms !important;
     transition-duration: 1ms !important;
