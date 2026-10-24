@@ -1,0 +1,485 @@
+/*
+  The `.viz` chart component, shared by every hand-built chart on the
+  standalone pages (white paper load profiles, commercial rate charts).
+
+  HTML draws the gridlines, ticks, legend, bars and direct labels; a
+  viewBox="0 0 1000 1000" preserveAspectRatio="none" SVG draws the lines only,
+  so axis text stays at real CSS pixels and strokes stay a true 2px at any
+  width. Everything renders with JavaScript off; /static/viz.js adds only the
+  crosshair, markers and readout. Every value is also in the <details> table.
+
+  Series colours follow the entity, not the chart, and are validated, not
+  eyeballed: see the notes on each token block. Re-run the validator before
+  swapping any of them.
+*/
+
+/* Chart shell -------------------------------------------------- */
+.viz {
+  margin: 0 0 32px;
+  padding: 16px 20px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--viz-surface);
+}
+/* Inside a card that already draws the surface, the chart brings no chrome
+   of its own: but keeps --viz-surface so marker rings punch out cleanly. */
+.viz-bare { margin: 0; padding: 0; border: 0; background: none; }
+.viz-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 18px;
+  margin-bottom: 14px;
+}
+.viz-title {
+  margin: 0 !important;
+  max-width: none !important;
+  color: var(--viz-ink) !important;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.viz-sub {
+  margin: 2px 0 0 !important;
+  max-width: none !important;
+  color: var(--viz-ink-2) !important;
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+.viz-legend {
+  display: flex;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--viz-ink-2);
+  font-size: 0.74rem;
+}
+.viz-legend li { display: flex; align-items: center; gap: 7px; }
+.viz-key {
+  display: inline-block;
+  flex: none;
+  width: 15px;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+}
+.viz-body {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  grid-template-areas: "yaxis plot" ". xaxis" ". xtitle";
+  column-gap: 8px;
+}
+.viz-yaxis { grid-area: yaxis; position: relative; }
+.viz-yt {
+  position: absolute;
+  right: 0;
+  transform: translateY(-50%);
+  color: var(--viz-ink-2);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.viz-plot {
+  grid-area: plot;
+  position: relative;
+  height: clamp(170px, 26vw, 230px);
+  outline: none;
+}
+.viz-plot:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 6px;
+  border-radius: 3px;
+}
+/* Hairline gridlines, solid, one step off the surface. */
+.viz-gl {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--viz-grid);
+}
+.viz-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.viz-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Direct labels: one per series, on its own peak. The marker sits exactly
+   on the data point; the value rides beside it. */
+.viz-peak { position: absolute; width: 0; height: 0; pointer-events: none; }
+.viz-peak-dot {
+  position: absolute;
+  left: -4.5px;
+  top: -4.5px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 2px var(--viz-surface);
+}
+.viz-peak-t {
+  position: absolute;
+  left: 10px;
+  top: -19px;
+  color: var(--viz-ink);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  white-space: nowrap;
+  /* keeps the value legible where it passes over a line */
+  text-shadow: 0 0 5px var(--viz-surface), 0 0 3px var(--viz-surface);
+}
+.viz-peak.is-below .viz-peak-t { top: 6px; }
+.viz-peak.is-left .viz-peak-t { left: auto; right: 10px; }
+.viz-peak-t b { font-weight: 600; }
+
+/* Hover / focus layer */
+.viz-cross {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  margin-left: -0.5px;
+  background: color-mix(in srgb, var(--viz-ink) 28%, transparent);
+  pointer-events: none;
+}
+.viz-dot {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 2px var(--viz-surface);
+  pointer-events: none;
+}
+.viz-tip {
+  position: absolute;
+  z-index: 2;
+  min-width: 132px;
+  padding: 8px 10px 7px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  box-shadow: var(--shadow-card);
+  pointer-events: none;
+}
+.viz-tip p { margin: 0 !important; max-width: none !important; }
+.viz-tip-h {
+  margin-bottom: 5px !important;
+  color: var(--viz-ink-2) !important;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.viz-tip-r {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--viz-ink) !important;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+.viz-tip-r b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.viz-tip-r em {
+  margin-left: auto;
+  padding-left: 10px;
+  color: var(--viz-ink-2);
+  font-size: 0.68rem;
+  font-style: normal;
+}
+.viz-tip-d {
+  margin-top: 4px !important;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+  color: var(--viz-ink-2) !important;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+}
+
+.viz-xaxis { grid-area: xaxis; position: relative; height: 16px; }
+.viz-xt {
+  position: absolute;
+  top: 4px;
+  transform: translateX(-50%);
+  color: var(--viz-ink-2);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-variant-numeric: tabular-nums;
+}
+.viz-xtitle {
+  grid-area: xtitle;
+  margin: 2px 0 0 !important;
+  max-width: none !important;
+  color: var(--viz-ink-2) !important;
+  font-size: 0.66rem;
+  text-align: center;
+}
+
+/* Table view: every value stays reachable without hovering. */
+.viz-data { margin-top: 10px; border-top: 1px solid var(--border); }
+.viz-data > summary {
+  padding: 8px 2px 2px;
+  color: var(--viz-ink-2);
+  cursor: pointer;
+  font-size: 0.72rem;
+  list-style-position: inside;
+}
+.viz-data > summary:hover { color: var(--viz-ink); }
+.viz-data-wrap { max-height: 290px; overflow: auto; margin-bottom: 8px; }
+.viz-data table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+.viz-data th, .viz-data td {
+  padding: 4px 8px;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+  text-align: right;
+}
+.viz-data th:first-child, .viz-data td:first-child { text-align: left; }
+.viz-data thead th {
+  position: sticky;
+  top: 0;
+  background: var(--viz-surface);
+  color: var(--viz-ink-2);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.viz-data td { color: var(--viz-ink-2); }
+.viz-data td:first-child { color: var(--viz-ink); }
+
+@media (max-width: 560px) {
+  .viz { padding: 14px 14px 8px; }
+  .viz-xt.is-dense { display: none; }
+  .viz-body { grid-template-columns: 26px minmax(0, 1fr); }
+}
+
+/* Series ---------------------------------------------------------
+   The colours themselves, and their validation results for both themes,
+   live in tokens.css (--viz-*). Colour follows the entity: NET (realized
+   default cost) is orange on every page, the fixed ARES rate teal, PTC blue;
+   summer orange and winter blue. Winter lines are also dashed, and both
+   diverging charts carry the sign in bar direction and accounting
+   parentheses, so no reading rests on hue alone. */
+.s-sum { color: var(--viz-sum); }
+.s-win { color: var(--viz-win); }
+.viz-line.s-win { stroke-dasharray: 7 5; }
+.viz-key.s-win { height: 0; background: none; border-top: 2px dashed currentColor; }
+.s-net { color: var(--viz-net); }
+.s-ares { color: var(--viz-ares); }
+.s-ptc { color: var(--viz-ptc); }
+.s-pos, .viz-bar.is-pos { color: var(--viz-pos); }
+.s-neg, .viz-bar.is-neg { color: var(--viz-neg); }
+.s-bar { color: var(--viz-ink-2); }
+
+/* Annotation, a labelled point that is not a series peak. */
+.viz-note { position: absolute; width: 0; height: 0; pointer-events: none; }
+.viz-note i {
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--viz-ink-2);
+  border-radius: 50%;
+  background: var(--viz-surface);
+}
+.viz-note span {
+  position: absolute;
+  left: 12px;
+  top: -6px;
+  color: var(--viz-ink-2);
+  font-size: 0.68rem;
+  line-height: 1.35;
+  white-space: nowrap;
+  text-shadow: 0 0 5px var(--viz-surface), 0 0 3px var(--viz-surface);
+}
+
+/* Diverging columns --------------------------------------------
+   Bars cap at 24px and centre in their slot, so the leftover band
+   width stays as air rather than being filled. */
+.viz-plot.is-bars { height: clamp(200px, 30vw, 280px); }
+.viz-zero {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--viz-ink-2);
+  opacity: 0.5;
+}
+.viz-bar {
+  position: absolute;
+  width: min(calc(100% / 30 - 2px), 24px);
+  min-height: 1px;
+  transform: translateX(-50%);
+  background: currentColor;
+}
+.viz-bar.is-pos { border-radius: 4px 4px 0 0; }
+.viz-bar.is-neg { border-radius: 0 0 4px 4px; }
+.viz-band {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: color-mix(in srgb, var(--viz-ink) 5%, transparent);
+}
+.viz-bandlabel {
+  position: absolute;
+  top: 2px;
+  margin-left: 6px;
+  color: var(--viz-ink-2);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* The annotation's text is nowrap and sits inside the plot, so on a narrow
+   screen it is the one thing that can push the page wider than the
+   viewport. It is emphasis, not information, the crossing is visible in
+   the line itself, stated in the prose, and in the data table, so it goes
+   below 560px, the same width at which the dense x-ticks drop out. */
+@media (max-width: 560px) {
+  .viz-note { display: none; }
+}
+
+/* Horizontal bars --------------------------------------------------
+   A short labelled list, one bar per row, every value printed in its own
+   column, so nothing needs a hover. Context rows are muted ink; the rows the
+   prose is about carry .is-hl and the accent. Bars start at the axis and
+   round only their data end. */
+.hbars { display: grid; gap: 10px; margin: 6px 0 4px; padding: 0; list-style: none; }
+.hbars li {
+  display: grid;
+  grid-template-columns: minmax(92px, 8.5rem) minmax(0, 1fr) 4.4em;
+  align-items: center;
+  gap: 12px;
+  max-width: none;
+}
+.hbar-k { color: var(--viz-ink); font-size: 0.82rem; line-height: 1.3; }
+.hbar-track { position: relative; height: 14px; border-left: 1px solid var(--viz-axis); }
+.hbar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 0 4px 4px 0;
+  background: color-mix(in srgb, var(--viz-ink-2) 55%, transparent);
+}
+.hbars .is-hl .hbar { background: var(--primary); }
+/* Narrow screens: the label takes its own line so the bar keeps its length. */
+@media (max-width: 560px) {
+  .hbars li { grid-template-columns: minmax(0, 1fr) 4.4em; row-gap: 4px; }
+  .hbar-k { grid-column: 1 / -1; }
+}
+.hbar-v {
+  color: var(--viz-ink);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* Stacked bar: what one rate is made of -----------------------------
+   Segments are positioned from the data (left = running total, width =
+   value, both as a share of the axis maximum), so their ends stay exact;
+   the 2px surface gap is drawn inside each later segment's start. The
+   bracket above spans the total. Every value is also written out as the
+   equation line under each bar, so the bar is emphasis, not the record. */
+.stack { display: grid; gap: 20px; margin: 4px 0 2px; }
+.stack-row { display: grid; gap: 6px; }
+.stack-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 !important;
+  max-width: none !important;
+  color: var(--viz-ink) !important;
+  font-size: 0.82rem;
+}
+.stack-head b { color: var(--viz-ink); font-family: var(--font-mono); font-weight: 600; }
+.stack-track { position: relative; height: 30px; }
+.stack-total {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  border: 2px solid var(--viz-net);
+  border-bottom: 0;
+  border-radius: 3px 3px 0 0;
+}
+.stack-seg {
+  position: absolute;
+  top: 9px;
+  bottom: 0;
+  background: currentColor;
+}
+.stack-seg + .stack-seg { border-left: 2px solid var(--viz-surface); }
+.stack-seg.is-end { border-radius: 0 4px 4px 0; }
+.stack-seg.is-soft { background: color-mix(in srgb, currentColor 50%, var(--viz-surface)); }
+/* The adjustment is not a supply component, so it is drawn as texture over
+   neutral ink rather than as another series colour. */
+.stack-seg.is-adj {
+  color: var(--viz-ink-2);
+  background:
+    repeating-linear-gradient(135deg, currentColor 0 2px, transparent 2px 6px),
+    color-mix(in srgb, currentColor 18%, var(--viz-surface));
+}
+.stack-eq {
+  margin: 0 !important;
+  max-width: none !important;
+  color: var(--viz-ink-2) !important;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+.stack-axis { position: relative; height: 16px; border-top: 1px solid var(--viz-axis); }
+.stack-axis .viz-xt:first-child { transform: none; }
+.stack-axis .viz-xt:last-child { transform: translateX(-100%); }
+.viz-key.is-box { width: 10px; height: 10px; border-radius: 2px; }
+.viz-key.is-bracket { height: 5px; background: none; border: 2px solid currentColor; border-bottom: 0; border-radius: 2px 2px 0 0; }
+.viz-key.is-soft { background: color-mix(in srgb, currentColor 50%, var(--viz-surface)); }
+.viz-key.is-adj {
+  color: var(--viz-ink-2);
+  background:
+    repeating-linear-gradient(135deg, currentColor 0 2px, transparent 2px 5px),
+    color-mix(in srgb, currentColor 18%, var(--viz-surface));
+}
+
+@media print {
+  .viz {
+    --viz-surface: #fff;
+    --viz-grid: #ddd;
+    --viz-ink: #111;
+    --viz-ink-2: #555;
+    background: #fff;
+    border-color: #ccc;
+    break-inside: avoid;
+  }
+  .viz-tip, .viz-cross, .viz-dot { display: none !important; }
+  /* A collapsed <details> prints as a dead "View data table" line; bands are
+     screen-only shading. */
+  .viz-data, .viz-band, .viz-bandlabel { display: none; }
+  .viz-title, .viz-peak-t { color: #111 !important; }
+  .viz-sub, .viz-yt, .viz-xt, .viz-xtitle, .viz-legend, .viz-note span { color: #555 !important; }
+}

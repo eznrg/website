@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f9fc">
 
   <!-- Unlisted document: keep OUT of search results. Do not remove. -->
   <meta name="robots" content="noindex">
@@ -13,880 +14,22 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&family=Inter:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- Palette shared with the other standalone pages under static/. This page
-       deliberately does NOT link theme.css: it shares the tokens but not the
-       component layer, it is a reading document with its own denser
-       typography, sticky header, TOC rail, and print styles, all below. -->
+  <!-- The main site's appearance script: resolves the shared eznrg-appearance
+       preference (system, light, dark) to data-theme before first paint. -->
+  <script src="/assets/appearance.js"></script>
+
+  <!-- Shared with the other standalone pages under static/. Order matters:
+       tokens.css, theme.css, doc.css, viz.css, then this page's own styles. -->
   <link rel="stylesheet" href="/static/tokens.css">
+  <link rel="stylesheet" href="/static/theme.css">
+  <link rel="stylesheet" href="/static/doc.css">
+  <link rel="stylesheet" href="/static/viz.css">
 
   <style>
-    /*
-      Page-specific styles for the standalone hospitality white paper.
-      The palette lives in /static/tokens.css; the two tokens below are used
-      only by this page. Nothing here depends on /src/styles.css, so a future
-      theme change on the main site can never alter or break it.
-    */
-    :root {
-      --gold: #d6bc78;
-      --measure: 68ch;
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      min-width: 320px;
-      color: var(--text);
-      background:
-        radial-gradient(ellipse 900px 620px at 18% -8%, rgba(139, 216, 166, 0.16), transparent 60%),
-        linear-gradient(135deg, rgba(139, 216, 166, 0.06), transparent 46%),
-        var(--bg);
-      font-family: var(--font-body);
-      font-feature-settings: "ss01" 1;
-      line-height: 1.68;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    img, svg { display: block; }
-    a { color: inherit; }
-
-    .container { width: min(100% - 40px, var(--max)); margin-inline: auto; }
-
-    h1, h2, h3 {
-      margin-top: 0;
-      font-family: var(--font-display);
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      line-height: 1.08;
-    }
-    p { margin-top: 0; }
-
-    /* Reading progress ------------------------------------------- */
-    .progress {
-      position: fixed;
-      inset: 0 auto auto 0;
-      z-index: 60;
-      width: 100%;
-      height: 2px;
-      transform: scaleX(0);
-      transform-origin: 0 50%;
-      background: linear-gradient(90deg, var(--primary), var(--teal-deep));
-      will-change: transform;
-    }
-
-    /* Header ------------------------------------------------------ */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      border-bottom: 1px solid var(--border);
-      background: rgba(16, 19, 18, 0.88);
-      backdrop-filter: blur(18px);
-    }
-    .header-shell {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      min-height: 68px;
-      gap: 20px;
-    }
-    .brand { display: inline-flex; align-items: center; gap: 10px; }
-    .brand-mark { width: auto; height: 36px; }
-    .brand-wordmark { width: auto; height: 21px; }
-    .header-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--muted);
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: color 180ms ease;
-    }
-    .header-back:hover, .header-back:focus-visible { color: var(--primary); }
-    .header-back .ic { width: 14px; height: 14px; }
-
-    /* Document shell ---------------------------------------------- */
-    .doc {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 48px;
-      padding: 56px 0 96px;
-    }
-    @media (min-width: 1080px) {
-      .doc { grid-template-columns: 232px minmax(0, 1fr); gap: 56px; }
-    }
-
-    /* Sticky rail TOC --------------------------------------------- */
-    .rail { display: none; }
-    @media (min-width: 1080px) {
-      .rail {
-        position: sticky;
-        top: 108px;
-        display: block;
-        align-self: start;
-        max-height: calc(100vh - 148px);
-        overflow-y: auto;
-      }
-    }
-    .rail-title {
-      margin: 0 0 14px;
-      color: var(--muted);
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-    .rail ol { margin: 0; padding: 0; list-style: none; }
-    .rail li { margin-bottom: 2px; }
-    .rail a {
-      display: grid;
-      grid-template-columns: 22px 1fr;
-      gap: 8px;
-      padding: 5px 8px 5px 0;
-      border-left: 2px solid transparent;
-      padding-left: 10px;
-      color: var(--muted);
-      font-size: 0.82rem;
-      line-height: 1.35;
-      text-decoration: none;
-      transition: color 160ms ease, border-color 160ms ease;
-    }
-    .rail a span:first-child {
-      color: rgba(139, 216, 166, 0.55);
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-    }
-    .rail a:hover, .rail a:focus-visible { color: var(--text); }
-    .rail a.is-active {
-      border-left-color: var(--primary);
-      color: var(--text);
-    }
-    .rail a.is-active span:first-child { color: var(--primary); }
-
-    /* Article ------------------------------------------------------ */
-    .article { min-width: 0; }
-    .article > section { scroll-margin-top: 96px; }
-    .article p, .article li { max-width: var(--measure); }
-    .article p { margin-bottom: 20px; color: #ddd9d0; }
-
-    /* Cover -------------------------------------------------------- */
-    .cover { padding-bottom: 20px; margin-bottom: 56px; border-bottom: 1px solid var(--border); }
-    .eyebrow {
-      margin: 0 0 16px;
-      color: var(--primary);
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-    }
-    .cover h1 {
-      max-width: 16ch;
-      margin-bottom: 22px;
-      font-size: clamp(2.5rem, 6vw, 4.1rem);
-      letter-spacing: -0.035em;
-      line-height: 1.02;
-    }
-    .cover-sub {
-      max-width: 52ch;
-      margin-bottom: 40px;
-      color: var(--muted);
-      font-size: clamp(1.05rem, 2vw, 1.2rem);
-      line-height: 1.55;
-    }
-    .cover-byline {
-      margin: 0;
-      padding-top: 22px;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.86rem;
-    }
-
-    /* Stat cards --------------------------------------------------- */
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 14px;
-      max-width: none;
-      margin: 0 0 32px;
-    }
-    .stat-grid.is-single { grid-template-columns: minmax(0, 300px); }
-    .stat {
-      padding: 18px 20px 20px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background:
-        linear-gradient(145deg, rgba(139, 216, 166, 0.05), transparent 42%),
-        rgba(23, 27, 25, 0.72);
-    }
-    .stat-label {
-      margin: 0 0 12px !important;
-      max-width: none !important;
-      color: var(--muted) !important;
-      font-family: var(--font-mono);
-      font-size: 0.66rem;
-      font-weight: 600;
-      letter-spacing: 0.13em;
-      line-height: 1.4;
-      text-transform: uppercase;
-    }
-    .stat-icon {
-      display: grid;
-      width: 30px;
-      height: 30px;
-      margin-bottom: 14px;
-      place-items: center;
-      color: var(--primary);
-      background: rgba(139, 216, 166, 0.1);
-      border: 1px solid rgba(139, 216, 166, 0.2);
-      border-radius: 8px;
-    }
-    .stat-icon .ic { width: 15px; height: 15px; }
-    .stat-value {
-      margin: 0 !important;
-      max-width: none !important;
-      color: var(--text) !important;
-      font-family: var(--font-mono);
-      font-size: 1.42rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      line-height: 1.15;
-    }
-
-    /* Section markers ---------------------------------------------- */
-    .article > section { padding-top: 56px; }
-    .sec-marker { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-    .sec-num {
-      color: var(--primary);
-      font-family: var(--font-mono);
-      font-size: 0.76rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-    }
-    .sec-rule { flex: 1; height: 1px; background: var(--border); }
-    .article h2 {
-      margin-bottom: 26px;
-      font-size: clamp(1.75rem, 3.4vw, 2.5rem);
-      letter-spacing: -0.028em;
-    }
-    .article h3 {
-      margin: 34px 0 12px;
-      max-width: var(--measure);
-      font-family: var(--font-body);
-      font-size: 1.02rem;
-      font-weight: 700;
-      letter-spacing: -0.005em;
-      line-height: 1.4;
-    }
-
-    /* In-prose links ------------------------------------------------ */
-    .article p > a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
-
-    /* Table of contents -------------------------------------------- */
-    .toc { padding-top: 0 !important; }
-    .toc ol { margin: 0; padding: 0; list-style: none; }
-    .toc li { max-width: none; }
-    .toc a {
-      display: grid;
-      grid-template-columns: 34px 1fr 18px;
-      gap: 12px;
-      align-items: center;
-      padding: 13px 4px;
-      border-bottom: 1px solid var(--border);
-      color: var(--text);
-      font-size: 0.98rem;
-      text-decoration: none;
-      transition: color 160ms ease, padding-left 160ms ease;
-    }
-    .toc a:hover, .toc a:focus-visible { color: var(--primary); padding-left: 10px; }
-    .toc .toc-n { color: var(--primary); font-family: var(--font-mono); font-size: 0.76rem; }
-    .toc .ic { width: 14px; height: 14px; color: var(--muted); }
-
-    /* Step / flow / ladder / layer blocks --------------------------- */
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
-      gap: 12px;
-      margin: 0 0 32px;
-    }
-    /* The five stages are a sequence, keep them on one row once they fit. */
-    @media (min-width: 900px) {
-      .steps { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-    }
-    .step {
-      padding: 18px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: rgba(23, 27, 25, 0.62);
-    }
-    .step .stat-icon { margin-bottom: 12px; }
-    .step-name {
-      margin: 0 0 5px !important;
-      max-width: none !important;
-      color: var(--text) !important;
-      font-family: var(--font-display);
-      font-size: 0.98rem;
-      font-weight: 600;
-    }
-    .step-desc {
-      margin: 0 !important;
-      max-width: none !important;
-      color: var(--muted) !important;
-      font-size: 0.85rem;
-      line-height: 1.5;
-    }
-
-    .flow {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 12px;
-      margin: 4px 0 32px;
-    }
-    .flow .step { position: relative; }
-    @media (min-width: 760px) {
-      .flow { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 26px; }
-      .flow .step + .step::before {
-        position: absolute;
-        top: 50%;
-        left: -20px;
-        width: 14px;
-        height: 14px;
-        margin-top: -7px;
-        color: var(--border);
-        content: "";
-        background: currentColor;
-        clip-path: polygon(0 42%, 62% 42%, 62% 20%, 100% 50%, 62% 80%, 62% 58%, 0 58%);
-      }
-    }
-
-    /* Tables -------------------------------------------------------- */
-    .table-wrap {
-      max-width: none;
-      margin: 0 0 14px;
-      overflow-x: auto;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: rgba(23, 27, 25, 0.62);
-    }
-    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-    thead th {
-      padding: 13px 16px;
-      color: var(--muted);
-      font-family: var(--font-body);
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      text-align: left;
-      white-space: nowrap;
-      border-bottom: 1px solid var(--border);
-    }
-    tbody td {
-      padding: 12px 16px;
-      border-bottom: 1px solid rgba(43, 49, 45, 0.6);
-      white-space: nowrap;
-    }
-    tbody tr:last-child td { border-bottom: 0; }
-    tbody td:first-child { color: var(--text); }
-    tbody td:not(:first-child) { color: var(--muted); font-family: var(--font-mono); font-size: 0.84rem; }
-    tbody tr.is-total td {
-      color: var(--text);
-      font-weight: 600;
-      background: rgba(139, 216, 166, 0.05);
-      border-top: 1px solid var(--border);
-    }
-    .table-note {
-      margin: 0 0 30px;
-      color: var(--muted);
-      font-size: 0.82rem;
-      line-height: 1.55;
-    }
-
-    /* Pull quote ----------------------------------------------------- */
-    .pullquote {
-      max-width: none;
-      margin: 40px 0;
-      padding: 30px 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .pullquote p {
-      max-width: 34ch;
-      margin: 0;
-      color: var(--text) !important;
-      font-family: var(--font-display);
-      font-size: clamp(1.25rem, 2.6vw, 1.65rem);
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      line-height: 1.28;
-    }
-
-    /* Charts / appendix ---------------------------------------------- */
-    .chart-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 16px;
-      margin: 8px 0 34px;
-    }
-    .chart-card {
-      padding: 20px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: #151917;
-      scroll-margin-top: 96px;
-    }
-    .chart-card h3 {
-      margin: 0 0 16px;
-      font-family: var(--font-display);
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-    .chart-stats { display: flex; flex-wrap: wrap; gap: 26px; margin-bottom: 18px; }
-    .chart-stat p { margin: 0 !important; max-width: none !important; }
-    .chart-stat .k {
-      color: var(--muted) !important;
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-    .chart-stat .v {
-      margin-top: 4px !important;
-      color: var(--text) !important;
-      font-family: var(--font-mono);
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-    .chart-stat .n { margin-top: 2px !important; color: var(--muted) !important; font-size: 0.75rem; }
-    /* Load-profile chart ------------------------------------------- */
-    .viz {
-      --viz-surface: #151917;
-      --viz-grid: #262c28;
-      --viz-ink: #f4f1ea;
-      --viz-ink-2: #9aa39c;
-      --viz-sum: #46a26d;
-      --viz-win: #8f83e8;
-      margin: 0;
-      padding: 16px 20px 10px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: var(--viz-surface);
-    }
-    /* Inside a card that already draws the surface, the chart brings no chrome
-       of its own, but keeps --viz-surface so marker rings punch out cleanly. */
-    .viz-bare { padding: 0; border: 0; background: none; }
-    .viz-head {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 6px 18px;
-      margin-bottom: 14px;
-    }
-    .viz-title {
-      margin: 0 !important;
-      max-width: none !important;
-      color: var(--viz-ink) !important;
-      font-family: var(--font-display);
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-    }
-    .viz-sub {
-      margin: 2px 0 0 !important;
-      max-width: none !important;
-      color: var(--viz-ink-2) !important;
-      font-size: 0.74rem;
-      line-height: 1.4;
-    }
-    .viz-legend {
-      display: flex;
-      gap: 16px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      color: var(--viz-ink-2);
-      font-size: 0.74rem;
-    }
-    .viz-legend li { display: flex; align-items: center; gap: 7px; }
-    .viz-key {
-      display: inline-block;
-      flex: none;
-      width: 15px;
-      height: 2px;
-      border-radius: 1px;
-      background: currentColor;
-    }
-    .s-sum { color: var(--viz-sum); }
-    .s-win { color: var(--viz-win); }
-
-    .viz-body {
-      display: grid;
-      grid-template-columns: 30px minmax(0, 1fr);
-      grid-template-areas: "yaxis plot" ". xaxis" ". xtitle";
-      column-gap: 8px;
-    }
-    .viz-yaxis { grid-area: yaxis; position: relative; }
-    .viz-yt {
-      position: absolute;
-      right: 0;
-      transform: translateY(-50%);
-      color: var(--viz-ink-2);
-      font-family: var(--font-mono);
-      font-size: 0.66rem;
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-    }
-    .viz-plot {
-      grid-area: plot;
-      position: relative;
-      height: clamp(170px, 26vw, 230px);
-      outline: none;
-    }
-    .viz-plot:focus-visible {
-      outline: 2px solid var(--primary);
-      outline-offset: 6px;
-      border-radius: 3px;
-    }
-    /* Hairline gridlines, solid, one step off the surface. */
-    .viz-gl {
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: var(--viz-grid);
-    }
-    .viz-svg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      overflow: visible;
-      pointer-events: none;
-    }
-    .viz-line {
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    /* Direct labels, one per series, on its own peak. The marker sits exactly
-       on the data point; the value rides beside it. */
-    .viz-peak { position: absolute; width: 0; height: 0; pointer-events: none; }
-    .viz-peak-dot {
-      position: absolute;
-      left: -4.5px;
-      top: -4.5px;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: currentColor;
-      box-shadow: 0 0 0 2px var(--viz-surface);
-    }
-    .viz-peak-t {
-      position: absolute;
-      left: 10px;
-      top: -19px;
-      color: var(--viz-ink);
-      font-family: var(--font-mono);
-      font-size: 0.66rem;
-      white-space: nowrap;
-      /* keeps the value legible where it passes over a line */
-      text-shadow: 0 0 5px var(--viz-surface), 0 0 3px var(--viz-surface);
-    }
-    .viz-peak.is-below .viz-peak-t { top: 6px; }
-    .viz-peak.is-left .viz-peak-t { left: auto; right: 10px; }
-    .viz-peak-t b { font-weight: 600; }
-
-    /* Hover / focus layer */
-    .viz-cross {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      margin-left: -0.5px;
-      background: rgba(244, 241, 234, 0.28);
-      pointer-events: none;
-    }
-    .viz-dot {
-      position: absolute;
-      width: 9px;
-      height: 9px;
-      margin: -4.5px 0 0 -4.5px;
-      border-radius: 50%;
-      background: currentColor;
-      box-shadow: 0 0 0 2px var(--viz-surface);
-      pointer-events: none;
-    }
-    .viz-tip {
-      position: absolute;
-      z-index: 2;
-      min-width: 132px;
-      padding: 8px 10px 7px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--surface-2);
-      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
-      pointer-events: none;
-    }
-    .viz-tip p { margin: 0 !important; max-width: none !important; }
-    .viz-tip-h {
-      margin-bottom: 5px !important;
-      color: var(--viz-ink-2) !important;
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .viz-tip-r {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      color: var(--viz-ink) !important;
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      line-height: 1.55;
-    }
-    .viz-tip-r b { font-weight: 600; font-variant-numeric: tabular-nums; }
-    .viz-tip-r em {
-      margin-left: auto;
-      padding-left: 10px;
-      color: var(--viz-ink-2);
-      font-size: 0.68rem;
-      font-style: normal;
-    }
-    .viz-tip-d {
-      margin-top: 4px !important;
-      padding-top: 4px;
-      border-top: 1px solid var(--border);
-      color: var(--viz-ink-2) !important;
-      font-family: var(--font-mono);
-      font-size: 0.66rem;
-    }
-
-    .viz-xaxis { grid-area: xaxis; position: relative; height: 16px; }
-    .viz-xt {
-      position: absolute;
-      top: 4px;
-      transform: translateX(-50%);
-      color: var(--viz-ink-2);
-      font-family: var(--font-mono);
-      font-size: 0.66rem;
-      font-variant-numeric: tabular-nums;
-    }
-    .viz-xtitle {
-      grid-area: xtitle;
-      margin: 2px 0 0 !important;
-      max-width: none !important;
-      color: var(--viz-ink-2) !important;
-      font-size: 0.66rem;
-      text-align: center;
-    }
-
-    /* Table view, every value stays reachable without hovering. */
-    .viz-data { margin-top: 10px; border-top: 1px solid var(--border); }
-    .viz-data > summary {
-      padding: 8px 2px 2px;
-      color: var(--viz-ink-2);
-      cursor: pointer;
-      font-size: 0.72rem;
-      list-style-position: inside;
-    }
-    .viz-data > summary:hover { color: var(--viz-ink); }
-    .viz-data-wrap { max-height: 290px; overflow: auto; margin-bottom: 8px; }
-    .viz-data table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-variant-numeric: tabular-nums;
-    }
-    .viz-data th, .viz-data td {
-      padding: 4px 8px;
-      border-bottom: 1px solid rgba(43, 49, 45, 0.55);
-      text-align: right;
-    }
-    .viz-data th:first-child, .viz-data td:first-child { text-align: left; }
-    .viz-data thead th {
-      position: sticky;
-      top: 0;
-      background: var(--viz-surface);
-      color: var(--viz-ink-2);
-      font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .viz-data td { color: var(--viz-ink-2); }
-    .viz-data td:first-child { color: var(--viz-ink); }
-
-    @media (max-width: 560px) {
-      .viz { padding: 14px 14px 8px; }
-      .viz-xt.is-dense { display: none; }
-      .viz-body { grid-template-columns: 26px minmax(0, 1fr); }
-    }
-
-    /* Sources --------------------------------------------------------- */
-    .source-list { margin: 0; padding: 0; list-style: none; }
-    .source-list li {
-      display: grid;
-      grid-template-columns: 38px 1fr;
-      gap: 10px;
-      max-width: none;
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(43, 49, 45, 0.6);
-      color: var(--muted);
-      font-size: 0.88rem;
-      line-height: 1.55;
-      scroll-margin-top: 96px;
-    }
-    .source-list li:target { background: rgba(139, 216, 166, 0.06); }
-    .source-list .n { color: var(--primary); font-family: var(--font-mono); font-size: 0.72rem; }
-
-    /* CTA + footer ----------------------------------------------------- */
-    .doc-cta {
-      max-width: none;
-      margin-top: 64px;
-      padding: 34px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background:
-        linear-gradient(145deg, rgba(139, 216, 166, 0.07), transparent 44%),
-        rgba(23, 27, 25, 0.78);
-    }
-    .doc-cta h2 { margin-bottom: 10px; font-size: clamp(1.4rem, 2.6vw, 1.85rem); }
-    .doc-cta p { margin-bottom: 22px; color: var(--muted) !important; }
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: 48px;
-      padding: 0 20px;
-      border: 1px solid transparent;
-      border-radius: var(--radius-lg);
-      color: var(--primary-foreground);
-      background: linear-gradient(135deg, var(--primary), var(--teal-deep) 72%);
-      box-shadow: 0 18px 50px rgba(139, 216, 166, 0.18);
-      font-family: var(--font-display);
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      text-decoration: none;
-      transition: transform 180ms ease, box-shadow 180ms ease;
-    }
-    .button:hover, .button:focus-visible {
-      transform: translateY(-2px);
-      box-shadow: 0 22px 62px rgba(139, 216, 166, 0.28);
-    }
-    .button .ic { width: 18px; height: 18px; }
-
-    .site-footer {
-      padding: 40px 0;
-      border-top: 1px solid var(--border);
-      background: rgba(16, 19, 18, 0.36);
-    }
-    .site-footer p { margin: 0; color: var(--muted); font-size: 0.9rem; }
-
-    .ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
-/* Chart series tokens ------------------------------------------
-       Colour follows the entity, so a series keeps its hue here and on
-       /commercial. Validated with the data-viz validator against this
-       component's own --viz-surface (#151917), dark mode:
-         net ↔ ares  CVD ΔE 18.4 · normal 24.4 , pass
-         net ↔ ptc   CVD ΔE 27.4 · normal 27.7 , pass
-         pos ↔ neg   CVD ΔE  7.4 · normal 28.7 , warn band, legal ONLY with a
-       second channel. On both diverging charts that channel is bar direction
-       about the zero line, plus accounting parentheses on every printed value,
-       so the sign never rests on hue alone. Do not swap these by eye. */
-    .viz {
-      --viz-net: #8f83e8;
-      --viz-ares: #46a26d;
-      --viz-ptc: #c98500;
-      --viz-pos: #46a26d;
-      --viz-neg: #d03b3b;
-    }
-    .s-net { color: var(--viz-net); }
-    .s-ares { color: var(--viz-ares); }
-    .s-ptc { color: var(--viz-ptc); }
-    .s-pos, .viz-bar.is-pos { color: var(--viz-pos); }
-    .s-neg, .viz-bar.is-neg { color: var(--viz-neg); }
-    .s-bar { color: var(--viz-ink-2); }
-    .viz { margin-bottom: 32px; }
-
-    /* Annotation, a labelled point that is not a series peak. */
-    .viz-note { position: absolute; width: 0; height: 0; pointer-events: none; }
-    .viz-note i {
-      position: absolute;
-      left: -4px;
-      top: -4px;
-      width: 8px;
-      height: 8px;
-      border: 2px solid var(--viz-ink-2);
-      border-radius: 50%;
-      background: var(--viz-surface);
-    }
-    .viz-note span {
-      position: absolute;
-      left: 12px;
-      top: -6px;
-      color: var(--viz-ink-2);
-      font-size: 0.68rem;
-      line-height: 1.35;
-      white-space: nowrap;
-      text-shadow: 0 0 5px var(--viz-surface), 0 0 3px var(--viz-surface);
-    }
-
-    /* Diverging columns --------------------------------------------
-       Bars cap at 24px and centre in their slot, so the leftover band
-       width stays as air rather than being filled. */
-    .viz-plot.is-bars { height: clamp(200px, 30vw, 280px); }
-    .viz-zero {
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: var(--viz-ink-2);
-      opacity: 0.5;
-    }
-    .viz-bar {
-      position: absolute;
-      width: min(calc(100% / 30 - 2px), 24px);
-      min-height: 1px;
-      transform: translateX(-50%);
-      background: currentColor;
-    }
-    .viz-bar.is-pos { border-radius: 4px 4px 0 0; }
-    .viz-bar.is-neg { border-radius: 0 0 4px 4px; }
-    .viz-band {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      background: rgba(244, 241, 234, 0.04);
-    }
-    .viz-bandlabel {
-      position: absolute;
-      top: 2px;
-      margin-left: 6px;
-      color: var(--viz-ink-2);
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      pointer-events: none;
-    }
-
+    /* Brief-only components. Everything shared lives in /static/doc.css and
+       /static/viz.css. */
     /* Sensitivity table -------------------------------------------
        The bar lives in the last cell of the source document's own table,
        so the figures stay readable as text and nothing is gated behind a
@@ -913,18 +56,18 @@
       margin-top: -9px;
       background: currentColor;
     }
-    .sens-bar.is-pos { color: var(--viz-pos, #46a26d); border-radius: 0 4px 4px 0; }
-    .sens-bar.is-neg { color: var(--viz-neg, #d03b3b); border-radius: 4px 0 0 4px; }
+    .sens-bar.is-pos { color: var(--viz-pos); border-radius: 0 4px 4px 0; }
+    .sens-bar.is-neg { color: var(--viz-neg); border-radius: 4px 0 0 4px; }
     /* Left-align the rate column so the tagged rows, which are wider, still
        line their numbers up with the untagged ones. */
     .sens tbody th { text-align: left; }
-    .sens tbody tr.is-emph { background: rgba(139, 216, 166, 0.06); }
+    .sens tbody tr.is-emph { background: rgba(var(--accent-rgb), 0.06); }
     .sens tbody tr.is-emph th { color: var(--text); }
     .sens-tag {
       display: inline-block;
       margin-left: 8px;
       padding: 1px 7px;
-      border: 1px solid rgba(139, 216, 166, 0.3);
+      border: 1px solid rgba(var(--accent-rgb), 0.3);
       border-radius: 999px;
       color: var(--primary);
       font-family: var(--font-body);
@@ -939,10 +82,10 @@
     .extension {
       margin: 0 0 32px;
       padding: 24px 26px;
-      border: 1px solid rgba(139, 216, 166, 0.24);
+      border: 1px solid rgba(var(--accent-rgb), 0.24);
       border-left-width: 3px;
       border-radius: var(--radius-lg);
-      background: rgba(139, 216, 166, 0.05);
+      background: rgba(var(--accent-rgb), 0.05);
     }
     .extension > p:last-child { margin-bottom: 0 !important; }
     .extension-k {
@@ -958,75 +101,14 @@
     @media (max-width: 640px) {
       .sens td.sens-track { display: none; }
     }
-    /* The annotation's text is nowrap and sits inside the plot, so on a narrow
-       screen it is the one thing that can push the page wider than the
-       viewport. It is emphasis, not information, the crossing is visible in
-       the line itself, stated in the prose, and in the data table, so it goes
-       below 560px, the same width at which the dense x-ticks drop out. */
-    @media (max-width: 560px) {
-      .viz-note { display: none; }
-    }
+
     @media print {
-      .viz-data, .viz-band, .viz-bandlabel { display: none; }
-      /* Re-point the surface token too, not just the background: the marker
-         rings and the label halos are drawn in it, and a dark halo behind
-         black text on white paper reads as a smudge. */
-      .viz { --viz-surface: #fff; background: #fff; border-color: #ccc; }
-      .viz-title, .viz-peak-t { color: #111 !important; }
-      .viz-sub, .viz-yt, .viz-xt, .viz-xtitle, .viz-legend, .viz-note span { color: #555 !important; }
       .extension { background: #fff; border-color: #ccc; }
     }
 
-    /* Responsive ------------------------------------------------------- */
-    @media (max-width: 640px) {
-      .container { width: min(100% - 28px, var(--max)); }
-      .doc { padding-top: 36px; }
-      .article > section { padding-top: 44px; }
-      .toc a { grid-template-columns: 30px 1fr 16px; gap: 10px; font-size: 0.92rem; }
-      .doc-cta { padding: 26px 22px; }
-      .button { width: 100%; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after {
-        animation-duration: 1ms !important;
-        transition-duration: 1ms !important;
-      }
-    }
-
-    /* Print ------------------------------------------------------------- */
-    @media print {
-      .progress, .site-header, .rail, .doc-cta { display: none !important; }
-      body { background: #fff; color: #111; }
-      .doc { display: block; padding: 0; }
-      .article p, .article li, .stat-value { color: #111 !important; }
-      .stat, .step, .chart-card, .table-wrap { background: #fff; border-color: #ccc; }
-      .article > section { page-break-inside: avoid; padding-top: 28px; }
-      a { color: #111 !important; text-decoration: none; }
-      .viz {
-        --viz-surface: #fff;
-        --viz-grid: #ddd;
-        --viz-ink: #111;
-        --viz-ink-2: #555;
-        background: #fff;
-        border-color: #ccc;
-        break-inside: avoid;
-      }
-      .viz-tip, .viz-cross, .viz-dot { display: none !important; }
-      /* collapsed <details> prints as a dead "View data table" line */
-      .viz-data { display: none; }
-      .chart-stat .v { color: #111 !important; }
-      .chart-stat .k, .chart-stat .n { color: #555 !important; }
-    }
-
-    .channel-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
-    .channel-card { padding: 24px; border: 1px solid var(--border); border-radius: 12px; }
-    .channel-icon svg { width: 28px; height: 28px; }
-    .channel-action svg { width: 18px; height: 18px; }
-    .channel-action[aria-disabled] { opacity: .65; cursor: default; }
+    /* The channels block sits inside the article column. */
+    #channels { padding-bottom: 0; }
     #channels .container { width: 100%; padding: 0; }
-    @media (max-width: 640px) { .channel-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -1055,7 +137,17 @@
         <img class="brand-mark" src="/logo-mark.svg" alt="" width="44" height="48">
         <img class="brand-wordmark" src="/logo-wordmark.svg" alt="EzNRG" width="88" height="25">
       </a>
-      <a class="header-back" href="/commercial"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"/></svg>Back to commercial</a>
+      <div class="header-actions">
+        <a class="header-back" href="/commercial"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"/></svg><span class="header-back-label">Back to commercial</span></a>
+        <label class="appearance-control">
+          <span class="sr-only">Appearance</span>
+          <select data-appearance aria-label="Appearance">
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+      </div>
     </div>
   </header>
 
@@ -1126,6 +218,7 @@
 
       <!-- 01 --------------------------------------------------------- -->
       <section id="exec-summary"><div class="sec-marker"><span class="sec-num">01</span><span class="sec-rule"></span></div><h2>Did your electricity supply contract actually save you money?</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Neither the bill total nor the advertised rate shows whether a supply contract worked. This brief compares both options on the same costs, the same usage, and the same period.</p></div>
 <p>A hotel owner has guests to serve. A manufacturer has production to run. A property manager has tenants to answer. But the bill total does not explain whether your electricity supply arrangement is working for you. Neither does the advertised rate on its own.</p>
 <p>Think of the quoted rate as one line on a receipt. Some supply costs may be included; others may appear separately. This brief puts both options on the same basis: equivalent supply costs, the same electricity usage, and the same period.</p>
 <p>Start with the bill fundamentals, then follow the worked scenario. The charts, complete monthly results, sensitivity analysis, and historical rates provide the detail behind the comparison. The example uses ComEd-area commercial 0–100 kW rates and does not assume that default supply or a third-party supplier is always better.</p></section>
@@ -1134,6 +227,7 @@
       <section id="fundamentals">
         <div class="sec-marker"><span class="sec-num">02</span><span class="sec-rule"></span></div>
         <h2>Analysis Fundamentals</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>ComEd delivers the power either way; choosing an ARES changes only who supplies it. Cost is quantity times price: kWh × ¢/kWh ÷ 100 gives dollars.</p></div>
         <h3>What is measured</h3>
         <p>In northern Illinois, ComEd is the regulated delivery utility. ComEd owns and operates the local distribution system that brings electricity to homes and businesses. If a storm knocks out service, a meter issue occurs, or local wires need repair, the customer still contacts ComEd. <strong>Choosing a third-party supplier does not change the physical delivery path.</strong></p>
         <p>The supply side is different. Illinois allows customers in the ComEd, Ameren Illinois, and MidAmerican service territories to choose who supplies the electricity supply portion of service: the public utility default supply option, or an Alternative Retail Electric Supplier, commonly called an ARES.</p>
@@ -1158,6 +252,7 @@
       <section id="bill-anatomy">
         <div class="sec-marker"><span class="sec-num">03</span><span class="sec-rule"></span></div>
         <h2>Bill Anatomy → Realized Supply Costs</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>The benchmark is the realized NET rate, PTC + PEA, not the headline Price to Compare. In May 2026 the adjustment alone added 8.166¢ to a 9.704¢ headline.</p></div>
         <p><strong>Headline rate alone is not the benchmark.</strong> The published Price to Compare is not what a default-service customer actually pays: each month it is adjusted by the Purchased Electricity Adjustment, which can run either direction. The realized supply cost used in this comparison is <strong>NET = PTC + PEA</strong>.</p>
         <p>The table below sets the default-service supply lines against the ARES supply lines for the same month (May 2025), and states how each is treated in this analysis.</p>
         <div class="table-wrap">
@@ -1266,6 +361,47 @@
             </div>
           </details>
         </div>
+        <!-- Values are the 05-2025 and 05-2026 rows of Appendix A. -->
+        <figure class="doc-figure">
+          <div class="viz" id="viz-stack" role="group" aria-labelledby="viz-stack-t">
+            <div class="viz-head">
+              <div>
+                <p class="viz-title" id="viz-stack-t">What the realized rate is made of</p>
+                <p class="viz-sub">¢/kWh · PTC = ESC + TSC, then NET = PTC + PEA</p>
+              </div>
+              <ul class="viz-legend">
+                <li><span class="viz-key is-box s-ptc"></span>ESC</li>
+                <li><span class="viz-key is-box is-soft s-ptc"></span>TSC</li>
+                <li><span class="viz-key is-box is-adj"></span>PEA</li>
+                <li><span class="viz-key is-bracket s-net"></span>NET</li>
+              </ul>
+            </div>
+            <div class="stack">
+              <div class="stack-row">
+                <p class="stack-head"><span>May 2025</span><span>NET <b>8.589¢</b></span></p>
+                <div class="stack-track" aria-hidden="true">
+                  <span class="stack-total" style="width:47.72%"></span>
+                  <span class="stack-seg s-ptc" style="left:0;width:28.31%"></span>
+                  <span class="stack-seg s-ptc is-soft" style="left:28.31%;width:8.49%"></span>
+                  <span class="stack-seg is-adj is-end" style="left:36.80%;width:10.92%"></span>
+                </div>
+                <p class="stack-eq">ESC 5.096 + TSC 1.528 = PTC 6.624; + PEA 1.965 = NET 8.589</p>
+              </div>
+              <div class="stack-row">
+                <p class="stack-head"><span>May 2026</span><span>NET <b>17.870¢</b></span></p>
+                <div class="stack-track" aria-hidden="true">
+                  <span class="stack-total" style="width:99.28%"></span>
+                  <span class="stack-seg s-ptc" style="left:0;width:43.88%"></span>
+                  <span class="stack-seg s-ptc is-soft" style="left:43.88%;width:10.03%"></span>
+                  <span class="stack-seg is-adj is-end" style="left:53.91%;width:45.37%"></span>
+                </div>
+                <p class="stack-eq">ESC 7.899 + TSC 1.805 = PTC 9.704; + PEA 8.166 = NET 17.870</p>
+              </div>
+              <div class="stack-axis" aria-hidden="true"><span class="viz-xt" style="left:0%">0¢</span><span class="viz-xt" style="left:33.33%">6¢</span><span class="viz-xt" style="left:66.67%">12¢</span><span class="viz-xt" style="left:100%">18¢</span></div>
+            </div>
+          </div>
+          <figcaption>May 2025 is the month in the line-item table above; May 2026 is the month the chart above peaks. Both rows come from <a href="#appendix-a">Appendix A</a>.</figcaption>
+        </figure>
       <h3>Default-service bill example: staying with ComEd</h3>
 <p>The following 0–100 kW delivery-class example shows the charges as bill line items. The rate column is in <strong>dollars per kWh</strong>: $0.05096 equals <strong>5.096¢/kWh</strong>, and $0.01528 equals <strong>1.528¢/kWh</strong>.</p>
 <div class="table-wrap"><table>
@@ -1384,6 +520,7 @@
       <section id="scenario">
         <div class="sec-marker"><span class="sec-num">04</span><span class="sec-rule"></span></div>
         <h2>FY 2024 &amp; FY 2025 Scenario</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Over 2024 and 2025 the 7.8¢ fixed contract cost $2,599.20 more than default service. The same contract looks good or bad depending on the period it is measured over.</p></div>
         <p>One scenario is held constant throughout this brief: a commercial account using <strong>30,000 kWh per month</strong>, against a <strong>7.8¢/kWh fixed ARES rate</strong>. Default-service cost is computed from that month's NET rate; ARES cost is the fixed rate applied to the same volume.</p>
         <div class="table-wrap">
           <table>
@@ -1412,6 +549,7 @@
       <section id="month-to-month">
         <div class="sec-marker"><span class="sec-num">05</span><span class="sec-rule"></span></div>
         <h2>Month-to-Month Results</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Eleven of the twelve 2024 months cost more under the contract; 2025 turned in its favor from May onward.</p></div>
         <p>The annual totals hide how uneven the monthly picture is. Every month below is the same comparison, that month's default-service cost against the fixed contract's $2,340.00, with positive values showing where the contract came out ahead.</p>
         <div class="viz" id="viz-monthly">
           <div class="viz-head">
@@ -1543,6 +681,7 @@
       <section id="sensitivity">
         <div class="sec-marker"><span class="sec-num">06</span><span class="sec-rule"></span></div>
         <h2>Sensitivity Analysis</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Across 2024 and 2025 the break-even fixed rate is 7.439¢: below it a contract came out ahead, above it behind. Half a cent on the rate moves the two-year result by $3,600 on a 30,000 kWh account.</p></div>
         <p><strong>The rate threshold is the useful benchmark.</strong> Rather than asking whether one particular quote was good, the more useful question is: what fixed rate would have exactly matched default service over the period? Across the 24 months of 2024–2025, that rate is <strong>7.439¢</strong>. Below it a fixed contract came out ahead; above it, behind.</p>
         <div class="table-wrap">
           <table class="sens">
@@ -1666,6 +805,7 @@
       <section id="what-changes">
         <div class="sec-marker"><span class="sec-num">07</span><span class="sec-rule"></span></div>
         <h2>What Changes When a Customer Chooses an ARES?</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Switching suppliers changes the supply lines, not the utility's delivery and rider items. Check what "fixed" covers before comparing.</p></div>
         <p><strong>Switching suppliers does not move every bill line item.</strong> This section separates supplier-choice items from utility delivery and rider items. The supply comparison in this brief focuses on NET = PTC + PEA for default service, while a retail supplier may charge energy, capacity, transmission, and contract-defined pass-throughs.</p>
         <div class="table-wrap">
           <table>
@@ -1702,6 +842,7 @@
       <section id="historical">
         <div class="sec-marker"><span class="sec-num">08</span><span class="sec-rule"></span></div>
         <h2>Historical Context: 2024, 2025, 2026 (YTD)</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>The benchmark itself moved: its average rose 78% from 2024 to 2026 year to date, and the range within a year grew from 3.263¢ to 8.317¢.</p></div>
         <p><strong>The default benchmark changed materially in 2026.</strong> Comparing a fixed quote against a benchmark assumes the benchmark is reasonably stable. Over these thirty months it has not been, both the level and the spread have moved in the same direction.</p>
         <div class="table-wrap">
           <table>
@@ -1819,6 +960,7 @@
           <p class="extension-k">Beyond the brief · EzNRG</p>
           <p>The scenario tables above stop at the end of 2025, where the source analysis ends. The rate record in <a href="#appendix-a">Appendix A</a> runs six months further. This section applies <strong>the same method, the same scenario, and the same fixed rate</strong> to those six months. It is an extension of the analysis, not part of the original brief.</p>
         </div>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>With the six 2026 months included, the running 30-month result turns positive at $4,265.70 and the break-even rate rises to 8.274¢.</p></div>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Period</th><th>Default cost</th><th>ARES cost</th><th>Savings / (Cost)</th></tr></thead>
@@ -1904,7 +1046,7 @@
       <aside class="doc-cta">
         <h2>Want this run against your own bills?</h2>
         <p>The same comparison against your actual usage and your actual contract, not a flat 30,000 kWh assumption. Join our channels and we'll take it from there.</p>
-        <a class="button" href="#channels">Talk to our team<svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        <a class="button button-primary" href="#channels">Talk to our team<svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
       </aside>
     <!-- Channels -->
     <section class="section channel-section" id="channels">
@@ -1953,49 +1095,8 @@
     </div>
   </footer>
 
-  <script>
-    // Reading progress + active-section highlighting in the sticky rail.
-    // Self-contained, no dependencies (mirrors ../index.html's approach).
-    (function () {
-      var bar = document.getElementById("progress");
-      var railLinks = Array.prototype.slice.call(
-        document.querySelectorAll(".rail a")
-      );
-      var byId = {};
-      railLinks.forEach(function (a) {
-        byId[a.getAttribute("href").slice(1)] = a;
-      });
-      var sections = Object.keys(byId)
-        .map(function (id) { return document.getElementById(id); })
-        .filter(Boolean);
+  <script src="/static/doc.js"></script>
 
-      var ticking = false;
-      function update() {
-        ticking = false;
-        var doc = document.documentElement;
-        var max = doc.scrollHeight - doc.clientHeight;
-        if (bar) {
-          bar.style.transform =
-            "scaleX(" + (max > 0 ? Math.min(1, doc.scrollTop / max) : 0) + ")";
-        }
-        // Active = last section whose top is above the 40% viewport line.
-        var line = doc.clientHeight * 0.4;
-        var active = null;
-        for (var i = 0; i < sections.length; i++) {
-          if (sections[i].getBoundingClientRect().top <= line) active = sections[i];
-        }
-        railLinks.forEach(function (a) { a.classList.remove("is-active"); });
-        if (active && byId[active.id]) byId[active.id].classList.add("is-active");
-      }
-      function onScroll() {
-        if (!ticking) { ticking = true; requestAnimationFrame(update); }
-      }
-      window.addEventListener("scroll", onScroll, { passive: true });
-      window.addEventListener("resize", onScroll, { passive: true });
-      update();
-    })();
-  </script>
-
-  <script src="/static/rate-charts.js"></script>
+  <script src="/static/viz.js"></script>
 </body>
 </html>

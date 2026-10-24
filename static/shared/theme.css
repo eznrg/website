@@ -1,41 +1,50 @@
 /*
-  Shared component layer for the standalone LANDING pages under `static/`:
-  /hospitality, /residential, /commercial.
+  Shared base + component layer for EVERY standalone page under `static/`:
+  the landing pages (/hospitality, /residential, /commercial) and the two
+  reading documents (/hospitality/whitepaper, /commercial/brief).
 
   Requires tokens.css to be linked first: every color, font, and radius here is
-  a custom property defined there.
+  a custom property defined there, so light and dark come for free. Never put a
+  raw colour in this file; add a token instead.
 
-  The white paper (static/hospitality/whitepaper/) deliberately does NOT link
-  this file. It shares the palette but not the components: it is a reading
-  document with a denser line-height, a sticky header, a TOC rail, and print
-  styles, so it keeps its own component CSS inline.
-
-  A change here lands on all three landing pages at once. Page-specific CSS,
-  the hospitality stat band, load-profile charts, sequence steps, and white-paper
-  CTA: stays in that page's own inline <style> block.
+  The reading documents add /static/doc.css on top; any page with a chart adds
+  /static/viz.css. A change here lands on all five pages at once. Page-specific
+  CSS stays in that page's own inline <style> block, loaded last.
 */
 
 * { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
   min-width: 320px;
   color: var(--text);
-  background:
-    radial-gradient(ellipse 900px 620px at 18% -8%, rgba(139, 216, 166, 0.22), transparent 60%),
-    linear-gradient(135deg, rgba(139, 216, 166, 0.08), transparent 46%),
-    var(--bg);
+  background: var(--bg);
   font-family: var(--font-body);
   font-feature-settings: "ss01" 1;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+}
+/* One restrained page-level background in both themes. Mirrors the main
+   site's body::before, minus its noise texture. */
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  background:
+    radial-gradient(115% 70% at 6% -14%, rgba(var(--accent-rgb), 0.13), rgba(var(--accent-rgb), 0) 64%),
+    radial-gradient(100% 75% at 96% 2%, rgba(var(--accent-rgb), 0.06), rgba(var(--accent-rgb), 0) 62%),
+    linear-gradient(178deg, var(--surface) 0%, var(--bg) 48%, var(--bg) 100%);
 }
 
 img, svg { display: block; }
 a { color: inherit; text-decoration: none; }
 
 .container { width: min(100% - 40px, var(--max)); margin-inline: auto; }
-.section { position: relative; padding: 96px 0; }
+.section { position: relative; padding: 72px 0; }
 
 h1, h2, h3 {
   margin-top: 0;
@@ -50,8 +59,11 @@ p { margin-top: 0; }
 
 /* Header ------------------------------------------------------ */
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
   border-bottom: 1px solid var(--border);
-  background: rgba(16, 19, 18, 0.84);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
   backdrop-filter: blur(18px);
 }
 .header-shell {
@@ -62,9 +74,14 @@ p { margin-top: 0; }
   gap: 24px;
 }
 /* Lockup is two files; size both off height. Mirrors src/styles.css .brand. */
-.brand { display: inline-flex; align-items: center; gap: 12px; }
+.brand { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 12px; }
 .brand-mark { width: auto; height: 42px; }
 .brand-wordmark { width: auto; height: 24px; }
+/* The logo files are drawn for dark surfaces; on light (and on paper) they are
+   darkened exactly as the main site does (src/styles.css). */
+:root:not([data-theme="dark"]) .brand-wordmark { filter: brightness(0); opacity: 0.84; }
+:root:not([data-theme="dark"]) .brand-mark { filter: brightness(0.58) saturate(1.15); }
+.header-actions { display: flex; align-items: center; gap: 18px; min-width: 0; }
 .header-tag {
   color: var(--muted);
   font-family: var(--font-mono);
@@ -73,6 +90,36 @@ p { margin-top: 0; }
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
+.header-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: color 180ms ease;
+}
+.header-back:hover, .header-back:focus-visible { color: var(--primary); }
+.header-back .ic { width: 14px; height: 14px; }
+
+/* Same control and storage key as the main site (src/render.mjs
+   appearanceControl); /assets/appearance.js wires it up. */
+.appearance-control { display: inline-flex; align-items: center; }
+.appearance-control select {
+  min-height: 36px;
+  padding: 0 30px 0 12px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font: 600 0.82rem var(--font-body);
+  cursor: pointer;
+}
+.appearance-control select:hover,
+.appearance-control select:focus-visible { border-color: var(--primary); }
 
 /* Eyebrow ----------------------------------------------------- */
 .eyebrow {
@@ -118,18 +165,18 @@ p { margin-top: 0; }
 .button-primary {
   color: var(--primary-foreground);
   background: linear-gradient(135deg, var(--primary), var(--teal-deep) 72%);
-  box-shadow: 0 18px 50px rgba(139, 216, 166, 0.2);
+  box-shadow: 0 18px 50px rgba(var(--accent-rgb), 0.2);
 }
 .button-primary:hover, .button-primary:focus-visible {
-  box-shadow: 0 22px 62px rgba(139, 216, 166, 0.3);
+  box-shadow: 0 22px 62px rgba(var(--accent-rgb), 0.3);
 }
 .button-secondary {
   color: var(--text);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface);
   border-color: var(--border);
 }
 .button-secondary:hover, .button-secondary:focus-visible {
-  border-color: rgba(139, 216, 166, 0.34);
+  border-color: rgba(var(--accent-rgb), 0.34);
 }
 
 /* Hero -------------------------------------------------------- */
@@ -154,36 +201,39 @@ p { margin-top: 0; }
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
-.info-card {
-  min-height: 240px;
+.info-card,
+.channel-card {
   padding: 28px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(145deg, rgba(139, 216, 166, 0.055), transparent 34%),
-    rgba(23, 27, 25, 0.78);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+    linear-gradient(145deg, rgba(var(--accent-rgb), 0.055), transparent 34%),
+    var(--surface);
+  box-shadow: var(--shadow-card);
   transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
-.info-card:hover {
+.info-card { min-height: 220px; }
+.info-card:hover,
+.channel-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(139, 216, 166, 0.34);
-  box-shadow: 0 26px 76px rgba(0, 0, 0, 0.26), 0 0 44px rgba(139, 216, 166, 0.08);
+  border-color: rgba(var(--accent-rgb), 0.34);
+  box-shadow: var(--shadow), 0 0 44px rgba(var(--accent-rgb), 0.08);
 }
-.card-icon {
+.card-icon,
+.channel-icon {
   display: grid;
   width: 44px;
   height: 44px;
-  margin-bottom: 22px;
   place-items: center;
   color: var(--primary);
-  background: rgba(139, 216, 166, 0.1);
-  border: 1px solid rgba(139, 216, 166, 0.22);
+  background: rgba(var(--accent-rgb), 0.1);
+  border: 1px solid rgba(var(--accent-rgb), 0.22);
   border-radius: var(--radius-lg);
 }
+.card-icon { margin-bottom: 22px; }
 .card-icon svg { width: 22px; height: 22px; }
 .info-card h3 { margin-bottom: 12px; font-size: 1.16rem; letter-spacing: -0.01em; }
-.info-card p { margin: 0; color: var(--muted); }
+.info-card p { margin: 0; color: var(--muted); line-height: 1.65; }
 
 .section-heading { max-width: 760px; margin-bottom: 32px; }
 .section-heading h2 { font-size: clamp(2rem, 4vw, 3.2rem); margin-bottom: 14px; }
@@ -202,42 +252,286 @@ p { margin-top: 0; }
   gap: 16px;
   align-content: start;
   min-height: 240px;
-  padding: 28px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background:
-    linear-gradient(145deg, rgba(139, 216, 166, 0.055), transparent 34%),
-    rgba(23, 27, 25, 0.78);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
-  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
-.channel-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(139, 216, 166, 0.34);
-  box-shadow: 0 26px 76px rgba(0, 0, 0, 0.26), 0 0 44px rgba(139, 216, 166, 0.08);
-}
-.channel-icon {
-  display: grid;
-  width: 52px;
-  height: 52px;
-  place-items: center;
-  color: var(--primary);
-  background: rgba(139, 216, 166, 0.1);
-  border: 1px solid rgba(139, 216, 166, 0.2);
-  border-radius: var(--radius-lg);
-}
+.channel-icon { width: 52px; height: 52px; }
 .channel-icon svg { width: 28px; height: 28px; }
 .channel-card h3 { font-size: 1.16rem; margin-bottom: 6px; }
 .channel-card p { margin: 0; color: var(--muted); }
 .channel-action { align-self: end; width: 100%; }
+.channel-action[aria-disabled] { opacity: 0.65; cursor: default; }
+
+/* Stat band, steps and flow ------------------------------------
+   Shared by the landing pages and the reading documents. The !important
+   overrides beat the documents' `.article p` defaults. */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  max-width: none;
+  margin: 0 0 32px;
+}
+.stat-grid.is-single { grid-template-columns: minmax(0, 300px); }
+.stat {
+  padding: 18px 20px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(145deg, rgba(var(--accent-rgb), 0.05), transparent 42%),
+    var(--surface);
+}
+.stat-label {
+  margin: 0 0 12px !important;
+  max-width: none !important;
+  color: var(--muted) !important;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+.stat-icon {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 14px;
+  place-items: center;
+  color: var(--primary);
+  background: rgba(var(--accent-rgb), 0.1);
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  border-radius: 8px;
+}
+.stat-icon .ic { width: 15px; height: 15px; }
+.stat-value {
+  margin: 0 !important;
+  max-width: none !important;
+  color: var(--text) !important;
+  font-family: var(--font-mono);
+  font-size: 1.42rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+
+/* Step / flow blocks ------------------------------------------- */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+  gap: 12px;
+  margin: 0 0 32px;
+}
+/* The five stages are a sequence: keep them on one row once they fit. */
+@media (min-width: 900px) {
+  .steps { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+.step {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.step .stat-icon { margin-bottom: 12px; }
+.step-name {
+  margin: 0 0 5px !important;
+  max-width: none !important;
+  color: var(--text) !important;
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+.step-desc {
+  margin: 0 !important;
+  max-width: none !important;
+  color: var(--muted) !important;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 4px 0 32px;
+}
+.flow .step { position: relative; }
+@media (min-width: 760px) {
+  .flow { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 26px; }
+  .flow .step + .step::before {
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    width: 14px;
+    height: 14px;
+    margin-top: -7px;
+    color: var(--border);
+    content: "";
+    background: currentColor;
+    clip-path: polygon(0 42%, 62% 42%, 62% 20%, 100% 50%, 62% 80%, 62% 58%, 0 58%);
+  }
+}
+
+
+/* Evidence section ---------------------------------------------
+   Copy on the left, one figure on the right: the landing pages' way of
+   showing a single piece of evidence and linking to the full document. */
+.evidence-section {
+  border-top: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 45%, transparent);
+}
+.evidence-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1.25fr);
+  gap: clamp(42px, 7vw, 86px);
+  align-items: center;
+}
+.evidence-copy h2 {
+  margin-bottom: 20px;
+  font-size: clamp(2.2rem, 4.5vw, 3.7rem);
+}
+.evidence-copy > p:not(.eyebrow) {
+  margin-bottom: 20px;
+  color: var(--muted);
+  font-size: 1.04rem;
+  line-height: 1.7;
+}
+.evidence-result {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 30px 0 22px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.evidence-result strong {
+  flex: none;
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+.evidence-result span {
+  max-width: 18ch;
+  color: var(--text);
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+  font-family: var(--font-display);
+  font-size: 0.94rem;
+  font-weight: 600;
+}
+.text-link .ic { width: 16px; height: 16px; transition: transform 180ms ease; }
+.text-link:hover .ic, .text-link:focus-visible .ic { transform: translateX(3px); }
+
+
+/* Document CTA card --------------------------------------------
+   The closing card on each landing page that points to its document. */
+.paper-section { padding-top: 38px; border-top: 1px solid var(--border); }
+.paper-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 44px;
+  align-items: center;
+  padding: clamp(32px, 6vw, 58px);
+  border: 1px solid rgba(var(--accent-rgb), 0.24);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at 95% 20%, rgba(var(--accent-rgb), 0.13), transparent 32%),
+    linear-gradient(145deg, rgba(var(--accent-rgb), 0.08), transparent 46%),
+    var(--surface);
+  box-shadow: var(--shadow);
+}
+.paper-card h2 { margin-bottom: 14px; font-size: clamp(2rem, 4vw, 3.2rem); }
+.paper-description {
+  max-width: 62ch;
+  margin-bottom: 22px;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+.paper-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 0;
+  padding: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  list-style: none;
+  text-transform: uppercase;
+}
+.paper-meta li { display: flex; align-items: center; gap: 8px; }
+.paper-meta li::before {
+  width: 4px;
+  height: 4px;
+  content: "";
+  background: var(--primary);
+  border-radius: 50%;
+}
+.paper-actions { display: flex; flex-direction: column; gap: 12px; }
+
+
+/* Key takeaway ---------------------------------------------------
+   One per numbered section in the reading documents: the section's own
+   conclusion, restated in a sentence or two so a skim still lands. It never
+   introduces a figure or claim the section itself does not make. */
+.takeaway {
+  max-width: var(--measure);
+  margin: 0 0 28px;
+  padding: 14px 18px 14px 16px;
+  border: 1px solid rgba(var(--accent-rgb), 0.22);
+  border-left: 3px solid var(--primary);
+  border-radius: var(--radius);
+  background: rgba(var(--accent-rgb), 0.06);
+}
+.takeaway-k {
+  margin: 0 0 4px !important;
+  color: var(--primary) !important;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.takeaway p:last-child {
+  margin: 0 !important;
+  color: var(--text) !important;
+  font-weight: 600;
+  line-height: 1.55;
+}
 
 /* Footer ------------------------------------------------------ */
 .site-footer {
   padding: 44px 0;
   border-top: 1px solid var(--border);
-  background: rgba(16, 19, 18, 0.36);
+  background: color-mix(in srgb, var(--surface) 50%, transparent);
 }
 .site-footer p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+.site-footer p + p { margin-top: 6px; }
+.site-footer a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 /* Reveal on scroll ------------------------------------------- */
 .reveal { opacity: 1; transform: none; }
@@ -249,19 +543,43 @@ p { margin-top: 0; }
 .is-enhanced .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
 @media (max-width: 900px) {
+  .evidence-grid { grid-template-columns: 1fr; gap: 42px; }
+  .paper-card { grid-template-columns: 1fr; gap: 28px; }
+  .paper-actions { align-items: flex-start; }
   .card-grid { grid-template-columns: 1fr; }
   .channel-grid { grid-template-columns: 1fr; }
-  .section { padding: 68px 0; }
+  .section { padding: 56px 0; }
 }
 @media (max-width: 640px) {
   .container { width: min(100% - 28px, var(--max)); }
+  .header-shell { gap: 12px; }
   .header-tag { display: none; }
+  /* The back link keeps its icon; its words stay for screen readers. */
+  .header-back-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  .header-back .ic { width: 18px; height: 18px; }
+  .brand-mark { height: 36px; }
+  .brand-wordmark { height: 21px; }
   .hero-actions { display: grid; }
   .button { width: 100%; }
+  .paper-actions { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 1ms !important;
     transition-duration: 1ms !important;
   }
+}
+@media print {
+  body::before { display: none; }
+  .appearance-control { display: none; }
+  .brand-wordmark { filter: brightness(0); opacity: 0.84; }
+  .brand-mark { filter: brightness(0.58) saturate(1.15); }
 }

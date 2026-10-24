@@ -1,32 +1,38 @@
 /*
   Design tokens for every standalone page under `static/`.
 
-  These MIRROR the main site's mint theme but are intentionally copied, not
-  imported: nothing here depends on /src/styles.css, so a future theme change
-  on the main site can never alter or break these pages. When the main site's
-  palette moves and you want these pages to follow, edit THIS file; it is the
-  one place the tokens live now.
+  These MIRROR the main site's light/dark palette (src/styles.css, the same
+  values as tokens-unified.css) but are intentionally copied, not imported:
+  nothing here depends on /src/styles.css, so a theme change on the main site
+  can never break these pages. When the main palette moves and you want these
+  pages to follow, edit THIS file; it is the one place the tokens live.
 
-  Linked by all four pages, including the white paper: which shares the palette
-  but not the component layer in theme.css. Load this BEFORE theme.css: theme.css
-  consumes these custom properties and renders unstyled without them.
+  Light is the default. Dark applies when /assets/appearance.js (the main
+  site's script, linked in each page's <head>) sets data-theme="dark" from the
+  shared `eznrg-appearance` preference. The dark block is screen-only, so a
+  page always prints light.
 
-  Pages may add page-specific tokens in their own `:root` block after this file
-  (the white paper adds --gold and --measure that way).
+  Load this BEFORE theme.css, doc.css and viz.css: they consume these custom
+  properties and render unstyled without them.
 */
 :root {
-  color-scheme: dark;
-  --bg: #101312;
-  --surface: #171b19;
-  --surface-2: #202521;
-  --text: #f4f1ea;
-  --muted: #a8b0a9;
-  --primary: #8bd8a6;
-  --primary-foreground: #07120c;
-  --teal-deep: #6fc190;
-  --border: #2b312d;
-  --shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+  color-scheme: light;
+  --bg: #f7f9fc;
+  --surface: #ffffff;
+  --surface-2: #eef2f6;
+  --text: #202a36;
+  /* Long-form body copy: a step softer than headings, still well above AA. */
+  --prose: #2c3846;
+  --muted: #607084;
+  --primary: #087c70;
+  --primary-foreground: #ffffff;
+  --teal-deep: #05665d;
+  --accent-rgb: 8, 124, 112;
+  --border: #e1e7ef;
+  --shadow: 0 24px 80px rgba(20, 52, 48, 0.12);
+  --shadow-card: 0 18px 50px rgba(20, 52, 48, 0.08);
   --max: 1160px;
+  --measure: 68ch;
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -34,4 +40,59 @@
      circles/dots = 50%) keep their own literals. */
   --radius: 6px;
   --radius-lg: 10px;
+
+  /* Charts. The surface is the card surface; ink is the text tokens, so values
+     and labels never wear a series colour (a swatch beside them carries the
+     identity). Series colours follow the entity, not the chart, and were
+     checked with the dataviz validator (OKLab Delta E x100) on #ffffff:
+       net(orange) / ares(teal)  CVD 17.8, normal 26.8   pass
+       net(orange) / ptc(blue)   pass (worst pair is the one above)
+       sum(orange) / win(blue)   pass, same pair as net / ptc
+       pos(teal) / neg(red)      CVD 14.5, normal 29.1   pass
+     ptc and ares never share a chart; do not put them on one without
+     re-validating (teal/blue is the weak pair in dark mode). */
+  --viz-surface: var(--surface);
+  --viz-grid: #e4ebed;
+  --viz-axis: #c9d3dd;
+  --viz-ink: var(--text);
+  --viz-ink-2: var(--muted);
+  --viz-net: #cc5500;
+  --viz-ptc: #4c5fc7;
+  --viz-ares: #00939f;
+  --viz-sum: #cc5500;
+  --viz-win: #4c5fc7;
+  --viz-pos: #00939f;
+  --viz-neg: #d03b3b;
+}
+
+@media screen {
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #111820;
+    --surface: #18212c;
+    --surface-2: #202c39;
+    --text: #edf2f7;
+    --prose: #d3dce6;
+    --muted: #9aabbe;
+    --primary: #62d1b8;
+    --primary-foreground: #06201b;
+    --teal-deep: #4bb99f;
+    --accent-rgb: 98, 209, 184;
+    --border: #2b3848;
+    --shadow: 0 24px 80px rgba(2, 10, 13, 0.48);
+    --shadow-card: 0 20px 60px rgba(2, 10, 13, 0.32);
+
+    /* Validated on #18212c:
+         net / ares   CVD 17.5, normal 25.4   pass
+         pos / neg    CVD 15.6, normal 30.3   pass */
+    --viz-grid: #263241;
+    --viz-axis: #3a4a5d;
+    --viz-net: #d66c28;
+    --viz-ptc: #727cd6;
+    --viz-ares: #1fa3ae;
+    --viz-sum: #d66c28;
+    --viz-win: #727cd6;
+    --viz-pos: #1fa3ae;
+    --viz-neg: #d03b3b;
+  }
 }
