@@ -272,6 +272,20 @@ tbody tr.is-total td {
 }
 .chart-stat .n { margin-top: 2px !important; color: var(--muted) !important; font-size: 0.75rem; }
 
+/* In-text figures ----------------------------------------------------
+   A chart inside a numbered section, with a caption that says where its
+   data lives. The data itself stays in the appendix or source table. */
+.doc-figure { max-width: none; margin: 4px 0 32px; }
+.doc-figure .viz { margin-bottom: 0; }
+.doc-figure figcaption {
+  max-width: var(--measure);
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+.doc-figure figcaption a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
+
 /* Sources --------------------------------------------------------- */
 .source-list { margin: 0; padding: 0; list-style: none; }
 .source-list li {

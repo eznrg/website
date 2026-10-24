@@ -254,6 +254,7 @@
       <section id="exec-summary">
         <div class="sec-marker"><span class="sec-num">01</span><span class="sec-rule"></span></div>
         <h2>Executive Summary</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Energy is a product input, not just a cost. The goal is the right energy at the right time without touching the guest experience, and the near-term case rests on operational savings, bill validation, and procurement discipline.</p></div>
         <p>A hotel is not an office building with beds. It is a 24/7 service factory where electricity, gas, and water are converted into sleep quality, hot showers, clean linens, food service, comfort, and brand consistency. Energy is both a cost center and a product input. The objective is not simply to use less energy; it is to use the right energy, at the right time, without affecting the guest experience. Every recurring operating-cost reduction can improve NOI and, subject to prevailing valuation assumptions, a property’s value.</p>
         <p>In ComEd/PJM, energy value is increasingly shaped by timing, flexibility, and verifiability as well as annual kWh. Machine learning is useful here only when it improves a decision with existing economic value: forecasting load, identifying peak-risk windows, estimating controllable flexibility, detecting anomalies, and preparing a property for demand response or storage. The near-term case rests on operational savings, bill validation, and procurement discipline; regulatory change is potential upside, not a prerequisite.</p>
         <div class="steps">
@@ -273,6 +274,7 @@
       <section id="distinct-system">
         <div class="sec-marker"><span class="sec-num">02</span><span class="sec-rule"></span></div>
         <h2>Why Hotels Are a Distinct Energy System</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Hotel load is not proportional to occupancy: weather and service intensity matter too. A monthly bill cannot show when cost was created or where flexibility exists, so interval data comes first.</p></div>
         <h3>A hotel is a service platform, not a generic commercial building.</h3>
         <p>Unlike many commercial properties, a hotel does not simply consume energy to keep a space open during business hours: it converts energy into a continuous guest experience: conditioned rooms, hot water, clean linens, food service, lighting, ventilation, elevators, technology access, common-area comfort, and brand-required amenity availability. Energy is therefore not just a utility expense; it is an input into the hotel’s core product. DOE and ENERGY STAR hospitality resources identify operations and controls as key energy-management themes for lodging facilities.<a class="cite" href="#src-1">[1]</a><a class="cite" href="#src-3">[3]</a> Hotels also carry a mix of fixed, variable, and schedulable loads: common-area lighting, ventilation, refrigeration, IT systems, pumps, elevators, and baseline HVAC are always present, while occupancy, weather, housekeeping, food service, laundry volume, and event schedules drive the rest. A limited-service roadside hotel, a full-service urban hotel, and a resort property may all be classified as “lodging,” but their energy profiles behave very differently.</p>
         <h3>The key variables are occupancy, weather, and service intensity.</h3>
@@ -285,8 +287,100 @@
       <section id="load-shape">
         <div class="sec-marker"><span class="sec-num">03</span><span class="sec-rule"></span></div>
         <h2>Load Shape Considerations</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>All four metered properties peaked in January, in a morning or evening ramp hour, never on a summer afternoon. The load runs inverted to the PJM grid it buys from, which makes its shape an asset to understand and monetize.</p></div>
         <p>If a hotel’s energy strategy has a single foundation, it is the shape of its load: not the total kilowatt-hours it consumes, but when those kilowatts arrive. Across four metered lodging properties in the ComEd territory, that shape is strikingly consistent, and it points the same direction.</p>
         <p>Every one of the four meters set its annual peak in January, and every peak landed in a morning or evening ramp hour: 07:00 and 09:00 on one side of the day, 17:00 and 19:00 on the other<a class="meter-ref" href="#prop-780" title="See Appendix A · Meter 780">780</a><a class="meter-ref" href="#prop-781" title="See Appendix A · Meter 781">781</a>. None peaked on a summer afternoon. That single fact matters because PJM’s system and capacity peaks fall on hot summer afternoons<a class="cite" href="#src-8">[8]</a>: the hotel’s load is inverted relative to the grid it buys from. When the grid is most stressed and capacity is most expensive, these properties run near their seasonal minimum; when they hit their own peaks, the wider grid is calm.</p>
+        <!-- Same data as #prop-780 in Appendix A; change both together. -->
+        <figure class="doc-figure">
+          <div class="viz" id="viz-780-fig">
+          <div class="viz-head">
+            <div>
+              <p class="viz-title">Customer 1 · Meter 780: summer days vs. winter days</p>
+              <p class="viz-sub">Average load (kW) by hour of day</p>
+            </div>
+            <ul class="viz-legend">
+              <li><span class="viz-key s-sum"></span>Summer</li>
+              <li><span class="viz-key s-win"></span>Winter</li>
+            </ul>
+          </div>
+          <div class="viz-body">
+            <div class="viz-yaxis">
+              <span class="viz-yt" style="top:100.00%">5</span>
+              <span class="viz-yt" style="top:66.67%">10</span>
+              <span class="viz-yt" style="top:33.33%">15</span>
+              <span class="viz-yt" style="top:0.00%">20</span>
+            </div>
+            <div class="viz-plot" tabindex="0" role="img" data-viz="{&quot;lo&quot;:5,&quot;hi&quot;:20,&quot;x&quot;:&quot;hour&quot;,&quot;u&quot;:&quot;kW&quot;,&quot;a&quot;:[10.6,9.9,9.2,8.6,8.2,7.8,7.8,8.8,9.8,11,11.6,11.7,12,11.9,12.2,12.9,13.8,14.5,14.3,13.5,12.8,12.6,12.4,11.4],&quot;b&quot;:[18.5,18.4,18.5,18.6,18.7,19.2,19.8,19.8,18.9,18.3,18,17.7,17.3,16.8,16.4,16.6,17.3,18.4,19.1,19.4,19.5,19.4,19.2,18.9]}"
+                 aria-label="Line chart: average hourly load in kW for Customer 1 · Meter 780, summer days versus winter days. Use the arrow keys to read each hour; the full table is below the chart.">
+              <span class="viz-gl" style="top:100.00%"></span>
+              <span class="viz-gl" style="top:66.67%"></span>
+              <span class="viz-gl" style="top:33.33%"></span>
+              <span class="viz-gl" style="top:0.00%"></span>
+              <svg class="viz-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <path class="viz-line s-sum" d="M0.0 626.7 L43.5 673.3 L87.0 720.0 L130.4 760.0 L173.9 786.7 L217.4 813.3 L260.9 813.3 L304.3 746.7 L347.8 680.0 L391.3 600.0 L434.8 560.0 L478.3 553.3 L521.7 533.3 L565.2 540.0 L608.7 520.0 L652.2 473.3 L695.7 413.3 L739.1 366.7 L782.6 380.0 L826.1 433.3 L869.6 480.0 L913.0 493.3 L956.5 506.7 L1000.0 573.3" vector-effect="non-scaling-stroke"/>
+                <path class="viz-line s-win" d="M0.0 100.0 L43.5 106.7 L87.0 100.0 L130.4 93.3 L173.9 86.7 L217.4 53.3 L260.9 13.3 L304.3 13.3 L347.8 73.3 L391.3 113.3 L434.8 133.3 L478.3 153.3 L521.7 180.0 L565.2 213.3 L608.7 240.0 L652.2 226.7 L695.7 180.0 L739.1 106.7 L782.6 60.0 L826.1 40.0 L869.6 33.3 L913.0 40.0 L956.5 53.3 L1000.0 73.3" vector-effect="non-scaling-stroke"/>
+              </svg>
+              <span class="viz-peak s-sum is-left" style="left:73.91%;top:36.67%"><i class="viz-peak-dot"></i><span class="viz-peak-t"><b>14.5</b> kW</span></span>
+              <span class="viz-peak s-win is-below" style="left:26.09%;top:1.33%"><i class="viz-peak-dot"></i><span class="viz-peak-t"><b>19.8</b> kW</span></span>
+              <span class="viz-cross" hidden></span>
+              <span class="viz-dot s-sum" hidden></span>
+              <span class="viz-dot s-win" hidden></span>
+              <div class="viz-tip" role="status" aria-live="polite" hidden>
+                <p class="viz-tip-h"></p>
+                <p class="viz-tip-r"><span class="viz-key s-sum"></span><b></b> kW<em>Summer</em></p>
+                <p class="viz-tip-r"><span class="viz-key s-win"></span><b></b> kW<em>Winter</em></p>
+                <p class="viz-tip-d"></p>
+              </div>
+            </div>
+            <div class="viz-xaxis">
+              <span class="viz-xt" style="left:0.00%">0</span>
+              <span class="viz-xt is-dense" style="left:13.04%">3</span>
+              <span class="viz-xt" style="left:26.09%">6</span>
+              <span class="viz-xt is-dense" style="left:39.13%">9</span>
+              <span class="viz-xt" style="left:52.17%">12</span>
+              <span class="viz-xt is-dense" style="left:65.22%">15</span>
+              <span class="viz-xt" style="left:78.26%">18</span>
+              <span class="viz-xt is-dense" style="left:91.30%">21</span>
+            </div>
+            <p class="viz-xtitle">Hour of day</p>
+          </div>
+          <details class="viz-data">
+            <summary>View data table</summary>
+            <div class="viz-data-wrap">
+              <table>
+                <thead><tr><th>Hour</th><th>Summer</th><th>Winter</th><th>Δ</th></tr></thead>
+                <tbody>
+                  <tr><td>00:00</td><td>10.6</td><td>18.5</td><td>+7.9</td></tr>
+                  <tr><td>01:00</td><td>9.9</td><td>18.4</td><td>+8.5</td></tr>
+                  <tr><td>02:00</td><td>9.2</td><td>18.5</td><td>+9.3</td></tr>
+                  <tr><td>03:00</td><td>8.6</td><td>18.6</td><td>+10.0</td></tr>
+                  <tr><td>04:00</td><td>8.2</td><td>18.7</td><td>+10.5</td></tr>
+                  <tr><td>05:00</td><td>7.8</td><td>19.2</td><td>+11.4</td></tr>
+                  <tr><td>06:00</td><td>7.8</td><td>19.8</td><td>+12.0</td></tr>
+                  <tr><td>07:00</td><td>8.8</td><td>19.8</td><td>+11.0</td></tr>
+                  <tr><td>08:00</td><td>9.8</td><td>18.9</td><td>+9.1</td></tr>
+                  <tr><td>09:00</td><td>11.0</td><td>18.3</td><td>+7.3</td></tr>
+                  <tr><td>10:00</td><td>11.6</td><td>18.0</td><td>+6.4</td></tr>
+                  <tr><td>11:00</td><td>11.7</td><td>17.7</td><td>+6.0</td></tr>
+                  <tr><td>12:00</td><td>12.0</td><td>17.3</td><td>+5.3</td></tr>
+                  <tr><td>13:00</td><td>11.9</td><td>16.8</td><td>+4.9</td></tr>
+                  <tr><td>14:00</td><td>12.2</td><td>16.4</td><td>+4.2</td></tr>
+                  <tr><td>15:00</td><td>12.9</td><td>16.6</td><td>+3.7</td></tr>
+                  <tr><td>16:00</td><td>13.8</td><td>17.3</td><td>+3.5</td></tr>
+                  <tr><td>17:00</td><td>14.5</td><td>18.4</td><td>+3.9</td></tr>
+                  <tr><td>18:00</td><td>14.3</td><td>19.1</td><td>+4.8</td></tr>
+                  <tr><td>19:00</td><td>13.5</td><td>19.4</td><td>+5.9</td></tr>
+                  <tr><td>20:00</td><td>12.8</td><td>19.5</td><td>+6.7</td></tr>
+                  <tr><td>21:00</td><td>12.6</td><td>19.4</td><td>+6.8</td></tr>
+                  <tr><td>22:00</td><td>12.4</td><td>19.2</td><td>+6.8</td></tr>
+                  <tr><td>23:00</td><td>11.4</td><td>18.9</td><td>+7.5</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+          <figcaption>Seasonal averages for one meter, not the annual peaks of all four properties. Winter sits above summer at every hour and reaches its high in the morning ramp. Peak demand, coverage and the hourly table are in <a href="#prop-780">Appendix A</a>.</figcaption>
+        </figure>
         <p>The monthly record makes the inversion concrete. For the combined meters detailed in <a href="#appendix-a5">Appendix A5</a>, billing-month peak demand runs 127 kW in January and 98 kW in December but collapses to 46–47 kW across June, July, and August: a winter peak more than 2.5× the summer one. Because delivery (demand) charges are set by each month’s highest kW interval, the property carries its heaviest demand-charge burden in winter, not summer.</p>
         <div class="stat-grid">
           <div class="stat">
@@ -314,6 +408,7 @@
       <section id="expert-strategy">
         <div class="sec-marker"><span class="sec-num">04</span><span class="sec-rule"></span></div>
         <h2>Hotels Need an Expert-Led Energy Strategy</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Utility expense grew more slowly than revenue but was still 21.7% of 2025 GOP, and every recurring dollar removed from operating expense raises asset value at the prevailing cap rate.</p></div>
         <p>Owners must protect service quality, manage brand standards, execute property-improvement plans, and improve bookings and RevPAR. Energy strategy should support those priorities through a clear operating process rather than add a competing management burden. The anonymized Chicago-area example below shows why a disciplined view of utilities still matters.</p>
         <div class="table-wrap">
           <table>
@@ -326,6 +421,23 @@
         </div>
         <p class="table-note">OCU = occupancy · TR = total revenue · ADR = average daily rate · RevPAR = revenue per available room · GOP = gross operating profit. Net income shown in parentheses where negative.</p>
         <p>Revenue grew 16.2% and GOP grew 69.8% from 2024 to 2025, while electricity grew 7.0% and total utilities grew 13.3%. Utility expense therefore grew more slowly than revenue, but it remained material: total utilities were 21.7% of 2025 GOP. The practical question is not merely how to consume less, but which loads are fixed, variable, weather-driven, schedulable, and controllable without affecting guests.</p>
+        <figure class="doc-figure">
+          <div class="viz" id="viz-growth" role="group" aria-labelledby="viz-growth-t">
+            <div class="viz-head">
+              <div>
+                <p class="viz-title" id="viz-growth-t">Growth from 2024 to 2025</p>
+                <p class="viz-sub">Utility lines highlighted; axis runs from 0% to 70%</p>
+              </div>
+            </div>
+            <ul class="hbars">
+            <li><span class="hbar-k">Revenue</span><span class="hbar-track" aria-hidden="true"><span class="hbar" style="width:23.14%"></span></span><span class="hbar-v">+16.2%</span></li>
+            <li><span class="hbar-k">GOP</span><span class="hbar-track" aria-hidden="true"><span class="hbar" style="width:99.71%"></span></span><span class="hbar-v">+69.8%</span></li>
+            <li class="is-hl"><span class="hbar-k">Electricity</span><span class="hbar-track" aria-hidden="true"><span class="hbar" style="width:10.00%"></span></span><span class="hbar-v">+7.0%</span></li>
+            <li class="is-hl"><span class="hbar-k">Total utilities</span><span class="hbar-track" aria-hidden="true"><span class="hbar" style="width:19.00%"></span></span><span class="hbar-v">+13.3%</span></li>
+            </ul>
+          </div>
+          <figcaption>Figures as stated above for the anonymized Chicago-area example. Utilities grew more slowly than revenue and far more slowly than GOP.</figcaption>
+        </figure>
         <h3>Financial Implications &amp; Scenarios</h3>
         <div class="table-wrap">
           <table>
@@ -347,6 +459,7 @@
       <section id="market-context">
         <div class="sec-marker"><span class="sec-num">05</span><span class="sec-rule"></span></div>
         <h2>Market Context: Illinois, ComEd &amp; PJM</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>PJM never sends the hotel a bill, but its markets shape the costs that do. Value accrues in layers, from procurement up to behind-the-meter assets, and each layer depends on the one beneath it.</p></div>
         <h3>Market Structure</h3>
         <p>Founded in 1927, PJM is the regional grid operator responsible for coordinating the movement of wholesale electricity across a large multi-state region that includes northern Illinois and the ComEd service territory. PJM doesn’t own power plants, local distribution wires, or customer meters: instead, it acts as the independent system operator and market administrator that balances electricity supply and demand in real time, manages transmission-grid reliability, and runs wholesale markets for energy, capacity, and ancillary services.</p>
         <div class="flow">
@@ -374,6 +487,7 @@
       <section id="intelligence-stack">
         <div class="sec-marker"><span class="sec-num">06</span><span class="sec-rule"></span></div>
         <h2>The Hotel Energy Intelligence Stack</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Machine learning earns its place only where it improves a decision that already has economic value, and everything rests on a baseline adjusted for weather, occupancy, and operations.</p></div>
         <p>Machine learning is useful when it improves a decision that already has economic value. For hotels, the useful decisions are load forecasting, block sizing, peak-risk alerts, controllable-load estimation, anomaly detection, demand response execution, and behind-the-meter dispatch: an established research area, and NREL’s Wattile project illustrates probabilistic building load forecasting using historical weather and occupancy indicator streams.<a class="cite" href="#src-17">[17]</a> The four layers below map directly onto the five-step sequence introduced earlier: Data and Intelligence are where the property measures and models; Control is where it acts; Market is where verified performance is monetized. Behind-the-meter assets come last, and only after the first four layers have established what the load is worth.</p>
         <div class="layers">
           <div class="layer">
@@ -417,6 +531,7 @@
       <section id="immediate-savings">
         <div class="sec-marker"><span class="sec-num">07</span><span class="sec-rule"></span></div>
         <h2>Driving Immediate Savings</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>The fastest savings come from disciplined procurement and bill validation. Hourly pricing and financial hedges can help, but neither is a guaranteed saving.</p></div>
         <h3>Electricity Procurement</h3>
         <p>Procurement should begin with interval data, tariff review, contract terms, and a clearly stated risk tolerance. Fixed, indexed, and pass-through structures solve different problems; a rate quote alone does not show how a property will perform.</p>
         <h3>ComEd BESH Hourly Pricing</h3>
@@ -431,6 +546,7 @@
       <section id="btm-storage">
         <div class="sec-marker"><span class="sec-num">08</span><span class="sec-rule"></span></div>
         <h2>BTM Generation &amp; Storage</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Size solar and storage last. Their value is a timing problem, so the load has to be understood before any asset is built.</p></div>
         <p>Behind-the-meter assets should be sized after the load is understood. Their financial value depends on when output or discharge coincides with avoided energy costs, demand charges, capacity exposure, DR events, tariff rules, interconnection limits, and emissions goals.<a class="cite" href="#src-17">[17]</a><a class="cite" href="#src-21">[21]</a><a class="cite" href="#src-25">[25]</a><a class="cite" href="#src-27">[27]</a></p>
         <h3>Solar Considerations</h3>
         <p>Solar is not automatically a peak hedge. DOE’s discussion of the duck curve illustrates why production timing and net-load timing should be analyzed before a system is sized.<a class="cite" href="#src-26">[26]</a> Interconnection, tariff treatment, and available credits must be confirmed for the specific project and jurisdiction.</p>
@@ -452,6 +568,7 @@
       <section id="conclusion">
         <div class="sec-marker"><span class="sec-num">09</span><span class="sec-rule"></span></div>
         <h2>Conclusion</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Measure, model, control, monetize, then build. The four meter profiles are regional evidence, not a universal forecast.</p></div>
         <p>A hotel’s energy strategy should begin with the operating reality: energy supports a continuous guest experience, and its cost depends on timing as well as volume. The practical sequence is to measure, model, control, monetize, and then build. That sequence gives owners a defensible baseline, protects comfort and equipment, and makes future procurement or asset decisions easier to evaluate.</p>
         <p>The four illustrative meter profiles in this paper are regional evidence, not a universal forecast. They support a broader hospitality thesis: an owner who understands the property’s actual load, constraints, and bill structure is better equipped to reduce avoidable cost and assess future flexibility opportunities.</p>
       </section>

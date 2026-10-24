@@ -218,6 +218,7 @@
 
       <!-- 01 --------------------------------------------------------- -->
       <section id="exec-summary"><div class="sec-marker"><span class="sec-num">01</span><span class="sec-rule"></span></div><h2>Did your electricity supply contract actually save you money?</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Neither the bill total nor the advertised rate shows whether a supply contract worked. This brief compares both options on the same costs, the same usage, and the same period.</p></div>
 <p>A hotel owner has guests to serve. A manufacturer has production to run. A property manager has tenants to answer. But the bill total does not explain whether your electricity supply arrangement is working for you. Neither does the advertised rate on its own.</p>
 <p>Think of the quoted rate as one line on a receipt. Some supply costs may be included; others may appear separately. This brief puts both options on the same basis: equivalent supply costs, the same electricity usage, and the same period.</p>
 <p>Start with the bill fundamentals, then follow the worked scenario. The charts, complete monthly results, sensitivity analysis, and historical rates provide the detail behind the comparison. The example uses ComEd-area commercial 0–100 kW rates and does not assume that default supply or a third-party supplier is always better.</p></section>
@@ -226,6 +227,7 @@
       <section id="fundamentals">
         <div class="sec-marker"><span class="sec-num">02</span><span class="sec-rule"></span></div>
         <h2>Analysis Fundamentals</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>ComEd delivers the power either way; choosing an ARES changes only who supplies it. Cost is quantity times price: kWh × ¢/kWh ÷ 100 gives dollars.</p></div>
         <h3>What is measured</h3>
         <p>In northern Illinois, ComEd is the regulated delivery utility. ComEd owns and operates the local distribution system that brings electricity to homes and businesses. If a storm knocks out service, a meter issue occurs, or local wires need repair, the customer still contacts ComEd. <strong>Choosing a third-party supplier does not change the physical delivery path.</strong></p>
         <p>The supply side is different. Illinois allows customers in the ComEd, Ameren Illinois, and MidAmerican service territories to choose who supplies the electricity supply portion of service: the public utility default supply option, or an Alternative Retail Electric Supplier, commonly called an ARES.</p>
@@ -250,6 +252,7 @@
       <section id="bill-anatomy">
         <div class="sec-marker"><span class="sec-num">03</span><span class="sec-rule"></span></div>
         <h2>Bill Anatomy → Realized Supply Costs</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>The benchmark is the realized NET rate, PTC + PEA, not the headline Price to Compare. In May 2026 the adjustment alone added 8.166¢ to a 9.704¢ headline.</p></div>
         <p><strong>Headline rate alone is not the benchmark.</strong> The published Price to Compare is not what a default-service customer actually pays: each month it is adjusted by the Purchased Electricity Adjustment, which can run either direction. The realized supply cost used in this comparison is <strong>NET = PTC + PEA</strong>.</p>
         <p>The table below sets the default-service supply lines against the ARES supply lines for the same month (May 2025), and states how each is treated in this analysis.</p>
         <div class="table-wrap">
@@ -358,6 +361,46 @@
             </div>
           </details>
         </div>
+        <!-- Values are the 05-2025 and 05-2026 rows of Appendix A. -->
+        <figure class="doc-figure">
+          <div class="viz" id="viz-stack" role="group" aria-labelledby="viz-stack-t">
+            <div class="viz-head">
+              <div>
+                <p class="viz-title" id="viz-stack-t">What the realized rate is made of</p>
+                <p class="viz-sub">¢/kWh · PTC = ESC + TSC, then NET = PTC + PEA</p>
+              </div>
+              <ul class="viz-legend">
+                <li><span class="viz-key is-box s-ptc"></span>ESC</li>
+                <li><span class="viz-key is-box is-soft s-ptc"></span>TSC</li>
+                <li><span class="viz-key is-box is-adj"></span>PEA</li>
+              </ul>
+            </div>
+            <div class="stack">
+              <div class="stack-row">
+                <p class="stack-head"><span>May 2025</span><span>NET <b>8.589¢</b></span></p>
+                <div class="stack-track" aria-hidden="true">
+                  <span class="stack-total" style="width:47.72%"></span>
+                  <span class="stack-seg s-ptc" style="left:0;width:28.31%"></span>
+                  <span class="stack-seg s-ptc is-soft" style="left:28.31%;width:8.49%"></span>
+                  <span class="stack-seg is-adj is-end" style="left:36.80%;width:10.92%"></span>
+                </div>
+                <p class="stack-eq">ESC 5.096 + TSC 1.528 = PTC 6.624; + PEA 1.965 = NET 8.589</p>
+              </div>
+              <div class="stack-row">
+                <p class="stack-head"><span>May 2026</span><span>NET <b>17.870¢</b></span></p>
+                <div class="stack-track" aria-hidden="true">
+                  <span class="stack-total" style="width:99.28%"></span>
+                  <span class="stack-seg s-ptc" style="left:0;width:43.88%"></span>
+                  <span class="stack-seg s-ptc is-soft" style="left:43.88%;width:10.03%"></span>
+                  <span class="stack-seg is-adj is-end" style="left:53.91%;width:45.37%"></span>
+                </div>
+                <p class="stack-eq">ESC 7.899 + TSC 1.805 = PTC 9.704; + PEA 8.166 = NET 17.870</p>
+              </div>
+              <div class="stack-axis" aria-hidden="true"><span class="viz-xt" style="left:0%">0¢</span><span class="viz-xt" style="left:33.33%">6¢</span><span class="viz-xt" style="left:66.67%">12¢</span><span class="viz-xt" style="left:100%">18¢</span></div>
+            </div>
+          </div>
+          <figcaption>May 2025 is the month in the line-item table above; May 2026 is the month the chart above peaks. Both rows come from <a href="#appendix-a">Appendix A</a>.</figcaption>
+        </figure>
       <h3>Default-service bill example: staying with ComEd</h3>
 <p>The following 0–100 kW delivery-class example shows the charges as bill line items. The rate column is in <strong>dollars per kWh</strong>: $0.05096 equals <strong>5.096¢/kWh</strong>, and $0.01528 equals <strong>1.528¢/kWh</strong>.</p>
 <div class="table-wrap"><table>
@@ -476,6 +519,7 @@
       <section id="scenario">
         <div class="sec-marker"><span class="sec-num">04</span><span class="sec-rule"></span></div>
         <h2>FY 2024 &amp; FY 2025 Scenario</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Over 2024 and 2025 the 7.8¢ fixed contract cost $2,599.20 more than default service. The same contract looks good or bad depending on the period it is measured over.</p></div>
         <p>One scenario is held constant throughout this brief: a commercial account using <strong>30,000 kWh per month</strong>, against a <strong>7.8¢/kWh fixed ARES rate</strong>. Default-service cost is computed from that month's NET rate; ARES cost is the fixed rate applied to the same volume.</p>
         <div class="table-wrap">
           <table>
@@ -504,6 +548,7 @@
       <section id="month-to-month">
         <div class="sec-marker"><span class="sec-num">05</span><span class="sec-rule"></span></div>
         <h2>Month-to-Month Results</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Eleven of the twelve 2024 months cost more under the contract; 2025 turned in its favor from May onward.</p></div>
         <p>The annual totals hide how uneven the monthly picture is. Every month below is the same comparison, that month's default-service cost against the fixed contract's $2,340.00, with positive values showing where the contract came out ahead.</p>
         <div class="viz" id="viz-monthly">
           <div class="viz-head">
@@ -635,6 +680,7 @@
       <section id="sensitivity">
         <div class="sec-marker"><span class="sec-num">06</span><span class="sec-rule"></span></div>
         <h2>Sensitivity Analysis</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Across 2024 and 2025 the break-even fixed rate is 7.439¢: below it a contract came out ahead, above it behind. Half a cent on the rate moves the two-year result by $3,600 on a 30,000 kWh account.</p></div>
         <p><strong>The rate threshold is the useful benchmark.</strong> Rather than asking whether one particular quote was good, the more useful question is: what fixed rate would have exactly matched default service over the period? Across the 24 months of 2024–2025, that rate is <strong>7.439¢</strong>. Below it a fixed contract came out ahead; above it, behind.</p>
         <div class="table-wrap">
           <table class="sens">
@@ -758,6 +804,7 @@
       <section id="what-changes">
         <div class="sec-marker"><span class="sec-num">07</span><span class="sec-rule"></span></div>
         <h2>What Changes When a Customer Chooses an ARES?</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>Switching suppliers changes the supply lines, not the utility's delivery and rider items. Check what "fixed" covers before comparing.</p></div>
         <p><strong>Switching suppliers does not move every bill line item.</strong> This section separates supplier-choice items from utility delivery and rider items. The supply comparison in this brief focuses on NET = PTC + PEA for default service, while a retail supplier may charge energy, capacity, transmission, and contract-defined pass-throughs.</p>
         <div class="table-wrap">
           <table>
@@ -794,6 +841,7 @@
       <section id="historical">
         <div class="sec-marker"><span class="sec-num">08</span><span class="sec-rule"></span></div>
         <h2>Historical Context: 2024, 2025, 2026 (YTD)</h2>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>The benchmark itself moved: its average rose 78% from 2024 to 2026 year to date, and the range within a year grew from 3.263¢ to 8.317¢.</p></div>
         <p><strong>The default benchmark changed materially in 2026.</strong> Comparing a fixed quote against a benchmark assumes the benchmark is reasonably stable. Over these thirty months it has not been, both the level and the spread have moved in the same direction.</p>
         <div class="table-wrap">
           <table>
@@ -911,6 +959,7 @@
           <p class="extension-k">Beyond the brief · EzNRG</p>
           <p>The scenario tables above stop at the end of 2025, where the source analysis ends. The rate record in <a href="#appendix-a">Appendix A</a> runs six months further. This section applies <strong>the same method, the same scenario, and the same fixed rate</strong> to those six months. It is an extension of the analysis, not part of the original brief.</p>
         </div>
+        <div class="takeaway"><p class="takeaway-k">Key takeaway</p><p>With the six 2026 months included, the running 30-month result turns positive at $4,265.70 and the break-even rate rises to 8.274¢.</p></div>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Period</th><th>Default cost</th><th>ARES cost</th><th>Savings / (Cost)</th></tr></thead>

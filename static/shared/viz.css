@@ -363,6 +363,108 @@
   .viz-note { display: none; }
 }
 
+/* Horizontal bars --------------------------------------------------
+   A short labelled list, one bar per row, every value printed in its own
+   column, so nothing needs a hover. Context rows are muted ink; the rows the
+   prose is about carry .is-hl and the accent. Bars start at the axis and
+   round only their data end. */
+.hbars { display: grid; gap: 10px; margin: 6px 0 4px; padding: 0; list-style: none; }
+.hbars li {
+  display: grid;
+  grid-template-columns: minmax(92px, 8.5rem) minmax(0, 1fr) 4.4em;
+  align-items: center;
+  gap: 12px;
+  max-width: none;
+}
+.hbar-k { color: var(--viz-ink); font-size: 0.82rem; line-height: 1.3; }
+.hbar-track { position: relative; height: 14px; border-left: 1px solid var(--viz-axis); }
+.hbar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 0 4px 4px 0;
+  background: color-mix(in srgb, var(--viz-ink-2) 55%, transparent);
+}
+.hbars .is-hl .hbar { background: var(--primary); }
+/* Narrow screens: the label takes its own line so the bar keeps its length. */
+@media (max-width: 560px) {
+  .hbars li { grid-template-columns: minmax(0, 1fr) 4.4em; row-gap: 4px; }
+  .hbar-k { grid-column: 1 / -1; }
+}
+.hbar-v {
+  color: var(--viz-ink);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* Stacked bar: what one rate is made of -----------------------------
+   Segments are positioned from the data (left = running total, width =
+   value, both as a share of the axis maximum), so their ends stay exact;
+   the 2px surface gap is drawn inside each later segment's start. The
+   bracket above spans the total. Every value is also written out as the
+   equation line under each bar, so the bar is emphasis, not the record. */
+.stack { display: grid; gap: 20px; margin: 4px 0 2px; }
+.stack-row { display: grid; gap: 6px; }
+.stack-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 !important;
+  max-width: none !important;
+  color: var(--viz-ink) !important;
+  font-size: 0.82rem;
+}
+.stack-head b { color: var(--viz-net); font-family: var(--font-mono); font-weight: 600; }
+.stack-track { position: relative; height: 30px; }
+.stack-total {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  border: 2px solid var(--viz-net);
+  border-bottom: 0;
+  border-radius: 3px 3px 0 0;
+}
+.stack-seg {
+  position: absolute;
+  top: 9px;
+  bottom: 0;
+  background: currentColor;
+}
+.stack-seg + .stack-seg { border-left: 2px solid var(--viz-surface); }
+.stack-seg.is-end { border-radius: 0 4px 4px 0; }
+.stack-seg.is-soft { background: color-mix(in srgb, currentColor 50%, var(--viz-surface)); }
+/* The adjustment is not a supply component, so it is drawn as texture over
+   neutral ink rather than as another series colour. */
+.stack-seg.is-adj {
+  color: var(--viz-ink-2);
+  background:
+    repeating-linear-gradient(135deg, currentColor 0 2px, transparent 2px 6px),
+    color-mix(in srgb, currentColor 18%, var(--viz-surface));
+}
+.stack-eq {
+  margin: 0 !important;
+  max-width: none !important;
+  color: var(--viz-ink-2) !important;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+.stack-axis { position: relative; height: 16px; border-top: 1px solid var(--viz-axis); }
+.stack-axis .viz-xt:first-child { transform: none; }
+.stack-axis .viz-xt:last-child { transform: translateX(-100%); }
+.viz-key.is-box { width: 10px; height: 10px; border-radius: 2px; }
+.viz-key.is-soft { background: color-mix(in srgb, currentColor 50%, var(--viz-surface)); }
+.viz-key.is-adj {
+  color: var(--viz-ink-2);
+  background:
+    repeating-linear-gradient(135deg, currentColor 0 2px, transparent 2px 5px),
+    color-mix(in srgb, currentColor 18%, var(--viz-surface));
+}
+
 @media print {
   .viz {
     --viz-surface: #fff;
