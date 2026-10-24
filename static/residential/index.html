@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f9fc">
 
   <!-- Unlisted landing page: keep OUT of search results. Do not remove. -->
   <meta name="robots" content="noindex">
@@ -21,7 +22,11 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&family=Inter:wght@400;700;800&family=IBM+Plex+Mono:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&family=Inter:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- The main site's appearance script: resolves the shared eznrg-appearance
+       preference (system, light, dark) to data-theme before first paint. -->
+  <script src="/assets/appearance.js"></script>
 
   <!-- Shared with the other standalone pages under static/. tokens.css must
        come first: theme.css consumes its custom properties. This page has no
@@ -36,7 +41,17 @@
         <img class="brand-mark" src="/logo-mark.svg" alt="" width="44" height="48">
         <img class="brand-wordmark" src="/logo-wordmark.svg" alt="EzNRG" width="88" height="25">
       </a>
-      <span class="header-tag">For homeowners</span>
+      <div class="header-actions">
+        <span class="header-tag">For homeowners</span>
+        <label class="appearance-control">
+          <span class="sr-only">Appearance</span>
+          <select data-appearance aria-label="Appearance">
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+      </div>
     </div>
   </header>
 

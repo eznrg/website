@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f9fc">
 
   <!-- Unlisted document: keep OUT of search results. Do not remove. -->
   <meta name="robots" content="noindex">
@@ -13,7 +14,11 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&family=Inter:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- The main site's appearance script: resolves the shared eznrg-appearance
+       preference (system, light, dark) to data-theme before first paint. -->
+  <script src="/assets/appearance.js"></script>
 
   <!-- Shared with the other standalone pages under static/. Order matters:
        tokens.css, theme.css, doc.css, viz.css, then this page's own styles. -->
@@ -51,18 +56,18 @@
       margin-top: -9px;
       background: currentColor;
     }
-    .sens-bar.is-pos { color: var(--viz-pos, #46a26d); border-radius: 0 4px 4px 0; }
-    .sens-bar.is-neg { color: var(--viz-neg, #d03b3b); border-radius: 4px 0 0 4px; }
+    .sens-bar.is-pos { color: var(--viz-pos); border-radius: 0 4px 4px 0; }
+    .sens-bar.is-neg { color: var(--viz-neg); border-radius: 4px 0 0 4px; }
     /* Left-align the rate column so the tagged rows, which are wider, still
        line their numbers up with the untagged ones. */
     .sens tbody th { text-align: left; }
-    .sens tbody tr.is-emph { background: rgba(139, 216, 166, 0.06); }
+    .sens tbody tr.is-emph { background: rgba(var(--accent-rgb), 0.06); }
     .sens tbody tr.is-emph th { color: var(--text); }
     .sens-tag {
       display: inline-block;
       margin-left: 8px;
       padding: 1px 7px;
-      border: 1px solid rgba(139, 216, 166, 0.3);
+      border: 1px solid rgba(var(--accent-rgb), 0.3);
       border-radius: 999px;
       color: var(--primary);
       font-family: var(--font-body);
@@ -77,10 +82,10 @@
     .extension {
       margin: 0 0 32px;
       padding: 24px 26px;
-      border: 1px solid rgba(139, 216, 166, 0.24);
+      border: 1px solid rgba(var(--accent-rgb), 0.24);
       border-left-width: 3px;
       border-radius: var(--radius-lg);
-      background: rgba(139, 216, 166, 0.05);
+      background: rgba(var(--accent-rgb), 0.05);
     }
     .extension > p:last-child { margin-bottom: 0 !important; }
     .extension-k {
@@ -132,7 +137,17 @@
         <img class="brand-mark" src="/logo-mark.svg" alt="" width="44" height="48">
         <img class="brand-wordmark" src="/logo-wordmark.svg" alt="EzNRG" width="88" height="25">
       </a>
-      <a class="header-back" href="/commercial"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"/></svg>Back to commercial</a>
+      <div class="header-actions">
+        <a class="header-back" href="/commercial"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"/></svg><span class="header-back-label">Back to commercial</span></a>
+        <label class="appearance-control">
+          <span class="sr-only">Appearance</span>
+          <select data-appearance aria-label="Appearance">
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+      </div>
     </div>
   </header>
 

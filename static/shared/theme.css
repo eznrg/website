@@ -4,7 +4,8 @@
   reading documents (/hospitality/whitepaper, /commercial/brief).
 
   Requires tokens.css to be linked first: every color, font, and radius here is
-  a custom property defined there.
+  a custom property defined there, so light and dark come for free. Never put a
+  raw colour in this file; add a token instead.
 
   The reading documents add /static/doc.css on top; any page with a chart adds
   /static/viz.css. A change here lands on all five pages at once. Page-specific
@@ -19,21 +20,31 @@ body {
   margin: 0;
   min-width: 320px;
   color: var(--text);
-  background:
-    radial-gradient(ellipse 900px 620px at 18% -8%, rgba(139, 216, 166, 0.22), transparent 60%),
-    linear-gradient(135deg, rgba(139, 216, 166, 0.08), transparent 46%),
-    var(--bg);
+  background: var(--bg);
   font-family: var(--font-body);
   font-feature-settings: "ss01" 1;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+}
+/* One restrained page-level background in both themes. Mirrors the main
+   site's body::before, minus its noise texture. */
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  background:
+    radial-gradient(115% 70% at 6% -14%, rgba(var(--accent-rgb), 0.13), rgba(var(--accent-rgb), 0) 64%),
+    radial-gradient(100% 75% at 96% 2%, rgba(var(--accent-rgb), 0.06), rgba(var(--accent-rgb), 0) 62%),
+    linear-gradient(178deg, var(--surface) 0%, var(--bg) 48%, var(--bg) 100%);
 }
 
 img, svg { display: block; }
 a { color: inherit; text-decoration: none; }
 
 .container { width: min(100% - 40px, var(--max)); margin-inline: auto; }
-.section { position: relative; padding: 96px 0; }
+.section { position: relative; padding: 72px 0; }
 
 h1, h2, h3 {
   margin-top: 0;
@@ -52,7 +63,7 @@ p { margin-top: 0; }
   top: 0;
   z-index: 50;
   border-bottom: 1px solid var(--border);
-  background: rgba(16, 19, 18, 0.88);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
   backdrop-filter: blur(18px);
 }
 .header-shell {
@@ -63,9 +74,14 @@ p { margin-top: 0; }
   gap: 24px;
 }
 /* Lockup is two files; size both off height. Mirrors src/styles.css .brand. */
-.brand { display: inline-flex; align-items: center; gap: 12px; }
+.brand { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 12px; }
 .brand-mark { width: auto; height: 42px; }
 .brand-wordmark { width: auto; height: 24px; }
+/* The logo files are drawn for dark surfaces; on light (and on paper) they are
+   darkened exactly as the main site does (src/styles.css). */
+:root:not([data-theme="dark"]) .brand-wordmark { filter: brightness(0); opacity: 0.84; }
+:root:not([data-theme="dark"]) .brand-mark { filter: brightness(0.58) saturate(1.15); }
+.header-actions { display: flex; align-items: center; gap: 18px; min-width: 0; }
 .header-tag {
   color: var(--muted);
   font-family: var(--font-mono);
@@ -74,7 +90,6 @@ p { margin-top: 0; }
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
-
 .header-back {
   display: inline-flex;
   align-items: center;
@@ -89,6 +104,22 @@ p { margin-top: 0; }
 }
 .header-back:hover, .header-back:focus-visible { color: var(--primary); }
 .header-back .ic { width: 14px; height: 14px; }
+
+/* Same control and storage key as the main site (src/render.mjs
+   appearanceControl); /assets/appearance.js wires it up. */
+.appearance-control { display: inline-flex; align-items: center; }
+.appearance-control select {
+  min-height: 36px;
+  padding: 0 30px 0 12px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font: 600 0.82rem var(--font-body);
+  cursor: pointer;
+}
+.appearance-control select:hover,
+.appearance-control select:focus-visible { border-color: var(--primary); }
 
 /* Eyebrow ----------------------------------------------------- */
 .eyebrow {
@@ -134,18 +165,18 @@ p { margin-top: 0; }
 .button-primary {
   color: var(--primary-foreground);
   background: linear-gradient(135deg, var(--primary), var(--teal-deep) 72%);
-  box-shadow: 0 18px 50px rgba(139, 216, 166, 0.2);
+  box-shadow: 0 18px 50px rgba(var(--accent-rgb), 0.2);
 }
 .button-primary:hover, .button-primary:focus-visible {
-  box-shadow: 0 22px 62px rgba(139, 216, 166, 0.3);
+  box-shadow: 0 22px 62px rgba(var(--accent-rgb), 0.3);
 }
 .button-secondary {
   color: var(--text);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface);
   border-color: var(--border);
 }
 .button-secondary:hover, .button-secondary:focus-visible {
-  border-color: rgba(139, 216, 166, 0.34);
+  border-color: rgba(var(--accent-rgb), 0.34);
 }
 
 /* Hero -------------------------------------------------------- */
@@ -170,36 +201,39 @@ p { margin-top: 0; }
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
-.info-card {
-  min-height: 240px;
+.info-card,
+.channel-card {
   padding: 28px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(145deg, rgba(139, 216, 166, 0.055), transparent 34%),
-    rgba(23, 27, 25, 0.78);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+    linear-gradient(145deg, rgba(var(--accent-rgb), 0.055), transparent 34%),
+    var(--surface);
+  box-shadow: var(--shadow-card);
   transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
-.info-card:hover {
+.info-card { min-height: 220px; }
+.info-card:hover,
+.channel-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(139, 216, 166, 0.34);
-  box-shadow: 0 26px 76px rgba(0, 0, 0, 0.26), 0 0 44px rgba(139, 216, 166, 0.08);
+  border-color: rgba(var(--accent-rgb), 0.34);
+  box-shadow: var(--shadow), 0 0 44px rgba(var(--accent-rgb), 0.08);
 }
-.card-icon {
+.card-icon,
+.channel-icon {
   display: grid;
   width: 44px;
   height: 44px;
-  margin-bottom: 22px;
   place-items: center;
   color: var(--primary);
-  background: rgba(139, 216, 166, 0.1);
-  border: 1px solid rgba(139, 216, 166, 0.22);
+  background: rgba(var(--accent-rgb), 0.1);
+  border: 1px solid rgba(var(--accent-rgb), 0.22);
   border-radius: var(--radius-lg);
 }
+.card-icon { margin-bottom: 22px; }
 .card-icon svg { width: 22px; height: 22px; }
 .info-card h3 { margin-bottom: 12px; font-size: 1.16rem; letter-spacing: -0.01em; }
-.info-card p { margin: 0; color: var(--muted); }
+.info-card p { margin: 0; color: var(--muted); line-height: 1.65; }
 
 .section-heading { max-width: 760px; margin-bottom: 32px; }
 .section-heading h2 { font-size: clamp(2rem, 4vw, 3.2rem); margin-bottom: 14px; }
@@ -218,30 +252,8 @@ p { margin-top: 0; }
   gap: 16px;
   align-content: start;
   min-height: 240px;
-  padding: 28px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background:
-    linear-gradient(145deg, rgba(139, 216, 166, 0.055), transparent 34%),
-    rgba(23, 27, 25, 0.78);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
-  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
-.channel-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(139, 216, 166, 0.34);
-  box-shadow: 0 26px 76px rgba(0, 0, 0, 0.26), 0 0 44px rgba(139, 216, 166, 0.08);
-}
-.channel-icon {
-  display: grid;
-  width: 52px;
-  height: 52px;
-  place-items: center;
-  color: var(--primary);
-  background: rgba(139, 216, 166, 0.1);
-  border: 1px solid rgba(139, 216, 166, 0.2);
-  border-radius: var(--radius-lg);
-}
+.channel-icon { width: 52px; height: 52px; }
 .channel-icon svg { width: 28px; height: 28px; }
 .channel-card h3 { font-size: 1.16rem; margin-bottom: 6px; }
 .channel-card p { margin: 0; color: var(--muted); }
@@ -252,9 +264,11 @@ p { margin-top: 0; }
 .site-footer {
   padding: 44px 0;
   border-top: 1px solid var(--border);
-  background: rgba(16, 19, 18, 0.36);
+  background: color-mix(in srgb, var(--surface) 50%, transparent);
 }
 .site-footer p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+.site-footer p + p { margin-top: 6px; }
+.site-footer a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
 
 .sr-only {
   position: absolute;
@@ -280,11 +294,24 @@ p { margin-top: 0; }
 @media (max-width: 900px) {
   .card-grid { grid-template-columns: 1fr; }
   .channel-grid { grid-template-columns: 1fr; }
-  .section { padding: 68px 0; }
+  .section { padding: 56px 0; }
 }
 @media (max-width: 640px) {
   .container { width: min(100% - 28px, var(--max)); }
+  .header-shell { gap: 12px; }
   .header-tag { display: none; }
+  /* The back link keeps its icon; its words stay for screen readers. */
+  .header-back-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  .header-back .ic { width: 18px; height: 18px; }
+  .brand-mark { height: 36px; }
+  .brand-wordmark { height: 21px; }
   .hero-actions { display: grid; }
   .button { width: 100%; }
 }
@@ -294,4 +321,10 @@ p { margin-top: 0; }
     animation-duration: 1ms !important;
     transition-duration: 1ms !important;
   }
+}
+@media print {
+  body::before { display: none; }
+  .appearance-control { display: none; }
+  .brand-wordmark { filter: brightness(0); opacity: 0.84; }
+  .brand-mark { filter: brightness(0.58) saturate(1.15); }
 }

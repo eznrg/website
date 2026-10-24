@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f9fc">
   <!-- Unlisted landing page: keep OUT of search results. Do not remove. -->
   <meta name="robots" content="noindex">
   <title>EzNRG for Hospitality</title>
@@ -11,7 +12,11 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&family=Inter:wght@400;700;800&family=IBM+Plex+Mono:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&family=Inter:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- The main site's appearance script: resolves the shared eznrg-appearance
+       preference (system, light, dark) to data-theme before first paint. -->
+  <script src="/assets/appearance.js"></script>
   <link rel="stylesheet" href="/static/tokens.css">
   <link rel="stylesheet" href="/static/theme.css">
 
@@ -69,7 +74,7 @@
     .difference-context {
       margin: 0;
       padding: 0 0 4px 22px;
-      border-left: 1px solid rgba(139, 216, 166, 0.35);
+      border-left: 1px solid rgba(var(--accent-rgb), 0.35);
       color: var(--muted);
       font-size: 0.96rem;
       line-height: 1.65;
@@ -88,7 +93,7 @@
     /* Evidence teaser -------------------------------------------- */
     .evidence-section {
       border-top: 1px solid var(--border);
-      background: rgba(7, 12, 9, 0.18);
+      background: color-mix(in srgb, var(--surface-2) 45%, transparent);
     }
     .evidence-grid {
       display: grid;
@@ -148,9 +153,9 @@
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       background:
-        linear-gradient(145deg, rgba(139, 216, 166, 0.06), transparent 42%),
-        #151917;
-      box-shadow: 0 26px 76px rgba(0, 0, 0, 0.3);
+        linear-gradient(145deg, rgba(var(--accent-rgb), 0.06), transparent 42%),
+        var(--viz-surface);
+      box-shadow: var(--shadow-card);
     }
     .load-head {
       display: flex;
@@ -182,18 +187,19 @@
       margin: 1px 0 0;
       padding: 0;
       list-style: none;
-      color: var(--muted);
-      font-size: 0.72rem;
+      color: var(--viz-ink-2);
+      font-size: 0.82rem;
     }
     .load-legend li { display: flex; align-items: center; gap: 7px; }
     .load-key { width: 16px; height: 2px; border-radius: 2px; }
-    .load-key-summer { background: #46a26d; }
-    .load-key-winter { background: #8f83e8; }
+    .load-key-summer { background: var(--viz-sum); }
+    /* Winter is dashed as well as coloured, so the pair never rests on hue. */
+    .load-key-winter { height: 0; background: none; border-top: 2px dashed var(--viz-win); }
     .load-plot {
       position: relative;
       height: clamp(210px, 31vw, 290px);
-      border-bottom: 1px solid #343a36;
-      background-image: linear-gradient(to bottom, #262c28 1px, transparent 1px);
+      border-bottom: 1px solid var(--viz-axis);
+      background-image: linear-gradient(to bottom, var(--viz-grid) 1px, transparent 1px);
       background-size: 100% 33.333%;
     }
     .load-plot svg {
@@ -210,31 +216,31 @@
       stroke-linejoin: round;
       vector-effect: non-scaling-stroke;
     }
-    .load-line-summer { stroke: #46a26d; }
-    .load-line-winter { stroke: #8f83e8; }
+    .load-line-summer { stroke: var(--viz-sum); }
+    .load-line-winter { stroke: var(--viz-win); stroke-dasharray: 7 5; }
 
-    .load-legend { color: #c1c9c3; font-size: 0.82rem; }
-    .load-key-winter { background: none; border-top: 2px dashed #afa1ff; }
-    .load-line-summer { stroke: #70cf95; }
-    .load-key-summer { background: #70cf95; }
-    .load-line-winter { stroke: #afa1ff; stroke-dasharray: 7 5; }
-    .load-axis-title, .load-help { color: #c1c9c3; font-size: 0.8rem; margin: 0 0 12px; }
+    .load-axis-title, .load-help { color: var(--viz-ink-2); font-size: 0.8rem; margin: 0 0 12px; }
     .load-help { font-size: 0.75rem; margin: 8px 0 24px; }
     .load-readout { display: flex; flex-wrap: wrap; gap: 5px 16px; font-size: 0.87rem; font-variant-numeric: tabular-nums; }
     .load-readout[hidden], .load-guide[hidden] { display: none; }
     .load-readout strong { min-width: 4.5em; }
-    .load-readout-summer { color: #70cf95; }
-    .load-readout-winter { color: #afa1ff; }
+    /* Readout text stays in ink; the swatch before each value carries the
+       series identity (and the winter swatch is dashed, like its line). */
+    .load-readout { color: var(--viz-ink); }
+    .load-readout span { display: inline-flex; align-items: center; gap: 6px; }
+    .load-readout span::before { width: 12px; height: 0; content: ""; border-top: 2px solid var(--viz-sum); }
+    .load-readout .load-readout-winter::before { border-top: 2px dashed var(--viz-win); }
     .load-chart-body { position: relative; padding-left: 30px; }
-    .load-scale { position: absolute; left: 0; top: 0; bottom: 30px; display: flex; flex-direction: column; justify-content: space-between; color: #c1c9c3; font: 0.75rem var(--font-mono); }
+    .load-scale { position: absolute; left: 0; top: 0; bottom: 30px; display: flex; flex-direction: column; justify-content: space-between; color: var(--viz-ink-2); font: 0.75rem var(--font-mono); }
     .load-scale span { line-height: 0; }
     .load-plot[role="slider"] { cursor: crosshair; touch-action: pan-y; }
     .load-plot:focus-visible { outline: 2px solid var(--primary); outline-offset: 7px; }
-    .load-guide { position: absolute; top: 0; bottom: 0; border-left: 1px solid #b6c0b9; pointer-events: none; }
+    .load-guide { position: absolute; top: 0; bottom: 0; border-left: 1px solid color-mix(in srgb, var(--viz-ink) 40%, transparent); pointer-events: none; }
     .load-point { position: absolute; width: 8px; height: 8px; border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; }
-    .load-point-summer { background: #70cf95; }
-    .load-point-winter { background: #afa1ff; }
-    .load-hours { position: relative; height: 30px; color: #c1c9c3; font: 0.72rem var(--font-mono); }
+    .load-point { box-shadow: 0 0 0 2px var(--viz-surface); }
+    .load-point-summer { background: var(--viz-sum); }
+    .load-point-winter { background: var(--viz-win); }
+    .load-hours { position: relative; height: 30px; color: var(--viz-ink-2); font: 0.72rem var(--font-mono); }
     .load-hours span { position: absolute; top: 10px; transform: translateX(-50%); white-space: nowrap; }
     .load-hours span:first-child { transform: none; }
     .load-hours span:last-child { transform: translateX(-100%); }
@@ -293,7 +299,7 @@
     .strategy-number {
       display: block;
       margin-bottom: 14px;
-      color: rgba(139, 216, 166, 0.62);
+      color: rgba(var(--accent-rgb), 0.62);
       font-family: var(--font-mono);
       font-size: 0.7rem;
       font-weight: 600;
@@ -320,13 +326,13 @@
       gap: 44px;
       align-items: center;
       padding: clamp(32px, 6vw, 58px);
-      border: 1px solid rgba(139, 216, 166, 0.24);
+      border: 1px solid rgba(var(--accent-rgb), 0.24);
       border-radius: var(--radius-lg);
       background:
-        radial-gradient(circle at 95% 20%, rgba(139, 216, 166, 0.13), transparent 32%),
-        linear-gradient(145deg, rgba(139, 216, 166, 0.08), transparent 46%),
-        rgba(23, 27, 25, 0.86);
-      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.3);
+        radial-gradient(circle at 95% 20%, rgba(var(--accent-rgb), 0.13), transparent 32%),
+        linear-gradient(145deg, rgba(var(--accent-rgb), 0.08), transparent 46%),
+        var(--surface);
+      box-shadow: var(--shadow);
     }
     .paper-card h2 { margin-bottom: 14px; font-size: clamp(2rem, 4vw, 3.2rem); }
     .paper-description {
@@ -412,7 +418,17 @@
         <img class="brand-mark" src="/logo-mark.svg" alt="" width="44" height="48">
         <img class="brand-wordmark" src="/logo-wordmark.svg" alt="EzNRG" width="88" height="25">
       </a>
-      <span class="header-tag">For hospitality operators</span>
+      <div class="header-actions">
+        <span class="header-tag">For hospitality operators</span>
+        <label class="appearance-control">
+          <span class="sr-only">Appearance</span>
+          <select data-appearance aria-label="Appearance">
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+      </div>
     </div>
   </header>
 

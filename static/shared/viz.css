@@ -15,12 +15,6 @@
 
 /* Chart shell -------------------------------------------------- */
 .viz {
-  --viz-surface: #151917;
-  --viz-grid: #262c28;
-  --viz-ink: #f4f1ea;
-  --viz-ink-2: #9aa39c;
-  --viz-sum: #46a26d;
-  --viz-win: #8f83e8;
   margin: 0 0 32px;
   padding: 16px 20px 10px;
   border: 1px solid var(--border);
@@ -72,9 +66,6 @@
   border-radius: 1px;
   background: currentColor;
 }
-.s-sum { color: var(--viz-sum); }
-.s-win { color: var(--viz-win); }
-
 .viz-body {
   display: grid;
   grid-template-columns: 30px minmax(0, 1fr);
@@ -162,7 +153,7 @@
   bottom: 0;
   width: 1px;
   margin-left: -0.5px;
-  background: rgba(244, 241, 234, 0.28);
+  background: color-mix(in srgb, var(--viz-ink) 28%, transparent);
   pointer-events: none;
 }
 .viz-dot {
@@ -183,7 +174,7 @@
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface-2);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+  box-shadow: var(--shadow-card);
   pointer-events: none;
 }
 .viz-tip p { margin: 0 !important; max-width: none !important; }
@@ -260,7 +251,7 @@
 }
 .viz-data th, .viz-data td {
   padding: 4px 8px;
-  border-bottom: 1px solid rgba(43, 49, 45, 0.55);
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
   text-align: right;
 }
 .viz-data th:first-child, .viz-data td:first-child { text-align: left; }
@@ -283,23 +274,17 @@
   .viz-body { grid-template-columns: 26px minmax(0, 1fr); }
 }
 
-/* Rate-chart series tokens ------------------------------------------
-   Colour follows the entity, so a series keeps its hue here and on
-   /commercial. Validated with the data-viz validator against this
-   component's own --viz-surface (#151917), dark mode:
-     net ↔ ares  CVD ΔE 18.4 · normal 24.4 , pass
-     net ↔ ptc   CVD ΔE 27.4 · normal 27.7 , pass
-     pos ↔ neg   CVD ΔE  7.4 · normal 28.7 , warn band, legal ONLY with a
-   second channel. On both diverging charts that channel is bar direction
-   about the zero line, plus accounting parentheses on every printed value,
-   so the sign never rests on hue alone. Do not swap these by eye. */
-.viz {
-  --viz-net: #8f83e8;
-  --viz-ares: #46a26d;
-  --viz-ptc: #c98500;
-  --viz-pos: #46a26d;
-  --viz-neg: #d03b3b;
-}
+/* Series ---------------------------------------------------------
+   The colours themselves, and their validation results for both themes,
+   live in tokens.css (--viz-*). Colour follows the entity: NET (realized
+   default cost) is orange on every page, the fixed ARES rate teal, PTC blue;
+   summer orange and winter blue. Winter lines are also dashed, and both
+   diverging charts carry the sign in bar direction and accounting
+   parentheses, so no reading rests on hue alone. */
+.s-sum { color: var(--viz-sum); }
+.s-win { color: var(--viz-win); }
+.viz-line.s-win { stroke-dasharray: 7 5; }
+.viz-key.s-win { height: 0; background: none; border-top: 2px dashed currentColor; }
 .s-net { color: var(--viz-net); }
 .s-ares { color: var(--viz-ares); }
 .s-ptc { color: var(--viz-ptc); }
@@ -355,7 +340,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  background: rgba(244, 241, 234, 0.04);
+  background: color-mix(in srgb, var(--viz-ink) 5%, transparent);
 }
 .viz-bandlabel {
   position: absolute;
