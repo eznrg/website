@@ -90,63 +90,6 @@
     .difference-grid .info-card { min-height: 220px; }
     .difference-grid .info-card p { line-height: 1.65; }
 
-    /* Evidence teaser -------------------------------------------- */
-    .evidence-section {
-      border-top: 1px solid var(--border);
-      background: color-mix(in srgb, var(--surface-2) 45%, transparent);
-    }
-    .evidence-grid {
-      display: grid;
-      grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1.25fr);
-      gap: clamp(42px, 7vw, 86px);
-      align-items: center;
-    }
-    .evidence-copy h2 {
-      margin-bottom: 20px;
-      font-size: clamp(2.2rem, 4.5vw, 3.7rem);
-    }
-    .evidence-copy > p:not(.eyebrow) {
-      margin-bottom: 20px;
-      color: var(--muted);
-      font-size: 1.04rem;
-      line-height: 1.7;
-    }
-    .evidence-result {
-      display: flex;
-      align-items: baseline;
-      gap: 14px;
-      margin: 30px 0 22px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border);
-    }
-    .evidence-result strong {
-      flex: none;
-      color: var(--primary);
-      font-family: var(--font-mono);
-      font-size: clamp(2.2rem, 5vw, 3.6rem);
-      font-weight: 600;
-      letter-spacing: -0.05em;
-      line-height: 1;
-    }
-    .evidence-result span {
-      max-width: 18ch;
-      color: var(--text);
-      font-size: 0.92rem;
-      font-weight: 700;
-      line-height: 1.35;
-    }
-    .text-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--primary);
-      font-family: var(--font-display);
-      font-size: 0.94rem;
-      font-weight: 600;
-    }
-    .text-link .ic { width: 16px; height: 16px; transition: transform 180ms ease; }
-    .text-link:hover .ic, .text-link:focus-visible .ic { transform: translateX(3px); }
-
     .load-figure { margin: 0; }
     .load-card {
       padding: clamp(22px, 4vw, 34px);
@@ -318,66 +261,14 @@
       line-height: 1.5;
     }
 
-    /* White-paper close ------------------------------------------ */
-    .paper-section { padding-top: 38px; border-top: 1px solid var(--border); }
-    .paper-card {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 44px;
-      align-items: center;
-      padding: clamp(32px, 6vw, 58px);
-      border: 1px solid rgba(var(--accent-rgb), 0.24);
-      border-radius: var(--radius-lg);
-      background:
-        radial-gradient(circle at 95% 20%, rgba(var(--accent-rgb), 0.13), transparent 32%),
-        linear-gradient(145deg, rgba(var(--accent-rgb), 0.08), transparent 46%),
-        var(--surface);
-      box-shadow: var(--shadow);
-    }
-    .paper-card h2 { margin-bottom: 14px; font-size: clamp(2rem, 4vw, 3.2rem); }
-    .paper-description {
-      max-width: 62ch;
-      margin-bottom: 22px;
-      color: var(--muted);
-      font-size: 1.02rem;
-      line-height: 1.65;
-    }
-    .paper-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 18px;
-      margin: 0;
-      padding: 0;
-      color: var(--muted);
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      list-style: none;
-      text-transform: uppercase;
-    }
-    .paper-meta li { display: flex; align-items: center; gap: 8px; }
-    .paper-meta li::before {
-      width: 4px;
-      height: 4px;
-      content: "";
-      background: var(--primary);
-      border-radius: 50%;
-    }
-    .paper-actions { display: flex; flex-direction: column; gap: 12px; }
-
     /* Add the live Telegram channel link here as a secondary .button when it
        is ready. Until then, no placeholder or disabled action is rendered. */
 
     @media (max-width: 900px) {
-      .difference-intro, .evidence-grid { grid-template-columns: 1fr; }
-      .difference-intro { gap: 24px; }
-      .evidence-grid { gap: 42px; }
+      .difference-intro { grid-template-columns: 1fr; gap: 24px; }
       .strategy-heading { display: block; }
       .strategy-principle { margin-top: 20px; }
       .strategy-steps { grid-template-columns: repeat(5, minmax(142px, 1fr)); overflow-x: auto; }
-      .paper-card { grid-template-columns: 1fr; gap: 28px; }
-      .paper-actions { align-items: flex-start; }
     }
     @media (max-width: 640px) {
       .hospitality-hero::after { top: 21%; right: 12px; font-size: 8.5rem; }
@@ -398,7 +289,6 @@
       }
       .strategy-step:first-child { border-top: 0; }
       .strategy-number, .strategy-step strong { margin: 0; }
-      .paper-actions, .paper-actions .button { width: 100%; }
     }
   </style>
 </head>

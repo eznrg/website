@@ -260,6 +260,257 @@ p { margin-top: 0; }
 .channel-action { align-self: end; width: 100%; }
 .channel-action[aria-disabled] { opacity: 0.65; cursor: default; }
 
+/* Stat band, steps and flow ------------------------------------
+   Shared by the landing pages and the reading documents. The !important
+   overrides beat the documents' `.article p` defaults. */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  max-width: none;
+  margin: 0 0 32px;
+}
+.stat-grid.is-single { grid-template-columns: minmax(0, 300px); }
+.stat {
+  padding: 18px 20px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(145deg, rgba(var(--accent-rgb), 0.05), transparent 42%),
+    var(--surface);
+}
+.stat-label {
+  margin: 0 0 12px !important;
+  max-width: none !important;
+  color: var(--muted) !important;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+.stat-icon {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 14px;
+  place-items: center;
+  color: var(--primary);
+  background: rgba(var(--accent-rgb), 0.1);
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  border-radius: 8px;
+}
+.stat-icon .ic { width: 15px; height: 15px; }
+.stat-value {
+  margin: 0 !important;
+  max-width: none !important;
+  color: var(--text) !important;
+  font-family: var(--font-mono);
+  font-size: 1.42rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+
+/* Step / flow blocks ------------------------------------------- */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+  gap: 12px;
+  margin: 0 0 32px;
+}
+/* The five stages are a sequence: keep them on one row once they fit. */
+@media (min-width: 900px) {
+  .steps { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+.step {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.step .stat-icon { margin-bottom: 12px; }
+.step-name {
+  margin: 0 0 5px !important;
+  max-width: none !important;
+  color: var(--text) !important;
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+.step-desc {
+  margin: 0 !important;
+  max-width: none !important;
+  color: var(--muted) !important;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 4px 0 32px;
+}
+.flow .step { position: relative; }
+@media (min-width: 760px) {
+  .flow { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 26px; }
+  .flow .step + .step::before {
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    width: 14px;
+    height: 14px;
+    margin-top: -7px;
+    color: var(--border);
+    content: "";
+    background: currentColor;
+    clip-path: polygon(0 42%, 62% 42%, 62% 20%, 100% 50%, 62% 80%, 62% 58%, 0 58%);
+  }
+}
+
+
+/* Evidence section ---------------------------------------------
+   Copy on the left, one figure on the right: the landing pages' way of
+   showing a single piece of evidence and linking to the full document. */
+.evidence-section {
+  border-top: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 45%, transparent);
+}
+.evidence-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1.25fr);
+  gap: clamp(42px, 7vw, 86px);
+  align-items: center;
+}
+.evidence-copy h2 {
+  margin-bottom: 20px;
+  font-size: clamp(2.2rem, 4.5vw, 3.7rem);
+}
+.evidence-copy > p:not(.eyebrow) {
+  margin-bottom: 20px;
+  color: var(--muted);
+  font-size: 1.04rem;
+  line-height: 1.7;
+}
+.evidence-result {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 30px 0 22px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.evidence-result strong {
+  flex: none;
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+.evidence-result span {
+  max-width: 18ch;
+  color: var(--text);
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+  font-family: var(--font-display);
+  font-size: 0.94rem;
+  font-weight: 600;
+}
+.text-link .ic { width: 16px; height: 16px; transition: transform 180ms ease; }
+.text-link:hover .ic, .text-link:focus-visible .ic { transform: translateX(3px); }
+
+
+/* Document CTA card --------------------------------------------
+   The closing card on each landing page that points to its document. */
+.paper-section { padding-top: 38px; border-top: 1px solid var(--border); }
+.paper-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 44px;
+  align-items: center;
+  padding: clamp(32px, 6vw, 58px);
+  border: 1px solid rgba(var(--accent-rgb), 0.24);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at 95% 20%, rgba(var(--accent-rgb), 0.13), transparent 32%),
+    linear-gradient(145deg, rgba(var(--accent-rgb), 0.08), transparent 46%),
+    var(--surface);
+  box-shadow: var(--shadow);
+}
+.paper-card h2 { margin-bottom: 14px; font-size: clamp(2rem, 4vw, 3.2rem); }
+.paper-description {
+  max-width: 62ch;
+  margin-bottom: 22px;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+.paper-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 0;
+  padding: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  list-style: none;
+  text-transform: uppercase;
+}
+.paper-meta li { display: flex; align-items: center; gap: 8px; }
+.paper-meta li::before {
+  width: 4px;
+  height: 4px;
+  content: "";
+  background: var(--primary);
+  border-radius: 50%;
+}
+.paper-actions { display: flex; flex-direction: column; gap: 12px; }
+
+
+/* Key takeaway ---------------------------------------------------
+   One per numbered section in the reading documents: the section's own
+   conclusion, restated in a sentence or two so a skim still lands. It never
+   introduces a figure or claim the section itself does not make. */
+.takeaway {
+  max-width: var(--measure);
+  margin: 0 0 28px;
+  padding: 14px 18px 14px 16px;
+  border: 1px solid rgba(var(--accent-rgb), 0.22);
+  border-left: 3px solid var(--primary);
+  border-radius: var(--radius);
+  background: rgba(var(--accent-rgb), 0.06);
+}
+.takeaway-k {
+  margin: 0 0 4px !important;
+  color: var(--primary) !important;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.takeaway p:last-child {
+  margin: 0 !important;
+  color: var(--text) !important;
+  font-weight: 600;
+  line-height: 1.55;
+}
+
 /* Footer ------------------------------------------------------ */
 .site-footer {
   padding: 44px 0;
@@ -292,6 +543,9 @@ p { margin-top: 0; }
 .is-enhanced .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
 @media (max-width: 900px) {
+  .evidence-grid { grid-template-columns: 1fr; gap: 42px; }
+  .paper-card { grid-template-columns: 1fr; gap: 28px; }
+  .paper-actions { align-items: flex-start; }
   .card-grid { grid-template-columns: 1fr; }
   .channel-grid { grid-template-columns: 1fr; }
   .section { padding: 56px 0; }
@@ -314,6 +568,7 @@ p { margin-top: 0; }
   .brand-wordmark { height: 21px; }
   .hero-actions { display: grid; }
   .button { width: 100%; }
+  .paper-actions { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
