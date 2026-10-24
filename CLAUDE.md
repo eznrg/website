@@ -49,7 +49,7 @@ Self-contained, **unlisted, `noindex`** pages served at `/hospitality` (plus `/h
 
 `build.mjs` copies `static/shared/` → `dist/static/`, then loops a `standalonePages` array copying each `static/<name>/` → `dist/<name>/`. The copy is recursive (so `hospitality/whitepaper/` needs no build change) and filters out `README.md` and `.DS_Store`. Adding a page = new folder + one array entry.
 
-The pages share `/static/tokens.css` (the `:root` palette — linked by all four, the single place these tokens live) and `/static/theme.css` (the component layer — linked by the three landing pages only; **requires `tokens.css` first**). Both only *mirror* the mint theme; neither imports `src/styles.css`, so a main-site theme change cannot break them. Page-specific CSS stays inline in that page's `<style>`. The white paper links `tokens.css` but **not** `theme.css` — it is a reading document with its own denser typography, sticky header, TOC rail, and print styles; that divergence is intentional. `/residential` and `/commercial` are coming-soon placeholders with no CSS of their own. See `static/README.md`.
+All five pages (including `/commercial/brief`) share one theme and component kit: `/static/tokens.css` (the light/dark palette, mirrored from `src/styles.css`, the single place these tokens live), `/static/theme.css` (base + components, linked by all five; **requires `tokens.css` first**), `/static/doc.css` (the two reading documents only) and `/static/viz.css` (pages with charts), plus `doc.js` and `viz.js`. Every page also loads the main site's `/assets/appearance.js` so the `eznrg-appearance` light/dark preference is shared; no stylesheet imports `src/styles.css`, so a main-site theme change cannot break them. Page-specific CSS stays inline in that page's `<style>`, loaded last. Landing-page figures and charts are copies of their document's, kept in sync by hand. `/residential` is a coming-soon placeholder with no CSS of its own. See `static/README.md`.
 
 ### Auth gate (`middleware.js` + `src/auth.mjs`)
 The site is public. There is no middleware and no auth layer — the password gate (`middleware.js` + `src/auth.mjs`) was removed once the site went live, along with the `SITE_PASSWORD` / `AUTH_SECRET` env vars. If access control is ever needed again, note that the previous matcher was `/(.*)` with no exclusions, which also gated the unlisted landing pages under `static/`.
@@ -64,8 +64,8 @@ product portal. Light is the CSS default, dark values live under
 using the shared `eznrg-appearance` browser preference. The three-role type
 system uses Space Grotesk, Inter, and IBM Plex Mono. Structural corners use the
 radius tokens. The Google Fonts request in `render.mjs` must stay in sync with
-the weights these tokens use. `static/shared/tokens.css` remains independent for
-the unlisted standalone pages.
+the weights these tokens use. `static/shared/tokens.css` mirrors these values
+(light and dark) for the unlisted standalone pages without importing this file.
 
 ## Deploy (Vercel)
 `vercel.json` sets `buildCommand: npm run build`, `outputDirectory: dist`, `cleanUrls: true`, `trailingSlash: false`. Because of `cleanUrls`, `dist/<x>/index.html` serves at `/<x>` (e.g. `dist/hospitality/index.html` → `/hospitality`). Env vars (`RESEND_API_KEY`, `F1`, `F2`, `RESEND_FROM_EMAIL`) are set in Vercel; `.env*` is gitignored except `.env.example`.
