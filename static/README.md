@@ -168,7 +168,7 @@ Structure worth knowing:
   section is the fallback below that. Both are driven by the same `id`s; if you
   add a section, add it to *both* lists.
 - **Citations**: `<a class="cite" href="#src-N">[N]</a>` link to
-  `<li id="src-N">` in Appendix B. Keep the numbering contiguous.
+  `<li id="src-N">` in Appendix B. There are 33; keep the numbering contiguous.
 - **Meter cross-refs**: `<a class="meter-ref" href="#prop-780">780</a>` link to
   the matching chart card in Appendix A.
 - **In-text figures**: section 03 shows Meter 780 (`#viz-780-fig`), a copy of the

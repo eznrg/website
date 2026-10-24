@@ -417,7 +417,7 @@
   color: var(--viz-ink) !important;
   font-size: 0.82rem;
 }
-.stack-head b { color: var(--viz-net); font-family: var(--font-mono); font-weight: 600; }
+.stack-head b { color: var(--viz-ink); font-family: var(--font-mono); font-weight: 600; }
 .stack-track { position: relative; height: 30px; }
 .stack-total {
   position: absolute;
@@ -457,6 +457,7 @@
 .stack-axis .viz-xt:first-child { transform: none; }
 .stack-axis .viz-xt:last-child { transform: translateX(-100%); }
 .viz-key.is-box { width: 10px; height: 10px; border-radius: 2px; }
+.viz-key.is-bracket { height: 5px; background: none; border: 2px solid currentColor; border-bottom: 0; border-radius: 2px 2px 0 0; }
 .viz-key.is-soft { background: color-mix(in srgb, currentColor 50%, var(--viz-surface)); }
 .viz-key.is-adj {
   color: var(--viz-ink-2);
